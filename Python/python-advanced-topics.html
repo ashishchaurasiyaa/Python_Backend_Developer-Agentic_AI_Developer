@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Advanced — Ashish</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05050a;
+  --s1: #0c0c14;
+  --s2: #12121c;
+  --s3: #1a1a26;
+  --border: #252535;
+  --border2: #353548;
+  --text: #e0e0f0;
+  --muted: #585870;
+  --dim: #8888a8;
+  --mem: #f472b6;
+  --thread: #60a5fa;
+  --process: #34d399;
+  --gil: #fb923c;
+  --async: #a78bfa;
+  --conc: #2dd4bf;
+  --ctx: #e879f9;
+  --meta: #f59e0b;
+  --accent: #6366f1;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(99,102,241,0.06),transparent);pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(5,5,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;overflow-x:auto;padding:0 16px;height:50px;}
+.nav-btn{padding:0 16px;height:50px;border:none;background:none;color:var(--muted);font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.5px;}
+.nav-btn:hover{color:var(--text);}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nav-btn.m{--c:var(--mem);}
+.nav-btn.t{--c:var(--thread);}
+.nav-btn.p{--c:var(--process);}
+.nav-btn.g{--c:var(--gil);}
+.nav-btn.a{--c:var(--async);}
+.nav-btn.active.m{color:var(--mem);border-bottom-color:var(--mem);}
+.nav-btn.active.t{color:var(--thread);border-bottom-color:var(--thread);}
+.nav-btn.active.p{color:var(--process);border-bottom-color:var(--process);}
+.nav-btn.active.g{color:var(--gil);border-bottom-color:var(--gil);}
+.nav-btn.active.a{color:var(--async);border-bottom-color:var(--async);}
+.nav-btn.active.cc{color:var(--conc);border-bottom-color:var(--conc);}
+.nav-btn.active.cx{color:var(--ctx);border-bottom-color:var(--ctx);}
+.nav-btn.active.mp{color:var(--meta);border-bottom-color:var(--meta);}
+
+/* LAYOUT */
+.page{max-width:900px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1;}
+
+/* SECTIONS */
+.section{display:none;}
+.section.show{display:block;animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* HERO */
+.hero{margin-bottom:40px;}
+.topic-badge{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--border2);padding:5px 14px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:16px;}
+.topic-badge .dot{width:6px;height:6px;border-radius:50%;}
+h1{font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* CONCEPT CARDS */
+.concept-grid{display:grid;gap:14px;}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.card-head{padding:16px 20px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;user-select:none;}
+.card-icon{font-size:20px;min-width:28px;}
+.card-main{flex:1;}
+.card-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.card-desc{font-size:12px;color:var(--dim);line-height:1.5;}
+.card-arr{color:var(--muted);font-size:11px;transition:transform 0.25s;padding-top:4px;}
+.card.open .card-arr{transform:rotate(180deg);}
+
+.card-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border);}
+.card.open .card-body{display:block;animation:fadeIn 0.2s ease;}
+
+/* CODE */
+.code-label{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:16px 0 8px;}
+.code{background:var(--s3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#c8d0f0;line-height:1.8;white-space:pre-wrap;word-break:break-word;overflow-x:auto;}
+.code .cm{color:#4a5568;}
+.code .kw{color:#818cf8;}
+.code .fn{color:#60a5fa;}
+.code .st{color:#86efac;}
+.code .nm{color:#fbbf24;}
+.code .hl{color:#f472b6;}
+
+/* CALLOUT */
+.callout{border-radius:10px;padding:12px 16px;margin-top:12px;font-size:13px;line-height:1.6;}
+.callout-tip{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);color:#a5b4fc;}
+.callout-warn{background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.2);color:#fdba74;}
+.callout-good{background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);color:#6ee7b7;}
+.callout-bad{background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.2);color:#fca5a5;}
+.callout b{font-weight:800;}
+
+/* DIAGRAM */
+.diagram{background:var(--s3);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9090b8;line-height:1.9;}
+.diagram .arrow{color:#6366f1;}
+.diagram .box{color:#60a5fa;}
+.diagram .label{color:#f472b6;}
+.diagram .ok{color:#34d399;}
+.diagram .warn{color:#fb923c;}
+
+/* COMPARE TABLE */
+.compare{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;}
+.compare th{background:var(--s3);padding:8px 12px;text-align:left;font-weight:700;color:var(--dim);letter-spacing:1px;font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.compare td{padding:8px 12px;border-bottom:1px solid var(--border);color:#b0b0c8;vertical-align:top;}
+.compare tr:last-child td{border-bottom:none;}
+.compare .yes{color:#34d399;}
+.compare .no{color:#f87171;}
+.compare .ok{color:#fb923c;}
+
+/* INTERVIEW Q */
+.iq-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.iq{background:var(--s2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.iq-q{padding:12px 16px;cursor:pointer;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.iq-q span{color:var(--dim);font-size:11px;}
+.iq-a{display:none;padding:0 16px 14px;font-size:12px;color:#9090b8;line-height:1.7;border-top:1px solid var(--border);}
+.iq.open .iq-a{display:block;}
+.iq-a code{background:var(--s3);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#c8d0f0;}
+
+/* SECTION TITLE */
+.sec-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:28px 0 14px;display:flex;align-items:center;gap:10px;color:var(--muted);}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border);}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <button class="nav-btn active" data-s="mem">🧠 Memory</button>
+  <button class="nav-btn t" data-s="thread">🧵 Threading</button>
+  <button class="nav-btn p" data-s="proc">⚙️ Multiprocessing</button>
+  <button class="nav-btn g" data-s="gil">🔒 GIL</button>
+  <button class="nav-btn a" data-s="async">⚡ Async</button>
+  <button class="nav-btn" data-s="compare">📊 Comparison</button>
+  <button class="nav-btn cc" data-s="conc">🔀 Concurrency</button>
+  <button class="nav-btn cx" data-s="ctx">📦 Context Mgr</button>
+  <button class="nav-btn mp" data-s="meta">🧬 Metaprogramming</button>
+</nav>
+
+<div class="page">
+
+<!-- ════════════════════════════════════════ -->
+<!-- MEMORY MANAGEMENT -->
+<!-- ════════════════════════════════════════ -->
+<div class="section show" id="s-mem">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--mem)"></span>MEMORY MANAGEMENT</div>
+    <h1 style="color:var(--mem)">Python Memory<br>Management</h1>
+    <p class="hero-sub">Reference Counting + Garbage Collector + Object Pools</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔢</div>
+        <div class="card-main">
+          <div class="card-title">Reference Counting</div>
+          <div class="card-desc">Har object ka reference count track hota hai. Count = 0 → memory free!</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">How it works</div>
+        <div class="code"><span class="kw">import</span> sys
+
+x = [1, 2, 3]
+<span class="cm"># x create kiya → refcount = 1</span>
+<span class="fn">print</span>(sys.getrefcount(x))  <span class="cm"># 2 (x + getrefcount arg)</span>
+
+y = x              <span class="cm"># refcount = 2</span>
+z = x              <span class="cm"># refcount = 3</span>
+<span class="fn">print</span>(sys.getrefcount(x))  <span class="cm"># 4</span>
+
+<span class="kw">del</span> y              <span class="cm"># refcount = 3</span>
+<span class="kw">del</span> z              <span class="cm"># refcount = 2</span>
+<span class="kw">del</span> x              <span class="cm"># refcount = 0 → FREE!</span></div>
+
+        <div class="diagram"><span class="box">x ──────→ [1,2,3] (refcount=1)</span>
+<span class="box">y = x ──→ [1,2,3] (refcount=2)</span>
+<span class="box">del y ──→ [1,2,3] (refcount=1)</span>
+<span class="box">del x ──→ [1,2,3] (refcount=0) → <span class="ok">FREED</span></span></div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> Reference counting fast hai but circular references handle nahi kar sakta — isliye GC bhi hai.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">♻️</div>
+        <div class="card-main">
+          <div class="card-title">Garbage Collector (GC)</div>
+          <div class="card-desc">Circular references detect karta hai jo ref counting miss karta hai.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Circular Reference Problem</div>
+        <div class="code"><span class="kw">import</span> gc
+
+<span class="cm"># Circular reference — ref count kabhi 0 nahi hoga!</span>
+<span class="kw">class</span> <span class="fn">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, val):
+        self.val  = val
+        self.next = <span class="kw">None</span>
+
+a = Node(<span class="nm">1</span>)
+b = Node(<span class="nm">2</span>)
+a.next = b   <span class="cm"># a → b</span>
+b.next = a   <span class="cm"># b → a (CIRCULAR!)</span>
+
+<span class="kw">del</span> a, b     <span class="cm"># refcount > 0 but unreachable!</span>
+             <span class="cm"># GC handles this!</span>
+
+gc.collect() <span class="cm"># manual GC trigger</span>
+<span class="fn">print</span>(gc.get_count())    <span class="cm"># (gen0, gen1, gen2)</span>
+<span class="fn">print</span>(gc.get_threshold()) <span class="cm"># (700, 10, 10)</span></div>
+
+        <div class="code-label">Generational GC</div>
+        <div class="diagram"><span class="label">Generation 0</span> → Naye objects (frequent collection)
+<span class="label">Generation 1</span> → Survived gen0 (less frequent)
+<span class="label">Generation 2</span> → Long-lived objects (rare collection)
+
+<span class="ok">Naya object</span> → Gen0
+Gen0 survive → Gen1
+Gen1 survive → Gen2
+Gen2 = permanent tak</div>
+
+        <div class="callout callout-warn"><b>Warning:</b> GC disable karna risky hai — memory leak ho sakta hai. Sirf performance critical sections mein use karo.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏊</div>
+        <div class="card-main">
+          <div class="card-title">Object Interning & Memory Pools</div>
+          <div class="card-desc">Python small integers aur short strings cache karta hai performance ke liye.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Integer Caching (-5 to 256)</div>
+        <div class="code"><span class="cm"># Small integers cached hain!</span>
+a = <span class="nm">100</span>; b = <span class="nm">100</span>
+<span class="fn">print</span>(a <span class="kw">is</span> b)    <span class="cm"># True ← same object!</span>
+
+a = <span class="nm">257</span>; b = <span class="nm">257</span>
+<span class="fn">print</span>(a <span class="kw">is</span> b)    <span class="cm"># False ← cache ke bahar!</span>
+
+<span class="cm"># String interning</span>
+s1 = <span class="st">"hello"</span>
+s2 = <span class="st">"hello"</span>
+<span class="fn">print</span>(s1 <span class="kw">is</span> s2)   <span class="cm"># True ← interned!</span>
+
+s3 = <span class="st">"hello world"</span>  <span class="cm"># space wali strings not always interned</span>
+s4 = <span class="st">"hello world"</span>
+<span class="fn">print</span>(s3 <span class="kw">is</span> s4)   <span class="cm"># Maybe False</span>
+
+<span class="cm"># Manual intern</span>
+<span class="kw">import</span> sys
+s5 = sys.intern(<span class="st">"hello world"</span>)
+s6 = sys.intern(<span class="st">"hello world"</span>)
+<span class="fn">print</span>(s5 <span class="kw">is</span> s6)   <span class="cm"># True</span></div>
+
+        <div class="code-label">Shallow vs Deep Copy</div>
+        <div class="code"><span class="kw">import</span> copy
+
+original = [[<span class="nm">1</span>, <span class="nm">2</span>], [<span class="nm">3</span>, <span class="nm">4</span>]]
+
+<span class="cm"># Assignment — same object!</span>
+ref = original
+ref[<span class="nm">0</span>][<span class="nm">0</span>] = <span class="nm">99</span>
+<span class="fn">print</span>(original)   <span class="cm"># [[99,2],[3,4]] ← changed!</span>
+
+<span class="cm"># Shallow copy — new outer, same inner</span>
+sh = copy.copy(original)
+sh[<span class="nm">0</span>][<span class="nm">0</span>] = <span class="nm">0</span>
+<span class="fn">print</span>(original)   <span class="cm"># [[0,2],[3,4]] ← inner changed!</span>
+
+<span class="cm"># Deep copy — completely independent</span>
+dp = copy.deepcopy(original)
+dp[<span class="nm">0</span>][<span class="nm">0</span>] = <span class="nm">100</span>
+<span class="fn">print</span>(original)   <span class="cm"># unchanged ✅</span></div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> = is reference, copy() is shallow, deepcopy() is full independence. Common bug source in interviews!</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🗑️</div>
+        <div class="card-main">
+          <div class="card-title">Memory Optimization Tips</div>
+          <div class="card-desc">__slots__, generators, weakref se memory bachao.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">__slots__ — 30-50% memory save</div>
+        <div class="code"><span class="kw">import</span> sys
+
+<span class="kw">class</span> <span class="fn">Normal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x = x; self.y = y
+
+<span class="kw">class</span> <span class="fn">Slotted</span>:
+    __slots__ = (<span class="st">'x'</span>, <span class="st">'y'</span>)
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x = x; self.y = y
+
+n = Normal(<span class="nm">1</span>, <span class="nm">2</span>)
+s = Slotted(<span class="nm">1</span>, <span class="nm">2</span>)
+
+<span class="fn">print</span>(sys.getsizeof(n.__dict__))  <span class="cm"># ~232 bytes</span>
+<span class="fn">print</span>(sys.getsizeof(s))           <span class="cm"># ~56 bytes — no __dict__!</span></div>
+
+        <div class="code-label">Generator — O(1) memory</div>
+        <div class="code"><span class="cm"># List — sab ek saath: O(n) memory</span>
+lst = [x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1_000_000</span>)]  <span class="cm"># ~8MB!</span>
+
+<span class="cm"># Generator — ek ek karke: O(1) memory</span>
+gen = (x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1_000_000</span>))   <span class="cm"># ~120 bytes!</span>
+
+<span class="cm"># Same result, 99% less memory!</span>
+total = <span class="fn">sum</span>(x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1_000_000</span>))</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Python memory management kaise kaam karta hai? <span>▼</span></div><div class="iq-a">Python do mechanisms use karta hai: (1) <code>Reference Counting</code> — har object ka refcount track hota hai, 0 hote hi free hota hai. (2) <code>Generational Garbage Collector</code> — circular references ke liye jo ref counting miss karta hai. Gen 0, 1, 2 mein objects organize hote hain.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Shallow copy aur deep copy mein kya fark hai? <span>▼</span></div><div class="iq-a"><code>copy.copy()</code> = naya outer object, same inner objects (mutable inner change hoga dono mein). <code>copy.deepcopy()</code> = completely independent copy — kuch bhi change karo, original safe. Assignment (<code>=</code>) = sirf reference copy, same object.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Python mein integer caching kya hota hai? <span>▼</span></div><div class="iq-a">CPython -5 se 256 tak ke integers cache karta hai. Isliye <code>a = 100; b = 100; a is b</code> → True. Lekin <code>a = 257; b = 257; a is b</code> → False. Yeh optimization hai — Python naye object nahi banata baar baar.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">__slots__ kab aur kyon use karein? <span>▼</span></div><div class="iq-a">Jab lakhon objects banana ho — <code>__slots__</code> <code>__dict__</code> replace karta hai fixed array se. 30-50% memory save hoti hai, attribute access bhi faster hota hai. Game development, data processing mein use karo.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- THREADING -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-thread">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--thread)"></span>THREADING</div>
+    <h1 style="color:var(--thread)">Multithreading<br>in Python</h1>
+    <p class="hero-sub">Same process, shared memory, concurrent execution</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🧵</div>
+        <div class="card-main">
+          <div class="card-title">Thread Basics</div>
+          <div class="card-desc">Ek process ke andar multiple threads — shared memory.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Basic Thread</div>
+        <div class="code"><span class="kw">import</span> threading
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">download</span>(url, duration):
+    <span class="fn">print</span>(<span class="st">f"Starting: {url}"</span>)
+    time.sleep(duration)     <span class="cm"># I/O simulate</span>
+    <span class="fn">print</span>(<span class="st">f"Done: {url}"</span>)
+
+<span class="cm"># Sequential — slow (3+2+1 = 6 seconds)</span>
+<span class="fn">download</span>(<span class="st">"file1"</span>, <span class="nm">3</span>)
+<span class="fn">download</span>(<span class="st">"file2"</span>, <span class="nm">2</span>)
+<span class="fn">download</span>(<span class="st">"file3"</span>, <span class="nm">1</span>)
+
+<span class="cm"># Threaded — fast (max = 3 seconds!)</span>
+threads = []
+<span class="kw">for</span> url, dur <span class="kw">in</span> [(<span class="st">"file1"</span>,<span class="nm">3</span>),(<span class="st">"file2"</span>,<span class="nm">2</span>),(<span class="st">"file3"</span>,<span class="nm">1</span>)]:
+    t = threading.Thread(target=<span class="fn">download</span>, args=(url, dur))
+    threads.append(t)
+    t.start()
+
+<span class="kw">for</span> t <span class="kw">in</span> threads:
+    t.join()    <span class="cm"># sab complete hone ka wait karo</span>
+
+<span class="fn">print</span>(<span class="st">"All downloads complete!"</span>)</div>
+
+        <div class="callout callout-good"><b>Best for:</b> I/O bound tasks — file reading, API calls, database queries, network requests.</div>
+        <div class="callout callout-bad"><b>NOT for:</b> CPU bound tasks — GIL ki wajah se multiple threads ek hi core use karte hain.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔐</div>
+        <div class="card-main">
+          <div class="card-title">Thread Safety — Lock, RLock, Semaphore</div>
+          <div class="card-desc">Shared data ko protect karo race conditions se.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Race Condition Problem</div>
+        <div class="code"><span class="cm"># Race condition — counter wrong ho sakta hai!</span>
+counter = <span class="nm">0</span>
+
+<span class="kw">def</span> <span class="fn">increment</span>():
+    <span class="kw">global</span> counter
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">100_000</span>):
+        counter += <span class="nm">1</span>   <span class="cm"># NOT atomic! Race condition!</span>
+
+t1 = threading.Thread(target=<span class="fn">increment</span>)
+t2 = threading.Thread(target=<span class="fn">increment</span>)
+t1.start(); t2.start()
+t1.join();  t2.join()
+<span class="fn">print</span>(counter)   <span class="cm"># Should be 200000 but might not be!</span></div>
+
+        <div class="code-label">Lock se Fix karo</div>
+        <div class="code">lock    = threading.Lock()
+counter = <span class="nm">0</span>
+
+<span class="kw">def</span> <span class="fn">safe_increment</span>():
+    <span class="kw">global</span> counter
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">100_000</span>):
+        <span class="kw">with</span> lock:        <span class="cm"># acquire + release automatic</span>
+            counter += <span class="nm">1</span>  <span class="cm"># ✅ thread safe!</span>
+
+<span class="cm"># Semaphore — limited concurrent access</span>
+sem = threading.Semaphore(<span class="nm">3</span>)  <span class="cm"># max 3 threads at once</span>
+
+<span class="kw">def</span> <span class="fn">limited_task</span>(n):
+    <span class="kw">with</span> sem:
+        <span class="fn">print</span>(<span class="st">f"Thread {n} working"</span>)
+        time.sleep(<span class="nm">1</span>)
+
+<span class="cm"># Event — thread coordination</span>
+event = threading.Event()
+
+<span class="kw">def</span> <span class="fn">waiter</span>():
+    <span class="fn">print</span>(<span class="st">"Waiting for signal..."</span>)
+    event.wait()      <span class="cm"># block karo jab tak signal nahi</span>
+    <span class="fn">print</span>(<span class="st">"Signal received!"</span>)
+
+threading.Thread(target=<span class="fn">waiter</span>).start()
+time.sleep(<span class="nm">2</span>)
+event.set()           <span class="cm"># signal do!</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏊</div>
+        <div class="card-main">
+          <div class="card-title">ThreadPoolExecutor</div>
+          <div class="card-desc">Thread pool — modern aur clean way to manage threads.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">ThreadPoolExecutor — Production Way</div>
+        <div class="code"><span class="kw">from</span> concurrent.futures <span class="kw">import</span> ThreadPoolExecutor, as_completed
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">fetch_url</span>(url):
+    time.sleep(<span class="nm">1</span>)   <span class="cm"># API call simulate</span>
+    <span class="kw">return</span> <span class="st">f"Data from {url}"</span>
+
+urls = [<span class="st">"api1.com"</span>, <span class="st">"api2.com"</span>, <span class="st">"api3.com"</span>, <span class="st">"api4.com"</span>]
+
+<span class="cm"># map — same order, blocking</span>
+<span class="kw">with</span> ThreadPoolExecutor(max_workers=<span class="nm">4</span>) <span class="kw">as</span> executor:
+    results = <span class="fn">list</span>(executor.map(<span class="fn">fetch_url</span>, urls))
+    <span class="fn">print</span>(results)
+<span class="cm"># Total time: ~1s instead of 4s!</span>
+
+<span class="cm"># submit — individual futures, results as they complete</span>
+<span class="kw">with</span> ThreadPoolExecutor(max_workers=<span class="nm">4</span>) <span class="kw">as</span> executor:
+    futures = {executor.submit(<span class="fn">fetch_url</span>, url): url
+               <span class="kw">for</span> url <span class="kw">in</span> urls}
+
+    <span class="kw">for</span> future <span class="kw">in</span> as_completed(futures):
+        url    = futures[future]
+        result = future.result()
+        <span class="fn">print</span>(<span class="st">f"{url}: {result}"</span>)</div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> ThreadPoolExecutor prefer karo manual Thread management se — cleaner, safer, context manager support.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Thread kya hota hai? Process se kya fark? <span>▼</span></div><div class="iq-a">Thread = process ke andar lightweight execution unit. Same memory share karte hain. Process = independent, alag memory space. Threads faster create hote hain, less memory. Process isolated, safer.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Race condition kya hai? Kaise fix karein? <span>▼</span></div><div class="iq-a">Race condition = do threads same data simultaneously modify karein, unpredictable result. Fix: <code>threading.Lock()</code> use karo — sirf ek thread ek waqt critical section execute kare. <code>with lock:</code> context manager se automatic acquire/release.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Daemon thread kya hota hai? <span>▼</span></div><div class="iq-a">Daemon thread background mein chalta hai. Jab main thread khatam hota hai, daemon threads bhi khatam ho jaate hain automatically. Set karo: <code>t.daemon = True</code>. Background tasks, logging ke liye use hota hai.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- MULTIPROCESSING -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-proc">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--process)"></span>MULTIPROCESSING</div>
+    <h1 style="color:var(--process)">Multiprocessing<br>in Python</h1>
+    <p class="hero-sub">Separate processes, separate memory, true parallelism</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">⚙️</div>
+        <div class="card-main">
+          <div class="card-title">Process Basics</div>
+          <div class="card-desc">Alag process = alag GIL = true CPU parallelism!</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Basic Process</div>
+        <div class="code"><span class="kw">import</span> multiprocessing
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">cpu_task</span>(n):
+    <span class="cm"># CPU intensive work</span>
+    result = <span class="fn">sum</span>(x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(n))
+    <span class="fn">print</span>(<span class="st">f"Process {multiprocessing.current_process().name}: {result}"</span>)
+    <span class="kw">return</span> result
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:   <span class="cm"># IMPORTANT on Windows!</span>
+    p1 = multiprocessing.Process(target=<span class="fn">cpu_task</span>, args=(<span class="nm">10**6</span>,))
+    p2 = multiprocessing.Process(target=<span class="fn">cpu_task</span>, args=(<span class="nm">10**6</span>,))
+
+    p1.start(); p2.start()
+    p1.join();  p2.join()
+    <span class="fn">print</span>(<span class="st">"Both done!"</span>)</div>
+
+        <div class="callout callout-good"><b>Best for:</b> CPU bound tasks — image processing, ML training, data crunching, scientific computing.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏭</div>
+        <div class="card-main">
+          <div class="card-title">ProcessPoolExecutor & Pool</div>
+          <div class="card-desc">Pool of workers — distribute work automatically.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">ProcessPoolExecutor — Modern Way</div>
+        <div class="code"><span class="kw">from</span> concurrent.futures <span class="kw">import</span> ProcessPoolExecutor
+
+<span class="kw">def</span> <span class="fn">process_chunk</span>(data):
+    <span class="kw">return</span> <span class="fn">sum</span>(x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> data)
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
+    data_chunks = [<span class="fn">range</span>(<span class="nm">10**6</span>)] * <span class="nm">4</span>
+
+    <span class="kw">with</span> ProcessPoolExecutor(max_workers=<span class="nm">4</span>) <span class="kw">as</span> exe:
+        results = <span class="fn">list</span>(exe.map(<span class="fn">process_chunk</span>, data_chunks))
+    <span class="fn">print</span>(results)</div>
+
+        <div class="code-label">Pool — Classic Way</div>
+        <div class="code"><span class="kw">from</span> multiprocessing <span class="kw">import</span> Pool
+
+<span class="kw">def</span> <span class="fn">square</span>(x):
+    <span class="kw">return</span> x ** <span class="nm">2</span>
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
+    <span class="kw">with</span> Pool(processes=<span class="nm">4</span>) <span class="kw">as</span> pool:
+        results = pool.map(<span class="fn">square</span>, <span class="fn">range</span>(<span class="nm">20</span>))
+        <span class="fn">print</span>(results)
+
+        <span class="cm"># map_async — non-blocking</span>
+        async_result = pool.map_async(<span class="fn">square</span>, <span class="fn">range</span>(<span class="nm">20</span>))
+        <span class="cm"># kuch aur kaam karo...</span>
+        results = async_result.get()  <span class="cm"># ab result lo</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">📡</div>
+        <div class="card-main">
+          <div class="card-title">Process Communication — Queue, Pipe, Shared Memory</div>
+          <div class="card-desc">Processes alag memory mein hain — data share karne ke special ways.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Queue — Safe Communication</div>
+        <div class="code"><span class="kw">from</span> multiprocessing <span class="kw">import</span> Process, Queue
+
+<span class="kw">def</span> <span class="fn">producer</span>(q):
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">5</span>):
+        q.put(i)
+        <span class="fn">print</span>(<span class="st">f"Produced: {i}"</span>)
+
+<span class="kw">def</span> <span class="fn">consumer</span>(q):
+    <span class="kw">while</span> <span class="kw">True</span>:
+        item = q.get()
+        <span class="kw">if</span> item <span class="kw">is None</span>: <span class="kw">break</span>
+        <span class="fn">print</span>(<span class="st">f"Consumed: {item}"</span>)
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
+    q = Queue()
+    p = Process(target=<span class="fn">producer</span>, args=(q,))
+    c = Process(target=<span class="fn">consumer</span>, args=(q,))
+    p.start(); c.start()
+    p.join()
+    q.put(<span class="kw">None</span>)   <span class="cm"># sentinel — consumer stop karo</span>
+    c.join()</div>
+
+        <div class="code-label">Shared Memory</div>
+        <div class="code"><span class="kw">from</span> multiprocessing <span class="kw">import</span> Value, Array
+
+<span class="cm"># Shared integer</span>
+counter = Value(<span class="st">'i'</span>, <span class="nm">0</span>)   <span class="cm"># 'i' = integer type</span>
+
+<span class="cm"># Shared array</span>
+shared_arr = Array(<span class="st">'d'</span>, [<span class="nm">1.0</span>, <span class="nm">2.0</span>, <span class="nm">3.0</span>])  <span class="cm"># 'd' = double</span>
+
+<span class="kw">def</span> <span class="fn">update</span>(val, arr):
+    <span class="kw">with</span> val.get_lock():   <span class="cm"># thread/process safe!</span>
+        val.value += <span class="nm">1</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Multiprocessing vs Threading kab use karein? <span>▼</span></div><div class="iq-a"><b>Threading</b>: I/O bound tasks (file, network, DB) — GIL I/O wait pe release hota hai. <b>Multiprocessing</b>: CPU bound tasks (calculations, ML) — separate processes, no GIL. Rule: slow I/O → threads. Heavy CPU → processes.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">if __name__ == "__main__" kyun zaroori hai multiprocessing mein? <span>▼</span></div><div class="iq-a">Windows pe multiprocessing spawn method use karta hai — naya process script ko import karta hai. Bina guard ke, infinite loop mein naye processes bante rehte hain. Linux pe fork use hota hai — less critical but best practice hai.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Processes ke beech data share kaise karte hain? <span>▼</span></div><div class="iq-a">3 ways: (1) <code>Queue</code> — safe, FIFO communication. (2) <code>Pipe</code> — fast, two-way communication. (3) <code>Value/Array</code> — shared memory, lock se protect karo. Queue safest hai production mein.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- GIL -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-gil">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--gil)"></span>GIL</div>
+    <h1 style="color:var(--gil)">Global Interpreter<br>Lock (GIL)</h1>
+    <p class="hero-sub">CPython ka controversial feature — samjho kyun hai aur kab matter karta hai</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔒</div>
+        <div class="card-main">
+          <div class="card-title">GIL Kya Hai?</div>
+          <div class="card-desc">Ek mutex jo ensure karta hai ek waqt mein sirf ek thread Python bytecode execute kare.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="diagram"><span class="label">GIL — Global Interpreter Lock</span>
+
+<span class="box">Thread 1</span> <span class="arrow">──→</span> GIL acquire karo <span class="arrow">──→</span> Python bytecode execute
+<span class="box">Thread 2</span> <span class="arrow">──→</span> GIL ka wait karo... (blocked!)
+<span class="box">Thread 3</span> <span class="arrow">──→</span> GIL ka wait karo... (blocked!)
+
+Thread 1 GIL release <span class="arrow">──→</span> Thread 2 acquire <span class="arrow">──→</span> execute
+                              Thread 1, 3 wait...
+
+<span class="warn">CPU bound: Only 1 thread runs at a time!</span>
+<span class="ok">I/O bound: GIL released during I/O wait ✅</span></div>
+
+        <div class="code-label">GIL ka Effect</div>
+        <div class="code"><span class="kw">import</span> threading, time
+
+<span class="kw">def</span> <span class="fn">cpu_work</span>(n):
+    <span class="kw">return</span> <span class="fn">sum</span>(x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(n))
+
+<span class="cm"># Sequential</span>
+start = time.time()
+<span class="fn">cpu_work</span>(<span class="nm">10**7</span>)
+<span class="fn">cpu_work</span>(<span class="nm">10**7</span>)
+<span class="fn">print</span>(<span class="st">f"Sequential: {time.time()-start:.2f}s"</span>)  <span class="cm"># ~4s</span>
+
+<span class="cm"># Threaded — GIL ki wajah se NO SPEEDUP!</span>
+start = time.time()
+t1 = threading.Thread(target=<span class="fn">cpu_work</span>, args=(<span class="nm">10**7</span>,))
+t2 = threading.Thread(target=<span class="fn">cpu_work</span>, args=(<span class="nm">10**7</span>,))
+t1.start(); t2.start()
+t1.join();  t2.join()
+<span class="fn">print</span>(<span class="st">f"Threaded: {time.time()-start:.2f}s"</span>)    <span class="cm"># ~4s (same!)</span>
+
+<span class="cm"># Solution: Multiprocessing for CPU bound!</span>
+<span class="kw">from</span> multiprocessing <span class="kw">import</span> Pool
+start = time.time()
+<span class="kw">with</span> Pool(<span class="nm">2</span>) <span class="kw">as</span> p:
+    p.map(<span class="fn">cpu_work</span>, [<span class="nm">10**7</span>, <span class="nm">10**7</span>])
+<span class="fn">print</span>(<span class="st">f"Multiprocess: {time.time()-start:.2f}s"</span>)  <span class="cm"># ~2s!</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">❓</div>
+        <div class="card-main">
+          <div class="card-title">GIL Kyun Hai?</div>
+          <div class="card-desc">CPython memory management thread-safe nahi hai — GIL usse protect karta hai.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="diagram"><span class="label">GIL ka Reason:</span>
+
+CPython → Reference counting se memory manage
+Reference counting → NOT thread safe!
+
+Thread 1: refcount = refcount + 1  ← read
+Thread 2: refcount = refcount + 1  ← read  (same value!)
+Thread 1: store 6
+Thread 2: store 6  (should be 7! BUG!)
+
+<span class="ok">GIL: Ek waqt mein ek thread → refcount safe!</span></div>
+
+        <div class="code-label">GIL Workarounds</div>
+        <div class="code"><span class="cm"># 1. Multiprocessing — separate processes, no GIL</span>
+<span class="kw">from</span> multiprocessing <span class="kw">import</span> Pool
+
+<span class="cm"># 2. NumPy — C extensions release GIL!</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+arr = np.array(<span class="fn">range</span>(<span class="nm">10**6</span>))
+result = np.sum(arr**<span class="nm">2</span>)   <span class="cm"># GIL released! C speed!</span>
+
+<span class="cm"># 3. asyncio — single thread, cooperative</span>
+<span class="kw">import</span> asyncio
+
+<span class="cm"># 4. Cython — Python to C, release GIL</span>
+<span class="cm"># cdef function with nogil: ...  </span>
+
+<span class="cm"># 5. PyPy — JIT compiler, different approach</span></div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> GIL sirf CPython mein hai. PyPy, Jython, IronPython mein nahi. Python 3.12+ mein per-interpreter GIL aa raha hai!</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">📊</div>
+        <div class="card-main">
+          <div class="card-title">GIL aur I/O Bound Tasks</div>
+          <div class="card-desc">I/O wait ke dauran GIL release hota hai — threading kaam karta hai!</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="diagram"><span class="label">I/O Bound — GIL Release:</span>
+
+Thread 1: GIL acquire → network request → <span class="ok">GIL RELEASE</span> (waiting)
+Thread 2:                                  GIL acquire → run!
+Thread 1: response aaya → GIL acquire → continue
+
+<span class="ok">Result: True concurrency for I/O! ✅</span>
+
+<span class="label">CPU Bound — GIL Problem:</span>
+
+Thread 1: GIL acquire → calculate → calculate → calculate
+Thread 2: wait... wait... wait... wait...
+
+<span class="warn">Result: No speedup! Use multiprocessing ❌</span></div>
+
+        <div class="code-label">Real World Decision</div>
+        <div class="code"><span class="cm"># I/O Bound → Threading ✅</span>
+<span class="cm"># - REST API calls</span>
+<span class="cm"># - Database queries</span>
+<span class="cm"># - File reading/writing</span>
+<span class="cm"># - Web scraping</span>
+
+<span class="cm"># CPU Bound → Multiprocessing ✅</span>
+<span class="cm"># - Image/video processing</span>
+<span class="cm"># - ML model training</span>
+<span class="cm"># - Data transformation</span>
+<span class="cm"># - Mathematical computations</span>
+
+<span class="cm"># I/O + Scale → asyncio ✅</span>
+<span class="cm"># - Thousands of concurrent connections</span>
+<span class="cm"># - FastAPI, aiohttp servers</span>
+<span class="cm"># - WebSocket handlers</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">GIL kya hai aur Python mein kyun hai? <span>▼</span></div><div class="iq-a">GIL (Global Interpreter Lock) ek mutex hai jo ensure karta hai ek waqt mein sirf ek thread Python bytecode execute kare. Kyun hai: CPython ka reference counting memory management thread-safe nahi hai — GIL usse protect karta hai. Downside: CPU bound multi-threaded programs slow ho jaate hain.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">GIL remove kyun nahi kiya? <span>▼</span></div><div class="iq-a">GIL remove karna CPython ke entire memory management ko rewrite karna hoga — huge breaking change. Many C extensions GIL assume karte hain. Single-threaded code slow ho jaata. Python 3.12+ mein per-interpreter GIL experiment chal raha hai (PEP 703).</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">NumPy threading ke saath fast kyun hai? <span>▼</span></div><div class="iq-a">NumPy C extensions mein likha hai. C code execution ke dauran GIL release kar sakta hai — <code>Py_BEGIN_ALLOW_THREADS</code>. Isliye NumPy operations truly parallel run ho sakte hain multiple threads mein. Yeh GIL bypass karta hai legitimately.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- ASYNC -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-async">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--async)"></span>ASYNC / AWAIT</div>
+    <h1 style="color:var(--async)">Async Python<br>& Event Loop</h1>
+    <p class="hero-sub">Single thread, cooperative multitasking, thousands of connections</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">⚡</div>
+        <div class="card-main">
+          <div class="card-title">async/await Basics</div>
+          <div class="card-desc">Coroutines — functions jo pause aur resume ho sakti hain.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Basic async/await</div>
+        <div class="code"><span class="kw">import</span> asyncio
+
+<span class="cm"># async function = coroutine</span>
+<span class="kw">async def</span> <span class="fn">fetch_data</span>(url):
+    <span class="fn">print</span>(<span class="st">f"Fetching {url}..."</span>)
+    <span class="kw">await</span> asyncio.sleep(<span class="nm">1</span>)   <span class="cm"># I/O simulate — yields control!</span>
+    <span class="fn">print</span>(<span class="st">f"Done: {url}"</span>)
+    <span class="kw">return</span> <span class="st">f"Data: {url}"</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="cm"># Sequential — slow (2 seconds total)</span>
+    r1 = <span class="kw">await</span> <span class="fn">fetch_data</span>(<span class="st">"api1"</span>)
+    r2 = <span class="kw">await</span> <span class="fn">fetch_data</span>(<span class="st">"api2"</span>)
+
+    <span class="cm"># Concurrent — fast (1 second total!)</span>
+    r1, r2 = <span class="kw">await</span> asyncio.gather(
+        <span class="fn">fetch_data</span>(<span class="st">"api1"</span>),
+        <span class="fn">fetch_data</span>(<span class="st">"api2"</span>)
+    )
+    <span class="fn">print</span>(r1, r2)
+
+asyncio.run(<span class="fn">main</span>())</div>
+
+        <div class="diagram"><span class="label">Event Loop Flow:</span>
+
+<span class="ok">1.</span> fetch("api1") start → asyncio.sleep → <span class="arrow">YIELD control</span>
+<span class="ok">2.</span> fetch("api2") start → asyncio.sleep → <span class="arrow">YIELD control</span>
+<span class="ok">3.</span> sleep done → fetch("api1") <span class="arrow">RESUME</span>
+<span class="ok">4.</span> sleep done → fetch("api2") <span class="arrow">RESUME</span>
+
+Total time: ~1s (not 2s!)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔄</div>
+        <div class="card-main">
+          <div class="card-title">Event Loop Deep Dive</div>
+          <div class="card-desc">Single thread mein concurrency kaise hoti hai.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="diagram"><span class="label">Event Loop Architecture:</span>
+
+<span class="box">Event Loop</span> (single thread)
+    │
+    ├── <span class="ok">Task Queue</span>: [task1, task2, task3...]
+    │
+    ├── <span class="ok">Running</span>: task1 execute
+    │         task1 → await I/O → <span class="arrow">SUSPEND</span>
+    │         task2 → execute
+    │         task2 → await I/O → <span class="arrow">SUSPEND</span>
+    │         task3 → execute
+    │
+    └── <span class="ok">I/O done</span> → task1 RESUME → task2 RESUME
+
+<span class="warn">CPU blocking code → event loop block hoga!</span></div>
+
+        <div class="code-label">Tasks aur gather</div>
+        <div class="code"><span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="cm"># gather — concurrent wait</span>
+    results = <span class="kw">await</span> asyncio.gather(
+        <span class="fn">fetch</span>(<span class="st">"url1"</span>),
+        <span class="fn">fetch</span>(<span class="st">"url2"</span>),
+        <span class="fn">fetch</span>(<span class="st">"url3"</span>)
+    )
+
+    <span class="cm"># create_task — fire and forget</span>
+    task = asyncio.create_task(<span class="fn">fetch</span>(<span class="st">"url4"</span>))
+    <span class="cm"># kuch aur kaam karo...</span>
+    result = <span class="kw">await</span> task   <span class="cm"># ab result lo</span>
+
+    <span class="cm"># timeout</span>
+    <span class="kw">try</span>:
+        result = <span class="kw">await</span> asyncio.wait_for(<span class="fn">fetch</span>(<span class="st">"slow"</span>), timeout=<span class="nm">5.0</span>)
+    <span class="kw">except</span> asyncio.TimeoutError:
+        <span class="fn">print</span>(<span class="st">"Request timed out!"</span>)
+
+    <span class="cm"># asyncio.wait — more control</span>
+    tasks = [asyncio.create_task(<span class="fn">fetch</span>(u)) <span class="kw">for</span> u <span class="kw">in</span> urls]
+    done, pending = <span class="kw">await</span> asyncio.wait(
+        tasks,
+        return_when=asyncio.FIRST_COMPLETED
+    )</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🌐</div>
+        <div class="card-main">
+          <div class="card-title">Real World Async — aiohttp, FastAPI</div>
+          <div class="card-desc">Production mein async kaise use hota hai.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">aiohttp — Async HTTP</div>
+        <div class="code"><span class="kw">import</span> aiohttp
+<span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">fetch</span>(session, url):
+    <span class="kw">async with</span> session.get(url) <span class="kw">as</span> response:
+        <span class="kw">return await</span> response.json()
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    urls = [<span class="st">"https://api1.com"</span>, <span class="st">"https://api2.com"</span>]
+
+    <span class="kw">async with</span> aiohttp.ClientSession() <span class="kw">as</span> session:
+        tasks = [<span class="fn">fetch</span>(session, url) <span class="kw">for</span> url <span class="kw">in</span> urls]
+        results = <span class="kw">await</span> asyncio.gather(*tasks)
+        <span class="fn">print</span>(results)</div>
+
+        <div class="code-label">FastAPI — Async Web Framework</div>
+        <div class="code"><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+app = FastAPI()
+
+<span class="cm"># Async endpoint</span>
+<span class="kw">@app.get</span>(<span class="st">"/users/{user_id}"</span>)
+<span class="kw">async def</span> <span class="fn">get_user</span>(user_id: int):
+    <span class="cm"># DB query async hogi</span>
+    user = <span class="kw">await</span> db.fetch_one(<span class="st">f"SELECT * FROM users WHERE id={user_id}"</span>)
+    <span class="kw">return</span> user
+
+<span class="cm"># Sync endpoint (still works!)</span>
+<span class="kw">@app.get</span>(<span class="st">"/health"</span>)
+<span class="kw">def</span> <span class="fn">health</span>():
+    <span class="kw">return</span> {<span class="st">"status"</span>: <span class="st">"ok"</span>}</div>
+
+        <div class="code-label">CPU Bound + Async — run_in_executor</div>
+        <div class="code"><span class="kw">import</span> asyncio
+<span class="kw">from</span> concurrent.futures <span class="kw">import</span> ProcessPoolExecutor
+
+<span class="kw">def</span> <span class="fn">cpu_heavy</span>(n):
+    <span class="kw">return</span> <span class="fn">sum</span>(x**<span class="nm">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(n))
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    loop = asyncio.get_event_loop()
+
+    <span class="cm"># CPU work ko process pool mein run karo</span>
+    <span class="cm"># Event loop block nahi hoga!</span>
+    <span class="kw">with</span> ProcessPoolExecutor() <span class="kw">as</span> exe:
+        result = <span class="kw">await</span> loop.run_in_executor(
+            exe, <span class="fn">cpu_heavy</span>, <span class="nm">10**7</span>
+        )
+    <span class="fn">print</span>(result)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔄</div>
+        <div class="card-main">
+          <div class="card-title">Async Context Managers & Generators</div>
+          <div class="card-desc">async with aur async for — advanced async patterns.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Async Context Manager</div>
+        <div class="code"><span class="kw">class</span> <span class="fn">AsyncDB</span>:
+    <span class="kw">async def</span> <span class="fn">__aenter__</span>(self):
+        <span class="fn">print</span>(<span class="st">"Connecting to DB..."</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.1</span>)   <span class="cm"># async connect</span>
+        <span class="kw">return</span> self
+
+    <span class="kw">async def</span> <span class="fn">__aexit__</span>(self, *args):
+        <span class="fn">print</span>(<span class="st">"Closing DB connection"</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.1</span>)   <span class="cm"># async close</span>
+
+    <span class="kw">async def</span> <span class="fn">query</span>(self, sql):
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.05</span>)
+        <span class="kw">return</span> [<span class="st">"result1"</span>, <span class="st">"result2"</span>]
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> <span class="fn">AsyncDB</span>() <span class="kw">as</span> db:
+        results = <span class="kw">await</span> db.query(<span class="st">"SELECT * FROM users"</span>)
+        <span class="fn">print</span>(results)</div>
+
+        <div class="code-label">Async Generator</div>
+        <div class="code"><span class="kw">async def</span> <span class="fn">stream_data</span>(urls):
+    <span class="kw">for</span> url <span class="kw">in</span> urls:
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.1</span>)
+        <span class="kw">yield</span> <span class="st">f"Data: {url}"</span>   <span class="cm"># async yield!</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async for</span> data <span class="kw">in</span> <span class="fn">stream_data</span>([<span class="st">"url1"</span>, <span class="st">"url2"</span>, <span class="st">"url3"</span>]):
+        <span class="fn">print</span>(data)
+
+    <span class="cm"># Async list comprehension</span>
+    results = [data <span class="kw">async for</span> data <span class="kw">in</span> <span class="fn">stream_data</span>([<span class="st">"a"</span>, <span class="st">"b"</span>])]</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">async/await kya hai? Event loop kaise kaam karta hai? <span>▼</span></div><div class="iq-a"><code>async def</code> se coroutine banti hai. <code>await</code> se coroutine pause hoti hai aur event loop dusra kaam karta hai. Event loop single-threaded hai — cooperative multitasking. I/O wait pe yield karo → dusra coroutine run karo → I/O done → resume.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">asyncio.gather vs asyncio.wait kya hai? <span>▼</span></div><div class="iq-a"><code>gather()</code> — sab tasks concurrently run, sab complete hone ka wait, results same order mein. <code>wait()</code> — more control, FIRST_COMPLETED, ALL_COMPLETED options, done aur pending sets milte hain. Production mein gather() simpler hai mostly.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">async code mein CPU blocking kaise handle karein? <span>▼</span></div><div class="iq-a"><code>loop.run_in_executor()</code> use karo. CPU heavy work ko ProcessPoolExecutor mein run karo — event loop block nahi hoga. Threading ke saath bhi kar sakte hain I/O ke liye. Kabhi bhi CPU intensive code directly async function mein mat likho.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Threading vs asyncio kab choose karein? <span>▼</span></div><div class="iq-a"><b>asyncio</b>: Thousands of concurrent I/O connections, single-threaded simplicity, modern Python (FastAPI). <b>Threading</b>: Legacy code integration, blocking libraries jo async support nahi karte, simpler mental model. asyncio more scalable hai for high concurrency.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- COMPARISON -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-compare">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--accent)"></span>COMPARISON</div>
+    <h1>Threading vs Multiprocessing<br><span style="color:var(--accent)">vs Asyncio</span></h1>
+    <p class="hero-sub">Sahi tool choose karna — interview ka favorite question!</p>
+  </div>
+
+  <table class="compare">
+    <tr>
+      <th>Feature</th>
+      <th style="color:var(--thread)">Threading</th>
+      <th style="color:var(--process)">Multiprocessing</th>
+      <th style="color:var(--async)">Asyncio</th>
+    </tr>
+    <tr><td>GIL</td><td class="no">Affected ❌</td><td class="yes">No GIL ✅</td><td class="ok">Single thread</td></tr>
+    <tr><td>Memory</td><td class="yes">Shared ✅</td><td class="no">Separate ❌</td><td class="yes">Shared ✅</td></tr>
+    <tr><td>Overhead</td><td class="ok">Medium</td><td class="no">High</td><td class="yes">Low ✅</td></tr>
+    <tr><td>CPU Bound</td><td class="no">Poor ❌</td><td class="yes">Excellent ✅</td><td class="no">Poor ❌</td></tr>
+    <tr><td>I/O Bound</td><td class="yes">Good ✅</td><td class="ok">Overkill</td><td class="yes">Excellent ✅</td></tr>
+    <tr><td>Concurrency</td><td class="ok">OS threads</td><td class="yes">True parallel</td><td class="yes">Cooperative</td></tr>
+    <tr><td>Scale</td><td class="ok">100s threads</td><td class="ok">CPU cores</td><td class="yes">1000s+ ✅</td></tr>
+    <tr><td>Complexity</td><td class="ok">Medium</td><td class="no">High</td><td class="ok">Medium</td></tr>
+    <tr><td>Use Case</td><td>I/O, legacy</td><td>CPU heavy</td><td>High concurrency</td></tr>
+  </table>
+
+  <div class="sec-title">Decision Flow</div>
+  <div class="diagram" style="margin-top:0;">Kaunsa use karein?
+
+<span class="label">Task kya hai?</span>
+    │
+    ├── <span class="ok">I/O Bound</span> (file, network, DB)
+    │       │
+    │       ├── Thousands of connections? → <span class="arrow">asyncio</span>
+    │       └── Legacy/simple code?       → <span class="arrow">ThreadPoolExecutor</span>
+    │
+    └── <span class="warn">CPU Bound</span> (calculations, ML)
+            │
+            └── Multiple cores use karna? → <span class="arrow">ProcessPoolExecutor</span>
+
+<span class="ok">Remember:</span>
+• asyncio = single thread, cooperative, best for I/O scale
+• threading = OS threads, shared memory, I/O ok
+• multiprocessing = true parallel, CPU work, more overhead</div>
+
+  <div class="sec-title">Real World Examples</div>
+  <div class="concept-grid">
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏗️</div>
+        <div class="card-main">
+          <div class="card-title">Web Scraper — Sab Concepts Use</div>
+          <div class="card-desc">Real world example jahan sab concepts ek saath kaam karte hain.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Async Web Scraper</div>
+        <div class="code"><span class="kw">import</span> asyncio
+<span class="kw">import</span> aiohttp
+<span class="kw">from</span> multiprocessing <span class="kw">import</span> Pool
+
+<span class="cm"># Step 1: Async se URLs fetch karo (I/O)</span>
+<span class="kw">async def</span> <span class="fn">fetch_all</span>(urls):
+    <span class="kw">async with</span> aiohttp.ClientSession() <span class="kw">as</span> session:
+        tasks = [<span class="fn">fetch</span>(session, url) <span class="kw">for</span> url <span class="kw">in</span> urls]
+        <span class="kw">return await</span> asyncio.gather(*tasks)
+
+<span class="cm"># Step 2: Process data se karo (CPU)</span>
+<span class="kw">def</span> <span class="fn">process_html</span>(html):
+    <span class="cm"># Heavy parsing work</span>
+    <span class="kw">return</span> parse_and_extract(html)
+
+<span class="kw">def</span> <span class="fn">main</span>():
+    urls = [<span class="st">"site1.com"</span>, <span class="st">"site2.com"</span>]
+
+    <span class="cm"># I/O: async se fetch</span>
+    html_pages = asyncio.run(<span class="fn">fetch_all</span>(urls))
+
+    <span class="cm"># CPU: multiprocessing se process</span>
+    <span class="kw">with</span> Pool() <span class="kw">as</span> pool:
+        results = pool.map(<span class="fn">process_html</span>, html_pages)
+
+    <span class="kw">return</span> results</div>
+
+        <div class="callout callout-tip"><b>Interview Gold:</b> "I/O ke liye asyncio, CPU ke liye multiprocessing — dono combine karo maximum performance ke liye!"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">Top Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Python mein concurrency achieve karne ke kya ways hain? <span>▼</span></div><div class="iq-a">3 ways: (1) <b>Threading</b> — same process, shared memory, I/O bound ke liye, GIL affected. (2) <b>Multiprocessing</b> — separate processes, separate memory, CPU bound ke liye, no GIL. (3) <b>asyncio</b> — single thread, cooperative multitasking, high concurrency I/O ke liye.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">FastAPI itna fast kyun hai? <span>▼</span></div><div class="iq-a">FastAPI async/await use karta hai. Ek request I/O wait pe hoti hai → event loop dusri request serve karta hai. Yeh single thread mein thousands of concurrent requests handle kar sakta hai. Uvicorn ASGI server bhi async hai. Flask synchronous hai isliye slower for I/O bound workloads.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Deadlock kya hai? Kaise avoid karein? <span>▼</span></div><div class="iq-a">Deadlock = do threads ek dusre ke lock ka wait kar rahe hain — dono stuck! Example: Thread A has Lock1, wants Lock2. Thread B has Lock2, wants Lock1. Avoid: Always same order mein locks acquire karo. Timeout use karo: <code>lock.acquire(timeout=5)</code>. RLock use karo reentrant code ke liye.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Coroutine aur Thread mein kya fark hai? <span>▼</span></div><div class="iq-a"><b>Thread</b>: OS level, preemptive scheduling (OS decide karta hai kab switch karna hai), true parallel possible, context switch expensive. <b>Coroutine</b>: Application level, cooperative scheduling (code decide karta hai kab yield karna hai), single thread, context switch very cheap. 1000 threads = memory hog. 1000 coroutines = fine!</div></div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<!-- ════════════════════════════════════════ -->
+<!-- CONCURRENCY & PARALLELISM -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-conc">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--conc)"></span>CONCURRENCY & PARALLELISM</div>
+    <h1 style="color:var(--conc)">Concurrency vs<br>Parallelism</h1>
+    <p class="hero-sub">Dono alag hain — samjho fark aur kab kya use karein</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔀</div>
+        <div class="card-main">
+          <div class="card-title">Concurrency vs Parallelism — Core Difference</div>
+          <div class="card-desc">Concurrency = dealing with multiple things. Parallelism = doing multiple things simultaneously.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="diagram"><span class="label">CONCURRENCY — ek chef, multiple dishes</span>
+Chef → chop vegetables → (wait for water to boil) → stir sauce → (wait) → plate dish
+<span class="ok">Single worker, multiple tasks, interleaved</span>
+
+<span class="label">PARALLELISM — multiple chefs, multiple dishes</span>
+Chef1 → full dish 1  (simultaneously)
+Chef2 → full dish 2  (simultaneously)
+<span class="ok">Multiple workers, truly simultaneous</span>
+
+<span class="warn">You can have concurrency WITHOUT parallelism!</span>
+<span class="warn">asyncio = concurrent but NOT parallel (single thread)</span>
+<span class="ok">multiprocessing = both concurrent AND parallel</span></div>
+
+        <div class="code-label">Python mein kya kya hai</div>
+        <div class="code"><span class="cm"># CONCURRENCY only (single thread, interleaved)</span>
+<span class="kw">import</span> asyncio
+<span class="cm"># asyncio — concurrent but single threaded
+# ek waqt mein sirf ek coroutine "runs"
+# but quickly switch karta hai</span>
+
+<span class="cm"># CONCURRENCY + some parallelism (OS decides)</span>
+<span class="kw">import</span> threading
+<span class="cm"># threads concurrent hain
+# CPU bound pe: GIL ki wajah se NOT truly parallel
+# I/O bound pe: GIL release → some parallelism</span>
+
+<span class="cm"># TRUE PARALLELISM (multiple CPU cores)</span>
+<span class="kw">import</span> multiprocessing
+<span class="cm"># truly parallel — separate processes
+# multiple CPU cores simultaneously use karo</span></div>
+
+        <div class="callout callout-tip"><b>Interview Answer:</b> "Concurrency is about structure — dealing with multiple things. Parallelism is about execution — doing multiple things at once. asyncio gives concurrency, multiprocessing gives parallelism."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏁</div>
+        <div class="card-main">
+          <div class="card-title">Race Conditions, Deadlocks, Starvation</div>
+          <div class="card-desc">Concurrency ke common problems aur solutions.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Race Condition</div>
+        <div class="code"><span class="kw">import</span> threading
+
+balance = <span class="nm">1000</span>
+lock = threading.Lock()
+
+<span class="cm"># ❌ Race condition — without lock</span>
+<span class="kw">def</span> <span class="fn">withdraw_unsafe</span>(amount):
+    <span class="kw">global</span> balance
+    <span class="kw">if</span> balance >= amount:
+        <span class="cm"># Gap yahan! Another thread can run here!</span>
+        balance -= amount
+
+<span class="cm"># ✅ Thread safe — with lock</span>
+<span class="kw">def</span> <span class="fn">withdraw_safe</span>(amount):
+    <span class="kw">global</span> balance
+    <span class="kw">with</span> lock:           <span class="cm"># atomic operation!</span>
+        <span class="kw">if</span> balance >= amount:
+            balance -= amount
+            <span class="kw">return True</span>
+        <span class="kw">return False</span></div>
+
+        <div class="code-label">Deadlock</div>
+        <div class="code"><span class="kw">import</span> threading
+
+lock1 = threading.Lock()
+lock2 = threading.Lock()
+
+<span class="cm"># ❌ Deadlock!</span>
+<span class="kw">def</span> <span class="fn">task_a</span>():
+    <span class="kw">with</span> lock1:
+        <span class="kw">with</span> lock2:   <span class="cm"># waits for lock2</span>
+            <span class="fn">print</span>(<span class="st">"A done"</span>)
+
+<span class="kw">def</span> <span class="fn">task_b</span>():
+    <span class="kw">with</span> lock2:
+        <span class="kw">with</span> lock1:   <span class="cm"># waits for lock1 — DEADLOCK!</span>
+            <span class="fn">print</span>(<span class="st">"B done"</span>)
+
+<span class="cm"># ✅ Fix: Always acquire locks in same order!</span>
+<span class="kw">def</span> <span class="fn">task_a_safe</span>():
+    <span class="kw">with</span> lock1:       <span class="cm"># always lock1 first</span>
+        <span class="kw">with</span> lock2:
+            <span class="fn">print</span>(<span class="st">"A done"</span>)
+
+<span class="kw">def</span> <span class="fn">task_b_safe</span>():
+    <span class="kw">with</span> lock1:       <span class="cm"># always lock1 first</span>
+        <span class="kw">with</span> lock2:
+            <span class="fn">print</span>(<span class="st">"B done"</span>)
+
+<span class="cm"># Timeout se deadlock detect karo:</span>
+acquired = lock1.acquire(timeout=<span class="nm">5</span>)
+<span class="kw">if not</span> acquired:
+    <span class="fn">print</span>(<span class="st">"Possible deadlock!"</span>)</div>
+
+        <div class="callout callout-warn"><b>Deadlock Rule:</b> Hamesha same order mein locks acquire karo. Ya timeout use karo: lock.acquire(timeout=5).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">📬</div>
+        <div class="card-main">
+          <div class="card-title">Producer-Consumer Pattern</div>
+          <div class="card-desc">Classic concurrency pattern — real world mein har jagah.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">queue.Queue — Thread Safe</div>
+        <div class="code"><span class="kw">import</span> threading
+<span class="kw">import</span> queue
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">producer</span>(q, n):
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n):
+        item = <span class="st">f"item_{i}"</span>
+        q.put(item)
+        <span class="fn">print</span>(<span class="st">f"Produced: {item}"</span>)
+        time.sleep(<span class="nm">0.1</span>)
+    q.put(<span class="kw">None</span>)   <span class="cm"># sentinel — done signal</span>
+
+<span class="kw">def</span> <span class="fn">consumer</span>(q):
+    <span class="kw">while True</span>:
+        item = q.get()
+        <span class="kw">if</span> item <span class="kw">is None</span>:
+            <span class="kw">break</span>
+        <span class="fn">print</span>(<span class="st">f"Consumed: {item}"</span>)
+        time.sleep(<span class="nm">0.2</span>)
+        q.task_done()
+
+q = queue.Queue(maxsize=<span class="nm">5</span>)   <span class="cm"># buffer size limit</span>
+p = threading.Thread(target=<span class="fn">producer</span>, args=(q, <span class="nm">10</span>))
+c = threading.Thread(target=<span class="fn">consumer</span>, args=(q,))
+
+p.start(); c.start()
+p.join();  c.join()</div>
+
+        <div class="code-label">Async Producer-Consumer</div>
+        <div class="code"><span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">producer</span>(q):
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">5</span>):
+        <span class="kw">await</span> q.put(<span class="st">f"item_{i}"</span>)
+        <span class="fn">print</span>(<span class="st">f"Produced: item_{i}"</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.1</span>)
+
+<span class="kw">async def</span> <span class="fn">consumer</span>(q):
+    <span class="kw">while True</span>:
+        item = <span class="kw">await</span> q.get()
+        <span class="fn">print</span>(<span class="st">f"Consumed: {item}"</span>)
+        q.task_done()
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    q = asyncio.Queue(maxsize=<span class="nm">3</span>)
+    <span class="kw">await</span> asyncio.gather(<span class="fn">producer</span>(q), <span class="fn">consumer</span>(q))
+
+asyncio.run(<span class="fn">main</span>())</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">⚡</div>
+        <div class="card-main">
+          <div class="card-title">Synchronization Primitives</div>
+          <div class="card-desc">Lock, RLock, Semaphore, Event, Condition — sab ka use.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">All Primitives</div>
+        <div class="code"><span class="kw">import</span> threading
+
+<span class="cm"># 1. Lock — mutual exclusion</span>
+lock = threading.Lock()
+<span class="kw">with</span> lock:
+    <span class="cm"># critical section</span>
+    shared_data.update()
+
+<span class="cm"># 2. RLock — reentrant lock (same thread multiple acquire)</span>
+rlock = threading.RLock()
+<span class="kw">def</span> <span class="fn">recursive_func</span>(n):
+    <span class="kw">with</span> rlock:           <span class="cm"># same thread can acquire again!</span>
+        <span class="kw">if</span> n > <span class="nm">0</span>: <span class="fn">recursive_func</span>(n-<span class="nm">1</span>)
+
+<span class="cm"># 3. Semaphore — limited concurrent access</span>
+sem = threading.Semaphore(<span class="nm">3</span>)   <span class="cm"># max 3 threads at once</span>
+<span class="kw">def</span> <span class="fn">db_query</span>():
+    <span class="kw">with</span> sem:    <span class="cm"># connection pool simulate</span>
+        query_database()
+
+<span class="cm"># 4. Event — signal between threads</span>
+ready = threading.Event()
+
+<span class="kw">def</span> <span class="fn">worker</span>():
+    ready.wait()     <span class="cm"># block until set()</span>
+    <span class="fn">print</span>(<span class="st">"Starting work!"</span>)
+
+t = threading.Thread(target=<span class="fn">worker</span>)
+t.start()
+<span class="cm"># setup karo...</span>
+ready.set()          <span class="cm"># worker ko signal do</span>
+
+<span class="cm"># 5. Condition — complex coordination</span>
+condition = threading.Condition()
+items = []
+
+<span class="kw">def</span> <span class="fn">wait_for_item</span>():
+    <span class="kw">with</span> condition:
+        <span class="kw">while not</span> items:
+            condition.wait()     <span class="cm"># release lock + wait</span>
+        <span class="kw">return</span> items.pop()
+
+<span class="kw">def</span> <span class="fn">add_item</span>(item):
+    <span class="kw">with</span> condition:
+        items.append(item)
+        condition.notify()       <span class="cm"># waiting thread ko wake karo</span></div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> Lock = binary (0/1). Semaphore = counter (n). Event = flag. Condition = Lock + notification. RLock = same thread can re-acquire.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Concurrency aur Parallelism mein kya fark hai? <span>▼</span></div><div class="iq-a"><b>Concurrency</b>: Multiple tasks ko deal karna — ek thread multiple tasks ke beech switch karta hai (asyncio). <b>Parallelism</b>: Multiple tasks literally same time chalte hain (multiprocessing — multiple CPU cores). Concurrency structure ke baare mein hai, parallelism execution ke baare mein.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Deadlock kya hai? Kaise prevent karein? <span>▼</span></div><div class="iq-a">Deadlock = do ya zyada threads ek dusre ke lock ka indefinitely wait karein. Prevention: (1) Always same order mein locks acquire karo. (2) <code>lock.acquire(timeout=N)</code> use karo. (3) RLock for recursive code. (4) Lock-free data structures use karo jahan possible ho.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Lock aur Semaphore mein kya fark hai? <span>▼</span></div><div class="iq-a"><code>Lock</code> = binary mutex — sirf ek thread access kar sakta hai. <code>Semaphore</code> = counter — N threads simultaneously access kar sakte hain. Use: Lock = critical section. Semaphore = connection pool, rate limiting (e.g., max 5 DB connections).</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- CONTEXT MANAGERS -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-ctx">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--ctx)"></span>CONTEXT MANAGERS</div>
+    <h1 style="color:var(--ctx)">Context Managers<br>& with Statement</h1>
+    <p class="hero-sub">Setup aur cleanup automatically handle karo — resource leaks never again</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">📦</div>
+        <div class="card-main">
+          <div class="card-title">Context Manager Kya Hai?</div>
+          <div class="card-desc">__enter__ aur __exit__ — with statement ka foundation.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Problem without Context Manager</div>
+        <div class="code"><span class="cm"># ❌ Risky — exception aaye toh close nahi hoga!</span>
+f = <span class="fn">open</span>(<span class="st">"file.txt"</span>, <span class="st">"r"</span>)
+data = f.read()
+<span class="cm"># agar yahan exception aaye...</span>
+f.close()   <span class="cm"># yeh nahi chalega! Memory leak!</span>
+
+<span class="cm"># ✅ Context Manager — hamesha close hoga!</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"file.txt"</span>, <span class="st">"r"</span>) <span class="kw">as</span> f:
+    data = f.read()
+<span class="cm"># file automatically close — even if exception!</span></div>
+
+        <div class="diagram"><span class="label">with statement ka flow:</span>
+
+<span class="ok">1.</span> <code>__enter__()</code> call hota hai
+<span class="ok">2.</span> <code>as</code> variable mein return value milti hai
+<span class="ok">3.</span> with block ka code run hota hai
+<span class="ok">4.</span> Block khatam (ya exception) → <code>__exit__()</code> call
+<span class="ok">5.</span> Cleanup guaranteed! ✅</div>
+
+        <div class="code-label">__enter__ aur __exit__ Protocol</div>
+        <div class="code"><span class="kw">class</span> <span class="fn">FileManager</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, filename, mode):
+        self.filename = filename
+        self.mode     = mode
+        self.file     = <span class="kw">None</span>
+
+    <span class="kw">def</span> <span class="fn">__enter__</span>(self):
+        <span class="fn">print</span>(<span class="st">f"Opening {self.filename}"</span>)
+        self.file = <span class="fn">open</span>(self.filename, self.mode)
+        <span class="kw">return</span> self.file    <span class="cm"># 'as' variable mein milega</span>
+
+    <span class="kw">def</span> <span class="fn">__exit__</span>(self, exc_type, exc_val, exc_tb):
+        <span class="fn">print</span>(<span class="st">f"Closing {self.filename}"</span>)
+        <span class="kw">if</span> self.file:
+            self.file.close()
+        <span class="kw">if</span> exc_type:
+            <span class="fn">print</span>(<span class="st">f"Exception: {exc_val}"</span>)
+        <span class="kw">return False</span>   <span class="cm"># False = exception propagate karo</span>
+        <span class="cm"># True = exception suppress karo</span>
+
+<span class="kw">with</span> <span class="fn">FileManager</span>(<span class="st">"test.txt"</span>, <span class="st">"w"</span>) <span class="kw">as</span> f:
+    f.write(<span class="st">"Hello!"</span>)
+<span class="cm"># Opening test.txt</span>
+<span class="cm"># Closing test.txt  ← guaranteed!</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🎨</div>
+        <div class="card-main">
+          <div class="card-title">contextlib — Simpler Way</div>
+          <div class="card-desc">@contextmanager decorator se class likhe bina context manager banao.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">@contextmanager decorator</div>
+        <div class="code"><span class="kw">from</span> contextlib <span class="kw">import</span> contextmanager
+<span class="kw">import</span> time
+
+<span class="kw">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">timer</span>(label=<span class="st">""</span>):
+    start = time.perf_counter()
+    <span class="kw">try</span>:
+        <span class="kw">yield</span>                   <span class="cm"># with block yahan run hota hai</span>
+    <span class="kw">finally</span>:
+        elapsed = time.perf_counter() - start
+        <span class="fn">print</span>(<span class="st">f"{label}: {elapsed:.4f}s"</span>)
+
+<span class="kw">with</span> <span class="fn">timer</span>(<span class="st">"My operation"</span>):
+    <span class="fn">sum</span>(<span class="fn">range</span>(<span class="nm">1_000_000</span>))
+<span class="cm"># My operation: 0.0523s</span>
+
+<span class="cm"># Database transaction context manager</span>
+<span class="kw">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">db_transaction</span>(db):
+    <span class="fn">print</span>(<span class="st">"BEGIN TRANSACTION"</span>)
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> db
+        db.commit()
+        <span class="fn">print</span>(<span class="st">"COMMIT"</span>)
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+        db.rollback()
+        <span class="fn">print</span>(<span class="st">f"ROLLBACK: {e}"</span>)
+        <span class="kw">raise</span>
+
+<span class="kw">with</span> <span class="fn">db_transaction</span>(db) <span class="kw">as</span> conn:
+    conn.execute(<span class="st">"INSERT INTO users..."</span>)
+    conn.execute(<span class="st">"UPDATE balance..."</span>)</div>
+
+        <div class="code-label">contextlib.suppress</div>
+        <div class="code"><span class="kw">from</span> contextlib <span class="kw">import</span> suppress
+
+<span class="cm"># ❌ Verbose way</span>
+<span class="kw">try</span>:
+    <span class="kw">import</span> ujson <span class="kw">as</span> json
+<span class="kw">except</span> ImportError:
+    <span class="kw">import</span> json
+
+<span class="cm"># ✅ Clean way</span>
+<span class="kw">with</span> suppress(FileNotFoundError):
+    <span class="kw">import</span> os; os.remove(<span class="st">"temp.txt"</span>)   <span class="cm"># silently ignore if missing</span>
+
+<span class="cm"># contextlib.redirect_stdout</span>
+<span class="kw">from</span> contextlib <span class="kw">import</span> redirect_stdout
+<span class="kw">import</span> io
+
+f = io.StringIO()
+<span class="kw">with</span> redirect_stdout(f):
+    <span class="fn">print</span>(<span class="st">"This goes to f, not console!"</span>)
+output = f.getvalue()</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏗️</div>
+        <div class="card-main">
+          <div class="card-title">Real World Context Managers</div>
+          <div class="card-desc">Production mein context managers kahan kahan use hote hain.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Multiple Context Managers</div>
+        <div class="code"><span class="cm"># Multiple — ek line mein!</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"input.txt"</span>) <span class="kw">as</span> fin, \
+     <span class="fn">open</span>(<span class="st">"output.txt"</span>, <span class="st">"w"</span>) <span class="kw">as</span> fout:
+    fout.write(fin.read().upper())</div>
+
+        <div class="code-label">Custom Real-World Examples</div>
+        <div class="code"><span class="cm"># 1. Thread Lock Context Manager</span>
+<span class="kw">import</span> threading
+lock = threading.Lock()
+<span class="kw">with</span> lock:        <span class="cm"># Lock already supports context manager!</span>
+    shared_data += <span class="nm">1</span>
+
+<span class="cm"># 2. Temp Directory</span>
+<span class="kw">import</span> tempfile
+<span class="kw">with</span> tempfile.TemporaryDirectory() <span class="kw">as</span> tmpdir:
+    <span class="cm"># tmpdir ka use karo</span>
+    process_files(tmpdir)
+<span class="cm"># automatically deleted after with block!</span>
+
+<span class="cm"># 3. Mocking (testing)</span>
+<span class="kw">from</span> unittest.mock <span class="kw">import</span> patch
+<span class="kw">with</span> patch(<span class="st">'requests.get'</span>) <span class="kw">as</span> mock_get:
+    mock_get.return_value.json.return_value = {<span class="st">"data"</span>: <span class="st">"test"</span>}
+    result = <span class="fn">fetch_data</span>()
+
+<span class="cm"># 4. Profiling</span>
+<span class="kw">import</span> cProfile
+<span class="kw">with</span> cProfile.Profile() <span class="kw">as</span> pr:
+    <span class="fn">my_function</span>()
+pr.print_stats()
+
+<span class="cm"># 5. Custom Database Connection</span>
+<span class="kw">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">get_db_connection</span>():
+    conn = create_connection()
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> conn
+    <span class="kw">finally</span>:
+        conn.close()   <span class="cm"># hamesha close!</span>
+
+<span class="kw">with</span> <span class="fn">get_db_connection</span>() <span class="kw">as</span> conn:
+    conn.execute(<span class="st">"SELECT * FROM users"</span>)</div>
+
+        <div class="callout callout-good"><b>Best Practice:</b> Jab bhi resource use karo (file, DB, lock, network) — hamesha context manager use karo. Resource leak se bach jaoge.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">⚡</div>
+        <div class="card-main">
+          <div class="card-title">Async Context Managers</div>
+          <div class="card-desc">__aenter__ aur __aexit__ — async code ke liye.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Async Context Manager</div>
+        <div class="code"><span class="kw">import</span> asyncio
+
+<span class="kw">class</span> <span class="fn">AsyncDBConnection</span>:
+    <span class="kw">async def</span> <span class="fn">__aenter__</span>(self):
+        <span class="fn">print</span>(<span class="st">"Async DB connecting..."</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.1</span>)   <span class="cm"># async connect</span>
+        <span class="kw">return</span> self
+
+    <span class="kw">async def</span> <span class="fn">__aexit__</span>(self, *args):
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.05</span>)   <span class="cm"># async close</span>
+        <span class="fn">print</span>(<span class="st">"Async DB closed"</span>)
+
+    <span class="kw">async def</span> <span class="fn">query</span>(self, sql):
+        <span class="kw">await</span> asyncio.sleep(<span class="nm">0.05</span>)
+        <span class="kw">return</span> [<span class="st">"result1"</span>, <span class="st">"result2"</span>]
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> <span class="fn">AsyncDBConnection</span>() <span class="kw">as</span> db:
+        results = <span class="kw">await</span> db.query(<span class="st">"SELECT * FROM users"</span>)
+        <span class="fn">print</span>(results)
+
+<span class="cm"># asynccontextmanager decorator</span>
+<span class="kw">from</span> contextlib <span class="kw">import</span> asynccontextmanager
+
+<span class="kw">@asynccontextmanager</span>
+<span class="kw">async def</span> <span class="fn">managed_connection</span>():
+    conn = <span class="kw">await</span> create_async_connection()
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> conn
+    <span class="kw">finally</span>:
+        <span class="kw">await</span> conn.close()</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Context manager kya hai? __enter__ aur __exit__ explain karo. <span>▼</span></div><div class="iq-a">Context manager ek object hai jo <code>with</code> statement ke saath use hota hai. <code>__enter__</code>: with block start pe call hota hai, return value <code>as</code> variable mein milti hai. <code>__exit__</code>: block end pe call hota hai — chahe exception aaye ya nahi. Resource cleanup guarantee karta hai.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">__exit__ mein True return karna kya karta hai? <span>▼</span></div><div class="iq-a"><code>__exit__</code> se <code>True</code> return = exception suppress ho jaati hai (ignore). <code>False</code> (ya None) return = exception normally propagate hoti hai. Mostly <code>False</code> return karo — exceptions silently swallow karna dangerous hai.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">@contextmanager vs class-based kaunsa better hai? <span>▼</span></div><div class="iq-a">Simple cases ke liye <code>@contextmanager</code> better — kam code, readable. Complex cases (state maintain karna, inheritance) ke liye class-based better. <code>@contextmanager</code> mein <code>yield</code> ke pehle = <code>__enter__</code>, baad mein = <code>__exit__</code>. <code>try/finally</code> use karo cleanup guarantee ke liye.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- METAPROGRAMMING -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="s-meta">
+  <div class="hero">
+    <div class="topic-badge"><span class="dot" style="background:var(--meta)"></span>METAPROGRAMMING</div>
+    <h1 style="color:var(--meta)">Metaprogramming<br>in Python</h1>
+    <p class="hero-sub">Code jo code likhta hai — decorators, metaclass, descriptors, AST</p>
+  </div>
+
+  <div class="concept-grid">
+
+    <div class="card open">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🧬</div>
+        <div class="card-main">
+          <div class="card-title">Metaprogramming Kya Hai?</div>
+          <div class="card-desc">Programs jo dusre programs ko read, generate, transform kar sakein.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="diagram"><span class="label">Metaprogramming ke levels:</span>
+
+<span class="ok">Level 1 — Decorators</span>
+Function ya class ka behavior modify karo runtime pe
+
+<span class="ok">Level 2 — Descriptors</span>
+Attribute access ko intercept aur control karo
+
+<span class="ok">Level 3 — __getattr__ / __setattr__</span>
+Dynamic attribute creation aur access control
+
+<span class="ok">Level 4 — Metaclass</span>
+Class creation process control karo
+
+<span class="ok">Level 5 — AST Manipulation</span>
+Source code ko parse aur transform karo</div>
+
+        <div class="code-label">type() — Dynamic Class Creation</div>
+        <div class="code"><span class="cm"># type(name, bases, dict) — dynamically class banao!</span>
+Dog = <span class="fn">type</span>(<span class="st">'Dog'</span>, (object,), {
+    <span class="st">'sound'</span>: <span class="st">'Woof'</span>,
+    <span class="st">'bark'</span>: <span class="kw">lambda</span> self: <span class="fn">print</span>(<span class="st">f"{self.sound}!"</span>)
+})
+
+d = <span class="fn">Dog</span>()
+d.bark()    <span class="cm"># Woof!</span>
+<span class="fn">print</span>(<span class="fn">type</span>(d))    <span class="cm"># &lt;class '__main__.Dog'&gt;</span>
+
+<span class="cm"># Every class is an instance of type!</span>
+<span class="fn">print</span>(<span class="fn">type</span>(int))   <span class="cm"># &lt;class 'type'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(str))   <span class="cm"># &lt;class 'type'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(Dog))   <span class="cm"># &lt;class 'type'&gt;</span>
+
+<span class="cm"># type is the metaclass of all classes!</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🎭</div>
+        <div class="card-main">
+          <div class="card-title">Descriptors — Attribute Access Control</div>
+          <div class="card-desc">__get__, __set__, __delete__ — @property ka foundation.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Custom Descriptor</div>
+        <div class="code"><span class="kw">class</span> <span class="fn">TypeValidator</span>:
+    <span class="cm">"""Descriptor — attribute pe type validation"""</span>
+
+    <span class="kw">def</span> <span class="fn">__set_name__</span>(self, owner, name):
+        self.name         = name
+        self.private_name = <span class="st">f'_{name}'</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, expected_type):
+        self.expected_type = expected_type
+
+    <span class="kw">def</span> <span class="fn">__get__</span>(self, obj, objtype=<span class="kw">None</span>):
+        <span class="kw">if</span> obj <span class="kw">is None</span>: <span class="kw">return</span> self   <span class="cm"># class se access</span>
+        <span class="kw">return</span> <span class="fn">getattr</span>(obj, self.private_name, <span class="kw">None</span>)
+
+    <span class="kw">def</span> <span class="fn">__set__</span>(self, obj, value):
+        <span class="kw">if not</span> <span class="fn">isinstance</span>(value, self.expected_type):
+            <span class="kw">raise</span> <span class="fn">TypeError</span>(
+                <span class="st">f"'{self.name}' must be {self.expected_type.__name__}, "</span>
+                <span class="st">f"got {type(value).__name__}"</span>
+            )
+        <span class="fn">setattr</span>(obj, self.private_name, value)
+
+<span class="kw">class</span> <span class="fn">Person</span>:
+    name   = <span class="fn">TypeValidator</span>(str)
+    age    = <span class="fn">TypeValidator</span>(int)
+    salary = <span class="fn">TypeValidator</span>((int, float))
+
+p = <span class="fn">Person</span>()
+p.name   = <span class="st">"Ashish"</span>    <span class="cm"># ✅</span>
+p.age    = <span class="nm">29</span>           <span class="cm"># ✅</span>
+<span class="cm"># p.name = 123        # ❌ TypeError!</span>
+<span class="cm"># p.age  = "twenty"   # ❌ TypeError!</span></div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> @property internally descriptor protocol use karta hai. Django ORM fields, SQLAlchemy columns sab descriptors hain! Data descriptor = __get__ + __set__. Non-data = only __get__.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🔮</div>
+        <div class="card-main">
+          <div class="card-title">__getattr__ aur __setattr__</div>
+          <div class="card-desc">Dynamic attributes — access intercept karo.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Dynamic Attribute Access</div>
+        <div class="code"><span class="kw">class</span> <span class="fn">DynamicConfig</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, data):
+        <span class="cm"># __setattr__ bypass karo!</span>
+        <span class="fn">object</span>.__setattr__(self, <span class="st">'_data'</span>, data)
+
+    <span class="kw">def</span> <span class="fn">__getattr__</span>(self, name):
+        <span class="cm"># Sirf tab call hota hai jab normal lookup fail ho</span>
+        <span class="kw">if</span> name <span class="kw">in</span> self._data:
+            <span class="kw">return</span> self._data[name]
+        <span class="kw">raise</span> <span class="fn">AttributeError</span>(<span class="st">f"No config: {name}"</span>)
+
+    <span class="kw">def</span> <span class="fn">__setattr__</span>(self, name, value):
+        <span class="cm"># Hamesha call hota hai — har attribute set pe</span>
+        <span class="kw">if</span> name.startswith(<span class="st">'_'</span>):
+            <span class="fn">object</span>.__setattr__(self, name, value)
+        <span class="kw">else</span>:
+            self._data[name] = value
+
+config = <span class="fn">DynamicConfig</span>({<span class="st">"db_host"</span>: <span class="st">"localhost"</span>, <span class="st">"debug"</span>: <span class="kw">True</span>})
+<span class="fn">print</span>(config.db_host)   <span class="cm"># localhost ← __getattr__</span>
+config.new_key = <span class="st">"val"</span>   <span class="cm"># __setattr__</span>
+<span class="fn">print</span>(config.new_key)   <span class="cm"># val</span></div>
+
+        <div class="code-label">__getattribute__ vs __getattr__</div>
+        <div class="code"><span class="kw">class</span> <span class="fn">MyClass</span>:
+    <span class="kw">def</span> <span class="fn">__getattribute__</span>(self, name):
+        <span class="cm"># HAMESHA call hota hai — every attribute access</span>
+        <span class="fn">print</span>(<span class="st">f"Getting: {name}"</span>)
+        <span class="kw">return</span> <span class="fn">super</span>().__getattribute__(name)  <span class="cm"># MUST call super!</span>
+
+    <span class="kw">def</span> <span class="fn">__getattr__</span>(self, name):
+        <span class="cm"># Sirf tab call hota hai jab attribute NOT found</span>
+        <span class="fn">print</span>(<span class="st">f"Attribute missing: {name}"</span>)
+        <span class="kw">return None</span>
+
+obj = <span class="fn">MyClass</span>()
+obj.x = <span class="nm">10</span>
+<span class="fn">print</span>(obj.x)    <span class="cm"># Getting: x → 10</span>
+<span class="fn">print</span>(obj.y)    <span class="cm"># Getting: y → Attribute missing: y → None</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🏭</div>
+        <div class="card-main">
+          <div class="card-title">Metaclass — Class ka Class</div>
+          <div class="card-desc">Class creation process control karo — advanced Python.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Metaclass Basics</div>
+        <div class="code"><span class="cm"># type = default metaclass of all classes</span>
+<span class="fn">print</span>(<span class="fn">type</span>(int))     <span class="cm"># &lt;class 'type'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(list))    <span class="cm"># &lt;class 'type'&gt;</span>
+
+<span class="cm"># Custom Metaclass</span>
+<span class="kw">class</span> <span class="fn">SingletonMeta</span>(<span class="fn">type</span>):
+    <span class="st">"""Metaclass jo Singleton pattern enforce kare"""</span>
+    _instances = {}
+
+    <span class="kw">def</span> <span class="fn">__call__</span>(cls, *args, **kwargs):
+        <span class="kw">if</span> cls <span class="kw">not in</span> cls._instances:
+            cls._instances[cls] = <span class="fn">super</span>().__call__(*args, **kwargs)
+        <span class="kw">return</span> cls._instances[cls]
+
+<span class="kw">class</span> <span class="fn">Database</span>(metaclass=<span class="fn">SingletonMeta</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        <span class="fn">print</span>(<span class="st">"DB initialized!"</span>)
+
+db1 = <span class="fn">Database</span>()   <span class="cm"># "DB initialized!"</span>
+db2 = <span class="fn">Database</span>()   <span class="cm"># no print — same object!</span>
+<span class="fn">print</span>(db1 <span class="kw">is</span> db2)  <span class="cm"># True ✅</span></div>
+
+        <div class="code-label">__init_subclass__ — Simpler Alternative</div>
+        <div class="code"><span class="cm"># Metaclass se simpler — plugin registration</span>
+<span class="kw">class</span> <span class="fn">Plugin</span>:
+    _registry = {}
+
+    <span class="kw">def</span> <span class="fn">__init_subclass__</span>(cls, plugin_name=<span class="kw">None</span>, **kwargs):
+        <span class="fn">super</span>().__init_subclass__(**kwargs)
+        <span class="kw">if</span> plugin_name:
+            <span class="fn">Plugin</span>._registry[plugin_name] = cls
+            <span class="fn">print</span>(<span class="st">f"Registered: {plugin_name}"</span>)
+
+<span class="cm"># Automatically registered on class definition!</span>
+<span class="kw">class</span> <span class="fn">EmailPlugin</span>(<span class="fn">Plugin</span>, plugin_name=<span class="st">"email"</span>):
+    <span class="kw">def</span> <span class="fn">send</span>(self, msg): <span class="fn">print</span>(<span class="st">f"Email: {msg}"</span>)
+
+<span class="kw">class</span> <span class="fn">SMSPlugin</span>(<span class="fn">Plugin</span>, plugin_name=<span class="st">"sms"</span>):
+    <span class="kw">def</span> <span class="fn">send</span>(self, msg): <span class="fn">print</span>(<span class="st">f"SMS: {msg}"</span>)
+
+<span class="fn">print</span>(<span class="fn">Plugin</span>._registry)
+<span class="cm"># {'email': EmailPlugin, 'sms': SMSPlugin}</span>
+
+<span class="fn">Plugin</span>._registry[<span class="st">"email"</span>]().send(<span class="st">"Hello!"</span>)</div>
+
+        <div class="callout callout-tip"><b>Interview Tip:</b> "Metaclass is a class whose instances are classes." Mostly __init_subclass__ se kaam ho jaata hai — metaclass sirf framework/ORM development mein direct use hota hai.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🌀</div>
+        <div class="card-main">
+          <div class="card-title">Advanced Decorators — Metaprogramming Tool</div>
+          <div class="card-desc">Class decorators, parametrized decorators, stacking.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">Class Decorator</div>
+        <div class="code"><span class="kw">import</span> functools
+
+<span class="cm"># Function decorator</span>
+<span class="kw">def</span> <span class="fn">singleton</span>(cls):
+    instances = {}
+    <span class="kw">@functools.wraps</span>(cls)
+    <span class="kw">def</span> <span class="fn">get_instance</span>(*args, **kwargs):
+        <span class="kw">if</span> cls <span class="kw">not in</span> instances:
+            instances[cls] = cls(*args, **kwargs)
+        <span class="kw">return</span> instances[cls]
+    <span class="kw">return</span> get_instance
+
+<span class="kw">@singleton</span>
+<span class="kw">class</span> <span class="fn">AppConfig</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.debug = <span class="kw">False</span>
+
+c1 = <span class="fn">AppConfig</span>(); c2 = <span class="fn">AppConfig</span>()
+<span class="fn">print</span>(c1 <span class="kw">is</span> c2)   <span class="cm"># True</span></div>
+
+        <div class="code-label">Auto-register Methods Pattern</div>
+        <div class="code"><span class="cm"># Pattern: routes register karo automatically</span>
+<span class="kw">class</span> <span class="fn">Router</span>:
+    _routes = {}
+
+    <span class="kw">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">route</span>(cls, path):
+        <span class="kw">def</span> <span class="fn">decorator</span>(func):
+            cls._routes[path] = func
+            <span class="fn">print</span>(<span class="st">f"Route registered: {path}"</span>)
+            <span class="kw">return</span> func
+        <span class="kw">return</span> decorator
+
+    <span class="kw">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">handle</span>(cls, path, *args):
+        handler = cls._routes.get(path)
+        <span class="kw">if</span> handler:
+            <span class="kw">return</span> <span class="fn">handler</span>(*args)
+        <span class="kw">return</span> <span class="st">"404 Not Found"</span>
+
+<span class="kw">@Router.route</span>(<span class="st">"/home"</span>)
+<span class="kw">def</span> <span class="fn">home</span>(): <span class="kw">return</span> <span class="st">"Home Page"</span>
+
+<span class="kw">@Router.route</span>(<span class="st">"/about"</span>)
+<span class="kw">def</span> <span class="fn">about</span>(): <span class="kw">return</span> <span class="st">"About Page"</span>
+
+<span class="fn">print</span>(<span class="fn">Router</span>.handle(<span class="st">"/home"</span>))   <span class="cm"># Home Page</span>
+<span class="fn">print</span>(<span class="fn">Router</span>.handle(<span class="st">"/xyz"</span>))    <span class="cm"># 404 Not Found</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-icon">🌳</div>
+        <div class="card-main">
+          <div class="card-title">AST — Abstract Syntax Tree</div>
+          <div class="card-desc">Python code ko parse karo, inspect karo, transform karo.</div>
+        </div>
+        <div class="card-arr">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="code-label">AST Basics</div>
+        <div class="code"><span class="kw">import</span> ast
+
+code = <span class="st">"""
+def add(a, b):
+    return a + b
+
+result = add(1, 2)
+"""</span>
+
+<span class="cm"># Code ko AST mein parse karo</span>
+tree = ast.parse(code)
+
+<span class="cm"># AST traverse karo</span>
+<span class="kw">for</span> node <span class="kw">in</span> ast.walk(tree):
+    <span class="kw">if</span> <span class="fn">isinstance</span>(node, ast.FunctionDef):
+        <span class="fn">print</span>(<span class="st">f"Function: {node.name}"</span>)     <span class="cm"># add</span>
+    <span class="kw">elif</span> <span class="fn">isinstance</span>(node, ast.Call):
+        <span class="kw">if</span> <span class="fn">hasattr</span>(node.func, <span class="st">'id'</span>):
+            <span class="fn">print</span>(<span class="st">f"Call: {node.func.id}"</span>)   <span class="cm"># add</span></div>
+
+        <div class="code-label">AST Transform — Code Modify Karo!</div>
+        <div class="code"><span class="kw">class</span> <span class="fn">PrintAdder</span>(ast.NodeTransformer):
+    <span class="st">"""Har function call ke baad print add karo"""</span>
+
+    <span class="kw">def</span> <span class="fn">visit_Return</span>(self, node):
+        <span class="cm"># Return statement modify karo</span>
+        debug_call = ast.Expr(
+            value=ast.Call(
+                func=ast.Name(id=<span class="st">'print'</span>, ctx=ast.Load()),
+                args=[ast.Constant(value=<span class="st">"Returning!"</span>)],
+                keywords=[]
+            )
+        )
+        <span class="kw">return</span> [debug_call, node]   <span class="cm"># insert before return</span>
+
+tree = ast.parse(<span class="st">"def f(x): return x * 2"</span>)
+new_tree = <span class="fn">PrintAdder</span>().visit(tree)
+ast.fix_missing_locations(new_tree)
+<span class="fn">exec</span>(<span class="fn">compile</span>(new_tree, <span class="st">'&lt;string&gt;'</span>, <span class="st">'exec'</span>))
+<span class="cm"># Now f(5) will print "Returning!" before returning 10!</span></div>
+
+        <div class="callout callout-tip"><b>Real Use:</b> pylint, mypy, black, pytest sab AST use karte hain. Code analysis, linting, auto-formatting — sab AST pe dependent hain.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">Interview Questions</div>
+  <div class="iq-list">
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Metaprogramming kya hai Python mein? <span>▼</span></div><div class="iq-a">Metaprogramming = code jo dusre code ko read, generate ya modify kare. Python mein: decorators (function behavior modify), descriptors (attribute access control), metaclass (class creation control), __getattr__/__setattr__ (dynamic attributes), AST manipulation (source code transform).</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Descriptor protocol kya hai? @property se kya relation? <span>▼</span></div><div class="iq-a">Descriptor = class with <code>__get__</code>, <code>__set__</code>, <code>__delete__</code>. Attribute access intercept karta hai. <code>@property</code> internally descriptor protocol use karta hai — property object ek descriptor hai. Django models, SQLAlchemy fields sab descriptors hain.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">Metaclass kya hai? Kab use karein? <span>▼</span></div><div class="iq-a">Metaclass = class ki class. <code>type</code> default metaclass hai. Custom metaclass se class creation process control hota hai — class banate waqt methods inject karo, validate karo, register karo. Use karo: ORMs, plugin systems, API frameworks mein. Normal code mein <code>__init_subclass__</code> simpler alternative hai.</div></div>
+    <div class="iq"><div class="iq-q" onclick="this.parentElement.classList.toggle('open')">__getattr__ aur __getattribute__ mein kya fark hai? <span>▼</span></div><div class="iq-a"><code>__getattr__</code>: Sirf tab call hota hai jab attribute normal lookup se nahi mila — missing attributes ke liye. <code>__getattribute__</code>: Hamesha call hota hai — every attribute access pe. __getattribute__ mein <code>super().__getattribute__(name)</code> call karna zaroori hai — warna infinite recursion!</div></div>
+  </div>
+</div>
+
+<script>
+function tog(head) {
+  head.parentElement.classList.toggle('open');
+}
+
+// NAV
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('[data-s]');
+  if (!btn) return;
+  const id = btn.dataset.s;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('show');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+});
+</script>
+</body>
+</html>

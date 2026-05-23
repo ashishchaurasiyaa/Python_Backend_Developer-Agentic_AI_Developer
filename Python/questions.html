@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python 75 — Ashish Ka Practice Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Bricolage+Grotesque:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060608;
+  --s1: #0d0d12;
+  --s2: #131318;
+  --s3: #1a1a22;
+  --border: #252530;
+  --border2: #303040;
+  --text: #dddde8;
+  --muted: #5a5a70;
+  --dim: #888898;
+  --easy: #22c55e;
+  --med: #f59e0b;
+  --hard: #ef4444;
+  --list: #818cf8;
+  --string: #f472b6;
+  --dict: #34d399;
+  --tuple: #fb923c;
+  --set: #38bdf8;
+  --accent: #6366f1;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Bricolage Grotesque',sans-serif;
+  min-height:100vh;
+}
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.08), transparent);
+  pointer-events:none;z-index:0;
+}
+
+/* ── TOP NAV ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,6,8,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  display:flex;align-items:center;gap:16px;
+  height:56px;
+}
+.topbar-logo{
+  font-weight:800;font-size:15px;letter-spacing:-0.5px;
+  color:var(--text);white-space:nowrap;
+}
+.topbar-logo span{color:#6366f1;}
+.topbar-progress{
+  flex:1;
+  background:var(--s3);
+  border-radius:4px;height:6px;overflow:hidden;
+}
+.topbar-fill{
+  height:100%;
+  background:linear-gradient(90deg,#6366f1,#22c55e);
+  border-radius:4px;
+  transition:width 0.4s ease;
+  width:0%;
+}
+.topbar-count{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;color:var(--dim);
+  white-space:nowrap;
+}
+.topbar-count span{color:#6366f1;font-weight:700;}
+
+/* ── LAYOUT ── */
+.page{max-width:960px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1;}
+
+/* ── HEADER ── */
+.hero{text-align:center;margin-bottom:48px;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--s2);border:1px solid var(--border2);
+  padding:6px 16px;border-radius:100px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;color:var(--dim);letter-spacing:1.5px;
+  margin-bottom:20px;
+}
+.hero-eyebrow::before{content:'';width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+h1{font-size:clamp(36px,6vw,64px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:12px;}
+h1 em{font-style:normal;color:#6366f1;}
+.hero-sub{color:var(--muted);font-size:14px;font-family:'IBM Plex Mono',monospace;}
+
+/* ── STATS ── */
+.stats-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-pill{
+  background:var(--s2);border:1px solid var(--border);
+  padding:10px 20px;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  min-width:80px;
+}
+.stat-pill .n{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;}
+.stat-pill .l{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.sp-total .n{color:#6366f1;}
+.sp-solved .n{color:#22c55e;}
+.sp-easy .n{color:#22c55e;}
+.sp-med .n{color:#f59e0b;}
+.sp-hard .n{color:#ef4444;}
+
+/* ── FILTERS ── */
+.filter-wrap{margin-bottom:32px;}
+.filter-group{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;}
+.fbtn{
+  padding:7px 18px;border-radius:8px;
+  background:var(--s2);border:1px solid var(--border);
+  color:var(--muted);font-family:'Bricolage Grotesque',sans-serif;
+  font-size:12px;font-weight:700;cursor:pointer;
+  transition:all 0.15s;letter-spacing:0.3px;
+}
+.fbtn:hover{border-color:var(--border2);color:var(--dim);}
+.fbtn.act-all{background:rgba(99,102,241,0.12);border-color:#6366f1;color:#6366f1;}
+.fbtn.act-list{background:rgba(129,140,248,0.12);border-color:#818cf8;color:#818cf8;}
+.fbtn.act-string{background:rgba(244,114,182,0.12);border-color:#f472b6;color:#f472b6;}
+.fbtn.act-dict{background:rgba(52,211,153,0.12);border-color:#34d399;color:#34d399;}
+.fbtn.act-tuple{background:rgba(251,146,60,0.12);border-color:#fb923c;color:#fb923c;}
+.fbtn.act-set{background:rgba(56,189,248,0.12);border-color:#38bdf8;color:#38bdf8;}
+.fbtn.act-easy{background:rgba(34,197,94,0.12);border-color:#22c55e;color:#22c55e;}
+.fbtn.act-medium{background:rgba(245,158,11,0.12);border-color:#f59e0b;color:#f59e0b;}
+.fbtn.act-hard{background:rgba(239,68,68,0.12);border-color:#ef4444;color:#ef4444;}
+
+.filter-divider{
+  text-align:center;font-size:10px;color:var(--muted);
+  letter-spacing:2px;font-family:'IBM Plex Mono',monospace;
+  margin:4px 0;
+}
+
+/* ── SEARCH ── */
+.search-wrap{margin-bottom:24px;position:relative;}
+.search-input{
+  width:100%;background:var(--s2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 16px 12px 42px;
+  color:var(--text);font-family:'Bricolage Grotesque',sans-serif;
+  font-size:14px;outline:none;transition:border-color 0.2s;
+}
+.search-input:focus{border-color:var(--accent);}
+.search-input::placeholder{color:var(--muted);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;}
+
+/* ── CARDS ── */
+.q-list{display:flex;flex-direction:column;gap:10px;}
+
+.qcard{
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:border-color 0.2s,transform 0.15s;
+}
+.qcard:hover{border-color:var(--border2);}
+.qcard.is-open{border-color:var(--border2);}
+.qcard.is-solved{border-left:3px solid #22c55e;}
+
+.qcard-head{
+  padding:16px 20px;
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;user-select:none;
+}
+.qnum{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;color:var(--muted);
+  min-width:28px;
+}
+.qmeta{flex:1;}
+.qtags{display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap;}
+.tag{
+  font-size:9px;font-family:'IBM Plex Mono',monospace;
+  padding:2px 8px;border-radius:100px;font-weight:700;
+  letter-spacing:0.5px;text-transform:uppercase;
+}
+.t-list{background:rgba(129,140,248,0.15);color:#818cf8;}
+.t-string{background:rgba(244,114,182,0.15);color:#f472b6;}
+.t-dict{background:rgba(52,211,153,0.15);color:#34d399;}
+.t-tuple{background:rgba(251,146,60,0.15);color:#fb923c;}
+.t-set{background:rgba(56,189,248,0.15);color:#38bdf8;}
+.t-easy{background:rgba(34,197,94,0.12);color:#22c55e;border:1px solid rgba(34,197,94,0.2);}
+.t-medium{background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);}
+.t-hard{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2);}
+.t-solved{background:rgba(34,197,94,0.2);color:#22c55e;border:1px solid rgba(34,197,94,0.3);}
+
+.qtitle{font-size:14px;font-weight:700;color:var(--text);line-height:1.3;}
+.qarrow{color:var(--muted);font-size:12px;transition:transform 0.25s;}
+.qcard.is-open .qarrow{transform:rotate(180deg);}
+
+/* ── BODY ── */
+.qbody{
+  display:none;
+  padding:0 20px 20px;
+  border-top:1px solid var(--border);
+  animation:slideDown 0.2s ease;
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.qcard.is-open .qbody{display:block;}
+
+.sec-label{
+  font-size:9px;font-family:'IBM Plex Mono',monospace;
+  color:var(--muted);letter-spacing:2px;text-transform:uppercase;
+  margin:16px 0 8px;
+}
+.code-block{
+  background:var(--s3);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;color:#c8c8e0;
+  line-height:1.75;white-space:pre-wrap;word-break:break-word;
+}
+
+.hint-box{
+  background:rgba(99,102,241,0.06);
+  border:1px solid rgba(99,102,241,0.2);
+  border-radius:10px;padding:14px 16px;
+  display:none;
+}
+.hint-box.show{display:block;animation:slideDown 0.2s ease;}
+.hint-title{
+  font-size:10px;font-family:'IBM Plex Mono',monospace;
+  color:#6366f1;font-weight:700;letter-spacing:1px;
+  margin-bottom:10px;
+}
+.hint-steps{list-style:none;}
+.hint-steps li{
+  font-size:12px;color:#9090b0;
+  padding:3px 0 3px 18px;position:relative;line-height:1.5;
+}
+.hint-steps li::before{content:'▸';position:absolute;left:0;color:#6366f1;}
+
+.sol-box{
+  background:var(--s3);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;color:#c8c8e0;
+  line-height:1.75;white-space:pre-wrap;word-break:break-word;
+  display:none;
+}
+.sol-box.show{display:block;animation:slideDown 0.2s ease;}
+
+.btn-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.btn{
+  padding:7px 16px;border-radius:8px;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:11px;font-weight:700;cursor:pointer;
+  border:1px solid;transition:all 0.15s;letter-spacing:0.3px;
+}
+.btn-h{background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#818cf8;}
+.btn-h:hover{background:rgba(99,102,241,0.18);}
+.btn-s{background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:#34d399;}
+.btn-s:hover{background:rgba(52,211,153,0.15);}
+.btn-m{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.25);color:#22c55e;}
+.btn-m:hover{background:rgba(34,197,94,0.15);}
+.btn-m.done{background:rgba(34,197,94,0.2);border-color:#22c55e;}
+
+.empty{text-align:center;padding:60px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Python <span>75</span></div>
+  <div class="topbar-progress"><div class="topbar-fill" id="tFill"></div></div>
+  <div class="topbar-count"><span id="tSolved">0</span> / 75 solved</div>
+</div>
+
+<div class="page">
+  <div class="hero">
+    <div class="hero-eyebrow">ASHISH KA PRACTICE SHEET</div>
+    <h1>Master <em>Python</em><br>75 Questions</h1>
+    <p class="hero-sub">List • String • Dict • Tuple • Set &nbsp;|&nbsp; Easy → Medium → Hard</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-pill sp-total"><span class="n" id="sTotal">75</span><span class="l">Total</span></div>
+    <div class="stat-pill sp-solved"><span class="n" id="sSolved">0</span><span class="l">Solved</span></div>
+    <div class="stat-pill sp-easy"><span class="n">25</span><span class="l">Easy</span></div>
+    <div class="stat-pill sp-med"><span class="n">30</span><span class="l">Medium</span></div>
+    <div class="stat-pill sp-hard"><span class="n">20</span><span class="l">Hard</span></div>
+  </div>
+
+  <div class="filter-wrap">
+    <div class="filter-group" id="topicFilters">
+      <button class="fbtn act-all" data-f="all">All Topics</button>
+      <button class="fbtn" data-f="list">📋 List</button>
+      <button class="fbtn" data-f="string">🔤 String</button>
+      <button class="fbtn" data-f="dict">📖 Dict</button>
+      <button class="fbtn" data-f="tuple">📦 Tuple</button>
+      <button class="fbtn" data-f="set">🔵 Set</button>
+    </div>
+    <div class="filter-divider">DIFFICULTY</div>
+    <div class="filter-group" id="diffFilters">
+      <button class="fbtn act-all" data-d="all">All Levels</button>
+      <button class="fbtn" data-d="easy">🟢 Easy</button>
+      <button class="fbtn" data-d="medium">🟡 Medium</button>
+      <button class="fbtn" data-d="hard">🔴 Hard</button>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" placeholder="Search questions..." oninput="render()">
+  </div>
+
+  <div class="q-list" id="qList"></div>
+</div>
+
+<script>
+const QS = [
+// ══════════════════════════════════════════
+// LIST — EASY (1-8)
+// ══════════════════════════════════════════
+{id:1,topic:"list",diff:"easy",title:"Sum of All Elements",
+problem:`arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# Find sum without using sum()
+# Expected: 55`,
+hint:["Use a variable total = 0","Loop through arr with for loop","Add each element: total += num"],
+sol:`arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+total = 0
+for num in arr:
+    total += num
+print(total)   # 55`},
+
+{id:2,topic:"list",diff:"easy",title:"Find Maximum Element",
+problem:`arr = [3, 7, 1, 9, 4, 6, 2]
+# Find max without using max()
+# Expected: 9`,
+hint:["Set max_val = arr[0] (first element)","Loop from index 1","If arr[i] > max_val → update max_val"],
+sol:`arr = [3, 7, 1, 9, 4, 6, 2]
+max_val = arr[0]
+for num in arr[1:]:
+    if num > max_val:
+        max_val = num
+print(max_val)   # 9`},
+
+{id:3,topic:"list",diff:"easy",title:"Count Even and Odd",
+problem:`arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# Count even and odd numbers separately
+# Expected: Even: 5, Odd: 5`,
+hint:["Two counters: even_count, odd_count = 0","Check num % 2 == 0 for even","Increment correct counter"],
+sol:`arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even_count = odd_count = 0
+for num in arr:
+    if num % 2 == 0:
+        even_count += 1
+    else:
+        odd_count += 1
+print(f"Even: {even_count}, Odd: {odd_count}")`},
+
+{id:4,topic:"list",diff:"easy",title:"Reverse a List",
+problem:`arr = [1, 2, 3, 4, 5]
+# Reverse without using .reverse() or [::-1]
+# Expected: [5, 4, 3, 2, 1]`,
+hint:["Create empty result list","Loop from last index to 0","Append each element to result"],
+sol:`arr = [1, 2, 3, 4, 5]
+result = []
+for i in range(len(arr)-1, -1, -1):
+    result.append(arr[i])
+print(result)   # [5, 4, 3, 2, 1]`},
+
+{id:5,topic:"list",diff:"easy",title:"Remove Duplicates (Keep Order)",
+problem:`arr = [4, 2, 7, 2, 1, 4, 9, 1]
+# Remove duplicates, keep original order
+# Expected: [4, 2, 7, 1, 9]`,
+hint:["Use a set 'seen' to track visited numbers","Loop arr: if num not in seen → add to result","seen.add(num) after each check"],
+sol:`arr = [4, 2, 7, 2, 1, 4, 9, 1]
+seen = set()
+result = []
+for x in arr:
+    if x not in seen:
+        seen.add(x)
+        result.append(x)
+print(result)   # [4, 2, 7, 1, 9]`},
+
+{id:6,topic:"list",diff:"easy",title:"List Comprehension — Squares",
+problem:`# Create list of squares of numbers 1 to 10
+# Expected: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+# Use list comprehension (1 line)`,
+hint:["Syntax: [expression for var in range()]","Expression = x**2","range(1, 11) gives 1 to 10"],
+sol:`squares = [x**2 for x in range(1, 11)]
+print(squares)
+# [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]`},
+
+{id:7,topic:"list",diff:"easy",title:"Filter Positive Numbers",
+problem:`arr = [-3, -1, 0, 2, 5, -4, 7, -2, 8]
+# Keep only positive numbers (> 0)
+# Expected: [2, 5, 7, 8]`,
+hint:["Use list comprehension with condition","[x for x in arr if condition]","Condition: x > 0"],
+sol:`arr = [-3, -1, 0, 2, 5, -4, 7, -2, 8]
+positives = [x for x in arr if x > 0]
+print(positives)   # [2, 5, 7, 8]`},
+
+{id:8,topic:"list",diff:"easy",title:"Merge Two Lists Alternately",
+problem:`a = [1, 3, 5]
+b = [2, 4, 6]
+# Merge alternately: a[0], b[0], a[1], b[1]...
+# Expected: [1, 2, 3, 4, 5, 6]`,
+hint:["Use zip(a, b) to pair elements","Each pair gives (a[i], b[i])","Extend result with each pair"],
+sol:`a = [1, 3, 5]
+b = [2, 4, 6]
+result = []
+for x, y in zip(a, b):
+    result.extend([x, y])
+print(result)   # [1, 2, 3, 4, 5, 6]`},
+
+// LIST — MEDIUM (9-16)
+{id:9,topic:"list",diff:"medium",title:"Second Largest Element",
+problem:`arr = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+# Find second largest UNIQUE element
+# Expected: 6`,
+hint:["Convert to set to remove duplicates","Sort in descending order","Return element at index [1]"],
+sol:`arr = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+unique = sorted(set(arr), reverse=True)
+print(unique[1])   # 6`},
+
+{id:10,topic:"list",diff:"medium",title:"Find All Pairs with Sum K",
+problem:`arr = [1, 5, 3, 2, 4, 7, 6]
+k = 7
+# Find all unique pairs that sum to k
+# Expected: [(1,6), (3,4), (5,2)]`,
+hint:["Use a set to store visited numbers","For each num, check if k-num is in seen","If yes → pair found! Add to result"],
+sol:`arr = [1, 5, 3, 2, 4, 7, 6]
+k = 7
+seen, pairs = set(), []
+for num in arr:
+    if k - num in seen:
+        pairs.append((k-num, num))
+    seen.add(num)
+print(pairs)`},
+
+{id:11,topic:"list",diff:"medium",title:"Rotate List by K",
+problem:`arr = [1, 2, 3, 4, 5]
+k = 2
+# Rotate right by k positions
+# Expected: [4, 5, 1, 2, 3]`,
+hint:["Handle large k: k = k % len(arr)","Slice: last k elements come first","arr[-k:] + arr[:-k]"],
+sol:`arr = [1, 2, 3, 4, 5]
+k = 2
+k = k % len(arr)
+result = arr[-k:] + arr[:-k]
+print(result)   # [4, 5, 1, 2, 3]`},
+
+{id:12,topic:"list",diff:"medium",title:"Move Zeros to End",
+problem:`arr = [0, 1, 0, 3, 12, 0, 5]
+# Move all zeros to end, keep non-zero order
+# Expected: [1, 3, 12, 5, 0, 0, 0]`,
+hint:["Separate: non_zeros using comprehension","Count zeros: arr.count(0)","Combine: non_zeros + [0]*zero_count"],
+sol:`arr = [0, 1, 0, 3, 12, 0, 5]
+non_zeros = [x for x in arr if x != 0]
+zeros = [0] * arr.count(0)
+print(non_zeros + zeros)   # [1, 3, 12, 5, 0, 0, 0]`},
+
+{id:13,topic:"list",diff:"medium",title:"Find Leaders in Array",
+problem:`arr = [16, 17, 4, 3, 5, 2]
+# Leader: greater than all elements to its RIGHT
+# Expected: [17, 5, 2]  (rightmost is always leader)`,
+hint:["Loop from right to left","Track max_right = last element","If arr[i] > max_right → it's a leader"],
+sol:`arr = [16, 17, 4, 3, 5, 2]
+leaders = [arr[-1]]
+max_right = arr[-1]
+for i in range(len(arr)-2, -1, -1):
+    if arr[i] > max_right:
+        leaders.append(arr[i])
+        max_right = arr[i]
+print(leaders[::-1])   # [17, 5, 2]`},
+
+{id:14,topic:"list",diff:"medium",title:"Merge Two Sorted Lists",
+problem:`a = [1, 3, 5, 7]
+b = [2, 4, 6, 8]
+# Merge into single sorted list
+# Expected: [1, 2, 3, 4, 5, 6, 7, 8]`,
+hint:["Use two pointers i, j = 0, 0","Compare a[i] and b[j], take smaller","Handle remaining elements at end"],
+sol:`a = [1, 3, 5, 7]
+b = [2, 4, 6, 8]
+i = j = 0
+result = []
+while i < len(a) and j < len(b):
+    if a[i] <= b[j]:
+        result.append(a[i]); i += 1
+    else:
+        result.append(b[j]); j += 1
+result.extend(a[i:]); result.extend(b[j:])
+print(result)   # [1,2,3,4,5,6,7,8]`},
+
+{id:15,topic:"list",diff:"medium",title:"Chunk List into Groups",
+problem:`arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+k = 3
+# Split into groups of size k
+# Expected: [[1,2,3], [4,5,6], [7,8,9]]`,
+hint:["Loop with step k: range(0, len(arr), k)","Slice arr[i:i+k] for each i","Append each slice to result"],
+sol:`arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+k = 3
+result = [arr[i:i+k] for i in range(0, len(arr), k)]
+print(result)   # [[1,2,3],[4,5,6],[7,8,9]]`},
+
+{id:16,topic:"list",diff:"medium",title:"Find Missing Number (1 to N)",
+problem:`arr = [1, 2, 4, 5, 6, 7, 8, 9, 10]
+n = 10
+# One number is missing from 1..n
+# Expected: 3`,
+hint:["Sum formula: n*(n+1)//2 gives expected sum","Actual sum = sum(arr)","Missing = expected - actual"],
+sol:`arr = [1, 2, 4, 5, 6, 7, 8, 9, 10]
+n = 10
+expected = n * (n+1) // 2
+print(expected - sum(arr))   # 3`},
+
+// LIST — HARD (17-20)
+{id:17,topic:"list",diff:"hard",title:"Flatten Nested List (Any Depth)",
+problem:`nested = [1, [2, [3, [4, 5]]], 6, [7, 8]]
+# Flatten completely
+# Expected: [1, 2, 3, 4, 5, 6, 7, 8]`,
+hint:["Use recursion","isinstance(item, list) to check if it's a list","If list → recurse, else → append directly"],
+sol:`def flatten(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
+
+nested = [1, [2, [3, [4, 5]]], 6, [7, 8]]
+print(flatten(nested))   # [1,2,3,4,5,6,7,8]`},
+
+{id:18,topic:"list",diff:"hard",title:"Maximum Subarray Sum (Kadane's)",
+problem:`arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+# Find maximum sum of contiguous subarray
+# Expected: 6  (subarray: [4, -1, 2, 1])`,
+hint:["Kadane's algorithm: track curr_sum and max_sum","curr_sum = max(num, curr_sum + num)","max_sum = max(max_sum, curr_sum)"],
+sol:`arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+curr_sum = max_sum = arr[0]
+for num in arr[1:]:
+    curr_sum = max(num, curr_sum + num)
+    max_sum = max(max_sum, curr_sum)
+print(max_sum)   # 6`},
+
+{id:19,topic:"list",diff:"hard",title:"Stock Buy Sell Max Profit",
+problem:`prices = [7, 1, 5, 3, 6, 4]
+# Buy one day, sell another (buy before sell)
+# Expected: 5  (buy at 1, sell at 6)`,
+hint:["Track min_price seen so far","For each price: profit = price - min_price","Update max_profit and min_price"],
+sol:`prices = [7, 1, 5, 3, 6, 4]
+min_price = float('inf')
+max_profit = 0
+for price in prices:
+    min_price = min(min_price, price)
+    max_profit = max(max_profit, price - min_price)
+print(max_profit)   # 5`},
+
+{id:20,topic:"list",diff:"hard",title:"Product of Array Except Self",
+problem:`arr = [1, 2, 3, 4]
+# Each element = product of all other elements
+# Expected: [24, 12, 8, 6]
+# Don't use division!`,
+hint:["Two passes: left products and right products","Left[i] = product of all elements left of i","Right[i] = product of all elements right of i"],
+sol:`arr = [1, 2, 3, 4]
+n = len(arr)
+result = [1] * n
+# Left pass
+left = 1
+for i in range(n):
+    result[i] = left
+    left *= arr[i]
+# Right pass
+right = 1
+for i in range(n-1, -1, -1):
+    result[i] *= right
+    right *= arr[i]
+print(result)   # [24, 12, 8, 6]`},
+
+// ══════════════════════════════════════════
+// STRING — EASY (21-26)
+// ══════════════════════════════════════════
+{id:21,topic:"string",diff:"easy",title:"Count Vowels and Consonants",
+problem:`s = "Hello World"
+# Count vowels and consonants (ignore spaces)
+# Expected: Vowels: 3, Consonants: 7`,
+hint:["vowels = 'aeiouAEIOU'","Loop through string","if char in vowels → vowel, elif char.isalpha() → consonant"],
+sol:`s = "Hello World"
+vowels = 'aeiouAEIOU'
+v = c = 0
+for ch in s:
+    if ch in vowels:
+        v += 1
+    elif ch.isalpha():
+        c += 1
+print(f"Vowels: {v}, Consonants: {c}")
+# Vowels: 3, Consonants: 7`},
+
+{id:22,topic:"string",diff:"easy",title:"Reverse Words in Sentence",
+problem:`s = "Hello World How Are You"
+# Reverse the order of words
+# Expected: "You Are How World Hello"`,
+hint:["s.split() gives list of words","Reverse list with [::-1]","Join with ' '.join()"],
+sol:`s = "Hello World How Are You"
+result = ' '.join(s.split()[::-1])
+print(result)   # "You Are How World Hello"`},
+
+{id:23,topic:"string",diff:"easy",title:"Check Palindrome",
+problem:`s1 = "racecar"
+s2 = "hello"
+# Check if string is palindrome
+# Expected: True, False`,
+hint:["Compare string with its reverse","s == s[::-1] is the 1-line check","Or use two pointers: left/right"],
+sol:`def is_palindrome(s):
+    return s == s[::-1]
+
+print(is_palindrome("racecar"))   # True
+print(is_palindrome("hello"))     # False`},
+
+{id:24,topic:"string",diff:"easy",title:"Count Word Frequency",
+problem:`sentence = "apple banana apple cherry banana apple"
+# Count each word's frequency
+# Expected: {'apple': 3, 'banana': 2, 'cherry': 1}`,
+hint:["Split sentence into words","Use dict with .get(word, 0) + 1","Or use Counter from collections"],
+sol:`from collections import Counter
+sentence = "apple banana apple cherry banana apple"
+freq = Counter(sentence.split())
+print(dict(freq))
+# {'apple': 3, 'banana': 2, 'cherry': 1}`},
+
+{id:25,topic:"string",diff:"easy",title:"Title Case Converter",
+problem:`s = "the quick brown fox jumps"
+# Convert to title case (first letter capital)
+# Expected: "The Quick Brown Fox Jumps"`,
+hint:["s.title() does it in 1 line","Or: split → capitalize each word → join","word.capitalize() capitalizes first letter"],
+sol:`s = "the quick brown fox jumps"
+print(s.title())
+# "The Quick Brown Fox Jumps"
+
+# Manual way:
+result = ' '.join(word.capitalize() for word in s.split())
+print(result)`},
+
+{id:26,topic:"string",diff:"easy",title:"Remove Extra Spaces",
+problem:`s = "  Hello   World   How   "
+# Remove extra spaces, single space between words
+# Expected: "Hello World How"`,
+hint:["s.split() automatically removes extra spaces","It also strips leading/trailing","Join back with single space"],
+sol:`s = "  Hello   World   How   "
+result = ' '.join(s.split())
+print(result)   # "Hello World How"`},
+
+// STRING — MEDIUM (27-35)
+{id:27,topic:"string",diff:"medium",title:"String Compression",
+problem:`s = "aabbbcccc"
+# Compress: consecutive chars with count
+# Expected: "a2b3c4"
+# If compressed >= original, return original`,
+hint:["Loop comparing s[i] with s[i-1]","When char changes, append prev_char + count","Handle last character after loop"],
+sol:`def compress(s):
+    result = ""
+    count = 1
+    for i in range(1, len(s)):
+        if s[i] == s[i-1]:
+            count += 1
+        else:
+            result += s[i-1] + str(count)
+            count = 1
+    result += s[-1] + str(count)
+    return result if len(result) < len(s) else s
+
+print(compress("aabbbcccc"))   # "a2b3c4"`},
+
+{id:28,topic:"string",diff:"medium",title:"Check Anagram",
+problem:`s1 = "listen"
+s2 = "silent"
+s3 = "hello"
+# Check if two strings are anagrams
+# Expected: True, False`,
+hint:["Sort both strings and compare","sorted(s1) == sorted(s2)","Or use Counter: Counter(s1) == Counter(s2)"],
+sol:`from collections import Counter
+
+def is_anagram(s1, s2):
+    return Counter(s1) == Counter(s2)
+
+print(is_anagram("listen", "silent"))   # True
+print(is_anagram("listen", "hello"))    # False`},
+
+{id:29,topic:"string",diff:"medium",title:"First Non-Repeating Character",
+problem:`s = "aabbcddeff"
+# Find first character that appears only once
+# Expected: "c"`,
+hint:["First pass: count frequency of each char","Second pass: loop string, return first with count==1","Use dict or Counter for frequency"],
+sol:`from collections import Counter
+def first_unique(s):
+    freq = Counter(s)
+    for ch in s:
+        if freq[ch] == 1:
+            return ch
+    return None
+
+print(first_unique("aabbcddeff"))   # 'c'`},
+
+{id:30,topic:"string",diff:"medium",title:"Longest Word in Sentence",
+problem:`s = "The quick brown fox jumped over the lazy dog"
+# Find the longest word
+# Expected: "jumped"`,
+hint:["Split into words","max() with key=len finds longest","max(words, key=len)"],
+sol:`s = "The quick brown fox jumped over the lazy dog"
+words = s.split()
+print(max(words, key=len))   # "jumped"`},
+
+{id:31,topic:"string",diff:"medium",title:"Count Substring Occurrences",
+problem:`s = "banana"
+sub = "an"
+# Count how many times substring appears (can overlap)
+# Expected: 2`,
+hint:["Loop from 0 to len(s)-len(sub)+1","Check s[i:i+len(sub)] == sub","Increment count each time found"],
+sol:`def count_sub(s, sub):
+    count = 0
+    for i in range(len(s) - len(sub) + 1):
+        if s[i:i+len(sub)] == sub:
+            count += 1
+    return count
+
+print(count_sub("banana", "an"))   # 2`},
+
+{id:32,topic:"string",diff:"medium",title:"Caesar Cipher",
+problem:`s = "hello"
+shift = 3
+# Shift each letter by 'shift' positions
+# Expected: "khoor"`,
+hint:["ord('a') = 97, chr() converts back","Formula: chr((ord(ch) - ord('a') + shift) % 26 + ord('a'))","Handle uppercase separately"],
+sol:`def caesar(s, shift):
+    result = ""
+    for ch in s:
+        if ch.isalpha():
+            base = ord('A') if ch.isupper() else ord('a')
+            result += chr((ord(ch) - base + shift) % 26 + base)
+        else:
+            result += ch
+    return result
+
+print(caesar("hello", 3))   # "khoor"`},
+
+{id:33,topic:"string",diff:"medium",title:"Is Valid Parentheses",
+problem:`s1 = "({[]})"
+s2 = "({[})"
+s3 = "((("
+# Check if brackets are balanced
+# Expected: True, False, False`,
+hint:["Use a stack (list) for opening brackets","For closing bracket, pop stack and compare","Stack empty at end = balanced"],
+sol:`def is_valid(s):
+    stack = []
+    mapping = {')':'(', '}':'{', ']':'['}
+    for ch in s:
+        if ch in mapping:
+            top = stack.pop() if stack else '#'
+            if mapping[ch] != top: return False
+        else:
+            stack.append(ch)
+    return len(stack) == 0
+
+print(is_valid("({[]})"))   # True
+print(is_valid("({[})"))    # False`},
+
+{id:34,topic:"string",diff:"medium",title:"Longest Common Prefix",
+problem:`words = ["flower", "flow", "flight"]
+# Find longest common prefix
+# Expected: "fl"`,
+hint:["Start with prefix = words[0]","For each word, shrink prefix while not matching","while not word.startswith(prefix): prefix = prefix[:-1]"],
+sol:`def lcp(words):
+    prefix = words[0]
+    for word in words[1:]:
+        while not word.startswith(prefix):
+            prefix = prefix[:-1]
+        if not prefix:
+            return ""
+    return prefix
+
+print(lcp(["flower", "flow", "flight"]))   # "fl"`},
+
+{id:35,topic:"string",diff:"medium",title:"Remove Duplicate Characters",
+problem:`s = "programming"
+# Remove duplicate chars, keep first occurrence
+# Expected: "progamin"`,
+hint:["Use seen set to track visited chars","Loop through string","Add to result only if not in seen"],
+sol:`def remove_dups(s):
+    seen = set()
+    result = ""
+    for ch in s:
+        if ch not in seen:
+            seen.add(ch)
+            result += ch
+    return result
+
+print(remove_dups("programming"))   # "progamin"`},
+
+// STRING — HARD (36-40)
+{id:36,topic:"string",diff:"hard",title:"Longest Palindromic Substring",
+problem:`s = "babad"
+# Find longest palindromic substring
+# Expected: "bab" or "aba"`,
+hint:["Expand around center approach","For each index, expand outward while palindrome","Check both odd (single center) and even (two centers)"],
+sol:`def longest_palindrome(s):
+    def expand(l, r):
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            l -= 1; r += 1
+        return s[l+1:r]
+    result = ""
+    for i in range(len(s)):
+        odd = expand(i, i)
+        even = expand(i, i+1)
+        result = max(result, odd, even, key=len)
+    return result
+
+print(longest_palindrome("babad"))   # "bab"`},
+
+{id:37,topic:"string",diff:"hard",title:"Group Anagrams",
+problem:`words = ["eat", "tea", "tan", "ate", "nat", "bat"]
+# Group words that are anagrams of each other
+# Expected: [['eat','tea','ate'],['tan','nat'],['bat']]`,
+hint:["Sort each word's letters → this is the GROUP KEY","Same key = anagrams","Use defaultdict(list) to collect groups"],
+sol:`from collections import defaultdict
+words = ["eat", "tea", "tan", "ate", "nat", "bat"]
+groups = defaultdict(list)
+for word in words:
+    key = ''.join(sorted(word))
+    groups[key].append(word)
+print(list(groups.values()))`},
+
+{id:38,topic:"string",diff:"hard",title:"Count and Say",
+problem:`# Count and Say sequence:
+# 1 → "1"
+# 2 → "11" (one 1)
+# 3 → "21" (two 1s)
+# 4 → "1211" (one 2, one 1)
+# Find nth term
+n = 5
+# Expected: "111221"`,
+hint:["Start with s = '1'","For each step: read s, count consecutive same digits","Build next string: count + digit"],
+sol:`def count_and_say(n):
+    s = "1"
+    for _ in range(n - 1):
+        next_s = ""
+        i = 0
+        while i < len(s):
+            count = 1
+            while i + count < len(s) and s[i+count] == s[i]:
+                count += 1
+            next_s += str(count) + s[i]
+            i += count
+        s = next_s
+    return s
+
+print(count_and_say(5))   # "111221"`},
+
+{id:39,topic:"string",diff:"hard",title:"Minimum Window Substring",
+problem:`s = "ADOBECODEBANC"
+t = "ABC"
+# Find smallest window in s containing all chars of t
+# Expected: "BANC"`,
+hint:["Sliding window with two pointers","Expand right pointer to include all of t","Then shrink left pointer while still valid"],
+sol:`from collections import Counter
+def min_window(s, t):
+    need = Counter(t)
+    missing = len(t)
+    best = ""
+    left = 0
+    for right, ch in enumerate(s):
+        if need[ch] > 0:
+            missing -= 1
+        need[ch] -= 1
+        while missing == 0:
+            window = s[left:right+1]
+            if not best or len(window) < len(best):
+                best = window
+            need[s[left]] += 1
+            if need[s[left]] > 0:
+                missing += 1
+            left += 1
+    return best
+
+print(min_window("ADOBECODEBANC", "ABC"))   # "BANC"`},
+
+{id:40,topic:"string",diff:"hard",title:"Word Break",
+problem:`s = "leetcode"
+words = ["leet", "code"]
+# Can s be segmented into words from the list?
+# Expected: True  ("leet" + "code")`,
+hint:["Dynamic programming approach","dp[i] = can s[:i] be segmented?","dp[0] = True (empty string)","For each i, check all words ending at i"],
+sol:`def word_break(s, words):
+    word_set = set(words)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True
+    for i in range(1, len(s) + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
+    return dp[-1]
+
+print(word_break("leetcode", ["leet", "code"]))   # True`},
+
+// ══════════════════════════════════════════
+// DICT — EASY (41-46)
+// ══════════════════════════════════════════
+{id:41,topic:"dict",diff:"easy",title:"Create Dict from Two Lists",
+problem:`keys   = ["name", "age", "city"]
+values = ["Ashish", 29, "Kanpur"]
+# Create dictionary
+# Expected: {"name":"Ashish","age":29,"city":"Kanpur"}`,
+hint:["zip() pairs corresponding elements","dict(zip(keys, values)) creates dict","One-liner solution!"],
+sol:`keys   = ["name", "age", "city"]
+values = ["Ashish", 29, "Kanpur"]
+d = dict(zip(keys, values))
+print(d)   # {'name':'Ashish','age':29,'city':'Kanpur'}`},
+
+{id:42,topic:"dict",diff:"easy",title:"Invert a Dictionary",
+problem:`d = {"a": 1, "b": 2, "c": 3}
+# Swap keys and values
+# Expected: {1: "a", 2: "b", 3: "c"}`,
+hint:["Dict comprehension: {v: k for k, v in d.items()}","k becomes value, v becomes key","Works when values are unique"],
+sol:`d = {"a": 1, "b": 2, "c": 3}
+inverted = {v: k for k, v in d.items()}
+print(inverted)   # {1:'a', 2:'b', 3:'c'}`},
+
+{id:43,topic:"dict",diff:"easy",title:"Find Topper from Dict",
+problem:`students = {"Rahul": 85, "Priya": 92, "Amit": 78, "Neha": 88}
+# Find student with highest marks
+# Expected: "Priya"`,
+hint:["max() with key parameter","key=students.get — uses values for comparison","Returns key (name) with max value"],
+sol:`students = {"Rahul": 85, "Priya": 92, "Amit": 78, "Neha": 88}
+topper = max(students, key=students.get)
+print(topper)   # "Priya"`},
+
+{id:44,topic:"dict",diff:"easy",title:"Filter Dict by Value",
+problem:`d = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+# Keep only entries where value is even
+# Expected: {"b": 2, "d": 4}`,
+hint:["Dict comprehension with condition","{k: v for k, v in d.items() if condition}","Condition: v % 2 == 0"],
+sol:`d = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+even = {k: v for k, v in d.items() if v % 2 == 0}
+print(even)   # {'b': 2, 'd': 4}`},
+
+{id:45,topic:"dict",diff:"easy",title:"Count Character Frequency",
+problem:`s = "programming"
+# Count frequency of each character
+# Expected: {'p':1,'r':2,'o':1,'g':2,'a':1,'m':2,'i':1,'n':1}`,
+hint:["Loop through string","Use dict.get(char, 0) + 1","Or Counter(s) from collections"],
+sol:`from collections import Counter
+s = "programming"
+freq = dict(Counter(s))
+print(freq)
+# {'p':1,'r':2,'o':1,'g':2,'a':1,'m':2,'i':1,'n':1}`},
+
+{id:46,topic:"dict",diff:"easy",title:"Phone Book System",
+problem:`# Build a phone book with:
+# add_contact(name, number)
+# get_number(name) → returns number or "Not found"
+# delete_contact(name)
+
+# Test:
+# add "Ashish" → 9876543210
+# get "Ashish" → 9876543210
+# get "Unknown" → "Not found"`,
+hint:["Use a dict as the phone_book = {}","add: phone_book[name] = number","get: phone_book.get(name, 'Not found')"],
+sol:`phone_book = {}
+
+def add_contact(name, number):
+    phone_book[name] = number
+
+def get_number(name):
+    return phone_book.get(name, "Not found")
+
+def delete_contact(name):
+    phone_book.pop(name, None)
+
+add_contact("Ashish", 9876543210)
+print(get_number("Ashish"))    # 9876543210
+print(get_number("Unknown"))   # "Not found"`},
+
+// DICT — MEDIUM (47-53)
+{id:47,topic:"dict",diff:"medium",title:"Merge Dicts (Add Values)",
+problem:`d1 = {"a": 10, "b": 20, "c": 5}
+d2 = {"b": 5,  "c": 15, "d": 8}
+# Merge: same key → ADD values
+# Expected: {"a": 10, "b": 25, "c": 20, "d": 8}`,
+hint:["Get all keys: set(d1) | set(d2)","For each key: d1.get(key,0) + d2.get(key,0)","dict.get(key,0) returns 0 if key missing"],
+sol:`d1 = {"a": 10, "b": 20, "c": 5}
+d2 = {"b": 5,  "c": 15, "d": 8}
+merged = {k: d1.get(k,0) + d2.get(k,0) for k in set(d1)|set(d2)}
+print(merged)   # {'a':10,'b':25,'c':20,'d':8}`},
+
+{id:48,topic:"dict",diff:"medium",title:"Top N Frequent Elements",
+problem:`nums = [1,1,1,2,2,3,3,3,3,4]
+n = 2
+# Find top n most frequent elements
+# Expected: [3, 1]`,
+hint:["Count frequency with Counter","Counter.most_common(n) returns top n","Extract just the elements (not counts)"],
+sol:`from collections import Counter
+nums = [1,1,1,2,2,3,3,3,3,4]
+n = 2
+freq = Counter(nums)
+result = [num for num, _ in freq.most_common(n)]
+print(result)   # [3, 1]`},
+
+{id:49,topic:"dict",diff:"medium",title:"Best Subject per Student",
+problem:`students = {
+    "Rahul": {"math": 90, "science": 85, "english": 78},
+    "Priya": {"math": 78, "science": 92, "english": 88},
+}
+# Find each student's best subject
+# Expected: {"Rahul": "math", "Priya": "science"}`,
+hint:["Loop through students.items()","For each marks dict, use max() with key","max(marks, key=marks.get) → key with max value"],
+sol:`students = {
+    "Rahul": {"math": 90, "science": 85, "english": 78},
+    "Priya": {"math": 78, "science": 92, "english": 88},
+}
+best = {name: max(marks, key=marks.get) for name, marks in students.items()}
+print(best)   # {'Rahul':'math','Priya':'science'}`},
+
+{id:50,topic:"dict",diff:"medium",title:"Group Words by Length",
+problem:`words = ["cat", "dog", "elephant", "ant", "bee", "fish"]
+# Group words by their length
+# Expected: {3:['cat','dog','ant','bee'], 4:['fish'], 8:['elephant']}`,
+hint:["Use defaultdict(list)","Key = len(word)","Append each word to its length group"],
+sol:`from collections import defaultdict
+words = ["cat", "dog", "elephant", "ant", "bee", "fish"]
+groups = defaultdict(list)
+for word in words:
+    groups[len(word)].append(word)
+print(dict(groups))`},
+
+{id:51,topic:"dict",diff:"medium",title:"Inventory Total Value",
+problem:`inventory = {
+    "apple":  {"price": 20, "qty": 50},
+    "banana": {"price": 10, "qty": 100},
+    "mango":  {"price": 80, "qty": 20},
+}
+# Total value = sum of (price × qty) for all items
+# Expected: 3600`,
+hint:["Loop through inventory.values()","Each value is a dict with price and qty","total += item['price'] * item['qty']"],
+sol:`inventory = {
+    "apple":  {"price": 20, "qty": 50},
+    "banana": {"price": 10, "qty": 100},
+    "mango":  {"price": 80, "qty": 20},
+}
+total = sum(v["price"] * v["qty"] for v in inventory.values())
+print(total)   # 3600`},
+
+{id:52,topic:"dict",diff:"medium",title:"Find Duplicate Values in Dict",
+problem:`d = {"a": 1, "b": 2, "c": 1, "d": 3, "e": 2}
+# Find values that appear more than once
+# Expected: {1, 2}`,
+hint:["Count value frequencies using Counter","Counter(d.values()) gives frequency of each value","Filter where count > 1"],
+sol:`from collections import Counter
+d = {"a": 1, "b": 2, "c": 1, "d": 3, "e": 2}
+val_freq = Counter(d.values())
+duplicates = {v for v, count in val_freq.items() if count > 1}
+print(duplicates)   # {1, 2}`},
+
+{id:53,topic:"dict",diff:"medium",title:"Nested Dict — Student Report",
+problem:`students = {
+    "Ashish": {"math": 90, "science": 85, "english": 78},
+    "Priya":  {"math": 80, "science": 95, "english": 60},
+    "Amit":   {"math": 70, "science": 65, "english": 90}
+}
+# Per student: calculate average marks
+# Expected: Ashish: 84.3, Priya: 78.3, Amit: 75.0`,
+hint:["Loop through students.items()","For each marks dict: sum(marks.values())/len(marks)","Print with f-string and :.1f for 1 decimal"],
+sol:`students = {
+    "Ashish": {"math": 90, "science": 85, "english": 78},
+    "Priya":  {"math": 80, "science": 95, "english": 60},
+    "Amit":   {"math": 70, "science": 65, "english": 90}
+}
+for name, marks in students.items():
+    avg = sum(marks.values()) / len(marks)
+    print(f"{name}: {avg:.1f}")`},
+
+// DICT — HARD (54-55)
+{id:54,topic:"dict",diff:"hard",title:"LRU Cache (Least Recently Used)",
+problem:`# Implement LRU Cache with capacity = 3
+# get(key) → return value or -1
+# put(key, value) → add; if full, remove LRU
+
+cache = LRUCache(3)
+cache.put(1, "a")
+cache.put(2, "b")
+cache.put(3, "c")
+cache.get(1)        # returns "a" (1 now most recent)
+cache.put(4, "d")   # removes 2 (least recently used)
+cache.get(2)        # returns -1 (removed)`,
+hint:["Use OrderedDict from collections","move_to_end(key) marks as recently used","popitem(last=False) removes least recently used"],
+sol:`from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.cap:
+            self.cache.popitem(last=False)`},
+
+{id:55,topic:"dict",diff:"hard",title:"Word Ladder Length",
+problem:`start = "hit"
+end   = "cog"
+bank  = ["hot","dot","dog","lot","log","cog"]
+# Min steps to transform start → end
+# Change one letter at a time, each step must be in bank
+# Expected: 5  (hit→hot→dot→dog→cog)`,
+hint:["BFS approach — explore word by word","For each word, try changing each character a-z","If new word in bank → add to queue"],
+sol:`from collections import deque
+def word_ladder(start, end, bank):
+    bank = set(bank)
+    if end not in bank: return 0
+    q = deque([(start, 1)])
+    visited = {start}
+    while q:
+        word, steps = q.popleft()
+        for i in range(len(word)):
+            for c in 'abcdefghijklmnopqrstuvwxyz':
+                new = word[:i] + c + word[i+1:]
+                if new == end: return steps + 1
+                if new in bank and new not in visited:
+                    visited.add(new); q.append((new, steps+1))
+    return 0
+
+print(word_ladder("hit","cog",["hot","dot","dog","lot","log","cog"]))  # 5`},
+
+// ══════════════════════════════════════════
+// TUPLE — EASY (56-60)
+// ══════════════════════════════════════════
+{id:56,topic:"tuple",diff:"easy",title:"Tuple Unpacking Practice",
+problem:`# Unpack these tuples correctly:
+point3D = (10, 20, 30)
+# Get x, y, z
+
+record = ("Ashish", 29, "Kanpur", "Python Dev")
+# Get name and role only (skip age and city)
+
+numbers = (1, 2, 3, 4, 5)
+# Get first and last, rest in middle`,
+hint:["a, b, c = tuple for exact unpacking","Use _ to ignore values: name, _, _, role = tuple","Use * for multiple: first, *middle, last = tuple"],
+sol:`point3D = (10, 20, 30)
+x, y, z = point3D
+print(x, y, z)   # 10 20 30
+
+record = ("Ashish", 29, "Kanpur", "Python Dev")
+name, _, _, role = record
+print(name, role)   # Ashish Python Dev
+
+numbers = (1, 2, 3, 4, 5)
+first, *middle, last = numbers
+print(first, middle, last)   # 1 [2,3,4] 5`},
+
+{id:57,topic:"tuple",diff:"easy",title:"Sort List of Tuples",
+problem:`students = [
+    ("Rahul", 85),
+    ("Priya", 92),
+    ("Amit", 78),
+    ("Neha", 88)
+]
+# Sort by marks, highest first
+# Expected: [('Priya',92),('Neha',88),('Rahul',85),('Amit',78)]`,
+hint:["sorted() with key=lambda x: x[1]","reverse=True for descending order","Returns new sorted list"],
+sol:`students = [("Rahul",85),("Priya",92),("Amit",78),("Neha",88)]
+result = sorted(students, key=lambda x: x[1], reverse=True)
+print(result)
+# [('Priya',92),('Neha',88),('Rahul',85),('Amit',78)]`},
+
+{id:58,topic:"tuple",diff:"easy",title:"Zip and Unzip Lists",
+problem:`names  = ["Rahul", "Priya", "Amit"]
+scores = [85, 92, 78]
+
+# Task 1: Zip into list of tuples
+# Task 2: Unzip back into two lists`,
+hint:["zip(a, b) creates pairs","list(zip(...)) converts to list","zip(*pairs) unzips — use list(zip(*zipped))"],
+sol:`names  = ["Rahul", "Priya", "Amit"]
+scores = [85, 92, 78]
+
+# Zip
+pairs = list(zip(names, scores))
+print(pairs)   # [('Rahul',85),('Priya',92),('Amit',78)]
+
+# Unzip
+names2, scores2 = zip(*pairs)
+print(list(names2))    # ['Rahul','Priya','Amit']
+print(list(scores2))   # [85, 92, 78]`},
+
+{id:59,topic:"tuple",diff:"easy",title:"Tuple as Dict Key (Coordinates)",
+problem:`# Store city info using (lat, lon) as key
+# Delhi:  (28.6, 77.2)
+# Mumbai: (19.0, 72.8)
+# Kanpur: (26.4, 80.3)
+
+# Lookup: what city is at (26.4, 80.3)?
+# Expected: "Kanpur"`,
+hint:["Tuples are immutable → valid dict keys","Create dict with tuple as key: {(lat,lon): name}","Lookup with dict.get((lat,lon))"],
+sol:`cities = {
+    (28.6, 77.2): "Delhi",
+    (19.0, 72.8): "Mumbai",
+    (26.4, 80.3): "Kanpur"
+}
+print(cities.get((26.4, 80.3)))   # Kanpur`},
+
+{id:60,topic:"tuple",diff:"easy",title:"Named Tuple Simulation",
+problem:`# Simulate named tuple WITHOUT namedtuple
+# Store employee: (name, dept, salary)
+employees = [
+    ("Rahul",  "Backend",  80000),
+    ("Priya",  "Frontend", 90000),
+    ("Amit",   "Backend",  75000),
+]
+# Print: "Rahul works in Backend, salary: 80000"`,
+hint:["Use tuple unpacking in for loop","for name, dept, salary in employees","f-string to format output"],
+sol:`employees = [
+    ("Rahul",  "Backend",  80000),
+    ("Priya",  "Frontend", 90000),
+    ("Amit",   "Backend",  75000),
+]
+for name, dept, salary in employees:
+    print(f"{name} works in {dept}, salary: {salary}")`},
+
+// TUPLE — MEDIUM (61-63)
+{id:61,topic:"tuple",diff:"medium",title:"Dept Wise Avg Salary",
+problem:`employees = [
+    ("Rahul",  "Backend",  80000),
+    ("Priya",  "Frontend", 90000),
+    ("Amit",   "Backend",  75000),
+    ("Neha",   "Frontend", 95000),
+]
+# Average salary per department
+# Backend  → 77500.0
+# Frontend → 92500.0`,
+hint:["Use defaultdict(list) to group salaries by dept","employees[1] = dept, employees[2] = salary","For each dept, avg = sum(salaries)/len(salaries)"],
+sol:`from collections import defaultdict
+employees = [
+    ("Rahul","Backend",80000),("Priya","Frontend",90000),
+    ("Amit","Backend",75000),("Neha","Frontend",95000),
+]
+dept = defaultdict(list)
+for _, d, s in employees:
+    dept[d].append(s)
+for d, salaries in dept.items():
+    print(f"{d} → {sum(salaries)/len(salaries)}")`},
+
+{id:62,topic:"tuple",diff:"medium",title:"Find Max Revenue Product",
+problem:`products = [
+    ("Laptop",  50000, 100),
+    ("Phone",   20000, 300),
+    ("Tablet",  30000, 150),
+]
+# Revenue = price × quantity
+# Find product with max revenue
+# Expected: ("Phone", 6000000)`,
+hint:["Calculate revenue = price * qty for each","Use max() with key=lambda","Access tuple elements by index"],
+sol:`products = [
+    ("Laptop",  50000, 100),
+    ("Phone",   20000, 300),
+    ("Tablet",  30000, 150),
+]
+revenues = [(name, price*qty) for name, price, qty in products]
+best = max(revenues, key=lambda x: x[1])
+print(best)   # ('Phone', 6000000)`},
+
+{id:63,topic:"tuple",diff:"medium",title:"Enumerate with Tuples",
+problem:`subjects = ["Math", "Science", "English", "Hindi"]
+marks    = [90, 85, 78, 92]
+
+# Print: "1. Math: 90 marks ✅" (✅ if >=80, ❌ if <80)
+# Use enumerate and zip together`,
+hint:["zip(subjects, marks) pairs them","enumerate(zip(...), 1) adds index from 1","Unpack: for i, (sub, mark) in enumerate(zip(...),1)"],
+sol:`subjects = ["Math", "Science", "English", "Hindi"]
+marks    = [90, 85, 78, 92]
+
+for i, (sub, mark) in enumerate(zip(subjects, marks), 1):
+    icon = "✅" if mark >= 80 else "❌"
+    print(f"{i}. {sub}: {mark} marks {icon}")`},
+
+// TUPLE — HARD (64-65)
+{id:64,topic:"tuple",diff:"hard",title:"Matrix as Tuple of Tuples",
+problem:`matrix = (
+    (1, 2, 3),
+    (4, 5, 6),
+    (7, 8, 9)
+)
+# Task 1: Transpose the matrix
+# Task 2: Find diagonal sum
+# Transpose Expected: ((1,4,7),(2,5,8),(3,6,9))
+# Diagonal sum Expected: 15  (1+5+9)`,
+hint:["Transpose: zip(*matrix) unpacks rows as columns","Convert each zip result to tuple","Diagonal: matrix[i][i] for i in range(len(matrix))"],
+sol:`matrix = ((1,2,3),(4,5,6),(7,8,9))
+
+# Transpose
+transposed = tuple(zip(*matrix))
+print(transposed)   # ((1,4,7),(2,5,8),(3,6,9))
+
+# Diagonal sum
+diag = sum(matrix[i][i] for i in range(len(matrix)))
+print(diag)   # 15`},
+
+{id:65,topic:"tuple",diff:"hard",title:"Run-Length Encoding",
+problem:`data = (1, 1, 2, 3, 3, 3, 4, 4, 1, 1, 1)
+# Encode: (value, count) pairs
+# Expected: ((1,2),(2,1),(3,3),(4,2),(1,3))`,
+hint:["Loop through data tracking current and count","When value changes, append (value, count) to result","Handle last group after loop ends"],
+sol:`data = (1, 1, 2, 3, 3, 3, 4, 4, 1, 1, 1)
+result = []
+curr, count = data[0], 1
+for val in data[1:]:
+    if val == curr:
+        count += 1
+    else:
+        result.append((curr, count))
+        curr, count = val, 1
+result.append((curr, count))
+print(tuple(result))   # ((1,2),(2,1),(3,3),(4,2),(1,3))`},
+
+// ══════════════════════════════════════════
+// SET — EASY (66-70)
+// ══════════════════════════════════════════
+{id:66,topic:"set",diff:"easy",title:"Basic Set Operations",
+problem:`a = {1, 2, 3, 4, 5}
+b = {3, 4, 5, 6, 7}
+
+# Find: union, intersection, difference (a-b), symmetric difference
+# Expected:
+# Union: {1,2,3,4,5,6,7}
+# Intersection: {3,4,5}
+# Difference: {1,2}
+# Sym Diff: {1,2,6,7}`,
+hint:["Union: a | b","Intersection: a & b","Difference: a - b  (in a, not in b)","Symmetric: a ^ b (in one, not both)"],
+sol:`a = {1, 2, 3, 4, 5}
+b = {3, 4, 5, 6, 7}
+print("Union:", a | b)
+print("Intersection:", a & b)
+print("Difference:", a - b)
+print("Sym Diff:", a ^ b)`},
+
+{id:67,topic:"set",diff:"easy",title:"Remove Duplicates from List",
+problem:`arr = [1, 2, 2, 3, 4, 4, 4, 5]
+# Remove all duplicates
+# Expected: {1, 2, 3, 4, 5}
+# Also: how many unique elements?`,
+hint:["set() removes duplicates automatically","len(set(arr)) gives unique count","Just: unique = set(arr)"],
+sol:`arr = [1, 2, 2, 3, 4, 4, 4, 5]
+unique = set(arr)
+print(unique)         # {1,2,3,4,5}
+print(len(unique))    # 5`},
+
+{id:68,topic:"set",diff:"easy",title:"Check Subset / Superset",
+problem:`a = {1, 2, 3}
+b = {1, 2, 3, 4, 5}
+
+# Is a subset of b? → True
+# Is b superset of a? → True
+# Is a superset of b? → False`,
+hint:["a.issubset(b) or a <= b","b.issuperset(a) or b >= a","Both check containment relationship"],
+sol:`a = {1, 2, 3}
+b = {1, 2, 3, 4, 5}
+print(a.issubset(b))     # True   (a <= b)
+print(b.issuperset(a))   # True   (b >= a)
+print(a.issuperset(b))   # False`},
+
+{id:69,topic:"set",diff:"easy",title:"Common Elements in Multiple Lists",
+problem:`list1 = [1, 2, 3, 4, 5]
+list2 = [2, 3, 5, 7, 8]
+list3 = [3, 5, 9, 10, 2]
+# Find elements common in ALL three lists
+# Expected: {3, 5}`,
+hint:["Convert each to set","Intersection of all three: s1 & s2 & s3","Can chain multiple intersections"],
+sol:`list1 = [1, 2, 3, 4, 5]
+list2 = [2, 3, 5, 7, 8]
+list3 = [3, 5, 9, 10, 2]
+common = set(list1) & set(list2) & set(list3)
+print(common)   # {3, 5}`},
+
+{id:70,topic:"set",diff:"easy",title:"Fast Membership Check",
+problem:`# Compare speed: list vs set membership check
+valid_users_list = ["alice", "bob", "charlie", "david"] * 10000
+valid_users_set  = set(valid_users_list)
+
+# Check if "charlie" exists in both
+# Also: why is set faster?`,
+hint:["List: O(n) — checks each element one by one","Set: O(1) — hash table lookup, instant","For 10000 items, set is ~10000x faster"],
+sol:`valid_users_list = ["alice", "bob", "charlie"] * 10000
+valid_users_set  = set(valid_users_list)
+
+# Both return True, but set is MUCH faster
+print("charlie" in valid_users_list)   # True  O(n)
+print("charlie" in valid_users_set)    # True  O(1)
+
+# Use set when checking membership many times!`},
+
+// SET — MEDIUM (71-73)
+{id:71,topic:"set",diff:"medium",title:"Uncommon Words in Two Sentences",
+problem:`s1 = "the quick brown fox"
+s2 = "the slow brown dog"
+# Find words in only ONE sentence
+# Expected: {'quick', 'fox', 'slow', 'dog'}`,
+hint:["Split both sentences into sets of words","Symmetric difference ^ gives uncommon","set1 ^ set2 = in one but not both"],
+sol:`s1 = "the quick brown fox"
+s2 = "the slow brown dog"
+uncommon = set(s1.split()) ^ set(s2.split())
+print(uncommon)   # {'quick', 'fox', 'slow', 'dog'}`},
+
+{id:72,topic:"set",diff:"medium",title:"Find Missing Numbers in Range",
+problem:`arr = [1, 2, 4, 6, 7, 10]
+n = 10
+# Find all missing numbers from 1 to n
+# Expected: {3, 5, 8, 9}`,
+hint:["Create full set: set(range(1, n+1))","Create arr set: set(arr)","Missing = full_set - arr_set (difference)"],
+sol:`arr = [1, 2, 4, 6, 7, 10]
+n = 10
+missing = set(range(1, n+1)) - set(arr)
+print(missing)   # {3, 5, 8, 9}`},
+
+{id:73,topic:"set",diff:"medium",title:"Unique Characters Per Word",
+problem:`words = ["hello", "world", "python", "programming"]
+# For each word: how many unique characters?
+# Expected:
+# hello → 4 unique (h,e,l,o)
+# world → 5 unique
+# python → 6 unique
+# programming → 8 unique`,
+hint:["set(word) gives unique characters","len(set(word)) gives count","Loop and print each"],
+sol:`words = ["hello", "world", "python", "programming"]
+for word in words:
+    unique_chars = set(word)
+    print(f"{word} → {len(unique_chars)} unique")`},
+
+// SET — HARD (74-75)
+{id:74,topic:"set",diff:"hard",title:"Longest Consecutive Sequence",
+problem:`arr = [100, 4, 200, 1, 3, 2, 5]
+# Find length of longest consecutive sequence
+# Sequence 1,2,3,4,5 → length 5
+# Expected: 5`,
+hint:["Convert to set for O(1) lookup","Only start counting when num-1 NOT in set (sequence start)","Count consecutive: while num+length in set"],
+sol:`def longest_consecutive(arr):
+    num_set = set(arr)
+    best = 0
+    for num in num_set:
+        if num - 1 not in num_set:   # start of sequence
+            length = 1
+            while num + length in num_set:
+                length += 1
+            best = max(best, length)
+    return best
+
+print(longest_consecutive([100,4,200,1,3,2,5]))   # 5`},
+
+{id:75,topic:"set",diff:"hard",title:"Find All Subsets (Power Set)",
+problem:`s = {1, 2, 3}
+# Find all possible subsets (power set)
+# Expected: [set(), {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}]
+# Total subsets = 2^n = 8`,
+hint:["Start with result = [set()]","For each element, create new subsets by adding to existing","Double the result each time"],
+sol:`def power_set(s):
+    result = [set()]
+    for elem in s:
+        new_subsets = [sub | {elem} for sub in result]
+        result.extend(new_subsets)
+    return result
+
+print(power_set({1, 2, 3}))
+# [set(),{1},{2},{1,2},{3},{1,3},{2,3},{1,2,3}]`},
+];
+
+// ── STATE ──
+let solved = new Set(JSON.parse(localStorage.getItem('py75_solved') || '[]'));
+let topicF = 'all', diffF = 'all';
+
+function save() {
+  try { localStorage.setItem('py75_solved', JSON.stringify([...solved])); } catch(e) {}
+}
+
+// ── RENDER ──
+function render() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const list = document.getElementById('qList');
+
+  let filtered = QS.filter(q => {
+    const tMatch = topicF === 'all' || q.topic === topicF;
+    const dMatch = diffF === 'all' || q.diff === diffF;
+    const sMatch = !search || q.title.toLowerCase().includes(search) || q.topic.includes(search);
+    return tMatch && dMatch && sMatch;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty">No questions found 🔍</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map((q, idx) => `
+    <div class="qcard ${solved.has(q.id)?'is-solved':''}" id="qc${q.id}">
+      <div class="qcard-head" onclick="toggle(${q.id})">
+        <div class="qnum">${String(idx+1).padStart(2,'0')}</div>
+        <div class="qmeta">
+          <div class="qtags">
+            <span class="tag t-${q.topic}">${q.topic}</span>
+            <span class="tag t-${q.diff}">${q.diff}</span>
+            ${solved.has(q.id)?'<span class="tag t-solved">✓ solved</span>':''}
+          </div>
+          <div class="qtitle">${q.title}</div>
+        </div>
+        <div class="qarrow">▼</div>
+      </div>
+      <div class="qbody">
+        <div class="sec-label">Problem</div>
+        <div class="code-block">${q.problem}</div>
+
+        <div class="hint-box" id="hb${q.id}">
+          <div class="hint-title">💡 APPROACH — HOW TO THINK</div>
+          <ul class="hint-steps">${q.hint.map(h=>`<li>${h}</li>`).join('')}</ul>
+        </div>
+
+        <div class="sec-label" id="sl${q.id}" style="display:none">Solution</div>
+        <div class="sol-box" id="sb${q.id}">${q.sol}</div>
+
+        <div class="btn-row">
+          <button class="btn btn-h" onclick="toggleHint(event,${q.id})">💡 Approach</button>
+          <button class="btn btn-s" onclick="toggleSol(event,${q.id})">👁 Solution</button>
+          <button class="btn btn-m ${solved.has(q.id)?'done':''}" onclick="markSolved(event,${q.id})">
+            ${solved.has(q.id)?'✅ Solved':'☐ Mark Solved'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  updateStats();
+}
+
+function toggle(id) {
+  const c = document.getElementById('qc'+id);
+  c.classList.toggle('is-open');
+}
+
+function toggleHint(e, id) {
+  e.stopPropagation();
+  const box = document.getElementById('hb'+id);
+  box.classList.toggle('show');
+  e.target.textContent = box.classList.contains('show') ? '💡 Hide Approach' : '💡 Approach';
+}
+
+function toggleSol(e, id) {
+  e.stopPropagation();
+  const box = document.getElementById('sb'+id);
+  const lbl = document.getElementById('sl'+id);
+  box.classList.toggle('show');
+  lbl.style.display = box.classList.contains('show') ? 'block' : 'none';
+  e.target.textContent = box.classList.contains('show') ? '👁 Hide Solution' : '👁 Solution';
+}
+
+function markSolved(e, id) {
+  e.stopPropagation();
+  solved.has(id) ? solved.delete(id) : solved.add(id);
+  save();
+  const openIds = [...document.querySelectorAll('.qcard.is-open')].map(c=>parseInt(c.id.replace('qc','')));
+  render();
+  openIds.forEach(oid => {
+    const c = document.getElementById('qc'+oid);
+    if(c) c.classList.add('is-open');
+  });
+}
+
+function updateStats() {
+  const n = solved.size;
+  document.getElementById('sSolved').textContent = n;
+  document.getElementById('tSolved').textContent = n;
+  const pct = (n / 75 * 100).toFixed(1);
+  document.getElementById('tFill').style.width = pct + '%';
+}
+
+// ── FILTERS ──
+document.getElementById('topicFilters').addEventListener('click', e => {
+  const btn = e.target.closest('[data-f]');
+  if (!btn) return;
+  topicF = btn.dataset.f;
+  document.querySelectorAll('#topicFilters .fbtn').forEach(b => {
+    b.className = 'fbtn' + (b.dataset.f === topicF ? ` act-${topicF}` : '');
+  });
+  render();
+});
+
+document.getElementById('diffFilters').addEventListener('click', e => {
+  const btn = e.target.closest('[data-d]');
+  if (!btn) return;
+  diffF = btn.dataset.d;
+  document.querySelectorAll('#diffFilters .fbtn').forEach(b => {
+    b.className = 'fbtn' + (b.dataset.d === diffF ? ` act-${b.dataset.d==='all'?'all':b.dataset.d}` : '');
+  });
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

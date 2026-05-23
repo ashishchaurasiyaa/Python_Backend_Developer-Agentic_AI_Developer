@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HLD — System Design Problems | Python 5 YOE</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8F9FA;color:#1a1a2e}
+.page{max-width:1200px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;font-weight:700;margin-bottom:4px}
+.subtitle{font-size:13px;color:#666;margin-bottom:20px}
+.tab-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;border-bottom:1.5px solid #E0E0E0;padding-bottom:0}
+.tab-btn{font-size:12px;font-weight:500;padding:7px 14px;border:none;background:transparent;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all .15s;white-space:nowrap}
+.tab-btn.active{color:#712B13;border-bottom-color:#E8704A}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.prog-bar{flex:1;height:7px;background:#E8E8F0;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:#E8704A;border-radius:4px;transition:width .3s}
+.prog-label{font-size:12px;color:#666;min-width:70px;text-align:right}
+.legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#666}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+.section{margin-bottom:32px}
+.sec-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1.5px solid #E8E8F0}
+.sec-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.sec-title{font-size:15px;font-weight:600}
+.sec-count{font-size:11px;color:#999;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.concept-card{background:#fff;border:1px solid #E8E8F0;border-radius:8px;padding:14px;transition:border-color .15s}
+.concept-card:hover{border-color:#B0B0C0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.concept-card.done{border-color:#1D9E75;background:#F0FBF7}
+.concept-card.done .c-name{color:#085041}
+.concept-card.done .c-tag{background:#9FE1CB;color:#085041}
+.concept-card.imp{border-left:3px solid #7F77DD}
+.c-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;cursor:pointer}
+.c-name{font-size:13px;font-weight:600;line-height:1.4}
+.c-check{width:18px;height:18px;border-radius:4px;border:1.5px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.concept-card.done .c-check{background:#1D9E75;border-color:#1D9E75}
+.checkmark{width:10px;height:10px;display:none}
+.concept-card.done .checkmark{display:block}
+.c-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:#FAECE7;color:#712B13;display:inline-block;margin-top:4px}
+.c-note{font-size:11px;color:#888;margin-top:6px;line-height:1.45}
+.det-btn{font-size:10px;padding:3px 10px;border-radius:10px;border:.5px solid #ccc;background:transparent;color:#712B13;cursor:pointer;margin-top:8px;font-weight:500;transition:all .15s}
+.det-btn:hover{background:#FAECE7;border-color:#E8704A}
+.det-panel{display:none;margin-top:10px;border-top:1px solid #E8E8F0;padding-top:10px}
+.arch-box{background:#F8F9FA;border:1px solid #E0E0E0;border-radius:6px;padding:10px 12px;margin-bottom:8px;font-size:11px;color:#333;line-height:1.7;font-family:'Courier New',monospace;white-space:pre}
+.det-explain{font-size:11.5px;color:#333;line-height:1.65;margin-bottom:8px;background:#FAECE7;padding:8px 10px;border-radius:6px;border-left:3px solid #E8704A}
+.det-label{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;margin-top:8px}
+.det-code{font-size:10.5px;background:#1a1a2e;color:#e8e8f0;padding:10px 12px;border-radius:6px;overflow-x:auto;white-space:pre;font-family:'Courier New',monospace;line-height:1.6;margin-bottom:8px}
+.det-tip{font-size:11px;color:#712B13;background:#FAECE7;padding:6px 10px;border-radius:6px;line-height:1.5}
+.det-tip::before{content:"💡 Interview Tip: ";font-weight:700}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>HLD — System Design Problems</h1>
+  <p class="subtitle">Python Backend Developer · 5 Years Experience · Architecture + Code + Interview Tips</p>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('all')">All (12)</button>
+    <button class="tab-btn" onclick="showTab('url')">URL Shortener</button>
+    <button class="tab-btn" onclick="showTab('chat')">Chat / Feed</button>
+    <button class="tab-btn" onclick="showTab('search')">Search / Rate / Cache</button>
+    <button class="tab-btn" onclick="showTab('payment')">Payment / Storage</button>
+    <button class="tab-btn" onclick="showTab('pending')">Pending Only</button>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-label" id="prog-label">0 / 12</div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div> Must-know</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div> Completed</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#FAECE7;border:1px solid #E8704A"></div> Click header = Mark done</div>
+  </div>
+
+  <div id="container"></div>
+</div>
+
+<script>
+const details = {
+
+/* ══════════════════════════════════════════════
+   12 HLD SYSTEM DESIGN PROBLEMS
+══════════════════════════════════════════════ */
+
+"HLD — System Design Problems_Design URL shortener": {
+explain: `URL shortener (bit.ly jaisa): long URL → short code (7 chars). Key challenges: unique short code generation, fast redirects (Redis cache), analytics (click count, geo), scale to billions. Write QPS low hai, Read QPS bahut high (100:1 ratio). Short code = Base62 encoding of auto-increment ID ya MD5 hash ka first 7 chars.`,
+arch: `Client → [API Gateway] → [App Servers]
+                                 ↓              ↓
+                           [PostgreSQL]    [Redis Cache]
+                           (url mapping)   (hot redirects)
+                                 ↓
+                           [Celery Workers]
+                           (analytics async)`,
+example: `import hashlib, base64, string, random
+from django.core.cache import cache
+
+# ── Short Code Generation — 2 Approaches ─────
+
+# Approach 1: Base62 of auto-increment ID (preferred)
+BASE62 = string.ascii_letters + string.digits  # 62 chars
+
+def encode_base62(num: int) -> str:
+    if num == 0: return BASE62[0]
+    result = []
+    while num:
+        result.append(BASE62[num % 62])
+        num //= 62
+    return "".join(reversed(result))
+
+# ID=1       → "b"
+# ID=1000000 → "4c92"   (7 chars supports 62^7 = 3.5 trillion URLs)
+
+# Approach 2: MD5 hash (collision risk — need DB check)
+def generate_short_code(long_url: str) -> str:
+    md5_hash = hashlib.md5(long_url.encode()).hexdigest()
+    return md5_hash[:7]   # first 7 chars of MD5
+
+# ── Model ─────────────────────────────────────
+class ShortURL(models.Model):
+    short_code  = models.CharField(max_length=10, unique=True, db_index=True)
+    long_url    = models.URLField(max_length=2048)
+    created_by  = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+    expires_at  = models.DateTimeField(null=True, blank=True)
+    click_count = models.PositiveBigIntegerField(default=0)
+
+    class Meta:
+        indexes = [models.Index(fields=["short_code"])]
+
+# ── Create Short URL ──────────────────────────
+class URLShortenerService:
+    @staticmethod
+    def shorten(long_url: str, user=None) -> ShortURL:
+        # Check if already shortened
+        existing = ShortURL.objects.filter(long_url=long_url).first()
+        if existing: return existing
+
+        obj = ShortURL.objects.create(long_url=long_url, created_by=user,
+                                      short_code="temp")
+        obj.short_code = encode_base62(obj.id)  # guaranteed unique!
+        obj.save(update_fields=["short_code"])
+        cache.set(f"url:{obj.short_code}", long_url, timeout=86400)
+        return obj
+
+# ── Redirect (READ — must be FAST) ────────────
+def redirect_view(request, short_code: str):
+    # L1: Redis cache check
+    long_url = cache.get(f"url:{short_code}")
+
+    if not long_url:
+        # L2: DB lookup
+        try:
+            obj = ShortURL.objects.get(short_code=short_code)
+        except ShortURL.DoesNotExist:
+            return HttpResponseNotFound("URL not found")
+
+        if obj.expires_at and obj.expires_at < timezone.now():
+            return HttpResponseGone("URL expired")
+
+        long_url = obj.long_url
+        cache.set(f"url:{short_code}", long_url, timeout=86400)
+
+    # Async analytics — don't block redirect
+    track_click.delay(short_code, request.META.get("REMOTE_ADDR"),
+                      request.META.get("HTTP_USER_AGENT"))
+
+    return HttpResponseRedirect(long_url)   # 301 or 302
+
+@shared_task
+def track_click(short_code, ip, user_agent):
+    ShortURL.objects.filter(short_code=short_code).update(
+        click_count=models.F("click_count") + 1
+    )
+    ClickAnalytics.objects.create(short_code=short_code, ip=ip,
+                                   user_agent=user_agent)`,
+tip: `"301 vs 302 redirect?" — 301 Permanent: browser caches it, future requests go direct (no analytics). 302 Temporary: every request hits your server (analytics work). bit.ly uses 301 for performance, custom analytics tools use 302.`
+},
+
+"HLD — System Design Problems_Design WhatsApp / chat": {
+explain: `Chat system ke core challenges: real-time message delivery (WebSockets), message persistence, delivery receipts (sent/delivered/read), group chats, offline message queuing. Django Channels WebSocket support deta hai. Redis as channel layer pub-sub ke liye. Messages PostgreSQL mein store karo. Fan-out: ek message multiple recipients ko deliver karna.`,
+arch: `Client ←WebSocket→ [Django Channels]
+                              ↓
+                      [Redis Channel Layer]  ← pub/sub
+                              ↓
+                      [PostgreSQL]           ← message store
+                      [Celery Workers]       ← push notifications (offline)`,
+example: `# ── Django Channels — WebSocket Consumer ─────
+# pip install channels channels-redis
+
+# consumers.py
+from channels.generic.websocket import AsyncWebsocketConsumer
+import json
+
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.user_id = self.scope["user"].id
+        # Join personal room (for direct messages)
+        self.personal_group = f"user_{self.user_id}"
+        await self.channel_layer.group_add(
+            self.personal_group, self.channel_name
+        )
+        await self.accept()
+        # Mark user online
+        await self._set_online(True)
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.personal_group, self.channel_name
+        )
+        await self._set_online(False)
+
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        msg  = await self._save_message(data)
+
+        # Send to recipient's group
+        await self.channel_layer.group_send(
+            f"user_{data['recipient_id']}",
+            {"type": "chat.message", "message": {
+                "id":         msg.id,
+                "sender_id":  self.user_id,
+                "content":    data["content"],
+                "timestamp":  msg.created_at.isoformat(),
+                "status":     "delivered",
+            }}
+        )
+        # Echo back to sender with message ID
+        await self.send(json.dumps({"type": "sent", "message_id": msg.id}))
+
+    async def chat_message(self, event):
+        # Called when group_send fires — push to WebSocket
+        await self.send(json.dumps(event["message"]))
+        # Mark as delivered
+        await self._update_status(event["message"]["id"], "delivered")
+
+    async def _save_message(self, data):
+        from channels.db import database_sync_to_async
+        @database_sync_to_async
+        def save():
+            return Message.objects.create(
+                sender_id    = self.user_id,
+                recipient_id = data["recipient_id"],
+                content      = data["content"],
+                status       = "sent",
+            )
+        return await save()
+
+    async def _set_online(self, online: bool):
+        r.setex(f"online:{self.user_id}", 300, "1") if online \
+            else r.delete(f"online:{self.user_id}")
+
+# ── Offline Message Delivery ──────────────────
+@shared_task
+def deliver_offline_messages(user_id: int):
+    # When user comes online, send missed messages
+    unread = Message.objects.filter(
+        recipient_id=user_id, status="sent"
+    ).order_by("created_at")
+    return [{"id": m.id, "content": m.content} for m in unread]
+
+# ── Group Chat ────────────────────────────────
+class GroupChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.group_id   = self.scope["url_route"]["kwargs"]["group_id"]
+        self.group_name = f"group_{self.group_id}"
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
+        await self.accept()
+
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        msg  = await self._save_group_message(data)
+        # Fan-out: send to all group members at once
+        await self.channel_layer.group_send(
+            self.group_name,
+            {"type": "group.message", "message": {
+                "sender_id": self.scope["user"].id,
+                "content":   data["content"],
+                "group_id":  self.group_id,
+            }}
+        )`,
+tip: `"Group chat with 1000 members — fan-out issue?" — Fan-out on write: deliver to all 1000 at send time (write amplification). Fan-out on read: store once, each member fetches (read amplification). WhatsApp uses fan-out on write. Twitter uses hybrid.`
+},
+
+"HLD — System Design Problems_Design Instagram / news feed": {
+explain: `News feed = user ke saare followees ke posts chronologically/ranked. Two approaches: Fan-out on Write (post karte hi saare followers ke feed mein push — fast read, slow write), Fan-out on Read (read time pe followees ke posts merge — slow read, fast write). Instagram hybrid use karta hai: normal users = fan-out on write, celebrities (10M+ followers) = fan-out on read. Media = S3 + CloudFront.`,
+arch: `Post Create → [App Server] → [PostgreSQL] → [Celery Fan-out Task]
+                                                         ↓
+                                              [Redis — each follower's feed list]
+Feed Read   → [App Server] → [Redis feed] + [PostgreSQL posts]
+Media       → [S3 + CloudFront CDN]`,
+example: `# ── Post Creation + Fan-out ──────────────────
+class Post(models.Model):
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)
+    caption    = models.TextField(blank=True)
+    media_url  = models.URLField()          # S3 CloudFront URL
+    created_at = models.DateTimeField(auto_now_add=True)
+    like_count = models.PositiveBigIntegerField(default=0)
+
+    class Meta:
+        indexes = [models.Index(fields=["user", "-created_at"])]
+
+class Follow(models.Model):
+    follower  = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
+    following = models.ForeignKey(User, related_name="followers", on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ["follower", "following"]
+
+def create_post(user, caption, media_file):
+    # Upload media to S3
+    s3_key   = f"posts/{user.id}/{uuid.uuid4()}.jpg"
+    s3.upload_fileobj(media_file, "niroskos-media", s3_key)
+    media_url = f"https://cdn.example.com/{s3_key}"
+
+    post = Post.objects.create(user=user, caption=caption, media_url=media_url)
+    fanout_post_to_followers.delay(post.id, user.id)
+    return post
+
+# ── Fan-out on Write (Celery) ─────────────────
+FEED_MAX_SIZE = 1000   # keep last 1000 posts per user feed
+
+@shared_task
+def fanout_post_to_followers(post_id: int, poster_id: int):
+    follower_ids = Follow.objects.filter(
+        following_id=poster_id
+    ).values_list("follower_id", flat=True)
+
+    pipe = r.pipeline()
+    for follower_id in follower_ids:
+        feed_key = f"feed:{follower_id}"
+        pipe.lpush(feed_key, post_id)           # prepend post_id
+        pipe.ltrim(feed_key, 0, FEED_MAX_SIZE)  # keep latest 1000
+    pipe.execute()
+
+# ── Feed Read ─────────────────────────────────
+def get_feed(user_id: int, page: int = 0, size: int = 20) -> list:
+    feed_key  = f"feed:{user_id}"
+    start     = page * size
+    post_ids  = r.lrange(feed_key, start, start + size - 1)
+
+    if not post_ids:
+        # Cold start or Redis miss — fallback to DB
+        return _feed_from_db(user_id, page, size)
+
+    posts = Post.objects.filter(id__in=post_ids).select_related("user")
+    posts_map = {str(p.id): p for p in posts}
+    return [posts_map[pid] for pid in post_ids if pid in posts_map]
+
+def _feed_from_db(user_id: int, page: int, size: int):
+    following_ids = Follow.objects.filter(
+        follower_id=user_id
+    ).values_list("following_id", flat=True)
+    return list(Post.objects.filter(user_id__in=following_ids)
+                             .select_related("user")
+                             .order_by("-created_at")[page*size:(page+1)*size])
+
+# ── Celebrity Fan-out on Read ─────────────────
+CELEB_FOLLOWER_THRESHOLD = 100_000
+
+@shared_task
+def fanout_post_to_followers(post_id, poster_id):
+    follower_count = Follow.objects.filter(following_id=poster_id).count()
+    if follower_count > CELEB_FOLLOWER_THRESHOLD:
+        # Don't fan-out — mark as celeb post, inject at read time
+        r.sadd("celeb_posters", poster_id)
+        return
+    # Normal fan-out ...`,
+tip: `"Instagram ka exact approach?" — Hybrid: regular users ke liye fan-out on write (fast feed), celebrities ke liye fan-out on read (avoid 100M writes per post). Feed read time pe celebrity posts inject karo.`
+},
+
+"HLD — System Design Problems_Design YouTube": {
+explain: `YouTube ke core components: Video Upload (S3 multi-part upload), Video Processing Pipeline (Celery — transcode to 360p/720p/1080p), Metadata storage (PostgreSQL), CDN delivery (CloudFront), Recommendations (ML — separate concern). Key challenge: video encoding bahut heavy hai — async processing mandatory. HLS streaming use karo — user partial video load kar ke dekh sake.`,
+arch: `Upload  → [App Server] → [S3 Raw] → [Celery Encoding Workers]
+                                              ↓ (FFmpeg transcode)
+                                         [S3 Processed — 360p/720p/1080p]
+                                              ↓
+Stream  ← [CloudFront CDN] ← [S3 HLS segments (.m3u8 + .ts files)]
+Metadata → [PostgreSQL]
+Search   → [Elasticsearch]`,
+example: `# ── Multi-part Upload to S3 ──────────────────
+import boto3
+
+def initiate_upload(filename: str, content_type: str):
+    response = s3.create_multipart_upload(
+        Bucket      = "youtube-raw-videos",
+        Key         = f"uploads/{uuid.uuid4()}/{filename}",
+        ContentType = content_type,
+    )
+    return response["UploadId"], response["Key"]
+
+def upload_part(key: str, upload_id: str, part_number: int, data: bytes):
+    return s3.upload_part(
+        Bucket     = "youtube-raw-videos",
+        Key        = key,
+        UploadId   = upload_id,
+        PartNumber = part_number,
+        Body       = data,
+    )["ETag"]
+
+def complete_upload(key: str, upload_id: str, parts: list):
+    s3.complete_multipart_upload(
+        Bucket          = "youtube-raw-videos",
+        Key             = key,
+        UploadId        = upload_id,
+        MultipartUpload = {"Parts": parts},
+    )
+    # Trigger processing
+    process_video.delay(key)
+
+# ── Video Model ───────────────────────────────
+class Video(models.Model):
+    STATUS = [("uploading","Uploading"),("processing","Processing"),
+              ("ready","Ready"),("failed","Failed")]
+    user         = models.ForeignKey(User, on_delete=models.CASCADE)
+    title        = models.CharField(max_length=200)
+    raw_s3_key   = models.CharField(max_length=500)
+    status       = models.CharField(max_length=20, choices=STATUS, default="uploading")
+    duration_sec = models.PositiveIntegerField(null=True)
+    view_count   = models.PositiveBigIntegerField(default=0)
+    hls_url      = models.URLField(null=True)   # CloudFront HLS manifest
+
+# ── Video Processing (Celery + FFmpeg) ────────
+@shared_task(bind=True, max_retries=2, time_limit=3600)
+def process_video(self, raw_s3_key: str):
+    video = Video.objects.get(raw_s3_key=raw_s3_key)
+    video.status = "processing"; video.save()
+    try:
+        # Download raw video
+        local_raw = f"/tmp/{uuid.uuid4()}.mp4"
+        s3.download_file("youtube-raw-videos", raw_s3_key, local_raw)
+
+        # Transcode to multiple qualities using FFmpeg
+        qualities  = {"360p": "640x360", "720p": "1280x720", "1080p": "1920x1080"}
+        hls_outputs = []
+        for quality, resolution in qualities.items():
+            output = f"/tmp/{quality}.m3u8"
+            os.system(
+                f"ffmpeg -i {local_raw} -vf scale={resolution} "
+                f"-codec:v libx264 -codec:a aac "
+                f"-hls_time 10 -hls_list_size 0 {output}"
+            )
+            s3_key = f"processed/{video.id}/{quality}.m3u8"
+            s3.upload_file(output, "youtube-processed", s3_key)
+            hls_outputs.append(s3_key)
+
+        # Master playlist
+        master_key = f"processed/{video.id}/master.m3u8"
+        s3.put_object(Bucket="youtube-processed", Key=master_key,
+                      Body=_build_master_playlist(hls_outputs).encode())
+
+        video.hls_url = f"https://cdn.example.com/{master_key}"
+        video.status  = "ready"
+        video.save(update_fields=["hls_url", "status"])
+    except Exception as exc:
+        video.status = "failed"; video.save()
+        raise self.retry(exc=exc)
+
+# ── View Count (High Write Volume) ───────────
+# Don't hit DB on every view — use Redis counter
+def record_view(video_id: int):
+    r.incr(f"views:{video_id}")
+
+# Periodic Celery Beat task: flush Redis counters to DB
+@shared_task
+def flush_view_counts():
+    for key in r.scan_iter("views:*"):
+        video_id = int(key.split(":")[1])
+        count    = int(r.getdel(key) or 0)
+        Video.objects.filter(id=video_id).update(
+            view_count=models.F("view_count") + count
+        )`,
+tip: `"Video encoding kahan hota hai?" — Dedicated encoding servers (GPU), not app servers. AWS Elastic Transcoder ya MediaConvert use hoti hai production mein. Celery workers encoding ke liye spot instances pe run karo — cost save hota hai.`
+},
+
+"HLD — System Design Problems_Design Uber / ride sharing": {
+explain: `Uber ke core: Driver location tracking (WebSocket, every 5 sec update), Rider-Driver matching (nearest driver find karo), Real-time tracking (live location), Pricing (surge based on supply-demand). Key challenge: geo-indexing — "nearest drivers within 5km" efficiently find karna. PostGIS (PostgreSQL extension) ya Redis Geo commands use karo.`,
+arch: `Driver App →WebSocket→ [Location Service] → [Redis GEO]
+Rider App  →Request→   [Matching Service]  → [Redis GEO GEORADIUS]
+                                                     ↓
+                                          [Assign nearest driver]
+Real-time  ←WebSocket← [Tracking Service] ← [Redis pub-sub]`,
+example: `# ── Driver Location Update (WebSocket) ───────
+class DriverLocationConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.driver_id = self.scope["user"].id
+        await self.accept()
+
+    async def receive(self, text_data):
+        data      = json.loads(text_data)
+        latitude  = data["lat"]
+        longitude = data["lng"]
+
+        # Store in Redis GEO (O(log N) insertion)
+        r.geoadd("driver_locations",
+                  longitude, latitude, f"driver:{self.driver_id}")
+
+        # Update availability
+        r.setex(f"driver_active:{self.driver_id}", 30, "1")  # expires in 30s
+
+        # If driver is on a ride, publish location to rider
+        ride_id = r.get(f"driver_ride:{self.driver_id}")
+        if ride_id:
+            await self.channel_layer.group_send(
+                f"ride_{ride_id}",
+                {"type": "driver.location",
+                 "lat": latitude, "lng": longitude}
+            )
+
+# ── Find Nearest Available Drivers ────────────
+def find_nearby_drivers(rider_lat: float, rider_lng: float,
+                         radius_km: float = 5.0) -> list:
+    # Redis GEORADIUS — O(N+log M) where N=results
+    nearby = r.georadius(
+        "driver_locations",
+        rider_lng, rider_lat,
+        radius_km, unit="km",
+        withcoord=True, withdist=True,
+        sort="ASC", count=10   # top 10 nearest
+    )
+    available = []
+    for driver_key, distance, (lng, lat) in nearby:
+        driver_id = int(driver_key.split(":")[1])
+        # Check if driver is truly active (not expired)
+        if r.exists(f"driver_active:{driver_id}"):
+            available.append({
+                "driver_id": driver_id,
+                "distance_km": distance,
+                "lat": lat, "lng": lng,
+            })
+    return available
+
+# ── Ride Matching ─────────────────────────────
+class RideMatchingService:
+    @staticmethod
+    def match_ride(rider_id: int, pickup_lat: float, pickup_lng: float) -> dict:
+        drivers = find_nearby_drivers(pickup_lat, pickup_lng)
+        if not drivers:
+            raise NoDriversAvailableError("No drivers nearby")
+
+        best_driver = drivers[0]  # nearest
+
+        # Atomic assignment — prevent same driver matched twice
+        lock_key = f"driver_lock:{best_driver['driver_id']}"
+        if not r.set(lock_key, rider_id, nx=True, ex=30):
+            # Driver already assigned — try next
+            return RideMatchingService._try_next(drivers[1:], rider_id,
+                                                  pickup_lat, pickup_lng)
+        ride = Ride.objects.create(
+            rider_id    = rider_id,
+            driver_id   = best_driver["driver_id"],
+            pickup_lat  = pickup_lat,
+            pickup_lng  = pickup_lng,
+            status      = "driver_assigned",
+        )
+        r.setex(f"driver_ride:{best_driver['driver_id']}", 3600, ride.id)
+        return {"ride_id": ride.id, "driver": best_driver}
+
+# ── Surge Pricing ─────────────────────────────
+def calculate_surge(lat: float, lng: float) -> float:
+    area_key = f"demand:{int(lat*10)}:{int(lng*10)}"  # grid cell
+    demand   = int(r.get(area_key) or 0)
+    supply   = len(find_nearby_drivers(lat, lng, radius_km=2.0))
+
+    if supply == 0: return 3.0   # max surge
+    ratio = demand / max(supply, 1)
+    if ratio > 3:   return 2.5
+    elif ratio > 2: return 1.8
+    elif ratio > 1: return 1.3
+    else:           return 1.0`,
+tip: `"Redis GEO vs PostGIS?" — Redis GEO: in-memory, fast, no persistence guarantee, good for real-time tracking. PostGIS: persistent, complex geo queries (polygons, routing), good for historical data. Uber uses both: Redis for real-time, PostGIS for route calculation.`
+},
+
+"HLD — System Design Problems_Design Notification system": {
+explain: `Enterprise notification system: multi-channel (Email, SMS, Push, In-app), template-based, user preferences respect karo, delivery guarantee, retry on failure, analytics (open rate, click rate). Aapne Twilio + Postmark use kiya hai — yeh design aapke real experience pe based hai. Celery + Redis for async. Strategy pattern for channels.`,
+arch: `API Request → [Notification Service]
+                         ↓
+               [User Preference Check]
+                         ↓
+          ┌──────────────┼──────────────┐
+    [Email Queue]  [SMS Queue]  [Push Queue]   (Celery)
+          ↓              ↓            ↓
+      [Postmark]     [Twilio]      [FCM/APNs]
+          ↓              ↓            ↓
+    [Delivery Receipt DB] + [Analytics]`,
+example: `# ── Models ───────────────────────────────────
+class NotificationTemplate(models.Model):
+    key          = models.CharField(max_length=100, unique=True)
+    subject      = models.CharField(max_length=200)
+    email_body   = models.TextField()   # HTML Jinja2 template
+    sms_body     = models.CharField(max_length=160)
+    push_title   = models.CharField(max_length=100)
+    push_body    = models.CharField(max_length=200)
+
+class UserNotificationPref(models.Model):
+    user             = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_enabled    = models.BooleanField(default=True)
+    sms_enabled      = models.BooleanField(default=True)
+    push_enabled     = models.BooleanField(default=True)
+    push_token       = models.CharField(max_length=500, blank=True)
+    quiet_hours_start = models.TimeField(null=True)  # no notifications 10pm-7am
+    quiet_hours_end   = models.TimeField(null=True)
+
+class NotificationLog(models.Model):
+    STATUS = [("queued","Queued"),("sent","Sent"),("failed","Failed"),
+              ("delivered","Delivered")]
+    user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    channel     = models.CharField(max_length=10)   # email/sms/push
+    template_key = models.CharField(max_length=100)
+    status      = models.CharField(max_length=20, default="queued")
+    sent_at     = models.DateTimeField(null=True)
+    error       = models.TextField(blank=True)
+
+# ── Main Service ──────────────────────────────
+class NotificationService:
+    @staticmethod
+    def send(user_id: int, template_key: str, context: dict):
+        user     = User.objects.select_related("notificationpref").get(id=user_id)
+        prefs    = user.notificationpref
+        template = NotificationTemplate.objects.get(key=template_key)
+
+        # Respect quiet hours
+        if NotificationService._in_quiet_hours(prefs):
+            NotificationService._schedule_for_morning(user_id, template_key, context)
+            return
+
+        if prefs.email_enabled:
+            send_email_notification.delay(user_id, template_key, context)
+        if prefs.sms_enabled and user.phone:
+            send_sms_notification.delay(user_id, template_key, context)
+        if prefs.push_enabled and prefs.push_token:
+            send_push_notification.delay(user_id, template_key, context)
+
+    @staticmethod
+    def _in_quiet_hours(prefs) -> bool:
+        if not prefs.quiet_hours_start: return False
+        now = timezone.localtime().time()
+        return prefs.quiet_hours_start <= now or now <= prefs.quiet_hours_end
+
+# ── Channel Workers ───────────────────────────
+@shared_task(bind=True, max_retries=3, default_retry_delay=300)
+def send_email_notification(self, user_id, template_key, context):
+    user     = User.objects.get(id=user_id)
+    template = NotificationTemplate.objects.get(key=template_key)
+    log      = NotificationLog.objects.create(
+        user=user, channel="email", template_key=template_key
+    )
+    try:
+        from jinja2 import Template
+        body = Template(template.email_body).render(**context)
+        postmark.emails.send(
+            From="noreply@niroskos.com", To=user.email,
+            Subject=template.subject, HtmlBody=body,
+            MessageStream="outbound",
+        )
+        log.status = "sent"; log.sent_at = timezone.now(); log.save()
+    except Exception as exc:
+        log.status = "failed"; log.error = str(exc); log.save()
+        raise self.retry(exc=exc)
+
+@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+def send_sms_notification(self, user_id, template_key, context):
+    user     = User.objects.get(id=user_id)
+    template = NotificationTemplate.objects.get(key=template_key)
+    try:
+        from jinja2 import Template
+        body = Template(template.sms_body).render(**context)[:160]
+        twilio_client.messages.create(
+            to=user.phone, from_=settings.TWILIO_NUMBER, body=body
+        )
+    except Exception as exc:
+        raise self.retry(exc=exc)`,
+tip: `"How do you handle notification failures?" — "3 retries with exponential backoff. After max retries, NotificationLog mein failed status aur error message save hota hai. Daily Celery Beat task failed notifications report generate karta hai Sentry pe."`
+},
+
+"HLD — System Design Problems_Design Multi-tenant SaaS": {
+explain: `Multi-tenant SaaS = ek codebase, multiple customers (tenants), data isolation. Approaches: Separate DB per tenant (strongest isolation, expensive), Shared DB + tenant_id column (most common, cost-effective), Separate schema per tenant (PostgreSQL schemas — middle ground). Aapka Niroskos platform yahi hai! Subdomain routing: hotel1.niroskos.com, hotel2.niroskos.com.`,
+arch: `hotel1.niroskos.com → [Nginx] → [Django] → tenant middleware
+hotel2.niroskos.com → [Nginx] → [Django] → tenant middleware
+                                                    ↓
+                                          [Shared PostgreSQL]
+                                          [tenant_id on all tables]`,
+example: `# ── Tenant Model ─────────────────────────────
+class Tenant(models.Model):
+    name       = models.CharField(max_length=200)
+    subdomain  = models.SlugField(unique=True)   # hotel1, hotel2
+    schema     = models.CharField(max_length=63, unique=True, null=True)
+    plan       = models.CharField(max_length=20)  # starter, pro, enterprise
+    is_active  = models.BooleanField(default=True)
+
+# ── Tenant-scoped Models ──────────────────────
+class TenantAwareModel(models.Model):
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, db_index=True)
+    class Meta: abstract = True
+
+class Room(TenantAwareModel):
+    number = models.CharField(max_length=10)
+    price  = models.DecimalField(max_digits=8, decimal_places=2)
+    # hotel1 ka Room hotel2 ko nahi dikhna chahiye
+
+class Booking(TenantAwareModel):
+    room      = models.ForeignKey(Room, on_delete=models.CASCADE)
+    guest     = models.ForeignKey(User, on_delete=models.CASCADE)
+    check_in  = models.DateField()
+    check_out = models.DateField()
+
+# ── Tenant Middleware (identifies tenant from subdomain) ──
+class TenantMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        host      = request.get_host().lower()
+        subdomain = host.split(".")[0]  # "hotel1" from "hotel1.niroskos.com"
+
+        cache_key = f"tenant:{subdomain}"
+        tenant    = cache.get(cache_key)
+        if tenant is None:
+            try:
+                tenant = Tenant.objects.get(subdomain=subdomain, is_active=True)
+                cache.set(cache_key, tenant, timeout=300)
+            except Tenant.DoesNotExist:
+                return HttpResponseNotFound("Tenant not found")
+
+        request.tenant = tenant
+        return self.get_response(request)
+
+# ── Tenant-aware Manager (auto-filter by tenant) ──
+class TenantManager(models.Manager):
+    def get_queryset(self):
+        # This would use thread-local or request context
+        return super().get_queryset()
+
+    def for_tenant(self, tenant):
+        return self.get_queryset().filter(tenant=tenant)
+
+# ── Views always scoped to tenant ─────────────
+class RoomListView(APIView):
+    def get(self, request):
+        rooms = Room.objects.filter(tenant=request.tenant)  # ALWAYS filter!
+        return Response(RoomSerializer(rooms, many=True).data)
+
+class BookingCreateView(APIView):
+    def post(self, request):
+        room = Room.objects.get(id=request.data["room_id"],
+                                 tenant=request.tenant)  # scope check!
+        booking = Booking.objects.create(
+            tenant=request.tenant, room=room,
+            guest=request.user, **request.data
+        )
+        return Response({"id": booking.id}, status=201)
+
+# ── Tenant-aware DB Indexes ───────────────────
+class Meta:
+    indexes = [
+        models.Index(fields=["tenant", "check_in"]),
+        models.Index(fields=["tenant", "room", "status"]),
+    ]
+    # Composite indexes with tenant_id first — critical for performance!
+
+# ── Tenant Isolation Test ─────────────────────
+def test_tenant_isolation(self):
+    t1_room = Room.objects.create(tenant=self.tenant1, number="101")
+    t2_room = Room.objects.create(tenant=self.tenant2, number="101")
+    # tenant1 can only see their rooms
+    rooms = Room.objects.filter(tenant=self.tenant1)
+    self.assertNotIn(t2_room, rooms)`,
+tip: `"Tenant data leakage kaise prevent karo?" — Every query mein tenant filter mandatory. Middleware request.tenant set kare. Custom Manager jo auto-filter kare. Integration tests jo cross-tenant access verify kare.`
+},
+
+"HLD — System Design Problems_Design Search autocomplete": {
+explain: `Search autocomplete = user type karta hai "del" → "delhi", "delhivery", "delta" suggest karo. Approaches: Trie (in-memory, fast prefix search), Database LIKE query (slow), Elasticsearch/Typesense (production-ready, typo-tolerant). Top-K results chahiye. Caching: popular prefixes Redis mein cache karo. Aapne Niroskos search Typesense se kiya hai — yahi explain karo.`,
+arch: `User types "del" → [Debounce 300ms] → [API Request]
+                                                    ↓
+                                         [Redis Cache check]
+                                           ↓ miss
+                                      [Elasticsearch/Typesense]
+                                           ↓
+                                    [Top-5 results] → [Cache result]`,
+example: `# ── Approach 1: Trie (in-memory, interview) ──
+class TrieNode:
+    def __init__(self):
+        self.children  = {}
+        self.is_end    = False
+        self.freq      = 0      # search frequency
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str, freq: int = 1):
+        node = self.root
+        for char in word.lower():
+            node = node.children.setdefault(char, TrieNode())
+        node.is_end = True
+        node.freq   = freq
+
+    def search_prefix(self, prefix: str, top_k: int = 5) -> list:
+        node = self.root
+        for char in prefix.lower():
+            if char not in node.children: return []
+            node = node.children[char]
+        return sorted(self._collect(node, prefix), key=lambda x: -x[1])[:top_k]
+
+    def _collect(self, node: TrieNode, prefix: str) -> list:
+        results = []
+        if node.is_end:
+            results.append((prefix, node.freq))
+        for char, child in node.children.items():
+            results.extend(self._collect(child, prefix + char))
+        return results
+
+# Build trie from DB
+trie = Trie()
+for term in SearchTerm.objects.order_by("-count")[:100000]:
+    trie.insert(term.term, term.count)
+
+# ── Approach 2: Typesense (Production — your Niroskos) ──
+import typesense
+
+client = typesense.Client({
+    "nodes": [{"host": "localhost", "port": "8108", "protocol": "http"}],
+    "api_key": settings.TYPESENSE_API_KEY,
+    "connection_timeout_seconds": 2,
+})
+
+# Index schema
+client.collections.create({
+    "name": "properties",
+    "fields": [
+        {"name": "name",     "type": "string"},
+        {"name": "city",     "type": "string", "facet": True},
+        {"name": "state",    "type": "string", "facet": True},
+        {"name": "rating",   "type": "float"},
+        {"name": "price",    "type": "float"},
+    ],
+    "default_sorting_field": "rating",
+})
+
+def search_properties(query: str, tenant_id: int, top_k: int = 5) -> list:
+    cache_key = f"search:{tenant_id}:{query[:20]}"
+    cached    = r.get(cache_key)
+    if cached: return json.loads(cached)
+
+    results = client.collections["properties"].documents.search({
+        "q":         query,
+        "query_by":  "name,city,state",
+        "filter_by": f"tenant_id:={tenant_id}",
+        "per_page":  top_k,
+        "num_typos": 2,                    # typo tolerance
+        "prefix":    True,                 # prefix search enabled
+    })
+
+    hits = [hit["document"] for hit in results["hits"]]
+    r.setex(cache_key, 60, json.dumps(hits))  # cache 60 seconds
+    return hits
+
+# ── Debounce on frontend (React) ───
+# useDebounce(query, 300) — call API only after 300ms pause
+# This reduces API calls by ~80%`,
+tip: `"Trie vs Elasticsearch?" — Trie: in-memory, custom, no typo tolerance, simple to implement. Elasticsearch/Typesense: persistent, typo-tolerant, faceted search, ranking. Production mein always use a dedicated search engine.`
+},
+
+"HLD — System Design Problems_Design rate limiter": {
+explain: `Rate limiter ek service ko protect karta hai abuse se. Types: per-user (100 req/min per user), per-IP (global), per-API-key (third-party integrations). Algorithms: Fixed Window (simple, boundary issue), Sliding Window Log (accurate, memory heavy), Token Bucket (burst allowed, smooth), Leaky Bucket (strict uniform rate). Redis atomicity ke liye Lua script ya pipeline use karo.`,
+arch: `Request → [Rate Limiter Middleware]
+                      ↓
+              [Redis — counter/tokens]
+                      ↓
+          ALLOW → [App Server]
+          DENY  → 429 Too Many Requests + Retry-After header`,
+example: `import redis, time, json
+from django.http import JsonResponse
+
+r = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
+
+# ── Fixed Window Counter ──────────────────────
+def fixed_window(key: str, limit: int, window_sec: int) -> bool:
+    pipe  = r.pipeline()
+    now   = int(time.time())
+    wkey  = f"fw:{key}:{now // window_sec}"   # new key each window
+    pipe.incr(wkey)
+    pipe.expire(wkey, window_sec)
+    count, _ = pipe.execute()
+    return count <= limit
+# Problem: at window boundary, 2x requests possible
+# 11:59:50 → 100 reqs, 12:00:01 → 100 more reqs = 200 in 11 seconds
+
+# ── Sliding Window Log (most accurate) ────────
+def sliding_window_log(key: str, limit: int, window_sec: int) -> bool:
+    now  = time.time()
+    pipe = r.pipeline()
+    zkey = f"swl:{key}"
+    pipe.zremrangebyscore(zkey, 0, now - window_sec)  # remove old entries
+    pipe.zadd(zkey, {str(now): now})                  # add current timestamp
+    pipe.zcard(zkey)                                  # count in window
+    pipe.expire(zkey, window_sec)
+    _, _, count, _ = pipe.execute()
+    return count <= limit
+
+# ── Token Bucket (burst friendly) ─────────────
+# Lua script for atomicity (no race conditions)
+TOKEN_BUCKET_SCRIPT = r.register_script("""
+local key      = KEYS[1]
+local rate     = tonumber(ARGV[1])
+local capacity = tonumber(ARGV[2])
+local now      = tonumber(ARGV[3])
+
+local data = redis.call('GET', key)
+local tokens, last_time
+
+if data then
+    local parsed = cjson.decode(data)
+    tokens    = parsed['tokens']
+    last_time = parsed['last']
+else
+    tokens    = capacity
+    last_time = now
+end
+
+local elapsed = now - last_time
+tokens = math.min(capacity, tokens + elapsed * rate)
+
+if tokens >= 1 then
+    tokens = tokens - 1
+    redis.call('SET', key, cjson.encode({tokens=tokens, last=now}), 'EX', 3600)
+    return 1   -- allowed
+else
+    redis.call('SET', key, cjson.encode({tokens=tokens, last=now}), 'EX', 3600)
+    return 0   -- denied
+end
+""")
+
+def token_bucket(key: str, rate: float, capacity: int) -> bool:
+    result = TOKEN_BUCKET_SCRIPT(
+        keys=[f"tb:{key}"], args=[rate, capacity, time.time()]
+    )
+    return bool(result)
+
+# ── Django Middleware ─────────────────────────
+class RateLimitMiddleware:
+    RULES = {
+        "/api/auth/": {"limit": 10, "window": 60},    # 10/min
+        "/api/bookings/": {"limit": 30, "window": 60},  # 30/min
+        "default": {"limit": 100, "window": 60},         # 100/min
+    }
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        rule = next(
+            (r for path, r in self.RULES.items() if request.path.startswith(path)),
+            self.RULES["default"]
+        )
+        user_key = (f"user:{request.user.id}"
+                    if request.user.is_authenticated
+                    else f"ip:{request.META.get('REMOTE_ADDR')}")
+
+        allowed = sliding_window_log(user_key, rule["limit"], rule["window"])
+        if not allowed:
+            return JsonResponse(
+                {"error": f"Rate limit exceeded. Max {rule['limit']} req/{rule['window']}s"},
+                status=429,
+                headers={"Retry-After": str(rule["window"])},
+            )
+        return self.get_response(request)`,
+tip: `"Distributed rate limiting — multiple servers?" — Redis pe central counter. Lua script atomicity ensure karta hai — multiple workers ek saath same key update karen toh race condition nahi hogi. Redis single-threaded commands atomic hote hain.`
+},
+
+"HLD — System Design Problems_Design distributed cache": {
+explain: `Distributed cache = multiple cache nodes across servers — single Redis se zyada capacity aur availability. Redis Cluster: 16384 hash slots, automatically distributed across nodes. Eviction policies: LRU (least recently used), LFU (least frequently used), TTL-based. Cache warming: deploy ke baad cache cold hoti hai — preload karo. Niroskos mein Redis single node hai — enough for current scale.`,
+arch: `App Servers → [Redis Cluster (3 masters + 3 replicas)]
+                         ↓ (hash slot routing)
+              [Node 1: slots 0-5460]
+              [Node 2: slots 5461-10922]
+              [Node 3: slots 10923-16383]
+              Each master has 1 replica for HA`,
+example: `# ── Redis Cluster Connection ─────────────────
+from redis.cluster import RedisCluster
+
+rc = RedisCluster(
+    startup_nodes=[
+        {"host": "redis-1", "port": 6379},
+        {"host": "redis-2", "port": 6380},
+        {"host": "redis-3", "port": 6381},
+    ],
+    decode_responses=True,
+    skip_full_coverage_check=True,
+)
+
+# ── Cache Layer with Eviction Awareness ───────
+class CacheService:
+    # Eviction: allkeys-lru in redis.conf
+    # maxmemory 4gb
+    # maxmemory-policy allkeys-lru
+
+    @staticmethod
+    def get(key: str):
+        return rc.get(key)
+
+    @staticmethod
+    def set(key: str, value, ttl: int = 300):
+        rc.setex(key, ttl, json.dumps(value) if not isinstance(value, str) else value)
+
+    @staticmethod
+    def delete(key: str):
+        rc.delete(key)
+
+    @staticmethod
+    def delete_pattern(pattern: str):
+        # Cluster: scan each node
+        for node in rc.get_nodes():
+            cursor = 0
+            while True:
+                cursor, keys = rc.scan(cursor=cursor, match=pattern, count=100,
+                                        target_nodes=node)
+                if keys: rc.delete(*keys, target_nodes=node)
+                if cursor == 0: break
+
+# ── Cache Warming Strategy ────────────────────
+@shared_task
+def warm_cache():
+    """Run after every deploy to pre-populate cache"""
+    # 1. Most viewed rooms
+    popular_rooms = Room.objects.annotate(
+        booking_count=Count("booking")
+    ).order_by("-booking_count")[:100]
+
+    for room in popular_rooms:
+        data = RoomSerializer(room).data
+        CacheService.set(f"room:{room.id}", data, ttl=3600)
+
+    # 2. Active tenants' configs
+    for tenant in Tenant.objects.filter(is_active=True):
+        config = TenantConfigSerializer(tenant.config).data
+        CacheService.set(f"tenant:{tenant.subdomain}", config, ttl=600)
+
+    # 3. Hot search terms
+    top_searches = SearchTerm.objects.order_by("-count")[:1000]
+    for term in top_searches:
+        results = search_properties(term.term, tenant_id=None)
+        CacheService.set(f"search:global:{term.term}", results, ttl=300)
+
+# ── Cache-aside with Write-through ────────────
+def update_room_price(room_id: int, new_price: float):
+    with transaction.atomic():
+        room = Room.objects.select_for_update().get(id=room_id)
+        room.price = new_price
+        room.save(update_fields=["price"])
+        # Write-through: update cache immediately after DB write
+        CacheService.set(f"room:{room_id}", RoomSerializer(room).data)
+
+# ── Monitoring Cache Hit Rate ─────────────────
+def get_cache_stats() -> dict:
+    info = rc.info("stats")
+    hits   = info.get("keyspace_hits", 0)
+    misses = info.get("keyspace_misses", 0)
+    total  = hits + misses
+    return {
+        "hit_rate":  round(hits/total*100, 2) if total else 0,
+        "hits":      hits,
+        "misses":    misses,
+        "evictions": info.get("evicted_keys", 0),
+    }
+# Target: >80% hit rate. If <70%, increase cache size or TTL`,
+tip: `"Cache eviction kab hoti hai?" — maxmemory limit reach hone pe. allkeys-lru = koi bhi key evict ho sakti hai (most used policy). volatile-lru = sirf TTL wali keys evict. allkeys-lfu = least frequently used evict karo (better for uneven access patterns).`
+},
+
+"HLD — System Design Problems_Design payment system": {
+explain: `Payment system ka sabse critical aspect: Idempotency (same request do baar aaye toh duplicate charge nahi honi chahiye), Atomicity (payment fail hone pe booking cancel ho), Webhook handling (Razorpay/PayU payment status async notify karta hai), Reconciliation (daily DB vs payment gateway balance match karo). Aapne Razorpay/PayU use kiya hai — yeh real experience hai.`,
+arch: `Client → [Your Backend] → [Razorpay/PayU API]
+                   ↑ ──────── [Webhook: payment.captured] ──────
+[Your Backend] → PostgreSQL (idempotency key, transaction log)
+                → Celery (send receipts, update booking status)`,
+example: `import hmac, hashlib, uuid
+
+# ── Payment Transaction Model ─────────────────
+class PaymentTransaction(models.Model):
+    STATUS = [("pending","Pending"),("success","Success"),
+              ("failed","Failed"),("refunded","Refunded")]
+    booking          = models.OneToOneField(Booking, on_delete=models.CASCADE)
+    amount           = models.DecimalField(max_digits=10, decimal_places=2)
+    currency         = models.CharField(max_length=3, default="INR")
+    gateway          = models.CharField(max_length=20)   # razorpay, payu
+    gateway_order_id = models.CharField(max_length=100, unique=True)
+    gateway_payment_id = models.CharField(max_length=100, null=True)
+    idempotency_key  = models.UUIDField(unique=True, default=uuid.uuid4)
+    status           = models.CharField(max_length=20, default="pending")
+    created_at       = models.DateTimeField(auto_now_add=True)
+
+# ── Create Payment Order ──────────────────────
+class PaymentService:
+    @staticmethod
+    def create_order(booking: Booking) -> dict:
+        # Idempotency: same booking → same order (don't create duplicate)
+        existing = PaymentTransaction.objects.filter(booking=booking,
+                                                     status="pending").first()
+        if existing:
+            return {"order_id": existing.gateway_order_id,
+                    "amount":   existing.amount}
+
+        razorpay_order = razorpay_client.order.create({
+            "amount":          int(booking.total * 100),  # paise
+            "currency":        "INR",
+            "receipt":         str(booking.id),
+            "notes": {
+                "booking_id":  booking.id,
+                "tenant_id":   booking.tenant_id,
+            }
+        })
+        PaymentTransaction.objects.create(
+            booking          = booking,
+            amount           = booking.total,
+            gateway          = "razorpay",
+            gateway_order_id = razorpay_order["id"],
+        )
+        return {"order_id": razorpay_order["id"], "amount": booking.total}
+
+# ── Webhook Handler ───────────────────────────
+class RazorpayWebhookView(View):
+    def post(self, request):
+        # Step 1: Verify webhook signature (security critical!)
+        body      = request.body.decode()
+        signature = request.META.get("HTTP_X_RAZORPAY_SIGNATURE", "")
+        expected  = hmac.new(
+            settings.RAZORPAY_WEBHOOK_SECRET.encode(),
+            body.encode(), hashlib.sha256
+        ).hexdigest()
+
+        if not hmac.compare_digest(expected, signature):
+            return HttpResponse(status=400)
+
+        data  = json.loads(body)
+        event = data.get("event")
+
+        if event == "payment.captured":
+            self.handle_payment_captured(data["payload"]["payment"]["entity"])
+        elif event == "payment.failed":
+            self.handle_payment_failed(data["payload"]["payment"]["entity"])
+
+        return HttpResponse("OK")
+
+    def handle_payment_captured(self, payment: dict):
+        order_id = payment["order_id"]
+        # Idempotency: webhook can come multiple times!
+        if PaymentTransaction.objects.filter(
+            gateway_payment_id=payment["id"]
+        ).exists():
+            return   # already processed
+
+        with transaction.atomic():
+            txn = PaymentTransaction.objects.select_for_update().get(
+                gateway_order_id=order_id
+            )
+            txn.gateway_payment_id = payment["id"]
+            txn.status             = "success"
+            txn.save()
+            # Confirm booking
+            txn.booking.status = "confirmed"
+            txn.booking.save(update_fields=["status"])
+
+        send_payment_receipt.delay(txn.id)
+        generate_invoice.delay(txn.booking.id)
+
+# ── Reconciliation (Daily Celery Beat) ────────
+@shared_task
+def reconcile_payments():
+    """Match our DB vs Razorpay — find missing/extra payments"""
+    yesterday = date.today() - timedelta(days=1)
+    db_txns   = PaymentTransaction.objects.filter(
+        created_at__date=yesterday, status="success"
+    ).values("gateway_payment_id", "amount")
+
+    # Fetch from Razorpay
+    rp_payments = razorpay_client.payment.all({
+        "from": int(datetime.combine(yesterday, time.min).timestamp()),
+        "to":   int(datetime.combine(yesterday, time.max).timestamp()),
+        "count": 100,
+    })
+
+    db_ids = {t["gateway_payment_id"] for t in db_txns}
+    rp_ids = {p["id"] for p in rp_payments["items"]}
+
+    missing_in_db  = rp_ids - db_ids   # Razorpay captured, we missed
+    extra_in_db    = db_ids - rp_ids   # We recorded, Razorpay doesn't have
+
+    if missing_in_db or extra_in_db:
+        alert_finance_team(missing_in_db, extra_in_db)`,
+tip: `"Webhook duplicate hone pe kya karoge?" — Idempotency key check. gateway_payment_id unique constraint DB mein. Webhook baar baar aaye (network retry) toh duplicate charge nahi hogi. Signature verification mandatory — bina verify kiye webhook accept mat karo.`
+},
+
+"HLD — System Design Problems_Design file storage (S3)": {
+explain: `File storage system (S3 jaisa): files chunked upload (large files), metadata PostgreSQL mein, actual files object storage (S3) mein. Key features: presigned URLs (secure temporary access), versioning, deduplication (same file content → same hash → don't store twice), CDN delivery. Private files ke liye presigned URL, public files ke liye direct CloudFront URL.`,
+arch: `Upload  → [Your Backend] → [S3 Presigned URL] → [Client uploads direct to S3]
+                                         ↓ (S3 event trigger)
+                                   [Lambda/Celery] → [Process/thumbnail]
+Access  → [Client] → [CloudFront CDN] → [S3]
+Private → [Client] → [Your Backend] → [S3 Presigned URL] → [Client]`,
+example: `import boto3, hashlib
+from botocore.config import Config
+
+s3 = boto3.client("s3", region_name="ap-south-1",
+                   config=Config(signature_version="s3v4"))
+
+# ── File Model ────────────────────────────────
+class StoredFile(models.Model):
+    tenant      = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    original_name = models.CharField(max_length=255)
+    s3_key      = models.CharField(max_length=500, unique=True)
+    content_hash = models.CharField(max_length=64, db_index=True)  # SHA-256
+    size_bytes  = models.PositiveBigIntegerField()
+    content_type = models.CharField(max_length=100)
+    is_public   = models.BooleanField(default=False)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+# ── Direct Upload (Client → S3, bypass server) ─
+class FileUploadService:
+    BUCKET = "niroskos-media"
+
+    @staticmethod
+    def get_presigned_upload_url(filename: str, content_type: str,
+                                  size_bytes: int, tenant_id: int) -> dict:
+        # Validate size
+        if size_bytes > 50 * 1024 * 1024:   # 50MB limit
+            raise FileTooLargeError("Max file size is 50MB")
+
+        file_id = uuid.uuid4()
+        s3_key  = f"tenants/{tenant_id}/uploads/{file_id}/{filename}"
+
+        presigned_post = s3.generate_presigned_post(
+            Bucket     = FileUploadService.BUCKET,
+            Key        = s3_key,
+            Fields     = {"Content-Type": content_type},
+            Conditions = [
+                {"Content-Type": content_type},
+                ["content-length-range", 1, size_bytes],
+            ],
+            ExpiresIn  = 300,   # 5 minutes to upload
+        )
+        return {"upload_url": presigned_post["url"],
+                "fields":     presigned_post["fields"],
+                "s3_key":     s3_key}
+
+    @staticmethod
+    def confirm_upload(s3_key: str, user, tenant) -> StoredFile:
+        # After client uploads, confirm the file exists
+        try:
+            head = s3.head_object(Bucket=FileUploadService.BUCKET, Key=s3_key)
+        except s3.exceptions.ClientError:
+            raise FileNotFoundError(f"Upload not found: {s3_key}")
+
+        # Deduplication: compute hash, check if already stored
+        obj  = s3.get_object(Bucket=FileUploadService.BUCKET, Key=s3_key)
+        body = obj["Body"].read()
+        content_hash = hashlib.sha256(body).hexdigest()
+
+        existing = StoredFile.objects.filter(
+            tenant=tenant, content_hash=content_hash
+        ).first()
+        if existing:
+            s3.delete_object(Bucket=FileUploadService.BUCKET, Key=s3_key)
+            return existing   # reuse existing file
+
+        return StoredFile.objects.create(
+            tenant        = tenant,
+            uploaded_by   = user,
+            original_name = s3_key.split("/")[-1],
+            s3_key        = s3_key,
+            content_hash  = content_hash,
+            size_bytes    = head["ContentLength"],
+            content_type  = head["ContentType"],
+        )
+
+# ── Access Control ────────────────────────────
+class FileAccessService:
+    @staticmethod
+    def get_url(file: StoredFile, user) -> str:
+        if file.is_public:
+            return f"https://cdn.niroskos.com/{file.s3_key}"
+
+        # Private: check permissions, generate presigned URL
+        if file.tenant_id != user.profile.tenant_id:
+            raise PermissionError("Access denied")
+
+        return s3.generate_presigned_url(
+            "get_object",
+            Params   = {"Bucket": "niroskos-media", "Key": file.s3_key},
+            ExpiresIn = 3600,   # 1 hour
+        )
+
+# ── Chunked Upload (large files) ──────────────
+class MultipartUploadService:
+    @staticmethod
+    def initiate(s3_key: str, content_type: str) -> str:
+        response = s3.create_multipart_upload(
+            Bucket=FileUploadService.BUCKET, Key=s3_key,
+            ContentType=content_type,
+        )
+        return response["UploadId"]
+
+    @staticmethod
+    def get_part_url(s3_key: str, upload_id: str, part_number: int) -> str:
+        return s3.generate_presigned_url(
+            "upload_part",
+            Params={"Bucket": FileUploadService.BUCKET, "Key": s3_key,
+                    "UploadId": upload_id, "PartNumber": part_number},
+            ExpiresIn=3600,
+        )
+
+    @staticmethod
+    def complete(s3_key: str, upload_id: str, parts: list) -> bool:
+        s3.complete_multipart_upload(
+            Bucket=FileUploadService.BUCKET, Key=s3_key, UploadId=upload_id,
+            MultipartUpload={"Parts": [
+                {"PartNumber": p["part_number"], "ETag": p["etag"]}
+                for p in sorted(parts, key=lambda x: x["part_number"])
+            ]},
+        )
+        return True`,
+tip: `"Why presigned URLs?" — Server pe file nahi aata → server bandwidth save. S3 direct upload → faster. Presigned URL expire hoti hai → secure. "Deduplication kaise?" — SHA-256 hash of content. Same content already stored hai → new S3 object mat banao.`
+}
+
+}; // end details
+
+/* ════════════════════════════════
+   DATA
+════════════════════════════════ */
+const data = [{
+  section: "HLD — System Design Problems",
+  badge: "HLD", tab: "all",
+  badgeColor: "#FAECE7", badgeText: "#712B13",
+  concepts: [
+    {name:"Design URL shortener",        tag:"problem", imp:true,  tab:"url",     note:"Base62 encoding, Redis redirect cache, analytics async"},
+    {name:"Design WhatsApp / chat",      tag:"problem", imp:true,  tab:"chat",    note:"WebSockets, Django Channels, Redis pub-sub, offline queue"},
+    {name:"Design Instagram / news feed",tag:"problem", imp:true,  tab:"chat",    note:"Fan-out on write vs read, Redis list per user, S3+CDN"},
+    {name:"Design YouTube",              tag:"problem", imp:false, tab:"chat",    note:"Multi-part upload, Celery FFmpeg encoding, HLS streaming"},
+    {name:"Design Uber / ride sharing",  tag:"problem", imp:true,  tab:"chat",    note:"Redis GEO, WebSocket tracking, surge pricing, matching"},
+    {name:"Design Notification system",  tag:"problem", imp:true,  tab:"payment", note:"Multi-channel, Celery retry, quiet hours, Twilio+Postmark"},
+    {name:"Design Multi-tenant SaaS",    tag:"problem", imp:true,  tab:"url",     note:"Subdomain routing, tenant_id isolation — your Niroskos!"},
+    {name:"Design Search autocomplete",  tag:"problem", imp:true,  tab:"search",  note:"Trie (interview) vs Typesense (prod) — your Niroskos search"},
+    {name:"Design rate limiter",         tag:"problem", imp:true,  tab:"search",  note:"Token bucket Lua, Sliding window, Django middleware"},
+    {name:"Design distributed cache",    tag:"problem", imp:true,  tab:"search",  note:"Redis Cluster, eviction policies, cache warming, hit rate"},
+    {name:"Design payment system",       tag:"problem", imp:true,  tab:"payment", note:"Idempotency, webhook + signature verify, reconciliation"},
+    {name:"Design file storage (S3)",    tag:"problem", imp:false, tab:"payment", note:"Presigned URLs, chunked upload, deduplication, CDN"},
+  ]
+}];
+
+/* ════════════════════════════════
+   STATE & RENDER
+════════════════════════════════ */
+const state = JSON.parse(localStorage.getItem("hld_sdp_v1") || "{}");
+let currentTab = "all";
+
+function save() { localStorage.setItem("hld_sdp_v1", JSON.stringify(state)); }
+
+function toggleDone(evt, key) {
+  evt.stopPropagation();
+  state[key] = !state[key];
+  save(); render();
+}
+
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  ["all","url","chat","search","payment","pending"].forEach((t, i) => {
+    if (t === tab) document.querySelectorAll(".tab-btn")[i]?.classList.add("active");
+  });
+  render();
+}
+
+function toggleDetail(evt, id) {
+  evt.stopPropagation();
+  const panel = document.getElementById(id);
+  const btn   = evt.currentTarget;
+  if (!panel) return;
+  const open = panel.style.display !== "none";
+  panel.style.display = open ? "none" : "block";
+  btn.textContent     = open ? "Details ▼" : "Details ▲";
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function makeId(sec, name) {
+  return "d_" + (sec + "_" + name).replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+function getDetail(sec, name) {
+  const d = details[sec + "_" + name];
+  if (!d) return '<p style="font-size:11px;color:#999;padding:8px">Coming soon...</p>';
+  return `
+    <div class="det-explain">${d.explain}</div>
+    ${d.arch ? `<div class="det-label">Architecture Diagram</div><div class="arch-box">${escHtml(d.arch)}</div>` : ""}
+    <div class="det-label">Python / Django Code</div>
+    <pre class="det-code">${escHtml(d.example)}</pre>
+    <div class="det-tip">${d.tip}</div>`;
+}
+
+function render() {
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+  let total = 0, done = 0;
+
+  data.forEach(sec => {
+    const concepts = sec.concepts.filter(c => {
+      if (currentTab === "url"     && c.tab !== "url")     return false;
+      if (currentTab === "chat"    && c.tab !== "chat")    return false;
+      if (currentTab === "search"  && c.tab !== "search")  return false;
+      if (currentTab === "payment" && c.tab !== "payment") return false;
+      if (currentTab === "pending" && state[sec.section + "_" + c.name]) return false;
+      return true;
+    });
+    if (!concepts.length) return;
+
+    total += sec.concepts.length;
+    sec.concepts.forEach(c => { if (state[sec.section + "_" + c.name]) done++; });
+
+    const doneCount = sec.concepts.filter(c => state[sec.section + "_" + c.name]).length;
+    const el = document.createElement("div");
+    el.className = "section";
+    el.innerHTML = `
+      <div class="sec-header">
+        <span class="sec-badge" style="background:${sec.badgeColor};color:${sec.badgeText}">${sec.badge}</span>
+        <span class="sec-title">${sec.section}</span>
+        <span class="sec-count">${doneCount}/${sec.concepts.length} done</span>
+      </div>
+      <div class="grid">${concepts.map(c => {
+        const sk  = sec.section + "_" + c.name;
+        const did = makeId(sec.section, c.name);
+        const isDone = !!state[sk];
+        return `
+        <div class="concept-card${c.imp?" imp":""}${isDone?" done":""}">
+          <div class="c-top" onclick="toggleDone(event,'${sk.replace(/'/g,"\\'")}')">
+            <div class="c-name">${c.name}</div>
+            <div class="c-check">
+              <svg class="checkmark" viewBox="0 0 10 10" fill="none">
+                <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <span class="c-tag">${c.tag}</span>
+          <div class="c-note">${c.note}</div>
+          <button class="det-btn" onclick="toggleDetail(event,'${did}')">Details ▼</button>
+          <div class="det-panel" id="${did}">${getDetail(sec.section, c.name)}</div>
+        </div>`;
+      }).join("")}</div>`;
+    container.appendChild(el);
+  });
+
+  const fill = total ? Math.round(done/total*100) : 0;
+  document.getElementById("prog-fill").style.width  = fill + "%";
+  document.getElementById("prog-label").textContent = done + " / " + total;
+}
+
+render();
+</script>
+</body>
+</html>

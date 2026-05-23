@@ -1,0 +1,261 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{padding:1rem 0;font-family:var(--font-sans)}
+.section{margin-bottom:28px}
+.sec-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.sec-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--border-radius-md)}
+.sec-title{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.sec-count{font-size:12px;color:var(--color-text-secondary);margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.concept-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;cursor:pointer;transition:border-color 0.15s}
+.concept-card:hover{border-color:var(--color-border-secondary)}
+.concept-card.done{border-color:#1D9E75;background:#E1F5EE}
+.concept-card.done .c-name{color:#085041}
+.concept-card.done .c-tag{background:#9FE1CB;color:#085041}
+.concept-card.imp{border-left:2px solid #7F77DD}
+.c-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:4px}
+.c-name{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.c-check{width:16px;height:16px;border-radius:3px;border:0.5px solid var(--color-border-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.concept-card.done .c-check{background:#1D9E75;border-color:#1D9E75}
+.checkmark{width:10px;height:10px;display:none}
+.concept-card.done .checkmark{display:block}
+.c-tag{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--color-background-secondary);color:var(--color-text-secondary);display:inline-block;margin-top:2px}
+.c-note{font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.4}
+.progress-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.prog-bar{flex:1;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:#1D9E75;border-radius:3px;transition:width 0.3s}
+.prog-label{font-size:12px;color:var(--color-text-secondary);min-width:60px;text-align:right}
+.filter-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer}
+.filter-btn.active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary)}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+</style>
+
+<div class="root">
+
+<div class="progress-row">
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="prog-label" id="prog-label">0 / 60</div>
+</div>
+
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div> Must-know (left border)</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div> Completed</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#E1F5EE;border:0.5px solid #1D9E75"></div> Click to mark done</div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-btn active" onclick="filterAll()">All</button>
+  <button class="filter-btn" onclick="filterSection('lld')">LLD only</button>
+  <button class="filter-btn" onclick="filterSection('hld')">HLD only</button>
+  <button class="filter-btn" onclick="filterSection('infra')">Infrastructure</button>
+  <button class="filter-btn" onclick="filterPending()">Pending only</button>
+</div>
+
+<div id="concepts-container"></div>
+
+</div>
+
+<script>
+const data = [
+  {
+    section: "LLD — Object-Oriented Design",
+    badge: "LLD",
+    badgeColor: "#EEEDFE", badgeText: "#3C3489",
+    id: "lld",
+    concepts: [
+      {name:"SOLID principles", tag:"fundamentals", imp:true, note:"Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion"},
+      {name:"Design patterns — Creational", tag:"patterns", imp:true, note:"Factory, Abstract Factory, Singleton, Builder, Prototype"},
+      {name:"Design patterns — Structural", tag:"patterns", imp:true, note:"Adapter, Decorator, Facade, Proxy, Composite"},
+      {name:"Design patterns — Behavioral", tag:"patterns", imp:true, note:"Observer, Strategy, Command, Iterator, State, Template Method"},
+      {name:"UML class diagrams", tag:"notation", imp:false, note:"Classes, interfaces, inheritance, association, composition"},
+      {name:"Abstraction & encapsulation", tag:"oop", imp:false, note:"Abstract classes vs interfaces in Python"},
+      {name:"Composition over inheritance", tag:"oop", imp:true, note:"Prefer has-a over is-a relationship"},
+      {name:"Dependency injection", tag:"patterns", imp:true, note:"Constructor injection, service locator — used in Django DI"},
+      {name:"Repository pattern", tag:"patterns", imp:true, note:"Decouple data access from business logic"},
+      {name:"Service layer pattern", tag:"patterns", imp:true, note:"Business logic isolation — your SAP connector uses this"},
+      {name:"State machine design", tag:"patterns", imp:true, note:"Draft→Confirm flows — your Niroskos booking system!"},
+      {name:"Observer / event-driven", tag:"patterns", imp:true, note:"Django signals, Celery events — you already use this"},
+    ]
+  },
+  {
+    section: "LLD — Practice Problems",
+    badge: "LLD",
+    badgeColor: "#EEEDFE", badgeText: "#3C3489",
+    id: "lld",
+    concepts: [
+      {name:"Design Parking Lot", tag:"classic", imp:true, note:"Floors, slots, vehicle types, billing"},
+      {name:"Design Booking System", tag:"classic", imp:true, note:"Hotel/flight — state machine, concurrency, payment"},
+      {name:"Design LRU Cache", tag:"classic", imp:true, note:"OrderedDict in Python — also a DSA problem"},
+      {name:"Design Rate Limiter", tag:"classic", imp:true, note:"Token bucket, sliding window — your Exotel 200 req/min!"},
+      {name:"Design Notification System", tag:"classic", imp:true, note:"Multi-channel: email, SMS, push — observer pattern"},
+      {name:"Design Elevator System", tag:"classic", imp:false, note:"State machine, scheduling algorithms"},
+      {name:"Design Chess / Snake", tag:"classic", imp:false, note:"Grid, piece hierarchy, game loop"},
+      {name:"Design File System", tag:"classic", imp:false, note:"Composite pattern, directories, permissions"},
+      {name:"Design ATM", tag:"classic", imp:false, note:"State machine, transaction handling, RBAC"},
+      {name:"Design Online Shopping Cart", tag:"classic", imp:false, note:"Cart, inventory, discount engine, checkout"},
+    ]
+  },
+  {
+    section: "HLD — Fundamentals",
+    badge: "HLD",
+    badgeColor: "#E1F5EE", badgeText: "#085041",
+    id: "hld",
+    concepts: [
+      {name:"Scalability — vertical vs horizontal", tag:"core", imp:true, note:"Scale up vs scale out tradeoffs"},
+      {name:"CAP theorem", tag:"core", imp:true, note:"Consistency, Availability, Partition tolerance — pick 2"},
+      {name:"ACID vs BASE", tag:"core", imp:true, note:"Transactions vs eventual consistency"},
+      {name:"Latency vs throughput", tag:"core", imp:true, note:"P99 latency, QPS, bottleneck analysis"},
+      {name:"SLA / SLO / SLI", tag:"core", imp:false, note:"99.9% uptime = 8.7 hrs downtime/year"},
+      {name:"Back-of-envelope estimation", tag:"core", imp:true, note:"Storage, QPS, bandwidth calculations — every interview starts here"},
+    ]
+  },
+  {
+    section: "HLD — Infrastructure",
+    badge: "Infra",
+    badgeColor: "#FAEEDA", badgeText: "#633806",
+    id: "infra",
+    concepts: [
+      {name:"Load balancing", tag:"infra", imp:true, note:"Round robin, least connections, consistent hashing — AWS ALB/NLB"},
+      {name:"Caching strategies", tag:"infra", imp:true, note:"Cache aside, write-through, write-back, TTL — your Redis experience"},
+      {name:"CDN", tag:"infra", imp:true, note:"Edge caching, cache invalidation, CloudFront"},
+      {name:"DNS & reverse proxy", tag:"infra", imp:false, note:"Nginx, subdomain routing — your django-hosts in Niroskos"},
+      {name:"API Gateway", tag:"infra", imp:true, note:"Rate limiting, auth, routing, request transformation"},
+      {name:"Message queues", tag:"infra", imp:true, note:"RabbitMQ, Kafka, SQS — pub/sub vs point-to-point, your Celery stack"},
+      {name:"Service mesh", tag:"infra", imp:false, note:"Istio, sidecar proxy, service discovery"},
+      {name:"Event-driven architecture", tag:"infra", imp:true, note:"Events, consumers, dead letter queues, idempotency"},
+      {name:"Circuit breaker pattern", tag:"infra", imp:true, note:"Prevent cascade failures — retry + fallback logic"},
+    ]
+  },
+  {
+    section: "HLD — Storage & Databases",
+    badge: "HLD",
+    badgeColor: "#E1F5EE", badgeText: "#085041",
+    id: "hld",
+    concepts: [
+      {name:"SQL vs NoSQL", tag:"storage", imp:true, note:"When to use which — tradeoffs, use cases"},
+      {name:"Database sharding", tag:"storage", imp:true, note:"Horizontal partitioning, shard key selection, hotspots"},
+      {name:"Database replication", tag:"storage", imp:true, note:"Master-slave, master-master, read replicas"},
+      {name:"Indexing strategies", tag:"storage", imp:true, note:"B-tree, composite indexes — you reduced queries by 60%!"},
+      {name:"Connection pooling", tag:"storage", imp:false, note:"PgBouncer, Django DB pool settings"},
+      {name:"Data partitioning", tag:"storage", imp:true, note:"Range, hash, list partitioning"},
+      {name:"Consistent hashing", tag:"storage", imp:true, note:"Distributed caching, load balancing without rehashing"},
+      {name:"Vector databases", tag:"storage", imp:false, note:"Embeddings, similarity search — your OpenAI GPT-4 work"},
+    ]
+  },
+  {
+    section: "HLD — System Design Problems",
+    badge: "HLD",
+    badgeColor: "#E1F5EE", badgeText: "#085041",
+    id: "hld",
+    concepts: [
+      {name:"Design URL shortener", tag:"problem", imp:true, note:"Hashing, redirects, analytics, scale to billions"},
+      {name:"Design WhatsApp / chat", tag:"problem", imp:true, note:"WebSockets, message delivery, read receipts, encryption"},
+      {name:"Design Instagram / news feed", tag:"problem", imp:true, note:"Fan-out, timeline generation, media storage"},
+      {name:"Design YouTube", tag:"problem", imp:false, note:"Video upload, encoding pipeline, CDN delivery"},
+      {name:"Design Uber / ride sharing", tag:"problem", imp:true, note:"Geo-indexing, matching, real-time tracking, surge pricing"},
+      {name:"Design Notification system", tag:"problem", imp:true, note:"Multi-channel, templates, delivery guarantees, your Twilio/Postmark work"},
+      {name:"Design Multi-tenant SaaS", tag:"problem", imp:true, note:"Subdomain routing, data isolation, billing — your Niroskos platform!"},
+      {name:"Design Search autocomplete", tag:"problem", imp:true, note:"Trie, top-K, Typesense/Elasticsearch — your Niroskos search"},
+      {name:"Design rate limiter", tag:"problem", imp:true, note:"Token bucket, sliding window log, Redis-based"},
+      {name:"Design distributed cache", tag:"problem", imp:true, note:"Redis cluster, eviction policies, cache warming"},
+      {name:"Design payment system", tag:"problem", imp:true, note:"Idempotency, transactions, Razorpay/PayU — your experience!"},
+      {name:"Design file storage (S3)", tag:"problem", imp:false, note:"Chunking, metadata, replication, presigned URLs"},
+    ]
+  },
+  {
+    section: "HLD — Advanced Concepts",
+    badge: "Advanced",
+    badgeColor: "#FAECE7", badgeText: "#712B13",
+    id: "infra",
+    concepts: [
+      {name:"Microservices vs monolith", tag:"architecture", imp:true, note:"Your exact migration journey at Y Equipment Services!"},
+      {name:"Service discovery", tag:"architecture", imp:false, note:"Consul, Kubernetes DNS, health checks"},
+      {name:"Distributed transactions", tag:"architecture", imp:true, note:"2PC, Saga pattern, compensating transactions"},
+      {name:"Idempotency", tag:"architecture", imp:true, note:"Idempotency keys — your SAP connector retry logic"},
+      {name:"Distributed locking", tag:"architecture", imp:true, note:"Redis SETNX, Redlock — prevent race conditions"},
+      {name:"Long polling vs WebSockets vs SSE", tag:"architecture", imp:true, note:"Real-time communication patterns"},
+      {name:"OAuth2 / JWT auth", tag:"security", imp:true, note:"You already implement JWT + OAuth2 — know the internals"},
+      {name:"RBAC design", tag:"security", imp:true, note:"Roles, permissions, resource-level access — your OTP + RBAC work"},
+    ]
+  }
+];
+
+const state = JSON.parse(localStorage.getItem('sd_concepts') || '{}');
+let currentFilter = 'all';
+
+function toggleDone(id) {
+  state[id] = !state[id];
+  localStorage.setItem('sd_concepts', JSON.stringify(state));
+  render();
+}
+
+function filterAll() { currentFilter='all'; setActive(0); render(); }
+function filterSection(s) { currentFilter=s; setActive(s); render(); }
+function filterPending() { currentFilter='pending'; setActive('pending'); render(); }
+
+function setActive(key) {
+  document.querySelectorAll('.filter-btn').forEach((b,i) => {
+    b.classList.remove('active');
+    const map = ['all','lld','hld','infra','pending'];
+    if(map[i] === key || (key===0 && i===0)) b.classList.add('active');
+  });
+}
+
+function render() {
+  const container = document.getElementById('concepts-container');
+  container.innerHTML = '';
+  let total = 0, done = 0;
+
+  data.forEach(sec => {
+    const filtered = sec.concepts.filter(c => {
+      if(currentFilter === 'lld' && sec.id !== 'lld') return false;
+      if(currentFilter === 'hld' && sec.id !== 'hld') return false;
+      if(currentFilter === 'infra' && sec.id !== 'infra') return false;
+      if(currentFilter === 'pending' && state[sec.section+'_'+c.name]) return false;
+      return true;
+    });
+    if(!filtered.length) return;
+
+    total += sec.concepts.length;
+    sec.concepts.forEach(c => { if(state[sec.section+'_'+c.name]) done++; });
+
+    const secEl = document.createElement('div');
+    secEl.className = 'section';
+    secEl.innerHTML = `
+      <div class="sec-header">
+        <span class="sec-badge" style="background:${sec.badgeColor};color:${sec.badgeText}">${sec.badge}</span>
+        <span class="sec-title">${sec.section}</span>
+        <span class="sec-count">${sec.concepts.filter(c=>state[sec.section+'_'+c.name]).length}/${sec.concepts.length} done</span>
+      </div>
+      <div class="grid">${filtered.map(c => {
+        const key = sec.section+'_'+c.name;
+        const isDone = !!state[key];
+        return `<div class="concept-card${c.imp?' imp':''}${isDone?' done':''}" onclick="toggleDone('${key.replace(/'/g,"\\'")}')">
+          <div class="c-top">
+            <div class="c-name">${c.name}</div>
+            <div class="c-check">
+              <svg class="checkmark" viewBox="0 0 10 10" fill="none">
+                <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <span class="c-tag">${c.tag}</span>
+          <div class="c-note">${c.note}</div>
+        </div>`;
+      }).join('')}</div>`;
+    container.appendChild(secEl);
+  });
+
+  if(currentFilter === 'all') {
+    const fill = total ? Math.round(done/total*100) : 0;
+    document.getElementById('prog-fill').style.width = fill+'%';
+    document.getElementById('prog-label').textContent = done+' / '+total;
+  }
+}
+
+render();
+</script>

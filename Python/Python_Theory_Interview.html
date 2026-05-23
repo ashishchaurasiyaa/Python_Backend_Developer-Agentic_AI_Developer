@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Theory — Interview Prep</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0d14;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+header{background:linear-gradient(135deg,#0f172a,#1e3a5f);padding:20px 24px;border-bottom:2px solid #3b82f6}
+header h1{font-size:22px;color:#60a5fa;letter-spacing:.5px}
+header p{font-size:12px;color:#888;margin-top:4px}
+.stats{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.stat{background:#1e2a3a;padding:5px 14px;border-radius:20px;font-size:12px;color:#60a5fa;border:1px solid #1d4ed8}
+.progress-bar{height:4px;background:#1e1e2e}
+.progress-fill{height:100%;background:linear-gradient(90deg,#2563eb,#60a5fa);transition:width .4s;border-radius:2px}
+.tabs{display:flex;gap:6px;padding:12px 24px;background:#0f0f1a;border-bottom:1px solid #1e2a3a;flex-wrap:wrap}
+.tab{padding:6px 14px;border-radius:20px;border:1px solid #1d4ed8;background:transparent;color:#666;cursor:pointer;font-size:12px;transition:all .2s}
+.tab.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.tab:hover:not(.active){border-color:#3b82f6;color:#60a5fa}
+main{padding:20px 24px;max-width:1200px;margin:0 auto}
+.sec-title{font-size:13px;color:#3b82f6;margin:20px 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-bottom:24px}
+.card{background:#111827;border:1px solid #1f2937;border-radius:10px;overflow:hidden;transition:border-color .2s}
+.card:hover{border-color:#2563eb}
+.card.done{border-color:#059669;background:#0a1f15}
+.card-head{padding:14px 14px 0}
+.q-num{font-size:10px;color:#3b82f6;font-weight:700;margin-bottom:4px;letter-spacing:.5px}
+.q-title{font-size:13px;font-weight:600;color:#e2e8f0;line-height:1.4}
+.card.done .q-title{color:#34d399}
+.badges{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.cat-core{background:#1e3a5f;color:#60a5fa}
+.cat-functional{background:#2d1b69;color:#a78bfa}
+.cat-concurrency{background:#1a2e1a;color:#4ade80}
+.cat-modern{background:#1c1a30;color:#f472b6}
+.cat-debug{background:#2d1a0a;color:#fb923c}
+.done-tag{background:#065f46;color:#6ee7b7;font-size:10px;padding:2px 8px;border-radius:10px}
+.card-actions{display:flex;gap:8px;padding:10px 14px}
+.show-btn{font-size:11px;padding:4px 12px;border-radius:6px;border:1px solid #1d4ed8;background:transparent;color:#60a5fa;cursor:pointer;transition:all .2s}
+.show-btn:hover{background:#1e3a5f}
+.done-btn{font-size:11px;padding:4px 12px;border-radius:6px;border:1px solid #1f2937;background:transparent;color:#555;cursor:pointer;transition:all .2s;margin-left:auto}
+.done-btn:hover{border-color:#059669;color:#34d399}
+.card.done .done-btn{border-color:#059669;color:#34d399}
+.panel{display:none;border-top:1px solid #1f2937;background:#0d1117}
+.panel.open{display:block}
+.panel-inner{padding:14px}
+.lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 6px;color:#3b82f6}
+.lbl:first-child{margin-top:0}
+.hinglish{font-size:12px;color:#94a3b8;line-height:1.6;font-style:italic;background:#0f172a;padding:8px 10px;border-radius:6px;border-left:3px solid #1d4ed8}
+.english{font-size:12px;color:#cbd5e1;line-height:1.7}
+.tip{font-size:11px;color:#fbbf24;background:#1c1500;border-left:3px solid #fbbf24;padding:6px 10px;border-radius:0 4px 4px 0;margin-top:10px}
+pre{background:#060610;border:1px solid #1f2937;border-radius:6px;padding:12px;overflow-x:auto;margin-top:6px}
+code{font-family:'Fira Code','Cascadia Code',monospace;font-size:11px;line-height:1.7}
+.kw{color:#f472b6}.fn{color:#4ade80}.cl{color:#7dd3fc}.cm{color:#475569;font-style:italic}.st{color:#fde68a}.num{color:#c084fc}.dec{color:#fb923c}
+.empty{text-align:center;color:#555;padding:60px 20px;font-size:14px}
+@media(max-width:600px){main{padding:12px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🐍 Python Theory — Interview Prep</h1>
+  <p>24 Topics | Core + Functional + Concurrency + Modern Python | Bilingual (Hinglish + English)</p>
+  <div class="stats">
+    <div class="stat">Total: <span id="s-total">24</span></div>
+    <div class="stat">Done: <span id="s-done">0</span></div>
+    <div class="stat">Remaining: <span id="s-rem">24</span></div>
+    <div class="stat" style="color:#34d399">Ashish — 30 LPA 🎯</div>
+  </div>
+</header>
+<div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+<div class="tabs">
+  <button class="tab active" onclick="setTab('all',this)">All (24)</button>
+  <button class="tab" onclick="setTab('core',this)">⚙️ Core Python (6)</button>
+  <button class="tab" onclick="setTab('functional',this)">🔧 Functional (7)</button>
+  <button class="tab" onclick="setTab('concurrency',this)">⚡ Concurrency (4)</button>
+  <button class="tab" onclick="setTab('modern',this)">✨ Modern Python (4)</button>
+  <button class="tab" onclick="setTab('debug',this)">🔍 Debug & Errors (3)</button>
+  <button class="tab" onclick="setTab('pending',this)">⏳ Pending</button>
+</div>
+<main id="main"></main>
+
+<script>
+const STORE = 'pytheory_v1';
+let state = JSON.parse(localStorage.getItem(STORE)||'{}');
+let currentTab = 'all';
+
+function hl(raw) {
+  let s = raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const saved = [];
+  const ph = '\x01';
+  s = s.replace(/("""[\s\S]*?"""|'''[\s\S]*?''')/g, m=>{saved.push(`<span class="st">${m}</span>`);return ph+(saved.length-1)+ph;});
+  s = s.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, m=>{saved.push(`<span class="st">${m}</span>`);return ph+(saved.length-1)+ph;});
+  s = s.replace(/(#[^\n]*)/g, m=>{saved.push(`<span class="cm">${m}</span>`);return ph+(saved.length-1)+ph;});
+  s = s.replace(/\b(def|class|return|import|from|if|elif|else|for|while|in|not|and|or|is|try|except|finally|raise|with|as|yield|async|await|pass|break|continue|lambda|None|True|False|nonlocal|global|del|self|cls)\b/g,'<span class="kw">$1</span>');
+  s = s.replace(/(@[\w.]+)/g,'<span class="dec">$1</span>');
+  s = s.replace(/\b(print|len|range|list|dict|set|tuple|str|int|float|bool|type|isinstance|issubclass|hasattr|getattr|setattr|super|property|staticmethod|classmethod|next|iter|enumerate|zip|map|filter|sorted|reversed|sum|min|max|open|id|repr|callable|partial|wraps|reduce|lru_cache|singledispatch)\b/g,'<span class="fn">$1</span>');
+  s = s.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  s = s.replace(/\b([A-Z][a-zA-Z0-9_]*)\b/g,'<span class="cl">$1</span>');
+  s = s.replace(new RegExp(ph+'(\\d+)'+ph,'g'),(_,i)=>saved[+i]);
+  return s;
+}
+
+const catLabel = {core:'⚙️ Core Python',functional:'🔧 Functional',concurrency:'⚡ Concurrency',modern:'✨ Modern Python',debug:'🔍 Debug & Errors'};
+const catOrder = ['core','functional','concurrency','modern','debug'];
+
+const topics = [
+// ── CORE PYTHON ──────────────────────────────────────────────
+{id:1,cat:'core',title:'How Python Works Internally',
+hinglish:'Tum .py file likhte ho → Lexer tokens banata hai → Parser AST banata hai → Compiler bytecode (.pyc) banata hai → CPython VM execute karta hai. Python interpreted nahi, pehle bytecode mein compile hota hai phir interpret hota hai.',
+english:'Python source code goes through several stages before execution. The CPython interpreter lexes the source into tokens, then parses them into an Abstract Syntax Tree (AST). The AST is compiled into platform-independent bytecode stored in .pyc files under __pycache__. The Python Virtual Machine (PVM) then executes this bytecode instruction by instruction. You can inspect bytecode using the dis module — it shows exact opcodes like LOAD_FAST, BINARY_OP, RETURN_VALUE. This is why Python is called "interpreted" — but technically it compiles to bytecode first.',
+code:`import dis
+
+def add(a, b):
+    return a + b
+
+dis.dis(add)
+# LOAD_FAST   0 (a)
+# LOAD_FAST   1 (b)
+# BINARY_OP   0 (+)
+# RETURN_VALUE
+
+# Code object inspection
+print(add.__code__.co_varnames)    # ('a', 'b')
+print(add.__code__.co_consts)      # (None,)
+print(add.__code__.co_filename)    # source file path
+
+# Steps: .py → Lexer → Tokens → Parser → AST → Compiler → .pyc → PVM`,
+tip:'dis.dis(my_func) — interview mein ye command mention karo, impressive lagta hai interviewer ko.'},
+
+{id:2,cat:'core',title:'CPython Internals — PyObject, Int Cache, String Interning',
+hinglish:'CPython mein har Python object ek C struct PyObject hai jisme ob_refcnt (reference count) aur ob_type (type pointer) hota hai. Integer -5 to 256 pre-cached hain (is True deta hai). Short identifier strings automatically interned hoti hain.',
+english:'CPython is the reference implementation written in C. Every Python object starts with a common C struct containing the reference count and a type pointer. This is why even a simple integer takes 28 bytes — it carries full object overhead. CPython implements an integer cache for values -5 to 256, pre-allocated at startup and reused — so "is" returns True for small integers but False for larger ones. This is an implementation detail, not a language guarantee. String interning caches short identifier-like strings, making equality comparison O(1) via identity check.',
+code:`import sys
+
+# PyObject overhead — every object has this
+x = 42
+print(sys.getsizeof(x))    # 28 bytes — int overhead
+print(id(x))               # Memory address of PyObject
+
+# Integer cache: -5 to 256
+a = 100; b = 100
+print(a is b)              # True — SAME PyObject (cached)
+
+a = 1000; b = 1000
+print(a is b)              # False — NEW PyObject each time
+
+# String interning
+s1 = "hello"; s2 = "hello"
+print(s1 is s2)            # True — interned (identifier-like)
+
+s1 = "hello world"; s2 = "hello world"
+print(s1 is s2)            # False — space prevents interning
+
+import sys
+s1 = sys.intern("hello world")
+s2 = sys.intern("hello world")
+print(s1 is s2)            # True — manually interned`,
+tip:'"is" operator identity check karta hai, "==" equality. Integer cache ek implementation detail hai — production code mein is == se behtar hai."'},
+
+{id:3,cat:'core',title:'Memory Management — Reference Counting + GC',
+hinglish:'Python 2 mechanisms use karta hai: (1) Reference Counting — har object ka ob_refcnt counter, 0 hone pe turant free. (2) Cyclic GC — circular references handle karta hai jo refcounting nahi kar sakta. Generational: gen0 (new), gen1, gen2 (long-lived).',
+english:'Python uses two complementary mechanisms. Primary: Reference Counting — every PyObject has ob_refcnt. New reference increments it; deletion decrements it. When it hits zero, the object is immediately reclaimed — deterministic and fast. Critical weakness: circular references keep counts above zero even when objects are unreachable. Secondary: the gc module runs a generational garbage collector for cycles. Objects in three generations based on survival count; gen0 collected frequently, gen2 rarely. You can tune with gc.set_threshold() and trigger manually with gc.collect(). Most Python objects are reclaimed by reference counting — GC only handles cycles.',
+code:`import sys, gc
+
+x = [1, 2, 3]
+print(sys.getrefcount(x))   # 2 — x + getrefcount arg
+
+y = x
+print(sys.getrefcount(x))   # 3 — x, y, arg
+
+del y
+print(sys.getrefcount(x))   # 2 — back to normal
+
+# Circular reference — refcounting fails!
+class Node:
+    def __init__(self, val):
+        self.val = val; self.next = None
+
+a = Node(1); b = Node(2)
+a.next = b; b.next = a     # Cycle: a → b → a
+
+del a, b                    # refcount > 0 — LEAK without GC!
+gc.collect()                # GC handles cycles
+
+print(gc.get_threshold())   # (700, 10, 10) — collection triggers`,
+tip:'gc.disable() performance-critical code mein use hota hai jab circular refs nahi hain. Django startup pe kuch frameworks yahi karte hain.'},
+
+{id:4,cat:'core',title:'GIL — Global Interpreter Lock',
+hinglish:'GIL ek C mutex hai CPython mein. Ek time pe sirf ek thread Python bytecode execute kar sakta hai. CPU-bound tasks mein threading se koi fayda nahi. I/O pe GIL release hoti hai — isliye threading I/O-bound ke liye kaam karta hai. Bypass: multiprocessing, C extensions, PyPy.',
+english:'The GIL is a mutex in CPython ensuring only one thread executes Python bytecode at any time. It exists because CPython\'s reference counting is not thread-safe — two threads modifying ob_refcnt simultaneously would cause memory corruption. The practical impact: CPU-bound multithreaded Python programs don\'t benefit from multiple cores — all threads time-slice on one core. However, the GIL is released during I/O waits — file operations, network calls, database queries — allowing other threads to run concurrently. This is why Django with threading and Celery workers are efficient despite the GIL. To bypass for CPU-bound work: use multiprocessing (separate GIL per process), C extensions that release GIL internally like numpy, or PyPy (no GIL). Python 3.13+ has experimental no-GIL mode.',
+code:`import threading, time
+
+def cpu_task(n):
+    count = 0
+    for _ in range(n): count += 1
+    return count
+
+def io_task():
+    time.sleep(0.5)         # GIL released during sleep!
+
+# CPU-bound: threading gives NO benefit
+start = time.time()
+cpu_task(50_000_000); cpu_task(50_000_000)
+print(f"Sequential CPU: {time.time()-start:.2f}s")
+
+start = time.time()
+t1 = threading.Thread(target=cpu_task, args=(50_000_000,))
+t2 = threading.Thread(target=cpu_task, args=(50_000_000,))
+t1.start(); t2.start(); t1.join(); t2.join()
+print(f"Threaded CPU:   {time.time()-start:.2f}s")  # ~same!
+
+# I/O-bound: threading HELPS (GIL released on sleep)
+start = time.time()
+t1 = threading.Thread(target=io_task)
+t2 = threading.Thread(target=io_task)
+t1.start(); t2.start(); t1.join(); t2.join()
+print(f"Threaded I/O:   {time.time()-start:.2f}s")  # ~0.5s!`,
+tip:'Interview mein: "Gunicorn multi-process spawn karta hai — har process ka apna GIL — isliye web server mein GIL problem nahi hoti."'},
+
+{id:5,cat:'core',title:'Deep Copy vs Shallow Copy — aur Edge Cases',
+hinglish:'Assignment (=) = same object, no copy. Shallow copy = naya container, andar ke objects shared. Deep copy = poora independent clone recursive. Mutable default argument = sabse common Python bug.',
+english:'Assignment creates a new reference to the same object — both variables point to the same memory location. Shallow copy creates a new container but populates it with references to the same inner objects — modifying a nested mutable through either variable affects both. Methods: list.copy(), list[:], dict.copy(), copy.copy(). Deep copy recursively creates new objects for the container and all nested objects — completely independent. Method: copy.deepcopy(). The most notorious Python pitfall is the mutable default argument — def func(lst=[]) creates the list once at function definition time; all calls share the same list object. Fix: use None as default and create fresh inside the function. Key edge case: list * n creates shallow copies of the inner list.',
+code:`import copy
+
+a = [1, [2, 3], 4]
+b = a.copy()           # Shallow
+b[0] = 99
+print(a)               # [1, [2, 3], 4]  ✓ top level ok
+
+b[1][0] = 999          # Nested — SHARED reference
+print(a)               # [1, [999, 3], 4]  ✗ a changed!
+
+c = copy.deepcopy(a)
+c[1][0] = 0
+print(a)               # [1, [999, 3], 4]  ✓ unchanged
+
+# Mutable default argument — most common bug!
+def bad(item, lst=[]):     # lst created ONCE at def time
+    lst.append(item)
+    return lst
+
+print(bad(1))          # [1]
+print(bad(2))          # [1, 2]  ← BUG!
+
+def good(item, lst=None):  # Fix: None sentinel
+    if lst is None: lst = []
+    lst.append(item)
+    return lst
+
+# Edge: list * n = shallow copies!
+rows = [[0]*3]*3       # All 3 rows = SAME object!
+rows[0][0] = 1
+print(rows)            # [[1,0,0],[1,0,0],[1,0,0]] ← bug!
+rows = [[0]*3 for _ in range(3)]  # Fix`,
+tip:'"Shallow copy = new root node, same children. Deep copy = entirely new tree." — ye analogy interviewer ko samajhne mein easy hoti hai.'},
+
+{id:6,cat:'core',title:'Call by Object Reference',
+hinglish:'Python na call-by-value hai (C) na call-by-reference (C++). "Call-by-object-reference" hai — function same object ka reference leta hai. Rebind = caller unaffected. Mutate = caller sees change.',
+english:'Python uses call-by-object-reference, also called call-by-assignment. When you pass an argument, the function receives a reference to the same object — not a copy, and not a reference to the variable itself. Think of variables as labels on objects. Passing to a function creates a new local label pointing to the same object. If you mutate the object through the local label — list.append(), dict update, attribute set — the caller sees the change because both labels point to the same object. But if you rebind the local label — assign it to a new object entirely — the caller\'s label is unaffected. For immutable types like int, str, tuple, mutation is impossible, so they effectively behave like call-by-value.',
+code:`# Rebind — caller UNCHANGED
+def try_rebind(lst):
+    lst = [10, 20, 30]   # New object — local label moved
+    print(f"Inside: {lst}")
+
+my_list = [1, 2, 3]
+try_rebind(my_list)
+print(f"After:  {my_list}")  # [1, 2, 3] — unchanged!
+
+# Mutate — caller SEES change
+def mutate(lst):
+    lst.append(99)           # Same object mutated!
+
+my_list = [1, 2, 3]
+mutate(my_list)
+print(f"After:  {my_list}")  # [1, 2, 3, 99] — changed!
+
+# Slice assign = mutate same object (not rebind)
+def replace_contents(lst):
+    lst[:] = [10, 20, 30]   # Mutates same object!
+
+my_list = [1, 2, 3]
+replace_contents(my_list)
+print(my_list)               # [10, 20, 30] — changed!
+
+# Protect caller — always copy incoming mutables
+def safe_process(metadata: dict):
+    safe = {**metadata}      # New dict — no mutation risk
+    safe['processed'] = True
+    return safe`,
+tip:'"Sticky note analogy" — variable = sticky note on object. Function = new sticky note same object pe. Rebind = apna note hatao.'},
+
+// ── FUNCTIONAL ────────────────────────────────────────────────
+{id:7,cat:'functional',title:'Decorator — Function, Class-based, with Arguments',
+hinglish:'Decorator ek higher-order function hai jo doosre function ko wrap karta hai. @dec shorthand hai my_func = dec(my_func) ke liye. functools.wraps use karo nahi toh __name__ khata hai. Decorator with args = 3 levels of nesting.',
+english:'A decorator is a higher-order function that takes a function as input and returns a modified version. The @ syntax is syntactic sugar — @decorator is equivalent to func = decorator(func). The typical pattern: define an inner wrapper that calls the original function but adds behavior before or after, then return the wrapper. Always use functools.wraps(func) to preserve the original function\'s __name__, __doc__, __module__ — without it, debugging and framework introspection breaks. Decorators with arguments add one more layer: the outer function takes config params and returns the actual decorator. Class-based decorators implement __call__ — useful for stateful decorators that need to maintain state across calls like call history or counters.',
+code:`import functools, time
+
+# Decorator with arguments
+def retry(max_attempts=3, delay=1.0):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, max_attempts+1):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_attempts: raise
+                    wait = delay * (2 ** (attempt-1))
+                    print(f"Retry {attempt}/{max_attempts}: {e}, wait {wait}s")
+                    time.sleep(wait)
+        return wrapper
+    return decorator
+
+@retry(max_attempts=3, delay=0.1)
+def call_sap_api(endpoint: str):
+    # SAP HANA connector — unreliable network
+    raise ConnectionError("SAP timeout")
+
+# Class-based decorator — stateful
+class RateLimit:
+    def __init__(self, max_calls=200, period=60):
+        self.max_calls = max_calls
+        self.period = period
+        self.calls = []
+
+    def __call__(self, func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            now = time.time()
+            self.calls = [t for t in self.calls if now-t < self.period]
+            if len(self.calls) >= self.max_calls:
+                raise Exception("Rate limit exceeded")
+            self.calls.append(now)
+            return func(*args, **kwargs)
+        return wrapper
+
+@RateLimit(max_calls=200, period=60)
+def send_sms(phone, msg): pass    # Exotel: 200/min limit`,
+tip:'@functools.wraps bhoolna = most common decorator bug. Django @login_required, @cache_page, @transaction.atomic sab yahi pattern hain.'},
+
+{id:8,cat:'functional',title:'Generator — yield, send(), Pipeline, Memory Efficiency',
+hinglish:'Generator function call karo → generator object milta hai (execute nahi hota). next() call karo → yield tak execute → pause. Frame object heap pe survive karta hai. O(1) memory — ek item at a time. send() two-way communication deta hai.',
+english:'When you call a generator function, Python does not execute any of the function body — it creates a generator object with a suspended execution frame. Each call to next() resumes from where it left off, runs until the next yield, delivers the value, and suspends again. When the function ends, StopIteration is raised automatically. The suspension is implemented via Python\'s frame objects living on the heap rather than the call stack, preserving full execution context between calls. Generator expressions produce items on demand — O(1) memory regardless of sequence length. Generator pipelines chain stages lazily — each stage pulls from the previous on demand, never materializing the full dataset. The send() method enables two-way communication — the argument becomes the return value of the yield expression inside the generator, which is the foundation of Python\'s coroutine system.',
+code:`# Infinite generator — memory O(1)
+def fibonacci():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+import itertools
+print(list(itertools.islice(fibonacci(), 8)))
+# [0, 1, 1, 2, 3, 5, 8, 13]
+
+# Streaming DB — 100k rows without RAM
+def stream_bookings(batch_size=100):
+    """Niroskos: SAP bulk sync — never loads all into memory"""
+    offset = 0
+    while True:
+        # Booking.objects.filter(...)[offset:offset+batch_size]
+        batch = list(range(offset, min(offset+batch_size, 1000)))
+        if not batch: break
+        yield from batch
+        offset += batch_size
+
+# Generator pipeline
+def read_txns():
+    for i in range(500):
+        yield {"id": i, "amount": (i%10)*1000}
+
+def filter_large(txns):
+    for t in txns:
+        if t["amount"] > 5000: yield t
+
+def add_ref(txns):
+    for t in txns:
+        t["ref"] = f"BKG-{t['id']:04d}"; yield t
+
+# Lazy chain — never full dataset in memory
+pipeline = add_ref(filter_large(read_txns()))`,
+tip:'"Generator = lazy iterator. List comprehension mehenga hai memory mein — generator expression O(1) hai." Django ka .iterator(chunk_size=100) same concept.'},
+
+{id:9,cat:'functional',title:'Iterator Protocol — __iter__, __next__, StopIteration',
+hinglish:'Iterable = __iter__() hota hai → for loop chala sako. Iterator = __iter__() + __next__() → position track karta hai. List iterable hai, iter(list) iterator hai. Iterator exhausts — one-time use. Generator = iterator using yield.',
+english:'An iterable is any object implementing __iter__(), which returns an iterator. Lists, tuples, strings, dicts are all iterables — they can be looped over but don\'t track position themselves. An iterator implements both __iter__() and __next__(). It tracks the current position and raises StopIteration when exhausted — one-shot use. When Python executes a for loop, it calls iter() on the iterable to get an iterator, then repeatedly calls next() until StopIteration. All iterators are also iterables (return self from __iter__). The key difference: an iterable can be iterated multiple times (creates fresh iterator each time via __iter__); an iterator once exhausted stays exhausted. Generators are iterators created with yield — they implement both protocols automatically.',
+code:`# Custom Iterator — tracks state
+class BookingIterator:
+    def __init__(self, bookings):
+        self._items = sorted(bookings, key=lambda b: b['date'])
+        self._index = 0
+
+    def __iter__(self): return self   # Iterator returns self
+
+    def __next__(self):
+        if self._index >= len(self._items):
+            raise StopIteration
+        item = self._items[self._index]
+        self._index += 1
+        return item
+
+# Custom Iterable — gives fresh iterator each time
+class BookingCollection:
+    def __init__(self, bookings): self._bookings = bookings
+    def __iter__(self): return BookingIterator(self._bookings)
+
+coll = BookingCollection([
+    {"id":1,"date":"2026-05"},
+    {"id":2,"date":"2026-04"},
+])
+for b in coll: print(b["id"])   # 2, 1
+for b in coll: print(b["id"])   # 2, 1  — works again!
+
+# iter() with sentinel — elegant
+with open("file.txt") as f:
+    for line in iter(f.readline, ''):  # '' = sentinel
+        process(line)`,
+tip:'"All iterators are iterable, but not all iterables are iterators." — ye line interview mein clearly bolo.'},
+
+{id:10,cat:'functional',title:'Context Manager — __enter__, __exit__, contextlib',
+hinglish:'Context manager with statement ke saath use hota hai. Guarantee: teardown hoga chahe exception aaye ya na aaye. __enter__ = setup, __exit__ = cleanup. __exit__ True return kare toh exception suppress hoti hai. contextlib.contextmanager se generator se banao.',
+english:'A context manager defines a runtime context — ensuring setup happens before a block and teardown after, even if an exception occurs. The with statement calls __enter__() at entry and __exit__(exc_type, exc_val, traceback) at exit. If __exit__ returns True, the exception is suppressed; False or None lets it propagate. Context managers solve a critical correctness problem: resources that must always be released — file handles, database connections, locks, network sockets — without them you need try/finally everywhere. The contextlib.contextmanager decorator lets you write a generator-based context manager — everything before yield is __enter__, everything after is __exit__, try/finally ensures teardown always runs. In production: @transaction.atomic, distributed Redis locks, timing measurements all use this pattern.',
+code:`import contextlib, time
+
+# Class-based
+class Timer:
+    def __init__(self, label): self.label = label
+
+    def __enter__(self):
+        self.start = time.perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_val, tb):
+        elapsed = time.perf_counter() - self.start
+        print(f"[{self.label}] {elapsed*1000:.2f}ms")
+        return False    # Don't suppress exceptions
+
+with Timer("SAP API"):
+    time.sleep(0.05)
+
+# contextlib — simpler for one-off
+@contextlib.contextmanager
+def distributed_lock(redis_client, key, timeout=30):
+    """Niroskos: payment confirm, SAP sync — prevent race condition"""
+    token = "unique_token"
+    acquired = redis_client.set(key, token, nx=True, ex=timeout)
+    try:
+        if not acquired:
+            raise TimeoutError(f"Lock busy: {key}")
+        yield token
+    finally:
+        # Lua: if GET key == token: DEL key
+        pass    # Always release, even on exception
+
+# ExitStack — dynamic number of context managers
+def open_many(paths):
+    with contextlib.ExitStack() as stack:
+        files = [stack.enter_context(open(p)) for p in paths]
+        return [f.read() for f in files]
+    # All files closed here — even if one fails!`,
+tip:'"with" sirf file ke liye nahi — koi bhi setup/teardown pattern ke liye. @transaction.atomic isi pattern pe kaam karta hai.'},
+
+{id:11,cat:'functional',title:'Closures + nonlocal — Captured Variables',
+hinglish:'Closure = function jo outer scope ke variables capture karta hai even after outer function return kar gayi. Captured variable = free variable, __closure__ mein stored. nonlocal keyword se outer scope variable modify karo.',
+english:'A closure is a function that remembers the variables from its enclosing scope even after that scope has finished executing. The inner function "closes over" the free variables — they are stored in the function\'s __closure__ attribute as cell objects. This is the mechanism that makes decorators work — the wrapper function captures a reference to the original func from the decorator\'s scope. The nonlocal keyword allows an inner function to modify a variable in the enclosing (not global) scope. Without nonlocal, assignment creates a new local variable instead. Late binding gotcha: closures capture the variable reference, not the value at the time of creation — this causes the classic loop closure bug.',
+code:`# Basic closure — counter factory
+def make_counter(start=0):
+    count = start           # Free variable
+
+    def increment(by=1):
+        nonlocal count      # Modify outer scope!
+        count += by
+        return count
+
+    def reset():
+        nonlocal count
+        count = start
+
+    increment.reset = reset
+    return increment
+
+c = make_counter(10)
+print(c())      # 11
+print(c(5))     # 16
+c.reset()
+print(c())      # 11 — reset worked!
+
+# __closure__ inspection
+def outer(x):
+    def inner(): return x * 2
+    return inner
+
+f = outer(5)
+print(f.__closure__[0].cell_contents)  # 5 — captured!
+
+# Late binding gotcha — common bug!
+funcs = [lambda: i for i in range(3)]   # All capture same 'i'!
+print([f() for f in funcs])              # [2, 2, 2]  ← bug!
+
+# Fix: default argument captures VALUE at creation
+funcs = [lambda i=i: i for i in range(3)]
+print([f() for f in funcs])              # [0, 1, 2]  ✓`,
+tip:'"Decorator ke andar wrapper function ek closure hai — func variable outer decorator scope se capture karta hai." Late binding bug interview mein poochha jaata hai.'},
+
+{id:12,cat:'functional',title:'functools — partial, lru_cache, singledispatch, reduce',
+hinglish:'functools = functional programming utilities. partial = kuch arguments fix karo. lru_cache = memoization (size-limited). singledispatch = type-based method overloading. reduce = fold operation. wraps = decorator metadata preserve.',
+english:'The functools module provides higher-order functions for functional programming patterns. partial creates a new callable with some arguments pre-filled — useful for creating specialized versions of functions without subclassing. lru_cache provides memoization with a Least Recently Used eviction policy — cache_info() shows hits/misses/currsize. singledispatch enables function overloading based on the type of the first argument — register different implementations for different types, keeping a clean dispatch mechanism without isinstance chains. reduce applies a two-argument function cumulatively to a sequence — the functional equivalent of a fold. In production: lru_cache for expensive computations like SAP token validation, singledispatch for type-dispatched serializers.',
+code:`from functools import partial, lru_cache, singledispatch, reduce
+
+# partial — fix arguments
+def power(base, exp): return base ** exp
+
+square = partial(power, exp=2)
+cube   = partial(power, exp=3)
+print(square(4))    # 16
+print(cube(3))      # 27
+
+# lru_cache — memoization
+@lru_cache(maxsize=128)
+def fib(n):
+    if n < 2: return n
+    return fib(n-1) + fib(n-2)
+
+print(fib(50))              # Fast!
+print(fib.cache_info())     # CacheInfo(hits=48, misses=51, ...)
+fib.cache_clear()           # Reset cache
+
+# singledispatch — type-based overloading
+@singledispatch
+def serialize(data):
+    raise TypeError(f"No serializer for {type(data)}")
+
+@serialize.register(str)
+def _(data): return f'"{data}"'
+
+@serialize.register(list)
+def _(data): return '[' + ','.join(serialize(x) for x in data) + ']'
+
+@serialize.register(dict)
+def _(data): return '{' + ','.join(f'"{k}":{serialize(v)}' for k,v in data.items()) + '}'
+
+print(serialize("hello"))      # "hello"
+print(serialize([1, "two"]))   # [1,"two"]
+
+# reduce — fold
+product = reduce(lambda a,b: a*b, [1,2,3,4,5])
+print(product)   # 120`,
+tip:'"lru_cache se SAP token cache kiya — TTL nahi hai but maxsize=1 se effectively one-token cache bana."'},
+
+{id:13,cat:'functional',title:'itertools — chain, groupby, islice, product, combinations',
+hinglish:'itertools = lazy iterator utilities. chain = multiple iterables merge karo. islice = lazy slice. groupby = consecutive groups. product = cartesian product. combinations/permutations = math sequences. Sab lazy — O(1) memory.',
+english:'The itertools module provides memory-efficient iterator building blocks — all lazy, processing one item at a time. chain merges multiple iterables into one continuous sequence without creating a new list. islice gives a lazy slice of any iterator — essential for paginating infinite generators. groupby groups consecutive elements with the same key — must sort first! product computes the Cartesian product of iterables — equivalent to nested for loops. combinations gives k-length subsequences without repetition; permutations gives ordered arrangements. takewhile and dropwhile provide conditional iteration. These compose cleanly with generator pipelines for zero-copy data processing.',
+code:`import itertools
+
+# chain — merge iterables (no new list!)
+combined = list(itertools.chain([1,2], [3,4], [5,6]))
+# [1, 2, 3, 4, 5, 6]
+
+# islice — lazy slice of infinite generator
+from itertools import islice
+first5 = list(islice(iter(range(1_000_000)), 5))
+# [0, 1, 2, 3, 4] — no 1M list created!
+
+# groupby — group by key (SORT FIRST!)
+data = [
+    {"dept":"eng","name":"Alice"},
+    {"dept":"eng","name":"Bob"},
+    {"dept":"hr", "name":"Carol"},
+]
+data.sort(key=lambda x: x["dept"])
+for dept, members in itertools.groupby(data, key=lambda x: x["dept"]):
+    print(dept, [m["name"] for m in members])
+# eng ['Alice', 'Bob']
+# hr  ['Carol']
+
+# product — cartesian product
+sizes  = ["S", "M", "L"]
+colors = ["Red", "Blue"]
+variants = list(itertools.product(sizes, colors))
+# [('S','Red'),('S','Blue'),('M','Red'),('M','Blue'),...]
+
+# combinations / permutations
+from itertools import combinations, permutations
+print(list(combinations([1,2,3], 2)))  # [(1,2),(1,3),(2,3)]
+print(list(permutations([1,2,3], 2)))  # 6 items
+
+# takewhile / dropwhile
+nums = [2, 4, 6, 5, 1]
+print(list(itertools.takewhile(lambda x: x%2==0, nums)))  # [2,4,6]`,
+tip:'"groupby ke pehle sort karna ZAROORI hai — warna consecutive groups hi banate hai." Interview mein ye edge case zaroor mention karo.'},
+
+// ── CONCURRENCY ────────────────────────────────────────────────
+{id:14,cat:'concurrency',title:'Multithreading — threading, ThreadPoolExecutor, Locks',
+hinglish:'Thread = process ke andar execution unit. Shared memory → fast communication but race condition ka risk. GIL release hoti hai I/O pe → threading I/O-bound ke liye perfect. ThreadPoolExecutor = managed thread pool. Lock = mutual exclusion for shared state.',
+english:'Python\'s threading module creates OS-level threads sharing the same memory space. The GIL releases during I/O operations — file reads, network calls, database queries — allowing threads to run concurrently on I/O waits. This makes threading effective for I/O-bound concurrency without the complexity of async/await. ThreadPoolExecutor manages a pool of reusable threads with future-based result collection. Thread safety requires explicit synchronization for shared mutable state — threading.Lock ensures only one thread executes a critical section. threading.local provides per-thread storage — essential in web frameworks for request-specific data like database connections. Daemon threads are killed automatically when the main program exits — useful for background monitors.',
+code:`from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading, time
+
+# ThreadPoolExecutor — 10 SMS simultaneously (Exotel)
+def send_sms(phone: str) -> str:
+    time.sleep(0.1)           # Simulated API call — GIL released!
+    return f"sent:{phone}"
+
+phones = [f"+2547{i:08d}" for i in range(10)]
+
+start = time.time()
+with ThreadPoolExecutor(max_workers=5) as ex:
+    futures = {ex.submit(send_sms, p): p for p in phones}
+    for fut in as_completed(futures):
+        print(fut.result())
+print(f"Done in {time.time()-start:.2f}s")  # ~0.2s vs 1.0s seq
+
+# Lock — protect shared state
+counter = 0
+lock    = threading.Lock()
+
+def increment(n):
+    global counter
+    for _ in range(n):
+        with lock:          # Mutual exclusion
+            counter += 1
+
+threads = [threading.Thread(target=increment, args=(1000,)) for _ in range(5)]
+for t in threads: t.start()
+for t in threads: t.join()
+print(f"Counter: {counter}")   # 5000 — correct!
+
+# thread-local — per-thread storage (no lock needed)
+local = threading.local()
+def handle_request(user_id):
+    local.user_id = user_id  # Per-thread — no sharing
+    time.sleep(0.01)
+    print(f"{threading.current_thread().name}: {local.user_id}")`,
+tip:'"threading.local() har thread ka apna state rakhta hai — Django request middleware isi pattern pe user store karta hai."'},
+
+{id:15,cat:'concurrency',title:'Multiprocessing — Pool, ProcessPoolExecutor, Shared Memory',
+hinglish:'Process = independent execution unit — apna memory, apna GIL. True parallelism → multiple CPU cores use karo. I/O ke beech communication ke liye Queue, Pipe, Manager use karo. Process create karna heavy (50-100ms) — CPU-bound long tasks ke liye worth it.',
+english:'The multiprocessing module spawns separate OS processes, each with its own Python interpreter, memory space, and GIL — achieving true parallelism for CPU-bound work. Because processes don\'t share memory, there\'s no race condition on Python objects, but inter-process communication requires explicit mechanisms: Queue for task distribution (FIFO, process-safe), Pipe for bidirectional point-to-point, shared Value or Array for primitive shared state with built-in locks, Manager for shared dicts and lists (uses server process internally, slower). Pool.map() distributes inputs across N worker processes and collects results. ProcessPoolExecutor from concurrent.futures provides the same with a cleaner future-based API. The tradeoff: process creation costs 50-100ms and significant memory per process — worth it only for tasks long enough to amortize the startup cost.',
+code:`from concurrent.futures import ProcessPoolExecutor
+import multiprocessing, time
+
+# CPU-bound: generate PDF sections in parallel
+def generate_section(section_id: int) -> dict:
+    # Heavy computation — no GIL issue!
+    total = sum(i**2 for i in range(100_000))
+    return {"section": section_id, "checksum": total}
+
+if __name__ == '__main__':
+    start = time.time()
+    with ProcessPoolExecutor(max_workers=4) as ex:
+        results = list(ex.map(generate_section, range(8)))
+    print(f"8 sections in {time.time()-start:.2f}s")
+
+    # Queue — process communication
+    def producer(q, n):
+        for i in range(n): q.put(f"item_{i}")
+        q.put(None)         # Sentinel
+
+    def consumer(q, results):
+        while True:
+            item = q.get()
+            if item is None: break
+            results.append(item.upper())
+
+    q  = multiprocessing.Queue()
+    r  = multiprocessing.Manager().list()
+    p1 = multiprocessing.Process(target=producer, args=(q, 5))
+    p2 = multiprocessing.Process(target=consumer, args=(q, r))
+    p1.start(); p2.start()
+    p1.join();  p2.join()
+    print(list(r))`,
+tip:'"if __name__ == \'__main__\' — Windows pe multiprocessing ke liye ZAROORI hai, spawn method use karta hai."'},
+
+{id:16,cat:'concurrency',title:'Asyncio — Event Loop, Coroutines, gather(), Timeout',
+hinglish:'asyncio = single-threaded concurrency. Ek event loop multiple coroutines manage karta hai. await pe coroutine yield karta hai → loop doosri chalata hai. gather() = multiple coroutines ek saath. CPU-bound code = event loop block karta hai → run_in_executor use karo.',
+english:'asyncio implements cooperative multitasking on a single thread. Rather than the OS switching between threads, coroutines voluntarily yield control at await expressions. The event loop maintains a queue of ready coroutines and schedules them efficiently. When a coroutine hits await, it suspends and returns control to the event loop, which picks the next ready coroutine. The key advantage over threading for high-concurrency I/O: no lock contention, no context switching overhead, and no race conditions on shared state because only one coroutine runs at a time. asyncio.gather() runs multiple coroutines concurrently and collects results — with return_exceptions=True, all complete even if some raise. Critical caveat: any synchronous CPU-bound code inside async blocks the entire event loop. Offload to run_in_executor with ProcessPoolExecutor for CPU work.',
+code:`import asyncio, time
+
+# Sequential vs concurrent
+async def fetch_booking(bid: int) -> dict:
+    await asyncio.sleep(0.1)         # Simulates DB query
+    return {"id": bid, "status": "CONFIRMED"}
+
+async def load_page(booking_ids: list):
+    start = time.time()
+    # Concurrent — all run "at same time"
+    results = await asyncio.gather(*[fetch_booking(i) for i in booking_ids])
+    print(f"Loaded {len(results)} in {time.time()-start:.2f}s")
+    # 5 × 0.1s sequential = 0.5s
+    # gather concurrent = ~0.1s!
+
+# Error handling in gather
+async def risky(i):
+    if i == 3: raise ValueError(f"Booking {i} not found")
+    return {"id": i}
+
+async def safe():
+    results = await asyncio.gather(*[risky(i) for i in range(5)],
+                                    return_exceptions=True)
+    for i, r in enumerate(results):
+        if isinstance(r, Exception): print(f"Error {i}: {r}")
+        else: print(f"OK: {r}")
+
+# Timeout
+async def with_timeout():
+    try:
+        result = await asyncio.wait_for(fetch_booking(1), timeout=0.05)
+    except asyncio.TimeoutError:
+        print("Timeout — using cached result")
+
+asyncio.run(load_page([1, 2, 3, 4, 5]))`,
+tip:'"asyncio.gather se 5 booking ek saath fetch kiye — 0.5s ki jagah 0.1s mein. Ye Niroskos booking page load optimization mein kaam aaya."'},
+
+{id:17,cat:'concurrency',title:'Threading vs Multiprocessing vs Asyncio — Decision Matrix',
+hinglish:'I/O-bound → threading ya asyncio. CPU-bound → multiprocessing. Haazar concurrent connections → asyncio. Gunicorn multi-process spawn karta hai — GIL bypass. Celery = separate processes. Async views = asyncio.',
+english:'The choice depends on two questions: Is the task I/O-bound or CPU-bound? And how many concurrent operations do you need? For I/O-bound work — database queries, API calls, file operations — both threading and asyncio work. Threading is simpler to retrofit to existing synchronous codebases. asyncio scales to thousands of concurrent connections on a single thread but requires async-compatible libraries throughout. For CPU-bound work — computation, image processing, PDF generation — multiprocessing is the only option achieving true parallelism; threads are limited by the GIL. In production you often use all three: Gunicorn spawns N worker processes (true parallelism per request), within each worker threading handles concurrent I/O, Celery workers are separate processes for background tasks, async views handle WebSocket connections.',
+code:`"""
+DECISION TABLE:
+                  THREADING        MULTIPROCESSING    ASYNCIO
+Execution         OS threads       OS processes       Event loop (1 thread)
+Memory            Shared           Separate           Shared (1 thread)
+GIL               Affected         Bypassed           N/A
+Best for          I/O-bound        CPU-bound          I/O-bound (high concurrency)
+Communication     Shared vars      Queue/Pipe/Value   Shared state (single thread)
+Overhead          Low              High (spawn)       Very low
+Concurrent tasks  Hundreds         Tens (CPU count)   Thousands
+Race conditions   Yes              No (separate mem)  No (single thread)
+
+Niroskos Architecture:
+  Web requests  → Gunicorn 4 processes (multi-process, bypass GIL)
+  DB/Cache I/O  → GIL releases during psycopg2/redis calls (threading fine)
+  Bulk SMS      → ThreadPoolExecutor(10) — Exotel parallel calls
+  SAP sync      → Celery worker (separate process)
+  PDF export    → ProcessPoolExecutor (CPU-bound, bypass GIL)
+  WebSocket     → Django Channels + asyncio
+
+Rule of thumb:
+  Simple I/O concurrency in existing sync code → threading
+  New high-concurrency I/O service from scratch → asyncio
+  CPU-heavy batch work → multiprocessing
+"""
+# Proof: run the GIL topic code (id=4) to see CPU vs I/O benchmark`,
+tip:'"Gunicorn pe 4 workers = 4 processes = 4 GILs = true parallelism for web." Web server mein threading ka limit GIL nahi, memory aur context switch hai.'},
+
+// ── MODERN PYTHON ──────────────────────────────────────────────
+{id:18,cat:'modern',title:'Type Hints — TypeVar, Generic, Protocol, Union, Optional',
+hinglish:'Type hints = static analysis ke liye — runtime pe ignore hoti hain. TypeVar = generic type placeholder. Generic[T] = typed container. Protocol = structural typing (duck typing + types). Union = multiple types. Optional = None ya kuch aur.',
+english:'Type hints were added in Python 3.5 and have evolved significantly. They don\'t affect runtime behavior but enable static analysis with mypy or pyright and dramatically improve IDE support. TypeVar creates a type variable used for generic functions and classes — ensuring the return type matches the input type. Generic[T] creates typed containers like Stack[int] where T propagates through operations. Protocol enables structural subtyping — a class matches a Protocol by having the right methods without explicitly inheriting it, combining duck typing with type safety. Union[A, B] means either A or B; Optional[A] is shorthand for Union[A, None]. The | syntax (Python 3.10+) simplifies: str | int | None. Annotated allows attaching metadata to types for validation libraries like Pydantic.',
+code:`from typing import TypeVar, Generic, Protocol, Union, Optional, List, Callable
+
+T = TypeVar('T')
+
+# Generic class — type-safe container
+class Stack(Generic[T]):
+    def __init__(self) -> None:
+        self._items: List[T] = []
+
+    def push(self, item: T) -> None:
+        self._items.append(item)
+
+    def pop(self) -> T:
+        return self._items.pop()
+
+s: Stack[int] = Stack()
+s.push(42)      # OK
+# s.push("x")  # mypy error!
+
+# Protocol — structural typing (duck typing + types)
+class Drawable(Protocol):
+    def draw(self) -> str: ...
+
+class Circle:            # No inheritance!
+    def draw(self) -> str: return "○"
+
+class Square:
+    def draw(self) -> str: return "□"
+
+def render(shape: Drawable) -> None:
+    print(shape.draw())
+
+render(Circle())         # ✓ — satisfies protocol
+render(Square())         # ✓
+
+# Union / Optional / Python 3.10+ | syntax
+def process(val: Union[str, int]) -> str:
+    return str(val)
+
+def find_user(uid: int) -> Optional[dict]:
+    return None         # Optional = Union[dict, None]
+
+# Python 3.10+ cleaner syntax
+def greet(name: str | None = None) -> str:
+    return f"Hello {name or 'stranger'}"`,
+tip:'"Protocol vs ABC — Protocol structural typing (duck typing + mypy), ABC nominal typing (explicit inherit). Modern Python mein Protocol prefer karo."'},
+
+{id:19,cat:'modern',title:'collections — defaultdict, Counter, deque, namedtuple',
+hinglish:'collections module = specialized container datatypes. defaultdict = KeyError nahi aata. Counter = frequency counting + math operations. deque = O(1) both ends (vs list O(n) at front). namedtuple = immutable, tuple-compatible, readable.',
+english:'The collections module provides specialized container types optimized for common patterns. defaultdict eliminates KeyError by providing a default value factory — defaultdict(list) creates empty lists on first access, defaultdict(int) starts counters at zero, perfect for frequency maps and grouping. Counter is a dict subclass for counting hashable objects with arithmetic operations (add, subtract, intersect, union) and most_common(n). deque is a double-ended queue with O(1) append and popleft from both ends — unlike list which is O(n) for left-side operations, critical for BFS, sliding window algorithms. namedtuple creates immutable tuple subclasses with named fields — lightweight, memory-efficient (no __dict__), tuple-compatible for positional access, and supports _asdict() for dict conversion. OrderedDict remembers insertion order (redundant in Python 3.7+ dicts but useful for move_to_end operation).',
+code:`from collections import defaultdict, Counter, deque, namedtuple, OrderedDict
+
+# defaultdict — no KeyError
+word_count = defaultdict(int)
+for word in "hello world hello python hello".split():
+    word_count[word] += 1
+# {'hello': 3, 'world': 1, 'python': 1}
+
+graph = defaultdict(list)
+graph['A'].append('B')    # Auto-creates empty list
+
+# Counter — frequency + math
+c = Counter("abracadabra")
+print(c.most_common(3))   # [('a', 5), ('b', 2), ('r', 2)]
+
+c1 = Counter([1,2,2,3])
+c2 = Counter([2,3,3,4])
+print(c1 + c2)            # Counter({2: 3, 3: 3, 1: 1, 4: 1})
+print(c1 & c2)            # Intersection: min counts
+print(c1 - c2)            # Subtraction (drops negatives)
+
+# deque — O(1) both ends
+dq = deque([1, 2, 3], maxlen=5)   # maxlen auto-pops!
+dq.appendleft(0)    # O(1) ← list.insert(0,x) is O(n)!
+dq.append(4)        # O(1)
+dq.rotate(1)        # Rotate right
+
+# namedtuple — immutable, readable, memory efficient
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(3, 4)
+print(p.x, p.y)          # 3 4
+print(p._asdict())        # {'x': 3, 'y': 4}
+print(isinstance(p, tuple))  # True!`,
+tip:'"deque for BFS queue — O(1) popleft. list.pop(0) = O(n)." Counter.most_common() frequency-based interview problems ke liye bahut useful hai.'},
+
+{id:20,cat:'modern',title:'dataclass vs NamedTuple vs TypedDict — Kab Kya Use Karein',
+hinglish:'dataclass: mutable, methods, inheritance — business logic. NamedTuple: immutable, tuple-compatible, memory efficient — DB rows, value objects. TypedDict: dict-compatible, JSON data — API response typing. Pydantic BaseModel: validation + serialization — FastAPI.',
+english:'Python 3.7+ offers multiple ways to create structured data containers, each with different trade-offs. dataclass auto-generates __init__, __repr__, __eq__ — supports default values with field(), mutable by default (frozen=True for immutable), supports inheritance, can have methods and properties, integrates with the full class system. NamedTuple creates immutable tuple subclasses with named fields — isinstance(obj, tuple) is True, works anywhere a tuple works, no __dict__ overhead (memory efficient), positional access preserved. TypedDict creates a dict with typed keys at the type-checker level only — the actual object is a plain dict at runtime, making it perfect for JSON API responses and any dict-compatible interface. Use Pydantic BaseModel (not stdlib) when you need runtime validation, serialization, and JSON schema generation as in FastAPI.',
+code:`from dataclasses import dataclass, field
+from typing import NamedTuple, TypedDict, List
+
+# dataclass — mutable, business logic, methods
+@dataclass
+class Booking:
+    id: int
+    guest_name: str
+    amount: float = 0.0
+    tags: List[str] = field(default_factory=list)
+
+    def total_with_gst(self, rate=0.18) -> float:
+        return self.amount * (1 + rate)
+
+b = Booking(1, "Ashish", 5000.0)
+b.amount = 6000         # OK — mutable
+print(b.total_with_gst())  # 7080.0
+
+# NamedTuple — immutable, tuple-compatible
+class BookingRow(NamedTuple):
+    id: int
+    guest_name: str
+    amount: float = 0.0
+
+row = BookingRow(1, "Ashish", 5000.0)
+print(isinstance(row, tuple))  # True!
+print(row._asdict())           # dict conversion
+# row.amount = 6000           # ❌ AttributeError — immutable
+
+# TypedDict — dict at runtime, typed at check time
+class BookingAPI(TypedDict):
+    id: int
+    guest_name: str
+    amount: float
+
+def process_webhook(data: BookingAPI) -> None:
+    print(data["id"])          # Dict access!
+
+# When to use:
+# dataclass   → models with methods, mutable state
+# NamedTuple  → DB query rows, function return values, immutable records
+# TypedDict   → API JSON response typing, webhook payloads
+# Pydantic    → FastAPI models, validation needed`,
+tip:'"NamedTuple = immutable dataclass with tuple benefits. TypedDict = typed dict for JSON. dataclass = general purpose with methods." Ye 3 line answer kaafi hai.'},
+
+{id:21,cat:'modern',title:'Walrus Operator := + match Statement (Python 3.10+)',
+hinglish:'Walrus (:=) = assign karo aur use bhi karo same expression mein. while chunk := f.read() — elegant file reading. match = structural pattern matching — switch-case se zyada powerful, nested dict/list patterns match kar sakta hai.',
+english:'The walrus operator := (Python 3.8+) assigns a value in an expression context — enabling patterns where you compute a value, test it, and use it without a separate assignment line. Most useful in while loops for file reading (while chunk := f.read(8192)), list comprehensions with expensive transforms, and while loops polling for data. The match statement (Python 3.10+) is structural pattern matching — far more powerful than switch-case. It matches not just values but structures: dict patterns extract specific keys, list patterns destructure sequences, class patterns match by type and attributes. Guards (if conditions) add additional filtering. The | operator in patterns means OR. This is especially useful for parsing command structures, handling API responses with varying shapes, and implementing interpreters or state machines.',
+code:`# Walrus operator — assign + use in expression
+import re
+
+# Without walrus — repetition
+data = get_data()
+if data:
+    process(data)
+
+# With walrus — clean
+if data := get_data():
+    process(data)
+
+# While loop — elegant file reading
+with open("large_file.txt", "rb") as f:
+    while chunk := f.read(8192):  # := assigns AND tests!
+        process(chunk)
+
+# In comprehension — avoid calling transform twice
+results = [y for x in data if (y := expensive(x)) is not None]
+
+# match statement — structural pattern matching
+def handle_api_response(response: dict):
+    match response:
+        case {"status": 200, "data": {"bookings": bookings}}:
+            print(f"Got {len(bookings)} bookings")
+
+        case {"status": 404, "error": msg}:
+            print(f"Not found: {msg}")
+
+        case {"status": code} if 500 <= code < 600:
+            print(f"Server error {code}")
+
+        case {"action": "buy" | "sell", "item": item}:
+            print(f"Trading: {item}")
+
+        case _:
+            print("Unknown response shape")
+
+handle_api_response({"status": 200, "data": {"bookings": [1,2,3]}})`,
+tip:'"walrus while chunk := f.read(8192) — ye pattern file reading + network streaming ke liye cleanest approach hai Python mein."'},
+
+// ── DEBUG & ERRORS ─────────────────────────────────────────────
+{id:22,cat:'debug',title:'Exception Handling — Custom Hierarchy, raise from, __cause__',
+hinglish:'Custom exception hierarchy banao — AppError base class, fir specific classes. raise from se exception chaining karo — original error preserve hoti hai. __cause__ explicit chain, __context__ implicit chain. finally hamesha chalta hai — cleanup guarantee.',
+english:'Proper exception handling starts with a well-designed exception hierarchy rooted in a custom base class — this allows callers to catch at any granularity. Always inherit from Exception, not BaseException. raise ExceptionB from ExceptionA creates an explicit exception chain — the original exception is stored in __cause__ and both appear in the traceback. This is critical in layered architectures: a database connection error at the ORM layer should be wrapped in a domain-specific error before propagating to the view layer, preserving the root cause for logging. raise from None suppresses the chain for intentional re-raises where the original cause is irrelevant to the caller. The finally block always executes — even if return is called in try — guaranteeing resource cleanup. Use specific exception types in except clauses, never bare except which also catches SystemExit and KeyboardInterrupt.',
+code:`# Custom exception hierarchy
+class AppError(Exception):
+    def __init__(self, message: str, code: int = 500):
+        super().__init__(message)
+        self.code = code
+
+class ValidationError(AppError):
+    def __init__(self, field: str, message: str):
+        super().__init__(f"'{field}': {message}", code=400)
+        self.field = field
+
+class DatabaseError(AppError):
+    pass
+
+class NotFoundError(DatabaseError):
+    def __init__(self, resource: str, id):
+        super().__init__(f"{resource} id={id} not found", code=404)
+        self.resource = resource
+
+# raise from — exception chaining
+def get_booking(booking_id: int):
+    try:
+        # DB query fails
+        raise ConnectionError("PostgreSQL timeout")
+    except ConnectionError as e:
+        raise DatabaseError("Booking fetch failed") from e
+        # __cause__ = original ConnectionError
+        # Traceback shows BOTH errors!
+
+# Usage
+try:
+    get_booking(123)
+except NotFoundError as e:
+    print(f"{e.code}: {e} — resource: {e.resource}")
+except DatabaseError as e:
+    print(f"DB error: {e}")
+    print(f"Root cause: {e.__cause__}")   # Original ConnectionError
+except AppError as e:
+    print(f"App error {e.code}: {e}")
+finally:
+    print("Always runs — cleanup here!")  # Even if return!`,
+tip:'"raise DatabaseError(...) from e" — ye interview mein mention karo. __cause__ preserve karna production logging ke liye critical hai.'},
+
+{id:23,cat:'debug',title:'Memory Leaks — Detection and Fix Patterns',
+hinglish:'Python mein memory leak: growing unbounded cache, circular refs with __del__, uncleared thread-local, unsubscribed observers. Detect: tracemalloc, objgraph. Fix: LRU cache, weakref, explicit cleanup.',
+english:'Despite automatic memory management, Python programs can leak memory. The most common source is growing caches or registries — a dict accumulating entries never trimmed. Fix with functools.lru_cache (size-bounded) or weakref.WeakValueDictionary (auto-removes entries when objects are GC\'d). Circular references with __del__ methods can prevent GC collection — Python\'s cyclic GC cannot collect objects with __del__ in cycles (Python 3.4 improved this but edge cases remain). Thread-local storage is a subtle leak in web servers — if threading.local stores large objects per thread and threads are reused across requests, the data persists. Event observer systems leak when subscribers never unsubscribe — the event system holds a strong reference preventing GC. Fix with weakref in observer registries. Use tracemalloc.take_snapshot() to identify allocation sites and objgraph.show_growth() to see which types are accumulating.',
+code:`import tracemalloc, weakref, gc
+from functools import lru_cache
+
+# Problem: unbounded cache grows forever
+cache = {}
+def bad_cache(key, value):
+    cache[key] = value    # Never evicted!
+
+# Fix 1: LRU cache (size-bounded)
+@lru_cache(maxsize=128)
+def cached_result(key: str) -> dict:
+    return expensive_compute(key)
+
+# Fix 2: WeakValueDictionary — auto-removes when GC'd
+class SessionCache:
+    def __init__(self):
+        self._store = weakref.WeakValueDictionary()
+
+    def set(self, key, value): self._store[key] = value
+    def get(self, key): return self._store.get(key)   # None if GC'd
+
+# Fix 3: WeakRef in observer registry
+class EventBus:
+    def __init__(self):
+        self._handlers = weakref.WeakSet()   # Auto-removes dead refs
+
+    def subscribe(self, handler): self._handlers.add(handler)
+    def emit(self, event):
+        for h in list(self._handlers): h(event)   # Dead refs skipped
+
+# Detection: tracemalloc
+tracemalloc.start()
+suspect_code()
+snapshot = tracemalloc.take_snapshot()
+for stat in snapshot.statistics('lineno')[:5]:
+    print(stat)         # Shows file:line + memory allocated
+
+# objgraph (pip install objgraph)
+# import objgraph
+# objgraph.show_growth(limit=5)  # Which types are growing?`,
+tip:'"WeakValueDictionary se session cache banaya — sessions GC hone ke baad automatically remove ho jaati thi — no leak, no manual cleanup."'},
+
+{id:24,cat:'debug',title:'Performance Profiling — cProfile, tracemalloc, timeit',
+hinglish:'Profile first, optimize second. cProfile = function-level CPU time. line_profiler = line-by-line. tracemalloc = memory allocation. timeit = micro-benchmark. Common bottlenecks: N+1 queries, string + in loop, missing index, sync I/O.',
+english:'Performance optimization must always start with measurement — optimizing based on intuition targets the wrong code. cProfile is Python\'s built-in statistical profiler, instrumenting every function call to measure cumulative time, per-call time, and call count. Sort by cumtime to find functions consuming the most total time in the call tree. Use pstats or snakeviz for visualization. line_profiler (pip install, @profile decorator, run with kernprof -l -v) shows time per line — essential when a function is clearly slow but which specific line is unclear. tracemalloc (built-in, Python 3.4+) takes snapshots showing allocation sites with file and line numbers. timeit measures micro-benchmark for small code snippets with multiple iterations. The most impactful optimizations in Python web services: fixing N+1 queries with select_related/prefetch_related, replacing string concatenation in loops with str.join(), adding database indexes based on EXPLAIN ANALYZE, switching synchronous external API calls to thread pools.',
+code:`import cProfile, pstats, io, timeit, tracemalloc, functools, time
+
+# cProfile — function-level profiling
+def slow():
+    return sum(i**2 for i in range(100_000))
+
+with cProfile.Profile() as pr:
+    slow()
+
+stats = pstats.Stats(pr).sort_stats('cumulative')
+stats.print_stats(10)    # Top 10 slowest functions
+
+# Command line:
+# python -m cProfile -s cumulative script.py | head -20
+
+# timeit — micro-benchmark
+list_time = timeit.timeit("sum([x**2 for x in range(1000)])", number=10000)
+gen_time  = timeit.timeit("sum(x**2 for x in range(1000))",  number=10000)
+print(f"List: {list_time:.3f}s | Gen: {gen_time:.3f}s")
+
+# tracemalloc — memory allocation tracking
+tracemalloc.start()
+data = {str(i): [j for j in range(100)] for i in range(1000)}
+current, peak = tracemalloc.get_traced_memory()
+print(f"Current: {current//1024}KB | Peak: {peak//1024}KB")
+tracemalloc.stop()
+
+# Common bottlenecks:
+words = ["Hello", "World", "Python"]
+slow_str  = ""; [slow_str := slow_str + w for w in words]  # O(n²)!
+fast_str  = " ".join(words)    # O(n) — single allocation
+
+import re
+pattern = re.compile(r'\d{10}')  # Compile ONCE, reuse many times
+def validate_phone(p): return bool(pattern.match(p))`,
+tip:'"cProfile -s cumtime — cumulative time dekho. tottime = function ka apna time (children exclude). SAP connector 80% time ek function mein tha — profiling se pata chala."'},
+];
+
+function setTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function togglePanel(id) {
+  const p = document.getElementById('panel-'+id);
+  const b = document.getElementById('btn-'+id);
+  const open = p.classList.toggle('open');
+  b.textContent = open ? 'Hide ▲' : 'Show ▼';
+}
+
+function toggleDone(id) {
+  state[id] = !state[id];
+  localStorage.setItem(STORE, JSON.stringify(state));
+  render();
+}
+
+function updateStats() {
+  const done = Object.values(state).filter(Boolean).length;
+  const total = topics.length;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-rem').textContent = total - done;
+  document.getElementById('prog').style.width = Math.round(done/total*100)+'%';
+}
+
+function render() {
+  const el = document.getElementById('main');
+  let filtered = topics;
+  if (currentTab === 'pending') filtered = topics.filter(t=>!state[t.id]);
+  else if (currentTab !== 'all') filtered = topics.filter(t=>t.cat===currentTab);
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty">🎉 All done! Interview ready!</div>';
+    updateStats(); return;
+  }
+
+  const sections = currentTab==='all'||currentTab==='pending' ? catOrder : [currentTab];
+  const secTitles = {
+    core:'⚙️ Core Python',
+    functional:'🔧 Functional Python',
+    concurrency:'⚡ Concurrency & Parallelism',
+    modern:'✨ Modern Python (3.8–3.12+)',
+    debug:'🔍 Debug, Errors & Performance',
+  };
+
+  let html = '';
+  sections.forEach(cat => {
+    const qs = filtered.filter(t=>t.cat===cat);
+    if (!qs.length) return;
+    if (currentTab==='all'||currentTab==='pending') {
+      html += `<div class="sec-title">${secTitles[cat]}</div>`;
+    }
+    html += '<div class="grid">';
+    qs.forEach(t => {
+      const done = !!state[t.id];
+      html += `
+<div class="card${done?' done':''}">
+  <div class="card-head">
+    <div class="q-num">TOPIC ${t.id}</div>
+    <div class="q-title">${t.title}</div>
+    <div class="badges">
+      <span class="badge cat-${t.cat}">${catLabel[t.cat]}</span>
+      ${done?'<span class="done-tag">✅ Done</span>':''}
+    </div>
+  </div>
+  <div class="card-actions">
+    <button class="show-btn" id="btn-${t.id}" onclick="togglePanel(${t.id})">Show ▼</button>
+    <button class="done-btn" onclick="toggleDone(${t.id})">${done?'✅ Done':'○ Mark Done'}</button>
+  </div>
+  <div class="panel" id="panel-${t.id}">
+    <div class="panel-inner">
+      <div class="lbl">🇮🇳 Hinglish (Quick Recall)</div>
+      <div class="hinglish">${t.hinglish}</div>
+      <div class="lbl">🎤 English (Interviewer Answer)</div>
+      <div class="english">${t.english}</div>
+      <div class="lbl">💻 Code</div>
+      <pre><code>${hl(t.code)}</code></pre>
+      <div class="tip">💡 Interview Tip: ${t.tip}</div>
+    </div>
+  </div>
+</div>`;
+    });
+    html += '</div>';
+  });
+
+  el.innerHTML = html;
+  updateStats();
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,3774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Interview Questions — Ashish</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070b;
+  --s1: #0e0e15;
+  --s2: #14141e;
+  --s3: #1c1c28;
+  --border: #2c2c3e;
+  --border2: #3a3a50;
+  --text: #e2e2f0;
+  --muted: #606078;
+  --dim: #9090a8;
+  --basic: #4ade80;
+  --inter: #fb923c;
+  --adv: #f43f5e;
+  --accent: #818cf8;
+  --gold: #fbbf24;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* noise texture */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.4;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,7,11,0.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 28px;height:52px;gap:20px;
+}
+.logo{font-weight:800;font-size:14px;letter-spacing:-0.5px;white-space:nowrap;}
+.logo span{color:var(--accent);}
+.prog-wrap{flex:1;background:var(--s3);border-radius:3px;height:4px;overflow:hidden;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--basic));border-radius:3px;transition:width 0.5s ease;width:0%;}
+.prog-label{font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);white-space:nowrap;}
+.prog-label b{color:var(--accent);}
+
+/* ── PAGE ── */
+.page{max-width:880px;margin:0 auto;padding:48px 20px 100px;position:relative;z-index:1;}
+
+/* ── HERO ── */
+.hero{margin-bottom:52px;}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:32px;}
+.hero-left{}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--s2);border:1px solid var(--border2);
+  padding:5px 14px;border-radius:100px;
+  font-family:'Fira Code',monospace;font-size:10px;
+  color:var(--dim);letter-spacing:1.5px;margin-bottom:18px;
+}
+.chip::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--basic);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+h1{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:10px;}
+h1 span{color:var(--accent);}
+.hero-sub{font-family:'Fira Code',monospace;font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* stats */
+.stats{display:flex;gap:10px;flex-wrap:wrap;}
+.stat{
+  background:var(--s2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 18px;
+  display:flex;flex-direction:column;align-items:center;
+  min-width:72px;
+}
+.stat .n{font-family:'Fira Code',monospace;font-size:20px;font-weight:600;}
+.stat .l{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.sn-t .n{color:var(--accent);}
+.sn-b .n{color:var(--basic);}
+.sn-i .n{color:var(--inter);}
+.sn-a .n{color:var(--adv);}
+.sn-s .n{color:var(--gold);}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.fb{
+  padding:7px 18px;border-radius:8px;
+  background:var(--s2);border:1px solid var(--border);
+  color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:12px;font-weight:700;cursor:pointer;
+  transition:all 0.15s;letter-spacing:0.3px;
+}
+.fb:hover{border-color:var(--border2);color:var(--dim);}
+.fb.on-all{background:rgba(129,140,248,0.12);border-color:var(--accent);color:var(--accent);}
+.fb.on-basic{background:rgba(74,222,128,0.1);border-color:var(--basic);color:var(--basic);}
+.fb.on-intermediate{background:rgba(251,146,60,0.1);border-color:var(--inter);color:var(--inter);}
+.fb.on-advanced{background:rgba(244,63,94,0.1);border-color:var(--adv);color:var(--adv);}
+
+/* search */
+.search-wrap{position:relative;margin-bottom:28px;}
+.srch{
+  width:100%;background:var(--s2);border:1px solid var(--border);
+  border-radius:10px;padding:11px 16px 11px 40px;
+  color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;outline:none;transition:border-color 0.2s;
+}
+.srch:focus{border-color:var(--accent);}
+.srch::placeholder{color:var(--muted);}
+.srch-ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--muted);}
+
+/* ── SECTION HEADERS ── */
+.sec-head{
+  display:flex;align-items:center;gap:14px;
+  margin:36px 0 16px;
+}
+.sec-line{flex:1;height:1px;background:var(--border);}
+.sec-badge{
+  padding:6px 16px;border-radius:100px;
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;font-family:'Fira Code',monospace;
+  white-space:nowrap;
+}
+.sb-basic{background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:var(--basic);}
+.sb-inter{background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.25);color:var(--inter);}
+.sb-adv{background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.25);color:var(--adv);}
+
+/* ── CARDS ── */
+.qlist{display:flex;flex-direction:column;gap:8px;}
+.qcard{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  transition:border-color 0.2s;
+}
+.qcard:hover{border-color:var(--border2);}
+.qcard.done{border-left:3px solid var(--basic);}
+.qcard.is-open{border-color:var(--border2);}
+
+.qhead{
+  padding:14px 18px;display:flex;
+  align-items:center;gap:12px;cursor:pointer;user-select:none;
+}
+.qn{font-family:'Fira Code',monospace;font-size:10px;color:var(--muted);min-width:26px;}
+.qmain{flex:1;}
+.qtags{display:flex;gap:5px;margin-bottom:5px;flex-wrap:wrap;}
+.tag{font-size:9px;font-family:'Fira Code',monospace;padding:2px 8px;border-radius:100px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
+.t-basic{background:rgba(74,222,128,0.12);color:var(--basic);}
+.t-intermediate{background:rgba(251,146,60,0.12);color:var(--inter);}
+.t-advanced{background:rgba(244,63,94,0.12);color:var(--adv);}
+.t-done{background:rgba(74,222,128,0.2);color:var(--basic);border:1px solid rgba(74,222,128,0.3);}
+.t-cat{background:rgba(129,140,248,0.12);color:var(--accent);}
+.qtitle{font-size:14px;font-weight:700;color:var(--text);line-height:1.3;}
+.qarr{color:var(--muted);font-size:11px;transition:transform 0.25s;}
+.qcard.is-open .qarr{transform:rotate(180deg);}
+
+/* ── BODY ── */
+.qbody{display:none;padding:0 18px 18px;border-top:1px solid var(--border);}
+.qcard.is-open .qbody{display:block;animation:fd 0.2s ease;}
+@keyframes fd{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+.qlabel{font-size:9px;font-family:'Fira Code',monospace;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px;}
+
+/* question text */
+.qtext{font-size:14px;color:var(--dim);line-height:1.6;font-weight:500;}
+
+/* answer box */
+.ans-box{
+  background:var(--s3);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+  font-size:13px;color:#b0b0c8;line-height:1.75;
+  display:none;
+}
+.ans-box.show{display:block;animation:fd 0.2s ease;}
+.ans-box strong{color:var(--text);font-weight:700;}
+.ans-box em{color:var(--accent);font-style:normal;}
+
+/* code block inside answer */
+.code{
+  background:rgba(0,0,0,0.4);border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;
+  font-family:'Fira Code',monospace;font-size:11px;
+  color:#c8d3f5;line-height:1.7;white-space:pre-wrap;
+  margin:10px 0;word-break:break-word;
+}
+.hl-green{color:#4ade80;}
+.hl-orange{color:#fb923c;}
+.hl-blue{color:#818cf8;}
+.hl-yellow{color:#fbbf24;}
+.hl-red{color:#f43f5e;}
+.hl-pink{color:#f472b6;}
+
+/* interview tip */
+.tip-box{
+  background:rgba(251,191,36,0.06);
+  border:1px solid rgba(251,191,36,0.2);
+  border-radius:8px;padding:10px 14px;
+  margin-top:10px;font-size:12px;color:#d4a800;
+  line-height:1.5;
+}
+.tip-box::before{content:'💡 Interview Tip: ';font-weight:700;}
+
+/* btns */
+.brow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.btn{
+  padding:6px 15px;border-radius:7px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:11px;font-weight:700;cursor:pointer;
+  border:1px solid;transition:all 0.15s;
+}
+.btn-ans{background:rgba(129,140,248,0.1);border-color:rgba(129,140,248,0.3);color:var(--accent);}
+.btn-ans:hover{background:rgba(129,140,248,0.18);}
+.btn-done{background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.25);color:var(--basic);}
+.btn-done:hover{background:rgba(74,222,128,0.15);}
+.btn-done.active{background:rgba(74,222,128,0.2);border-color:var(--basic);}
+
+.empty{text-align:center;padding:60px;color:var(--muted);font-family:'Fira Code',monospace;font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Python <span>Interview</span></div>
+  <div class="prog-wrap"><div class="prog-bar" id="pBar"></div></div>
+  <div class="prog-label"><b id="pNum">0</b> / <b id="pTot">100</b> done</div>
+</div>
+
+<div class="page">
+  <div class="hero">
+    <div class="hero-top">
+      <div class="hero-left">
+        <div class="chip">ASHISH KA INTERVIEW PREP</div>
+        <h1>Python <span>Interview</span><br>Theory Questions</h1>
+        <p class="hero-sub">Basic → Intermediate → Advanced<br>Real questions asked in product companies</p>
+      </div>
+      <div class="stats">
+        <div class="stat sn-t"><span class="n" id="sT">100</span><span class="l">Total</span></div>
+        <div class="stat sn-s"><span class="n" id="sS">0</span><span class="l">Done</span></div>
+        <div class="stat sn-b"><span class="n">35</span><span class="l">Basic</span></div>
+        <div class="stat sn-i"><span class="n">40</span><span class="l">Inter</span></div>
+        <div class="stat sn-a"><span class="n">25</span><span class="l">Adv</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="fb on-all" data-f="all">All</button>
+    <button class="fb" data-f="basic">🟢 Basic</button>
+    <button class="fb" data-f="intermediate">🟠 Intermediate</button>
+    <button class="fb" data-f="advanced">🔴 Advanced</button>
+  </div>
+  <div style="height:10px"></div>
+
+  <div class="search-wrap">
+    <span class="srch-ic">🔍</span>
+    <input class="srch" id="srch" placeholder="Search questions..." oninput="render()">
+  </div>
+
+  <div id="qlist"></div>
+</div>
+
+<script>
+const QS = [
+// ══════════════════════════════════════════
+// BASIC (1-35)
+// ══════════════════════════════════════════
+{id:1,level:"basic",cat:"Basics",q:"Python kya hai aur kyon popular hai?",
+ans:`<strong>Python</strong> ek high-level, interpreted, general-purpose programming language hai.
+
+<strong>Popular kyun hai:</strong>
+• <em>Simple syntax</em> — English jaisi readable
+• <em>Versatile</em> — Web, Data Science, AI, Automation sab mein use hoti hai
+• <em>Large ecosystem</em> — lakhon libraries (NumPy, Django, TensorFlow)
+• <em>Cross-platform</em> — Windows, Mac, Linux sab pe chalta hai
+• <em>Community</em> — duniya ki largest programming community`,
+tip:"Agar puchhe 'why Python over Java?' — speed kam hai but productivity zyada hai, isliye backend aur data work ke liye prefer karte hain."
+},
+
+{id:2,level:"basic",cat:"Basics",q:"Interpreted vs Compiled language kya hota hai? Python kaunsa hai?",
+ans:`<strong>Compiled Language:</strong> Code pehle machine code mein convert hota hai (e.g., C, C++)
+<strong>Interpreted Language:</strong> Code line by line execute hota hai runtime pe (e.g., Python)
+
+<strong>Python = Interpreted</strong>
+
+<div class="code">Source Code (.py)
+    ↓
+Python Interpreter
+    ↓
+Bytecode (.pyc)
+    ↓
+Python Virtual Machine (PVM)
+    ↓
+Output</div>
+
+<strong>Advantage:</strong> Platform independent, easy debugging
+<strong>Disadvantage:</strong> Compiled se thoda slow`,
+tip:"Python technically pehle bytecode mein compile karta hai, phir PVM interpret karta hai. Yeh baat interviewer impress karti hai."
+},
+
+{id:3,level:"basic",cat:"Basics",q:"Python mein dynamic typing kya hoti hai?",
+ans:`Python mein <strong>variable ka type declare nahi karna padta</strong> — runtime pe automatically decide hota hai.
+
+<div class="code">x = 10        # int
+x = "hello"   # ab string — valid!
+x = [1,2,3]   # ab list — still valid!
+
+# Contrast: Java mein
+# int x = 10;  ← type declare karna padta hai</div>
+
+<strong>Type check karna:</strong>
+<div class="code">x = 42
+print(type(x))    # &lt;class 'int'&gt;
+print(type("hi")) # &lt;class 'str'&gt;</div>`,
+tip:"Dynamic typing ka disadvantage bhi batao — runtime errors ka chance zyada hota hai. Isliye type hints (Python 3.5+) use karte hain production code mein."
+},
+
+{id:4,level:"basic",cat:"Data Types",q:"Python ke built-in data types kaunse hain?",
+ans:`<strong>Python ke main data types:</strong>
+
+<div class="code">
+# Numeric
+int     → x = 10
+float   → x = 3.14
+complex → x = 2 + 3j
+
+# Text
+str     → x = "hello"
+
+# Sequence
+list    → x = [1, 2, 3]      # mutable
+tuple   → x = (1, 2, 3)      # immutable
+range   → x = range(1, 10)
+
+# Mapping
+dict    → x = {"key": "val"}
+
+# Set
+set     → x = {1, 2, 3}      # mutable, unique
+frozenset → x = frozenset({1,2,3}) # immutable set
+
+# Boolean
+bool    → x = True / False
+
+# None
+NoneType → x = None</div>`,
+tip:"frozenset ka naam lete hi interviewer impressed hota hai — most candidates yeh miss karte hain."
+},
+
+{id:5,level:"basic",cat:"Data Types",q:"List aur Tuple mein kya difference hai?",
+ans:`<strong>Key Difference: Mutability</strong>
+
+<div class="code">
+# LIST — mutable (change ho sakta hai)
+lst = [1, 2, 3]
+lst[0] = 99      # ✅ works
+lst.append(4)    # ✅ works
+
+# TUPLE — immutable (change nahi ho sakta)
+tup = (1, 2, 3)
+tup[0] = 99      # ❌ TypeError!</div>
+
+<strong>Differences table:</strong>
+• List: mutable, slow, more memory, []
+• Tuple: immutable, fast, less memory, ()
+
+<strong>Tuple kab use karein:</strong>
+• Fixed data: coordinates (10, 20)
+• Dict key banana ho
+• Function se multiple values return karna`,
+tip:"Interview mein zaroor batao: Tuple is FASTER than list because Python can optimize immutable objects. Tuple as dict key — list as key nahi ho sakti."
+},
+
+{id:6,level:"basic",cat:"Data Types",q:"Dict aur Set mein kya difference hai?",
+ans:`<div class="code">
+# DICT — key:value pairs
+d = {"name": "Ashish", "age": 29}
+print(d["name"])   # Ashish
+
+# SET — unique values only, no keys
+s = {1, 2, 3, 3, 2}
+print(s)   # {1, 2, 3} — duplicates gone!</div>
+
+<strong>Similarities:</strong>
+• Dono {} use karte hain
+• Dono hash table internally
+• Dono O(1) lookup
+
+<strong>Differences:</strong>
+• Dict: key-value pairs, ordered (3.7+)
+• Set: values only, unordered, unique
+
+<strong>Empty banana:</strong>
+<div class="code">
+empty_dict = {}      # dict
+empty_set  = set()   # ← set() — {} nahi!</div>`,
+tip:"Common gotcha: {} empty dict hai, set nahi! Interviewer yeh zaroor poochta hai."
+},
+
+{id:7,level:"basic",cat:"Strings",q:"Python strings immutable kyun hain?",
+ans:`Python strings <strong>immutable</strong> hain — ek baar ban gayi toh change nahi ho sakti.
+
+<div class="code">
+s = "hello"
+s[0] = "H"    # ❌ TypeError: 'str' object does not support item assignment
+
+# Correct way — naya string banao
+s = "H" + s[1:]
+print(s)   # "Hello"</div>
+
+<strong>Kyun immutable:</strong>
+• <em>Security</em> — dict keys safe rehti hain
+• <em>Performance</em> — Python intern karta hai strings
+• <em>Hashable</em> — set aur dict keys ban sakti hain
+
+<div class="code">
+# String interning
+a = "hello"
+b = "hello"
+print(a is b)   # True — same object in memory!</div>`,
+tip:"String concatenation loop mein slow hai kyunki har baar naya object banta hai. ''.join(list) use karo — O(n) vs O(n²)."
+},
+
+{id:8,level:"basic",cat:"Strings",q:"String formatting ke kaunse tarike hain Python mein?",
+ans:`<strong>4 ways to format strings:</strong>
+
+<div class="code">
+name = "Ashish"
+age  = 29
+
+# 1. % formatting (old style)
+print("Name: %s, Age: %d" % (name, age))
+
+# 2. .format() method
+print("Name: {}, Age: {}".format(name, age))
+print("Name: {n}, Age: {a}".format(n=name, a=age))
+
+# 3. f-strings (Python 3.6+) ← BEST
+print(f"Name: {name}, Age: {age}")
+print(f"Next year: {age + 1}")   # expression bhi!
+
+# 4. Template strings
+from string import Template
+t = Template("Name: $name, Age: $age")
+print(t.substitute(name=name, age=age))</div>`,
+tip:"f-strings sabse fast aur readable hain — production code mein yahi use karo. Interview mein f-strings prefer karo."
+},
+
+{id:9,level:"basic",cat:"Control Flow",q:"Python mein pass, break, continue kya karte hain?",
+ans:`<div class="code">
+# PASS — placeholder, kuch nahi karta
+for i in range(5):
+    pass   # empty loop — no error
+
+class EmptyClass:
+    pass   # class body empty
+
+# BREAK — loop bilkul band kar do
+for i in range(10):
+    if i == 5:
+        break       # 0,1,2,3,4 print hokar stop
+    print(i)
+
+# CONTINUE — current iteration skip, agle pe jao
+for i in range(5):
+    if i == 2:
+        continue    # 2 skip ho jaega
+    print(i)        # 0,1,3,4</div>`,
+tip:"pass vs continue: pass = do nothing, continue = skip to next iteration. for-else aur while-else Python specific feature hai — mention karo!"
+},
+
+{id:10,level:"basic",cat:"Control Flow",q:"Python mein for-else aur while-else kya hota hai?",
+ans:`Python specific feature — <strong>else block loop ke saath</strong> run hota hai agar loop normally complete ho (break se exit na ho).
+
+<div class="code">
+# for-else
+for i in range(5):
+    if i == 10:
+        break
+    print(i)
+else:
+    print("Loop completed without break!")
+# Output: 0 1 2 3 4
+# "Loop completed without break!"
+
+# Practical use — search problem
+nums = [1, 3, 5, 7]
+target = 4
+for num in nums:
+    if num == target:
+        print("Found!")
+        break
+else:
+    print("Not found!")   # yeh chalega
+# Output: "Not found!"</div>`,
+tip:"Bahut kam log jaante hain for-else. Interviewer ke saame boldly bol do — yeh tumhara Python knowledge dikhata hai."
+},
+
+{id:11,level:"basic",cat:"Functions",q:"*args aur **kwargs mein kya difference hai?",
+ans:`<div class="code">
+# *args — variable positional arguments
+# → TUPLE mein milte hain
+def add(*args):
+    print(type(args))   # &lt;class 'tuple'&gt;
+    return sum(args)
+
+add(1, 2, 3)      # 6
+add(1, 2, 3, 4, 5) # 15
+
+# **kwargs — variable keyword arguments
+# → DICT mein milte hain
+def profile(**kwargs):
+    print(type(kwargs))   # &lt;class 'dict'&gt;
+    for k, v in kwargs.items():
+        print(f"{k}: {v}")
+
+profile(name="Ashish", age=29, city="Kanpur")
+
+# Dono saath
+def func(*args, **kwargs):
+    print(args)    # (1, 2, 3)
+    print(kwargs)  # {'x': 10, 'y': 20}
+
+func(1, 2, 3, x=10, y=20)</div>`,
+tip:"Order matter karta hai: def func(normal, *args, **kwargs) — yahi correct order hai. Aur: * unpacks list, ** unpacks dict when calling."
+},
+
+{id:12,level:"basic",cat:"Functions",q:"Lambda function kya hai? Kab use karein?",
+ans:`Lambda = <strong>anonymous one-line function</strong>
+
+<div class="code">
+# Syntax: lambda arguments: expression
+square = lambda x: x**2
+print(square(5))   # 25
+
+# Regular function equivalent:
+def square(x):
+    return x**2
+
+# Lambda ka real use — higher order functions
+nums = [3, 1, 4, 1, 5, 9, 2]
+
+# sorted
+sorted_nums = sorted(nums, key=lambda x: -x)  # descending
+
+# map
+squares = list(map(lambda x: x**2, nums))
+
+# filter
+evens = list(filter(lambda x: x%2==0, nums))
+
+# sort list of dicts
+people = [{"name":"Raj","age":25},{"name":"Priya","age":22}]
+people.sort(key=lambda x: x["age"])</div>`,
+tip:"Lambda sirf simple one-liners ke liye — complex logic ke liye def use karo. Lambda ko naam dena anti-pattern hai (PEP8)."
+},
+
+{id:13,level:"basic",cat:"Functions",q:"Python mein scope kya hota hai? LEGB rule kya hai?",
+ans:`Python variable ko <strong>LEGB order</strong> mein dhundta hai:
+
+<div class="code">
+L — Local      (function ke andar)
+E — Enclosing  (outer function, nested case mein)
+G — Global     (module level)
+B — Built-in   (Python ke built-ins: print, len, etc.)
+</div>
+
+<div class="code">
+x = "global"
+
+def outer():
+    x = "enclosing"
+    def inner():
+        x = "local"
+        print(x)   # "local" ← L
+    inner()
+    print(x)       # "enclosing" ← E
+
+outer()
+print(x)           # "global" ← G
+</div>
+
+<strong>global aur nonlocal:</strong>
+<div class="code">
+count = 0
+def increment():
+    global count       # global modify karna
+    count += 1
+
+def outer():
+    x = 10
+    def inner():
+        nonlocal x     # enclosing modify karna
+        x += 1
+    inner()</div>`,
+tip:"nonlocal keyword ko zyada log nahi jaante — mention karna acha impression deta hai."
+},
+
+{id:14,level:"basic",cat:"OOP",q:"Class aur Object mein kya difference hai?",
+ans:`<strong>Class = Blueprint</strong> (design/template)
+<strong>Object = Instance</strong> (actual creation)
+
+<div class="code">
+# Class — blueprint
+class Car:
+    def __init__(self, brand, speed):
+        self.brand = brand    # instance variable
+        self.speed = speed
+
+    def drive(self):
+        print(f"{self.brand} is driving at {self.speed} kmph")
+
+# Objects — instances
+car1 = Car("Toyota", 120)   # object 1
+car2 = Car("BMW", 200)      # object 2
+
+car1.drive()   # Toyota is driving at 120 kmph
+car2.drive()   # BMW is driving at 200 kmph</div>
+
+<strong>self kya hai:</strong>
+Current object ka reference. Python automatically pass karta hai.`,
+tip:"Real life analogy dena — 'Car class is like an architectural blueprint, car1 and car2 are actual buildings built from it.'"
+},
+
+{id:15,level:"basic",cat:"OOP",q:"__init__ method kya hota hai?",
+ans:`<strong>__init__</strong> = Constructor — object create hote waqt automatically call hota hai.
+
+<div class="code">
+class Student:
+    def __init__(self, name, age, marks):
+        # Instance variables initialize karo
+        self.name  = name
+        self.age   = age
+        self.marks = marks
+        print(f"Student {name} created!")
+
+    def show(self):
+        print(f"{self.name}: {self.marks}")
+
+# Object banate hi __init__ call hota hai
+s1 = Student("Ashish", 29, 90)  # "Student Ashish created!"
+s1.show()                        # "Ashish: 90"</div>
+
+<strong>__init__ vs __new__:</strong>
+• __new__: object memory allocate karta hai
+• __init__: object initialize karta hai`,
+tip:"__new__ vs __init__ poochha jaata hai advanced level pe. __new__ singleton pattern mein use hota hai."
+},
+
+{id:16,level:"basic",cat:"OOP",q:"Inheritance kya hai? Python mein kaise implement karte hain?",
+ans:`Inheritance = child class parent class ke attributes aur methods inherit karta hai.
+
+<div class="code">
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print(f"{self.name} makes a sound")
+
+class Dog(Animal):          # Animal inherit kiya
+    def speak(self):        # Method override
+        print(f"{self.name} says Woof!")
+
+class Cat(Animal):
+    def speak(self):
+        print(f"{self.name} says Meow!")
+
+d = Dog("Tommy")
+d.speak()    # Tommy says Woof!
+
+# super() — parent method call karna
+class Puppy(Dog):
+    def __init__(self, name, age):
+        super().__init__(name)   # Dog/__init__ call
+        self.age = age</div>`,
+tip:"Python multiple inheritance support karta hai — MRO (Method Resolution Order) C3 linearization use karta hai. yeh baat advanced question mein kaam aati hai."
+},
+
+{id:17,level:"basic",cat:"OOP",q:"Encapsulation kya hai Python mein?",
+ans:`Encapsulation = data aur methods ko ek unit mein band karna aur direct access restrict karna.
+
+<div class="code">
+class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance   # private (name mangling)
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+
+acc = BankAccount(1000)
+# print(acc.__balance)   # ❌ AttributeError
+print(acc.get_balance())  # ✅ 1000
+acc.deposit(500)
+print(acc.get_balance())  # 1500</div>
+
+<strong>Access levels:</strong>
+• public: name — sab access kar sakte hain
+• protected: _name — convention, avoid direct access
+• private: __name — name mangling, strongly restricted`,
+tip:"Python mein true private nahi hota — __name becomes _ClassName__name (name mangling). acc._BankAccount__balance se access ho sakta hai technically."
+},
+
+{id:18,level:"basic",cat:"OOP",q:"Polymorphism kya hai? Example do.",
+ans:`Polymorphism = ek hi interface, alag alag implementations.
+
+<div class="code">
+# Method Overriding (Runtime Polymorphism)
+class Shape:
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+    def area(self):
+        return 3.14 * self.r ** 2
+
+class Rectangle(Shape):
+    def __init__(self, l, w):
+        self.l = l; self.w = w
+    def area(self):
+        return self.l * self.w
+
+shapes = [Circle(5), Rectangle(4, 6)]
+for s in shapes:
+    print(s.area())   # same method, diff result
+
+# Duck Typing (Python's polymorphism)
+class Dog:
+    def sound(self): print("Woof")
+
+class Cat:
+    def sound(self): print("Meow")
+
+for animal in [Dog(), Cat()]:
+    animal.sound()   # works without inheritance!</div>`,
+tip:"Duck Typing Python specific concept hai — 'If it walks like a duck and quacks like a duck, it's a duck.' Type check nahi, behavior check karo."
+},
+
+{id:19,level:"basic",cat:"Error Handling",q:"Try-except kaise kaam karta hai Python mein?",
+ans:`<div class="code">
+try:
+    # risky code yahan
+    x = int(input("Number: "))
+    result = 10 / x
+
+except ValueError:
+    print("Valid number dalo!")
+
+except ZeroDivisionError:
+    print("Zero se divide nahi kar sakte!")
+
+except Exception as e:
+    print(f"Unexpected error: {e}")
+
+else:
+    # koi error nahi aaya toh
+    print(f"Result: {result}")
+
+finally:
+    # hamesha chalega — error ho ya na ho
+    print("Done!")
+</div>
+
+<strong>Custom Exception:</strong>
+<div class="code">
+class AgeError(Exception):
+    def __init__(self, age):
+        super().__init__(f"Invalid age: {age}")
+
+def set_age(age):
+    if age < 0:
+        raise AgeError(age)
+    return age</div>`,
+tip:"finally block hamesha run hota hai — even if return statement ho try/except mein. Database connections close karne ke liye use karte hain."
+},
+
+{id:20,level:"basic",cat:"Error Handling",q:"Python ke common built-in exceptions kaunse hain?",
+ans:`<div class="code">
+ValueError      → Wrong type value
+                  int("hello") ← ❌
+
+TypeError       → Wrong type operation
+                  "5" + 5    ← ❌
+
+IndexError      → List index out of range
+                  [1,2,3][10] ← ❌
+
+KeyError        → Dict key not found
+                  {"a":1}["b"] ← ❌
+
+AttributeError  → Object attribute not found
+                  "hello".push() ← ❌
+
+NameError       → Variable not defined
+                  print(xyz) ← ❌ (xyz undefined)
+
+ZeroDivisionError → Division by zero
+                  10/0 ← ❌
+
+FileNotFoundError → File not found
+                  open("xyz.txt") ← ❌
+
+ImportError     → Module not found
+                  import xyz ← ❌
+
+RecursionError  → Max recursion depth exceeded
+                  Infinite recursion ← ❌</div>`,
+tip:"Exception hierarchy yaad rakho: BaseException → Exception → konkrete exceptions. KeyboardInterrupt aur SystemExit BaseException se directly inherit karte hain."
+},
+
+{id:21,level:"basic",cat:"List/Dict",q:"List comprehension kya hoti hai? Kab use karein?",
+ans:`List comprehension = <strong>ek line mein list banana</strong>
+
+<div class="code">
+# Normal way
+squares = []
+for x in range(1, 6):
+    squares.append(x**2)
+
+# List comprehension
+squares = [x**2 for x in range(1, 6)]
+# [1, 4, 9, 16, 25]
+
+# With condition
+evens = [x for x in range(20) if x % 2 == 0]
+# [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+
+# Nested
+matrix = [[i*j for j in range(1,4)] for i in range(1,4)]
+# [[1,2,3],[2,4,6],[3,6,9]]
+
+# Dict comprehension
+squares_dict = {x: x**2 for x in range(1, 6)}
+# {1:1, 2:4, 3:9, 4:16, 5:25}
+
+# Set comprehension
+unique_squares = {x**2 for x in [-2,-1,0,1,2]}
+# {0, 1, 4}</div>`,
+tip:"Performance: List comprehension, map(), generator — sabse fast hai generator for large data. Readability ke liye comprehension prefer karo."
+},
+
+{id:22,level:"basic",cat:"List/Dict",q:"Python mein shallow copy aur deep copy mein kya fark hai?",
+ans:`<div class="code">
+import copy
+
+original = [[1, 2, 3], [4, 5, 6]]
+
+# ASSIGNMENT — same object!
+ref = original
+ref[0][0] = 99
+print(original)   # [[99,2,3],[4,5,6]] ← changed!
+
+# SHALLOW COPY — new outer, same inner
+shallow = copy.copy(original)
+shallow[0][0] = 0
+print(original)   # [[0,2,3],[4,5,6]] ← inner changed!
+
+# DEEP COPY — completely independent
+deep = copy.deepcopy(original)
+deep[0][0] = 100
+print(original)   # unchanged ✅</div>
+
+<strong>Shallow copy shortcuts:</strong>
+<div class="code">
+lst = [1, 2, 3]
+# These are shallow copies:
+lst2 = lst[:]
+lst3 = lst.copy()
+lst4 = list(lst)</div>`,
+tip:"Backend interview mein puchha jaata hai. Mutable objects (lists, dicts) ke saath assignment reference copy karta hai — bug ka common source!"
+},
+
+{id:23,level:"basic",cat:"Modules",q:"Python mein module aur package mein kya fark hai?",
+ans:`<strong>Module</strong> = single .py file
+<strong>Package</strong> = folder with __init__.py + multiple modules
+
+<div class="code">
+# Module example
+# math_utils.py
+def add(a, b):
+    return a + b
+
+# use karo
+import math_utils
+math_utils.add(2, 3)
+
+# Package structure:
+mypackage/
+    __init__.py      # package identifier
+    utils.py
+    models.py
+    helpers/
+        __init__.py
+        string_helpers.py
+
+# Import ways:
+import mypackage.utils
+from mypackage import utils
+from mypackage.utils import specific_function
+from mypackage import *   # avoid this!</div>`,
+tip:"__init__.py empty ho sakta hai Python 3.3+ mein (namespace packages), but best practice hai rakhna."
+},
+
+{id:24,level:"basic",cat:"Basics",q:"Python 2 vs Python 3 ke main differences kya hain?",
+ans:`<div class="code">
+# 1. Print
+Python 2: print "hello"
+Python 3: print("hello")   ← function hai
+
+# 2. Division
+Python 2: 5/2 = 2    (integer division)
+Python 3: 5/2 = 2.5  (float division)
+          5//2 = 2   (floor division)
+
+# 3. String
+Python 2: ASCII by default
+Python 3: Unicode (UTF-8) by default
+
+# 4. range
+Python 2: range() returns list, xrange() generator
+Python 3: range() is lazy (generator-like)
+
+# 5. input()
+Python 2: raw_input() for string, input() evaluates
+Python 3: input() always returns string</div>
+
+<strong>Python 2 officially ended:</strong> January 1, 2020`,
+tip:"Python 2 end-of-life ho gaya hai — sirf legacy projects mein milta hai. Sab naye projects Python 3.8+ pe hain."
+},
+
+{id:25,level:"basic",cat:"Basics",q:"Python mein mutable aur immutable objects kya hain?",
+ans:`<strong>Mutable</strong> = change ho sakta hai (same memory location)
+<strong>Immutable</strong> = change nahi ho sakta (naya object banta hai)
+
+<div class="code">
+# MUTABLE
+lst = [1, 2, 3]
+print(id(lst))    # 140234567
+lst.append(4)
+print(id(lst))    # 140234567 ← same id!
+
+d = {"a": 1}
+d["b"] = 2        # same object modify
+
+# IMMUTABLE
+s = "hello"
+print(id(s))      # 140234111
+s = s + " world"  # naya string bana
+print(id(s))      # 140234999 ← different id!
+
+# Summary:
+Mutable:   list, dict, set, bytearray
+Immutable: int, float, str, tuple, bool, frozenset, bytes</div>`,
+tip:"Function mein mutable object pass karna = pass by reference behavior. Immutable = pass by value behavior. Yeh Python interview ka favorite topic hai!"
+},
+
+{id:26,level:"basic",cat:"Functions",q:"Python mein first-class functions kya hoti hain?",
+ans:`Python mein functions <strong>first-class citizens</strong> hain — matlab functions ko:
+• Variable mein assign kar sakte ho
+• Argument mein pass kar sakte ho
+• Function se return kar sakte ho
+
+<div class="code">
+# 1. Variable mein assign
+def greet(name):
+    return f"Hello, {name}!"
+
+say_hello = greet     # assign
+print(say_hello("Ashish"))   # Hello, Ashish!
+
+# 2. Argument mein pass (Higher Order Function)
+def apply(func, value):
+    return func(value)
+
+result = apply(greet, "Python")
+print(result)   # Hello, Python!
+
+# 3. Return kar sakte ho
+def multiplier(n):
+    def multiply(x):
+        return x * n
+    return multiply        # function return!
+
+double = multiplier(2)
+print(double(5))   # 10</div>`,
+tip:"Higher-order functions ka concept functional programming se aata hai. map(), filter(), sorted() sab HOFs hain."
+},
+
+{id:27,level:"basic",cat:"Basics",q:"None kya hai Python mein? Kaise check karein?",
+ans:`<strong>None</strong> = Python ka null value — kuch nahi hai (absence of value)
+
+<div class="code">
+# None ke uses:
+x = None
+print(type(None))   # &lt;class 'NoneType'&gt;
+
+# Function kuch return nahi kare
+def do_something():
+    print("done")     # return nahi hai
+
+result = do_something()
+print(result)   # None
+
+# None check — ALWAYS is/is not use karo
+if x is None:        # ✅ correct
+    print("None hai")
+
+if x == None:        # ⚠️ works but bad practice
+    print("None hai")
+
+if not x:            # ❌ wrong! 0, [], "" bhi False hain</div>`,
+tip:"None sirf ek object hai — None is None hamesha True hoga. 'is' identity check karta hai, '==' equality. None ke liye hamesha 'is None' use karo."
+},
+
+{id:28,level:"basic",cat:"Strings",q:"String ke important methods kaunse hain?",
+ans:`<div class="code">
+s = "  Hello, World!  "
+
+# Case
+s.upper()         # "  HELLO, WORLD!  "
+s.lower()         # "  hello, world!  "
+s.title()         # "  Hello, World!  "
+s.swapcase()      # "  hELLO, wORLD!  "
+
+# Whitespace
+s.strip()         # "Hello, World!"
+s.lstrip()        # "Hello, World!  "
+s.rstrip()        # "  Hello, World!"
+
+# Find
+s.find("World")   # 9 (index), -1 if not found
+s.index("World")  # 9, raises ValueError if not found
+s.count("l")      # 3
+
+# Replace & Split
+s.replace("World", "Python")
+s.split(", ")     # ['  Hello', 'World!  ']
+" ".join(["a","b","c"])   # "a b c"
+
+# Check
+"hello".startswith("he")  # True
+"hello".endswith("lo")    # True
+"hello123".isalnum()      # True
+"hello".isalpha()         # True
+"123".isdigit()           # True</div>`,
+tip:"s.find() vs s.index() — find returns -1, index raises ValueError. Production mein find prefer karo."
+},
+
+{id:29,level:"basic",cat:"List/Dict",q:"List ke important methods kaunse hain?",
+ans:`<div class="code">
+lst = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# Add
+lst.append(7)        # end mein add
+lst.insert(0, 0)     # index 0 pe add
+lst.extend([8, 9])   # multiple add
+
+# Remove
+lst.remove(1)        # first occurrence remove
+lst.pop()            # last remove + return
+lst.pop(0)           # index 0 remove + return
+lst.clear()          # sab remove
+
+# Search
+lst.index(5)         # index of 5
+lst.count(1)         # 1 kitni baar hai
+
+# Sort
+lst.sort()                      # in-place ascending
+lst.sort(reverse=True)          # descending
+lst.sort(key=lambda x: -x)      # custom key
+sorted_lst = sorted(lst)        # new list return
+
+# Other
+lst.reverse()        # in-place reverse
+lst2 = lst.copy()    # shallow copy
+lst3 = lst[:]        # slice copy</div>`,
+tip:"sort() vs sorted() — sort() in-place (None return karta hai), sorted() new list return karta hai. Common mistake: result = lst.sort() → result is None!"
+},
+
+{id:30,level:"basic",cat:"List/Dict",q:"Dictionary ke important methods kaunse hain?",
+ans:`<div class="code">
+d = {"name": "Ashish", "age": 29, "city": "Kanpur"}
+
+# Access
+d["name"]               # "Ashish" — KeyError if missing
+d.get("name")           # "Ashish" — None if missing
+d.get("phone", "N/A")   # "N/A" — default value
+
+# Add/Update
+d["role"] = "Dev"       # add/update
+d.update({"age": 30, "exp": 4})   # multiple update
+
+# Remove
+del d["city"]           # delete key
+d.pop("age")            # remove + return value
+d.pop("xyz", None)      # no error if missing
+d.popitem()             # last item remove (Python 3.7+)
+
+# Iterate
+d.keys()    # dict_keys(['name', 'role', 'exp'])
+d.values()  # dict_values(['Ashish', 'Dev', 4])
+d.items()   # dict_items([('name','Ashish')...])
+
+for k, v in d.items():
+    print(f"{k}: {v}")
+
+# Check
+"name" in d    # True</div>`,
+tip:"d.get() vs d[] — production mein d.get() prefer karo to avoid KeyError. setdefault() bhi useful hai: d.setdefault('key', default_value)"
+},
+
+{id:31,level:"basic",cat:"Basics",q:"Python mein is aur == mein kya fark hai?",
+ans:`<strong>==</strong> → Value equality (same value?)
+<strong>is</strong> → Identity equality (same object in memory?)
+
+<div class="code">
+a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+print(a == b)    # True  ← same values
+print(a is b)    # False ← different objects
+
+print(a == c)    # True  ← same values
+print(a is c)    # True  ← SAME object!
+
+# Integer caching (Python optimization)
+x = 256
+y = 256
+print(x is y)    # True  ← Python caches small ints (-5 to 256)
+
+x = 257
+y = 257
+print(x is y)    # False ← cache ke bahar!</div>
+
+<strong>Rule: None, True, False ke liye hamesha 'is' use karo</strong>`,
+tip:"Python small integers (-5 to 256) aur short strings cache karta hai — isliye is kabhi kabhi True deta hai unexpectedly. Interview mein zaroor mention karo."
+},
+
+{id:32,level:"basic",cat:"Basics",q:"Python mein truthiness kya hoti hai?",
+ans:`Python mein koi bhi value True ya False evaluate ho sakti hai if/while mein.
+
+<div class="code">
+# FALSY values (False mane jaate hain):
+False, None, 0, 0.0, 0j
+"" (empty string)
+[], (), {} (empty collections)
+set()
+
+# TRUTHY — baki sab kuch!
+True, 1, -1, "hello"
+[1,2,3], {"a":1}, (1,)
+
+# Practical:
+lst = []
+if lst:              # falsy! empty list
+    print("has items")
+else:
+    print("empty")   # yeh chalega
+
+# Common patterns
+name = input() or "Guest"    # empty input → "Guest"
+result = value if value else "default"</div>`,
+tip:"bool([]) = False, bool([False]) = True — list ka ek element (chahe False ho) list ko truthy banata hai! Interview tricky question."
+},
+
+{id:33,level:"basic",cat:"Basics",q:"Global Interpreter Lock (GIL) kya hota hai?",
+ans:`GIL = <strong>Global Interpreter Lock</strong>
+
+Ek mutex (lock) jo ensure karta hai ki ek waqt mein sirf <strong>ek thread Python bytecode execute kare</strong>.
+
+<div class="code">
+# GIL ka effect:
+import threading
+
+# CPU-bound task — GIL HURT karta hai
+# Multiple threads ek core pe stuck rehte hain
+
+# I/O-bound task — GIL LESS issue
+# Thread I/O wait karte waqt GIL release kar deta hai
+
+# Solutions:
+# 1. multiprocessing — separate processes, no GIL issue
+# 2. asyncio — single thread, cooperative multitasking
+# 3. C extensions — NumPy GIL release karta hai
+</div>
+
+<strong>Kyun hai GIL?</strong>
+CPython memory management thread-safe nahi hai, GIL usse protect karta hai.`,
+tip:"GIL sirf CPython mein hai (default Python). PyPy, Jython mein nahi. Python 3.12+ mein per-interpreter GIL aa raha hai."
+},
+
+{id:34,level:"basic",cat:"Basics",q:"Python mein enumerate() aur zip() kya karte hain?",
+ans:`<div class="code">
+# ENUMERATE — index + value saath mein
+fruits = ["apple", "banana", "cherry"]
+
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")
+# 0: apple
+# 1: banana
+# 2: cherry
+
+# Start from 1:
+for i, fruit in enumerate(fruits, 1):
+    print(f"{i}. {fruit}")
+
+# ZIP — multiple lists ko pair karo
+names  = ["Rahul", "Priya", "Amit"]
+scores = [85, 92, 78]
+
+for name, score in zip(names, scores):
+    print(f"{name}: {score}")
+# Rahul: 85, Priya: 92, Amit: 78
+
+# zip to dict
+d = dict(zip(names, scores))
+# {"Rahul":85, "Priya":92, "Amit":78}
+
+# Unzip
+names2, scores2 = zip(*d.items())</div>`,
+tip:"zip stops at shortest iterable. zip_longest from itertools fills missing with None. Both return lazy iterators — wrap in list() to see."
+},
+
+{id:35,level:"basic",cat:"Basics",q:"Python mein ternary operator kaise likhte hain?",
+ans:`<div class="code">
+# Syntax: value_if_true if condition else value_if_false
+
+# Normal if-else:
+x = 10
+if x > 5:
+    result = "big"
+else:
+    result = "small"
+
+# Ternary (one line):
+result = "big" if x > 5 else "small"
+print(result)   # "big"
+
+# Nested ternary (avoid in production):
+grade = "A" if x >= 90 else "B" if x >= 80 else "C"
+
+# With functions:
+def greet(name):
+    return f"Hello, {name}!" if name else "Hello, Guest!"
+
+# In list:
+nums = [1, -2, 3, -4, 5]
+abs_nums = [n if n >= 0 else -n for n in nums]
+# [1, 2, 3, 4, 5]</div>`,
+tip:"Nested ternary readable nahi hoti — production mein avoid karo. Simple cases ke liye perfect hai."
+},
+
+// ══════════════════════════════════════════
+// INTERMEDIATE (36-75)
+// ══════════════════════════════════════════
+{id:36,level:"intermediate",cat:"Functions",q:"Decorators kya hote hain? Kaise banate hain?",
+ans:`Decorator = <strong>function jo doosre function ko wrap karta hai</strong> bina usse modify kiye.
+
+<div class="code">
+# Basic Decorator
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before function call")
+        result = func(*args, **kwargs)    # original function
+        print("After function call")
+        return result
+    return wrapper
+
+@my_decorator            # same as: greet = my_decorator(greet)
+def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Ashish")
+# Before function call
+# Hello, Ashish!
+# After function call
+
+# Real use cases:
+@timer          # execution time measure
+@logger         # log every call
+@cache          # result cache karo
+@auth_required  # authentication check</div>
+
+<strong>functools.wraps:</strong>
+<div class="code">
+from functools import wraps
+def decorator(func):
+    @wraps(func)    # function ka __name__ preserve karta hai
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper</div>`,
+tip:"@wraps(func) hamesha use karo — warna func.__name__ 'wrapper' ban jaata hai jo debugging mein confusing hota hai."
+},
+
+{id:37,level:"intermediate",cat:"Functions",q:"Generators kya hote hain? yield kaise kaam karta hai?",
+ans:`Generator = <strong>lazy iterator</strong> — ek baar mein ek value produce karta hai, sab at once nahi.
+
+<div class="code">
+# Normal function — sab ek saath return
+def get_squares(n):
+    return [x**2 for x in range(n)]   # full list memory mein
+
+# Generator — ek ek karke
+def gen_squares(n):
+    for x in range(n):
+        yield x**2    # pause and return, state preserve!
+
+g = gen_squares(5)
+print(next(g))   # 0
+print(next(g))   # 1
+print(next(g))   # 4
+
+for sq in gen_squares(5):
+    print(sq)    # 0 1 4 9 16
+
+# Generator expression (like list comprehension)
+gen = (x**2 for x in range(1000000))  # barely any memory!
+lst = [x**2 for x in range(1000000)]  # huge memory!</div>
+
+<strong>yield vs return:</strong>
+• return: function khatam, state lost
+• yield: pause, state preserve, resume on next()`,
+tip:"Large datasets ke liye generators bahut important hain. File reading, database streaming — yahan generators use karo. Memory: O(1) vs O(n)."
+},
+
+{id:38,level:"intermediate",cat:"Functions",q:"Closure kya hota hai Python mein?",
+ans:`Closure = inner function jo <strong>outer function ke variables ko remember karta hai</strong> even after outer function khatam ho jaye.
+
+<div class="code">
+def multiplier(factor):
+    # 'factor' outer function ki variable hai
+    def multiply(number):
+        return number * factor   # 'factor' enclosed hai!
+    return multiply              # function return!
+
+double = multiplier(2)   # outer call, factor=2 enclosed
+triple = multiplier(3)
+
+print(double(5))   # 10  ← factor=2 yaad hai!
+print(triple(5))   # 15  ← factor=3 yaad hai!
+
+# Variables check karo:
+print(double.__closure__)           # closure cells
+print(double.__closure__[0].cell_contents)  # 2
+
+# Practical use — counter:
+def make_counter():
+    count = 0
+    def counter():
+        nonlocal count
+        count += 1
+        return count
+    return counter
+
+c = make_counter()
+print(c())   # 1
+print(c())   # 2</div>`,
+tip:"Closure vs Class: simple state ke liye closure, complex behavior ke liye class. Decorators closures use karte hain internally."
+},
+
+{id:39,level:"intermediate",cat:"Functions",q:"map(), filter(), reduce() kaise kaam karte hain?",
+ans:`<div class="code">
+nums = [1, 2, 3, 4, 5]
+
+# MAP — har element pe function apply karo
+squares = list(map(lambda x: x**2, nums))
+# [1, 4, 9, 16, 25]
+
+# Multiple iterables:
+a = [1, 2, 3]
+b = [10, 20, 30]
+sums = list(map(lambda x, y: x+y, a, b))
+# [11, 22, 33]
+
+# FILTER — condition true wale rakhho
+evens = list(filter(lambda x: x%2==0, nums))
+# [2, 4]
+
+# REDUCE — accumulate karke single value
+from functools import reduce
+product = reduce(lambda x, y: x*y, nums)
+# 1*2*3*4*5 = 120
+
+total = reduce(lambda x, y: x+y, nums)
+# 15
+
+# Modern Python: list comprehension prefer karo
+squares = [x**2 for x in nums]     # more readable
+evens   = [x for x in nums if x%2==0]</div>`,
+tip:"Python 3 mein reduce() functools mein move ho gaya (Python 2 mein built-in tha). Guido van Rossum (Python creator) ne khud bola tha reduce() hatao — isliye functools mein gaya."
+},
+
+{id:40,level:"intermediate",cat:"OOP",q:"Abstract class aur interface kya hote hain Python mein?",
+ans:`<div class="code">
+from abc import ABC, abstractmethod
+
+# Abstract Class
+class Shape(ABC):
+    @abstractmethod
+    def area(self):         # child MUST implement
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+    def describe(self):     # normal method — inherit ho sakta hai
+        return f"Area: {self.area()}"
+
+# Child class — MUST implement abstract methods
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+
+    def area(self):
+        return 3.14 * self.r**2
+
+    def perimeter(self):
+        return 2 * 3.14 * self.r
+
+# s = Shape()   # ❌ TypeError — can't instantiate abstract
+c = Circle(5)   # ✅
+print(c.describe())   # "Area: 78.5"</div>
+
+<strong>Python mein Interface:</strong>
+Python mein formal interface nahi — abstract class + all abstract methods = interface`,
+tip:"Python mein interface keyword nahi hai (Java jaise) — ABC ke through implement karte hain. Protocol class (Python 3.8+) structural subtyping ke liye use hoti hai."
+},
+
+{id:41,level:"intermediate",cat:"OOP",q:"@property decorator kya karta hai?",
+ans:`@property = <strong>method ko attribute ki tarah access karne deta hai</strong>
+
+<div class="code">
+class Temperature:
+    def __init__(self, celsius):
+        self._celsius = celsius
+
+    @property
+    def celsius(self):          # getter
+        return self._celsius
+
+    @celsius.setter
+    def celsius(self, value):   # setter
+        if value < -273.15:
+            raise ValueError("Too cold!")
+        self._celsius = value
+
+    @celsius.deleter
+    def celsius(self):          # deleter
+        del self._celsius
+
+    @property
+    def fahrenheit(self):       # computed property
+        return self._celsius * 9/5 + 32
+
+t = Temperature(100)
+print(t.celsius)     # 100 ← method call but no ()
+print(t.fahrenheit)  # 212.0
+
+t.celsius = 0        # setter call
+t.celsius = -300     # ❌ ValueError!</div>`,
+tip:"@property encapsulation ke liye best practice hai. Direct attribute access se cleaner code milta hai. Calculated/computed properties banane ke liye perfect."
+},
+
+{id:42,level:"intermediate",cat:"OOP",q:"Dunder methods (Magic methods) kya hote hain?",
+ans:`Dunder = Double UNDERscore. Special methods jo Python internally call karta hai.
+
+<div class="code">
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):      # print() ke liye
+        return f"Vector({self.x}, {self.y})"
+
+    def __repr__(self):     # developer representation
+        return f"Vector(x={self.x}, y={self.y})"
+
+    def __add__(self, other):   # + operator
+        return Vector(self.x+other.x, self.y+other.y)
+
+    def __len__(self):      # len() ke liye
+        return int((self.x**2 + self.y**2)**0.5)
+
+    def __eq__(self, other):    # == operator
+        return self.x==other.x and self.y==other.y
+
+    def __lt__(self, other):    # < operator
+        return len(self) < len(other)
+
+v1 = Vector(3, 4)
+v2 = Vector(1, 2)
+print(v1)          # Vector(3, 4)  ← __str__
+print(v1 + v2)     # Vector(4, 6)  ← __add__
+print(len(v1))     # 5             ← __len__</div>`,
+tip:"__str__ vs __repr__: str() user-friendly, repr() developer-friendly (should be unambiguous). eval(repr(obj)) ideally should recreate object."
+},
+
+{id:43,level:"intermediate",cat:"OOP",q:"Python mein multiple inheritance aur MRO kya hai?",
+ans:`<div class="code">
+class A:
+    def method(self): print("A")
+
+class B(A):
+    def method(self): print("B")
+
+class C(A):
+    def method(self): print("C")
+
+class D(B, C):     # Multiple inheritance
+    pass
+
+d = D()
+d.method()   # "B" — MRO decide karta hai
+
+# MRO check karo:
+print(D.__mro__)
+# (&lt;class 'D'&gt;, &lt;class 'B'&gt;, &lt;class 'C'&gt;, &lt;class 'A'&gt;, &lt;class 'object'&gt;)
+# D → B → C → A → object
+
+# Diamond problem — Python MRO solve karta hai:
+#     A
+#    / \
+#   B   C
+#    \ /
+#     D
+# MRO ensures A called only once</div>
+
+MRO (Method Resolution Order) — <strong>C3 Linearization Algorithm</strong> use karta hai Python`,
+tip:"super() MRO ke next class ko call karta hai — always. Isliye cooperative multiple inheritance possible hai. Interview mein diamond problem zaroor poochha jaata hai."
+},
+
+{id:44,level:"intermediate",cat:"Advanced",q:"Context managers aur 'with' statement kya hota hai?",
+ans:`Context manager = <strong>setup aur cleanup automatically handle karta hai</strong>
+
+<div class="code">
+# Without context manager — risky!
+f = open("file.txt", "r")
+data = f.read()
+# agar exception aaye → f.close() nahi chalega!
+f.close()
+
+# WITH statement — safe!
+with open("file.txt", "r") as f:
+    data = f.read()
+# file automatically close — even if exception!
+
+# Custom Context Manager — class
+class Timer:
+    def __enter__(self):
+        import time
+        self.start = time.time()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end = time.time()
+        print(f"Time: {self.end - self.start:.2f}s")
+        return False  # False = don't suppress exceptions
+
+with Timer() as t:
+    sum(range(1000000))
+
+# Custom — contextlib (simpler)
+from contextlib import contextmanager
+
+@contextmanager
+def timer():
+    import time
+    start = time.time()
+    yield            # code yahan run hota hai
+    print(f"Time: {time.time()-start:.2f}s")</div>`,
+tip:"__exit__ mein True return karna exception suppress karta hai — generally False return karo unless intentionally suppress karna ho."
+},
+
+{id:45,level:"intermediate",cat:"Advanced",q:"Iterators aur Iterables mein kya fark hai?",
+ans:`<strong>Iterable</strong> = jo for loop mein use ho sake (__iter__ method hona chahiye)
+<strong>Iterator</strong> = jo next() call pe next value de (__iter__ + __next__ dono)
+
+<div class="code">
+# Check karo:
+lst = [1, 2, 3]
+print(hasattr(lst, '__iter__'))   # True — iterable
+print(hasattr(lst, '__next__'))   # False — NOT iterator!
+
+# iter() se iterator banao
+it = iter(lst)   # iterator
+print(next(it))  # 1
+print(next(it))  # 2
+
+# Custom Iterator:
+class Countdown:
+    def __init__(self, n):
+        self.n = n
+
+    def __iter__(self):
+        return self   # self hi iterator hai
+
+    def __next__(self):
+        if self.n <= 0:
+            raise StopIteration
+        self.n -= 1
+        return self.n + 1
+
+for x in Countdown(5):
+    print(x)   # 5 4 3 2 1</div>`,
+tip:"for loop internally iter() call karta hai phir next() baar baar — StopIteration pe loop khatam. Generator automatically iterator hota hai."
+},
+
+{id:46,level:"intermediate",cat:"Advanced",q:"Python mein metaclass kya hota hai?",
+ans:`Metaclass = <strong>class ki class</strong>. Jaise class objects banati hai, metaclass classes banati hai.
+
+<div class="code">
+# Sab classes default mein 'type' se banti hain
+print(type(int))     # &lt;class 'type'&gt;
+print(type(str))     # &lt;class 'type'&gt;
+print(type(list))    # &lt;class 'type'&gt;
+
+# type se class banao dynamically:
+MyClass = type('MyClass', (object,), {'x': 10})
+obj = MyClass()
+print(obj.x)   # 10
+
+# Custom Metaclass:
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    pass
+
+db1 = Database()
+db2 = Database()
+print(db1 is db2)   # True — same object!</div>`,
+tip:"Metaclass bahut advanced hai — real world mein ORMs (Django models), APIs mein use hota hai. Most apps mein directly nahi likhna padta."
+},
+
+{id:47,level:"intermediate",cat:"Advanced",q:"collections module ke important classes kya hain?",
+ans:`<div class="code">
+from collections import Counter, defaultdict, deque, OrderedDict, namedtuple
+
+# COUNTER — frequency count
+c = Counter("banana")
+print(c)   # Counter({'a':3,'n':2,'b':1})
+print(c.most_common(2))   # [('a',3),('n',2)]
+
+# DEFAULTDICT — missing key pe default value
+dd = defaultdict(list)
+dd["fruits"].append("apple")   # key bina create ho gyi!
+dd["fruits"].append("banana")
+print(dd)   # {'fruits': ['apple','banana']}
+
+# DEQUE — double ended queue, O(1) both ends
+dq = deque([1,2,3])
+dq.appendleft(0)   # O(1)
+dq.popleft()       # O(1)
+dq.append(4)       # O(1)
+
+# NAMEDTUPLE — tuple with named fields
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)
+print(p.x, p.y)   # 10 20
+print(p[0])       # 10 — index bhi kaam karta hai</div>`,
+tip:"DSA mein deque bahut kaam aata hai BFS ke liye — O(1) popleft(). list ka pop(0) O(n) hota hai! Counter interview favorites mein hai."
+},
+
+{id:48,level:"intermediate",cat:"Advanced",q:"Python mein threading aur multiprocessing mein kya fark hai?",
+ans:`<div class="code">
+# THREADING — same process, shared memory
+import threading
+
+def task():
+    print(f"Thread: {threading.current_thread().name}")
+
+t = threading.Thread(target=task)
+t.start()
+t.join()
+
+# Use case: I/O-bound tasks (file read, API calls, DB queries)
+# GIL ki wajah se CPU-bound mein effective nahi
+
+# MULTIPROCESSING — separate processes, separate memory
+import multiprocessing
+
+def cpu_task(n):
+    return sum(range(n))
+
+with multiprocessing.Pool(4) as pool:   # 4 processes
+    results = pool.map(cpu_task, [10**6]*4)
+
+# Use case: CPU-bound tasks (data processing, ML training)
+# GIL issue nahi — separate process!</div>
+
+<strong>Summary:</strong>
+• I/O bound (API, DB, files) → Threading / asyncio
+• CPU bound (calculations, ML) → Multiprocessing`,
+tip:"asyncio = single thread, cooperative multitasking — best for I/O bound. Thread = OS-level context switching. Process = separate GIL. Interview mein yeh distinction zaroori hai."
+},
+
+{id:49,level:"intermediate",cat:"Advanced",q:"asyncio aur async/await kya hota hai?",
+ans:`asyncio = <strong>single thread mein concurrent I/O operations</strong>
+
+<div class="code">
+import asyncio
+
+# async function = coroutine
+async def fetch_data(url):
+    print(f"Fetching {url}...")
+    await asyncio.sleep(1)   # simulate network call
+    return f"Data from {url}"
+
+async def main():
+    # Sequential (slow):
+    r1 = await fetch_data("api1.com")
+    r2 = await fetch_data("api2.com")
+    # Total: 2 seconds
+
+    # Concurrent (fast):
+    r1, r2 = await asyncio.gather(
+        fetch_data("api1.com"),
+        fetch_data("api2.com")
+    )
+    # Total: 1 second! Both run concurrently
+
+asyncio.run(main())
+
+# FastAPI, aiohttp — async frameworks
+from fastapi import FastAPI
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": "Hello"}</div>`,
+tip:"Python backend developer ke liye asyncio bahut important hai — FastAPI, Django async views, SQLAlchemy async sab use karte hain. async/await without await = blocking!"
+},
+
+{id:50,level:"intermediate",cat:"Advanced",q:"Python mein memory management kaise hoti hai?",
+ans:`<strong>Python memory management:</strong>
+
+<div class="code">
+# 1. Reference Counting
+x = [1, 2, 3]
+import sys
+print(sys.getrefcount(x))   # reference count
+
+y = x          # count +1
+del y          # count -1
+# count = 0 → object deleted from memory
+
+# 2. Garbage Collector — circular references ke liye
+import gc
+gc.collect()   # manual garbage collection
+
+# 3. Memory pools
+# Python preallocates small objects (int, str)
+# Small ints (-5 to 256) cached!
+
+a = 100; b = 100
+print(a is b)   # True ← cached!
+
+a = 1000; b = 1000
+print(a is b)   # False ← not cached
+
+# 4. del keyword
+lst = [1,2,3]
+del lst    # reference remove karo
+# Memory free when refcount = 0</div>`,
+tip:"CPython reference counting + generational GC use karta hai. Generation 0 (new), 1, 2 (old). Circular references GC handle karta hai, not ref counting."
+},
+
+{id:51,level:"intermediate",cat:"Advanced",q:"Python mein type hints kya hoti hain? (Python 3.5+)",
+ans:`Type hints = <strong>optional annotations</strong> jo code readable banati hain.
+
+<div class="code">
+# Function type hints
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+def add(a: int, b: int) -> int:
+    return a + b
+
+# Complex types
+from typing import List, Dict, Tuple, Optional, Union
+
+def process(nums: List[int]) -> Dict[str, int]:
+    return {"sum": sum(nums), "count": len(nums)}
+
+def find(lst: List[int], target: int) -> Optional[int]:
+    # Optional = value ya None
+    for i, x in enumerate(lst):
+        if x == target:
+            return i
+    return None
+
+# Union = multiple possible types
+def display(value: Union[int, str]) -> None:
+    print(value)
+
+# Python 3.10+ — | syntax
+def new_display(value: int | str) -> None:
+    print(value)
+
+# Variable hints
+name: str = "Ashish"
+scores: List[int] = [85, 90, 78]</div>`,
+tip:"Type hints runtime pe enforce nahi hoti — sirf documentation + IDE support ke liye. mypy tool use karo static type checking ke liye."
+},
+
+{id:52,level:"intermediate",cat:"Advanced",q:"Dataclasses kya hoti hain? (Python 3.7+)",
+ans:`@dataclass decorator se <strong>boilerplate code automatically generate</strong> hota hai.
+
+<div class="code">
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class Student:
+    name: str
+    age: int
+    marks: float = 0.0                    # default value
+    subjects: List[str] = field(default_factory=list)
+
+    def grade(self) -> str:
+        return "A" if self.marks >= 90 else "B"
+
+# Auto-generated:
+# __init__, __repr__, __eq__
+
+s1 = Student("Ashish", 29, 90.0)
+s2 = Student("Ashish", 29, 90.0)
+
+print(s1)          # Student(name='Ashish', age=29, marks=90.0, subjects=[])
+print(s1 == s2)    # True ← __eq__ auto!
+
+# Frozen dataclass (immutable)
+@dataclass(frozen=True)
+class Point:
+    x: float
+    y: float
+
+p = Point(1.0, 2.0)
+# p.x = 3.0   # ❌ FrozenInstanceError</div>`,
+tip:"Dataclass vs namedtuple: dataclass mutable aur methods support karta hai. Pydantic (FastAPI mein use hoti) dataclass se powerful hai — validation bhi karta hai."
+},
+
+{id:53,level:"intermediate",cat:"Advanced",q:"Python mein slots kya hota hai?",
+ans:`<strong>__slots__</strong> = instance variables ke liye dict ki jagah fixed memory use karna
+
+<div class="code">
+# Normal class — har object ek __dict__ rakhta hai
+class NormalPoint:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+# __slots__ class — memory efficient
+class SlottedPoint:
+    __slots__ = ['x', 'y']   # only these attributes!
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+# Memory comparison
+import sys
+p1 = NormalPoint(1, 2)
+p2 = SlottedPoint(1, 2)
+
+print(sys.getsizeof(p1.__dict__))  # ~232 bytes
+# SlottedPoint has no __dict__!
+
+# Restriction:
+p2.z = 3   # ❌ AttributeError — z not in slots!</div>
+
+<strong>Benefits:</strong>
+• Less memory (no __dict__ overhead)
+• Faster attribute access`,
+tip:"Lakhon objects create karne ho tab slots use karo — 30-50% memory save. Data science, game dev mein common. Inheritance ke saath careful rehna — child class mein bhi slots define karo."
+},
+
+{id:54,level:"intermediate",cat:"Advanced",q:"Python mein itertools module kya kaam aata hai?",
+ans:`itertools = <strong>efficient iterators ka collection</strong>
+
+<div class="code">
+import itertools
+
+# CHAIN — multiple iterables ek mein
+chain = list(itertools.chain([1,2], [3,4], [5]))
+# [1, 2, 3, 4, 5]
+
+# COMBINATIONS
+combs = list(itertools.combinations([1,2,3], 2))
+# [(1,2),(1,3),(2,3)]
+
+# PERMUTATIONS
+perms = list(itertools.permutations([1,2,3], 2))
+# [(1,2),(1,3),(2,1),(2,3),(3,1),(3,2)]
+
+# PRODUCT — cartesian product
+prod = list(itertools.product([1,2], ['a','b']))
+# [(1,'a'),(1,'b'),(2,'a'),(2,'b')]
+
+# GROUPBY — consecutive groups
+data = [1,1,2,2,3,3,1,1]
+for key, group in itertools.groupby(data):
+    print(key, list(group))
+# 1 [1,1], 2 [2,2], 3 [3,3], 1 [1,1]
+
+# ISLICE — lazy slicing
+gen = (x**2 for x in range(1000000))
+first_5 = list(itertools.islice(gen, 5))
+# [0, 1, 4, 9, 16]</div>`,
+tip:"groupby sorted data pe kaam karta hai properly — pehle sort karo, phir groupby. DSA mein combinations/permutations brute force ke liye kaam aata hai."
+},
+
+{id:55,level:"intermediate",cat:"Advanced",q:"functools module ke important functions kya hain?",
+ans:`<div class="code">
+from functools import lru_cache, partial, wraps, reduce
+
+# LRU_CACHE — memoization decorator
+@lru_cache(maxsize=128)
+def fib(n):
+    if n <= 1: return n
+    return fib(n-1) + fib(n-2)
+
+print(fib(50))   # Fast! Results cached
+
+# Cache info:
+print(fib.cache_info())  # hits, misses, size
+
+# PARTIAL — function ke kuch args fix karo
+def power(base, exp):
+    return base ** exp
+
+square = partial(power, exp=2)
+cube   = partial(power, exp=3)
+
+print(square(5))   # 25
+print(cube(3))     # 27
+
+# WRAPS — decorator mein use
+def my_decorator(func):
+    @wraps(func)    # func ka naam/docstring preserve
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+# REDUCE
+from functools import reduce
+product = reduce(lambda x,y: x*y, [1,2,3,4,5])
+# 120</div>`,
+tip:"@lru_cache vs manual memoization: lru_cache thread-safe hai, LRU eviction policy use karta hai. Python 3.9+ mein @cache bhi available hai (unlimited cache)."
+},
+
+{id:56,level:"intermediate",cat:"Advanced",q:"Python mein pickling/serialization kya hota hai?",
+ans:`Pickling = <strong>Python object ko bytes mein convert karna</strong> (serialize/deserialize)
+
+<div class="code">
+import pickle
+
+# Object to bytes (serialize)
+data = {"name": "Ashish", "scores": [85, 90, 78]}
+with open("data.pkl", "wb") as f:
+    pickle.dump(data, f)
+
+# Bytes to object (deserialize)
+with open("data.pkl", "rb") as f:
+    loaded = pickle.load(f)
+print(loaded)   # {'name':'Ashish','scores':[85,90,78]}
+
+# JSON serialization (cross-platform)
+import json
+
+data = {"name": "Ashish", "age": 29}
+json_str = json.dumps(data)        # dict to JSON string
+json_str = json.dumps(data, indent=2)  # formatted
+back = json.loads(json_str)        # JSON string to dict
+
+# File mein:
+with open("data.json", "w") as f:
+    json.dump(data, f, indent=2)
+
+with open("data.json", "r") as f:
+    loaded = json.load(f)</div>`,
+tip:"pickle Python-only hai aur unsafe (untrusted data se load mat karo). JSON cross-platform aur safe hai. datetime serialize karne ke liye custom encoder likhna padta hai."
+},
+
+{id:57,level:"intermediate",cat:"Advanced",q:"Python mein file handling kaise karte hain?",
+ans:`<div class="code">
+# Basic file operations
+# WRITE
+with open("file.txt", "w") as f:
+    f.write("Hello, World!\n")
+    f.writelines(["Line 1\n", "Line 2\n"])
+
+# READ
+with open("file.txt", "r") as f:
+    content = f.read()        # pura file
+    lines   = f.readlines()   # list of lines
+    line    = f.readline()    # ek line
+
+# Line by line (memory efficient):
+with open("large_file.txt") as f:
+    for line in f:
+        process(line.strip())
+
+# APPEND
+with open("file.txt", "a") as f:
+    f.write("New line\n")
+
+# Modes:
+# "r"  = read (default)
+# "w"  = write (overwrite)
+# "a"  = append
+# "rb" = read binary
+# "wb" = write binary
+
+# pathlib (modern way):
+from pathlib import Path
+p = Path("file.txt")
+content = p.read_text()
+p.write_text("Hello")</div>`,
+tip:"Large files ke liye line-by-line reading karo — f.read() entire file memory mein load karta hai. pathlib modern Python ka preferred way hai for file paths."
+},
+
+{id:58,level:"intermediate",cat:"Advanced",q:"Regular Expressions (regex) Python mein kaise use karte hain?",
+ans:`<div class="code">
+import re
+
+text = "Ashish's email is ashish@gmail.com and phone is 9876543210"
+
+# SEARCH — pehli match
+match = re.search(r'\d+', text)
+print(match.group())   # "9876543210"
+
+# FINDALL — sab matches
+emails = re.findall(r'\b[\w.-]+@[\w.-]+\.\w+\b', text)
+# ['ashish@gmail.com']
+
+phones = re.findall(r'\d{10}', text)
+# ['9876543210']
+
+# MATCH — string ke start se
+m = re.match(r'[A-Z]', text)   # capital letter
+
+# SUBSTITUTE
+clean = re.sub(r'\d+', 'NUM', text)
+# "Ashish's email is ashish@gmail.com and phone is NUM"
+
+# Compile karo (reuse ke liye fast)
+pattern = re.compile(r'\d+')
+pattern.findall(text)
+
+# Common patterns:
+# \d = digit,  \D = non-digit
+# \w = word,   \W = non-word
+# \s = space,  \S = non-space
+# .  = any,   ^ = start, $ = end
+# +  = 1+,   *  = 0+,   ? = optional</div>`,
+tip:"Email validation ke liye regex dangerous ho sakti hai — complex edge cases hain. Production mein library use karo (email-validator). r'' raw string use karo backslash issues ke liye."
+},
+
+{id:59,level:"intermediate",cat:"Advanced",q:"Python mein virtual environments kya hoti hain aur kyon zaroori hain?",
+ans:`Virtual environment = <strong>isolated Python environment per project</strong>
+
+<div class="code">
+# Kyun zaroori:
+# Project A needs Django==3.2
+# Project B needs Django==4.2
+# Conflict! → Virtual env solution
+
+# Create virtual environment
+python -m venv myenv
+
+# Activate:
+# Windows:
+myenv\Scripts\activate
+# Mac/Linux:
+source myenv/bin/activate
+
+# Install packages (only in this env)
+pip install django==4.2
+pip install requests==2.31
+
+# Save dependencies
+pip freeze > requirements.txt
+
+# Install from requirements
+pip install -r requirements.txt
+
+# Deactivate
+deactivate
+
+# Modern tools:
+# pipenv — venv + package management
+# poetry — advanced dependency management
+# conda — scientific computing</div>`,
+tip:"Production mein HAMESHA virtual environment use karo. Docker mein kum zaroori hai kyunki container isolated hota hai. requirements.txt pin versions ke saath rakho."
+},
+
+{id:60,level:"intermediate",cat:"Advanced",q:"Python mein list vs generator performance kya hai?",
+ans:`<div class="code">
+import sys
+import time
+
+# Memory comparison
+list_nums = [x**2 for x in range(1000000)]
+gen_nums  = (x**2 for x in range(1000000))
+
+print(sys.getsizeof(list_nums))   # ~8MB+
+print(sys.getsizeof(gen_nums))    # ~120 bytes!
+
+# Speed — list (all pre-computed):
+start = time.time()
+total = sum([x**2 for x in range(10**6)])
+print(f"List: {time.time()-start:.3f}s")
+
+# Speed — generator (lazy):
+start = time.time()
+total = sum(x**2 for x in range(10**6))
+print(f"Generator: {time.time()-start:.3f}s")
+# Generator slightly faster + much less memory
+
+# When to use each:
+# Generator: large data, one-time iteration
+# List: multiple iterations, random access needed
+
+# Pipeline chaining:
+result = sum(
+    x**2 for x in range(10**6)
+    if x % 2 == 0
+)
+# Memory: O(1) throughout!</div>`,
+tip:"Data engineering mein generators bahut common hain — GB files process karna ho toh generator use karo. sum(gen) list banane se pehle sum karta hai — O(1) memory."
+},
+
+{id:61,level:"intermediate",cat:"Advanced",q:"Python mein design patterns — Singleton kaise implement karein?",
+ans:`Singleton = <strong>sirf ek instance exist kare class ka</strong>
+
+<div class="code">
+# Method 1 — __new__ override
+class Singleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+s1 = Singleton()
+s2 = Singleton()
+print(s1 is s2)   # True — same object!
+
+# Method 2 — Decorator
+def singleton(cls):
+    instances = {}
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return get_instance
+
+@singleton
+class Database:
+    def __init__(self):
+        print("DB connected!")
+        self.connection = "active"
+
+db1 = Database()   # "DB connected!" once
+db2 = Database()   # no print
+print(db1 is db2)  # True
+
+# Method 3 — Metaclass
+class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]</div>`,
+tip:"Singleton thread-safe banana zaroori hai multi-threaded apps mein — threading.Lock() use karo. Database connections, config objects ke liye common use case."
+},
+
+{id:62,level:"intermediate",cat:"Advanced",q:"Python mein Observer pattern kya hai?",
+ans:`Observer = <strong>ek object change ho toh saare dependent objects automatically notify ho jaayein</strong>
+
+<div class="code">
+class EventEmitter:
+    def __init__(self):
+        self._subscribers = {}
+
+    def subscribe(self, event, callback):
+        if event not in self._subscribers:
+            self._subscribers[event] = []
+        self._subscribers[event].append(callback)
+
+    def emit(self, event, data=None):
+        if event in self._subscribers:
+            for callback in self._subscribers[event]:
+                callback(data)
+
+# Use it:
+emitter = EventEmitter()
+
+def on_login(user):
+    print(f"Welcome email sent to {user}")
+
+def on_login_security(user):
+    print(f"Security alert for {user}")
+
+emitter.subscribe("user_login", on_login)
+emitter.subscribe("user_login", on_login_security)
+
+emitter.emit("user_login", "Ashish")
+# Welcome email sent to Ashish
+# Security alert for Ashish</div>`,
+tip:"Django signals, Flask signals observer pattern use karte hain. React mein useState ka subscription model bhi observer hai."
+},
+
+{id:63,level:"intermediate",cat:"Advanced",q:"Python mein comprehensions — sab types kya hain?",
+ans:`<div class="code">
+# 1. LIST COMPREHENSION
+squares = [x**2 for x in range(5)]
+# [0, 1, 4, 9, 16]
+
+evens = [x for x in range(10) if x % 2 == 0]
+# [0, 2, 4, 6, 8]
+
+# Nested:
+flat = [x for row in [[1,2],[3,4]] for x in row]
+# [1, 2, 3, 4]
+
+# 2. DICT COMPREHENSION
+sq_dict = {x: x**2 for x in range(5)}
+# {0:0, 1:1, 2:4, 3:9, 4:16}
+
+inv = {v: k for k, v in {"a":1,"b":2}.items()}
+# {1:'a', 2:'b'}
+
+# 3. SET COMPREHENSION
+unique_sq = {x**2 for x in [-2,-1,0,1,2]}
+# {0, 1, 4}
+
+# 4. GENERATOR EXPRESSION
+gen = (x**2 for x in range(5))
+# generator object — lazy!
+
+# 5. NO TUPLE COMPREHENSION!
+t = tuple(x**2 for x in range(5))
+# (0, 1, 4, 9, 16) ← tuple() wrap karo</div>`,
+tip:"(x for x in lst) = generator, NOT tuple comprehension! tuple banna ke liye tuple(gen) wrap karo. Walrus operator := (Python 3.8+) comprehension mein use ho sakta hai."
+},
+
+{id:64,level:"intermediate",cat:"Advanced",q:"Python mein __all__ kya hota hai?",
+ans:`__all__ = <strong>module se 'from module import *' karne par kya export hoga</strong>
+
+<div class="code">
+# mymodule.py
+__all__ = ['public_func', 'PublicClass']
+
+def public_func():
+    return "I'm public"
+
+def _private_func():    # leading _ = convention private
+    return "I'm private"
+
+class PublicClass:
+    pass
+
+class _PrivateClass:
+    pass
+
+# Use karo:
+# from mymodule import *
+# → only public_func and PublicClass imported!
+# _private_func and _PrivateClass NOT imported!
+
+# Direct import still works:
+from mymodule import _private_func   # ✅ still possible
+
+# Package __init__.py mein:
+# __all__ = ['module1', 'module2', 'helper']</div>`,
+tip:"__all__ define karna best practice hai library/package banana ke liye — clearly document karo kya public API hai. Underscore convention bhi follow karo."
+},
+
+{id:65,level:"intermediate",cat:"Advanced",q:"Python mein exception chaining kya hota hai?",
+ans:`<div class="code">
+# IMPLICIT chaining — exception ke andar exception
+try:
+    int("not a number")
+except ValueError as e:
+    raise RuntimeError("Conversion failed") from e
+    # "The above exception was the direct cause of..."
+
+# EXPLICIT chaining
+try:
+    risky_operation()
+except Exception as e:
+    raise MyCustomError("Operation failed") from e
+
+# Suppress chaining:
+try:
+    risky_operation()
+except Exception as e:
+    raise MyCustomError("Failed") from None
+    # Previous exception hidden
+
+# Exception groups (Python 3.11+):
+try:
+    raise ExceptionGroup("multiple errors", [
+        ValueError("bad value"),
+        TypeError("bad type")
+    ])
+except* ValueError as e:
+    print("Handling ValueError")
+except* TypeError as e:
+    print("Handling TypeError")</div>`,
+tip:"'from e' context preserve karta hai original error — debugging mein bahut helpful. 'from None' use karo jab original error sensitive info contain kare."
+},
+
+{id:66,level:"intermediate",cat:"Advanced",q:"Python mein walrus operator (:=) kya hai? (Python 3.8+)",
+ans:`Walrus operator = <strong>assignment expression</strong> — expression ke andar value assign karo
+
+<div class="code">
+# Problem: yeh pattern common tha
+import re
+match = re.search(r'\d+', text)
+if match:
+    print(match.group())
+
+# Walrus — ek line mein!
+if match := re.search(r'\d+', text):
+    print(match.group())
+
+# While loop:
+# Old way
+line = input()
+while line != "quit":
+    process(line)
+    line = input()
+
+# Walrus way
+while (line := input()) != "quit":
+    process(line)
+
+# List comprehension:
+results = [y for x in data if (y := compute(x)) > 0]
+
+# Read file in chunks:
+with open("file") as f:
+    while chunk := f.read(8192):
+        process(chunk)</div>`,
+tip:"Walrus := sirf expression context mein kaam karta hai, normal assignment statement nahi. Readability ke liye sparingly use karo — complex expressions mein confusing lag sakta hai."
+},
+
+{id:67,level:"intermediate",cat:"Advanced",q:"Python mein structural pattern matching kya hai? (Python 3.10+)",
+ans:`match-case = <strong>Python ka switch-case equivalent, but much more powerful</strong>
+
+<div class="code">
+# Basic match
+command = "quit"
+match command:
+    case "quit":
+        print("Quitting...")
+    case "hello":
+        print("Hello!")
+    case _:            # default case
+        print("Unknown command")
+
+# Match with structure
+point = (1, 0)
+match point:
+    case (0, 0):
+        print("Origin")
+    case (x, 0):
+        print(f"On X-axis at {x}")
+    case (0, y):
+        print(f"On Y-axis at {y}")
+    case (x, y):
+        print(f"Point at ({x}, {y})")
+
+# Match with class patterns:
+match command:
+    case {"action": "move", "direction": d}:
+        print(f"Moving {d}")
+    case {"action": "fire"}:
+        print("Firing!")</div>`,
+tip:"match-case switch se zyada powerful hai — structural pattern matching karta hai. API response handling, command parsing mein bahut useful. Python 3.10+ required."
+},
+
+{id:68,level:"intermediate",cat:"Advanced",q:"Python mein __slots__ vs __dict__ performance kya hai?",
+ans:`<div class="code">
+import sys
+import timeit
+
+class WithDict:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class WithSlots:
+    __slots__ = ('x', 'y')
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+# Memory:
+d = WithDict(1, 2)
+s = WithSlots(1, 2)
+
+print(sys.getsizeof(d))           # ~48 bytes
+print(sys.getsizeof(d.__dict__))  # ~232 bytes
+print(sys.getsizeof(s))           # ~56 bytes (no __dict__)
+
+# Speed test:
+t1 = timeit.timeit("d.x", setup="from __main__ import d")
+t2 = timeit.timeit("s.x", setup="from __main__ import s")
+# slots ~20-30% faster attribute access
+
+# Disadvantages of slots:
+# 1. No __dict__ → can't add new attributes
+# 2. Inheritance complex
+# 3. Pickling tricky</div>`,
+tip:"1 million objects create karne ho → slots use karo. Game development, data processing pipelines mein bahut fark padta hai memory pe."
+},
+
+{id:69,level:"intermediate",cat:"Advanced",q:"Python mein Protocol aur duck typing kya hai? (Python 3.8+)",
+ans:`Protocol = <strong>structural subtyping — 'implements' declare kiye bina interface define karo</strong>
+
+<div class="code">
+from typing import Protocol
+
+# Protocol define karo
+class Drawable(Protocol):
+    def draw(self) -> None: ...
+    def get_area(self) -> float: ...
+
+# Koi bhi class jo yeh methods implement kare — compatible!
+class Circle:
+    def draw(self): print("Drawing circle")
+    def get_area(self): return 3.14 * 5**2
+
+class Square:
+    def draw(self): print("Drawing square")
+    def get_area(self): return 10**2
+
+# Yeh classes Drawable inherit nahi karti — but compatible!
+def render(shape: Drawable) -> None:
+    shape.draw()
+    print(f"Area: {shape.get_area()}")
+
+render(Circle())  # ✅ works!
+render(Square())  # ✅ works!
+
+# Duck Typing — classic
+class Duck:
+    def quack(self): print("Quack!")
+
+class Person:
+    def quack(self): print("I'm quacking like a duck!")
+
+def make_it_quack(duck):
+    duck.quack()   # type check nahi, behavior check!
+
+make_it_quack(Duck())
+make_it_quack(Person())</div>`,
+tip:"Protocol vs ABC: Protocol structural (methods exist karne chahiye), ABC nominal (explicitly inherit karna padta hai). mypy Protocol ke saath static checking karta hai."
+},
+
+{id:70,level:"intermediate",cat:"Advanced",q:"Python mein logging kaise karte hain?",
+ans:`<div class="code">
+import logging
+
+# Basic setup
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("app.log"),
+        logging.StreamHandler()   # console bhi
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
+# Log levels (low → high):
+logger.debug("Debug info")       # development
+logger.info("User logged in")    # general info
+logger.warning("Low memory")     # warning
+logger.error("DB connection failed")   # error
+logger.critical("Server down!")  # critical
+
+# Structured logging
+logger.info("User action", extra={"user_id": 123, "action": "login"})
+
+# Production best practices:
+# 1. Sirf INFO+ log karo production mein
+# 2. Sensitive data (passwords, tokens) mat log karo
+# 3. Log rotation use karo (RotatingFileHandler)
+logging.handlers.RotatingFileHandler(
+    "app.log", maxBytes=10*1024*1024, backupCount=5
+)</div>`,
+tip:"print() debugging production mein kabhi mat karo — logging use karo. structlog library structured JSON logging ke liye popular hai. Log levels configure karo environment ke hisaab se."
+},
+
+{id:71,level:"intermediate",cat:"Advanced",q:"Python mein environment variables aur configuration kaise manage karein?",
+ans:`<div class="code">
+import os
+from dotenv import load_dotenv
+
+# .env file:
+# DB_HOST=localhost
+# DB_PORT=5432
+# SECRET_KEY=mysecretkey123
+
+load_dotenv()   # .env file load karo
+
+# Access:
+db_host = os.getenv("DB_HOST", "localhost")   # with default
+secret  = os.environ["SECRET_KEY"]            # no default
+
+# Settings class pattern (production):
+from dataclasses import dataclass
+
+@dataclass
+class Settings:
+    db_host: str = os.getenv("DB_HOST", "localhost")
+    db_port: int = int(os.getenv("DB_PORT", "5432"))
+    secret_key: str = os.getenv("SECRET_KEY", "")
+    debug: bool = os.getenv("DEBUG", "False").lower() == "true"
+
+settings = Settings()
+
+# Pydantic BaseSettings (FastAPI):
+from pydantic_settings import BaseSettings
+
+class AppSettings(BaseSettings):
+    db_host: str = "localhost"
+    db_port: int = 5432
+    secret_key: str
+
+    class Config:
+        env_file = ".env"</div>`,
+tip:".env file KABHI git mein commit mat karo — .gitignore mein add karo. Prod mein actual environment variables use karo, .env file nahi."
+},
+
+{id:72,level:"intermediate",cat:"Advanced",q:"Python mein testing kaise karte hain? pytest kya hai?",
+ans:`<div class="code">
+# test_calculator.py
+import pytest
+
+def add(a, b): return a + b
+def divide(a, b):
+    if b == 0: raise ValueError("Cannot divide by zero")
+    return a / b
+
+# Basic tests
+def test_add():
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+
+def test_divide():
+    assert divide(10, 2) == 5.0
+
+# Test exception
+def test_divide_by_zero():
+    with pytest.raises(ValueError):
+        divide(10, 0)
+
+# Parametrize — multiple inputs test karo
+@pytest.mark.parametrize("a,b,expected", [
+    (2, 3, 5),
+    (-1, 1, 0),
+    (0, 0, 0),
+])
+def test_add_params(a, b, expected):
+    assert add(a, b) == expected
+
+# Fixtures — shared setup
+@pytest.fixture
+def sample_data():
+    return {"name": "Ashish", "score": 90}
+
+def test_with_fixture(sample_data):
+    assert sample_data["score"] == 90
+
+# Run: pytest test_calculator.py -v</div>`,
+tip:"TDD (Test Driven Development) — pehle test likho, phir code. Coverage check: pytest --cov. Mock external dependencies: from unittest.mock import Mock, patch"
+},
+
+{id:73,level:"intermediate",cat:"Advanced",q:"Python mein __name__ == '__main__' kya hota hai?",
+ans:`<div class="code">
+# mymodule.py
+def greet(name):
+    return f"Hello, {name}!"
+
+def helper():
+    return "helper"
+
+# Yeh block sirf tab chalega jab file directly run ho
+# Import hone par NAHI chalega
+if __name__ == "__main__":
+    print(greet("Ashish"))
+    print("Direct execution!")
+
+# Kaise kaam karta hai:
+# Direct run: python mymodule.py
+#   → __name__ = "__main__"
+#   → if block runs ✅
+
+# Import hone par:
+# import mymodule
+#   → __name__ = "mymodule"
+#   → if block NAHI runs ❌
+
+# Practical use:
+# 1. Module as script bhi run karo
+# 2. Test code likhna
+# 3. CLI entry point
+
+# setup.py mein:
+if __name__ == "__main__":
+    main()</div>`,
+tip:"Production packages mein hamesha if __name__ == '__main__': guard use karo. Nahi kiya toh import pe bhi code run hoga — unexpected behavior!"
+},
+
+{id:74,level:"intermediate",cat:"Advanced",q:"Python mein comprehension vs map/filter — kaunsa better hai?",
+ans:`<div class="code">
+nums = list(range(1, 1000001))
+
+# Speed test:
+import timeit
+
+# List comprehension
+t1 = timeit.timeit(
+    '[x**2 for x in nums if x%2==0]',
+    globals=globals(), number=10
+)
+
+# map + filter
+t2 = timeit.timeit(
+    'list(map(lambda x: x**2, filter(lambda x: x%2==0, nums)))',
+    globals=globals(), number=10
+)
+
+# Result: comprehension usually faster (slightly)
+
+# Readability:
+# Comprehension:
+result = [x**2 for x in nums if x % 2 == 0]
+
+# map/filter (harder to read for complex ops):
+result = list(map(lambda x: x**2, filter(lambda x: x%2==0, nums)))
+
+# When to use map:
+# When you already have a named function
+import math
+roots = list(map(math.sqrt, nums))   # cleaner than comprehension!</div>`,
+tip:"Named function ke saath map() prefer karo — list(map(math.sqrt, nums)) is cleaner than [math.sqrt(x) for x in nums]. Lambda ke saath comprehension better hai."
+},
+
+{id:75,level:"intermediate",cat:"Advanced",q:"Python mein string methods — split, join, strip ka advanced use",
+ans:`<div class="code">
+# SPLIT — advanced
+s = "a,b,,c,d"
+print(s.split(","))     # ['a','b','','c','d'] — empty string included!
+print(s.split(",", 2))  # ['a','b',',c,d'] — max 2 splits
+
+# rsplit — right se split
+path = "home/user/documents/file.txt"
+print(path.rsplit("/", 1))   # ['home/user/documents', 'file.txt']
+
+# splitlines
+multiline = "line1\nline2\r\nline3"
+print(multiline.splitlines())   # ['line1', 'line2', 'line3']
+
+# JOIN — efficient string building
+words = ["Hello", "World", "Python"]
+print(" ".join(words))    # "Hello World Python"
+print("-".join(words))    # "Hello-World-Python"
+print("".join(words))     # "HelloWorldPython"
+
+# ✅ Efficient way to build strings:
+parts = []
+for i in range(1000):
+    parts.append(str(i))
+result = ",".join(parts)   # ONE allocation!
+# ❌ Avoid: result = "" + str(i) in loop — O(n²)!
+
+# STRIP variations
+"  hello  ".strip()     # "hello"
+"  hello  ".lstrip()    # "hello  "
+"  hello  ".rstrip()    # "  hello"
+"xxhelloxx".strip("x")  # "hello" — specific chars!</div>`,
+tip:"String concatenation loop mein + use karna O(n²) hai. join() O(n) hai kyunki ek baar sab allocate hota hai. Production mein hamesha join() use karo."
+},
+
+// ══════════════════════════════════════════
+// ADVANCED (76-100)
+// ══════════════════════════════════════════
+{id:76,level:"advanced",cat:"Advanced",q:"Python mein descriptor protocol kya hota hai?",
+ans:`Descriptor = <strong>object jo kisi doosre class ke attribute access control karta hai</strong>
+
+<div class="code">
+# Descriptor = class with __get__, __set__, __delete__
+class Validator:
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, obj, objtype=None):
+        if obj is None: return self
+        return getattr(obj, f'_{self.name}', None)
+
+    def __set__(self, obj, value):
+        if not isinstance(value, (int, float)):
+            raise TypeError(f"{self.name} must be numeric")
+        if value < 0:
+            raise ValueError(f"{self.name} must be positive")
+        setattr(obj, f'_{self.name}', value)
+
+class Product:
+    price  = Validator()   # descriptor instance
+    weight = Validator()
+
+    def __init__(self, price, weight):
+        self.price  = price    # __set__ called
+        self.weight = weight
+
+p = Product(100, 0.5)
+print(p.price)     # __get__ called
+p.price = -10      # ❌ ValueError!
+p.price = "abc"    # ❌ TypeError!</div>`,
+tip:"@property internally descriptor protocol use karta hai. Django ORM fields, SQLAlchemy columns sab descriptors hain. Non-data descriptor: sirf __get__; data descriptor: __get__ + __set__"
+},
+
+{id:77,level:"advanced",cat:"Advanced",q:"Python mein __getattr__ vs __getattribute__ kya hai?",
+ans:`<div class="code">
+class MyClass:
+    def __init__(self):
+        self.x = 10
+
+    def __getattribute__(self, name):
+        # HAMESHA call hota hai — har attribute access pe
+        print(f"Getting: {name}")
+        return super().__getattribute__(name)
+
+    def __getattr__(self, name):
+        # SIRF tab call hota hai jab normal lookup fail ho
+        print(f"Attribute not found: {name}")
+        return None
+
+obj = MyClass()
+print(obj.x)    # __getattribute__ called → 10
+print(obj.y)    # __getattribute__ → fails → __getattr__ → None
+
+# Use case: Dynamic attribute creation
+class DynamicConfig:
+    def __init__(self, data):
+        self._data = data
+
+    def __getattr__(self, name):
+        if name in self._data:
+            return self._data[name]
+        raise AttributeError(f"No config: {name}")
+
+config = DynamicConfig({"db_host": "localhost"})
+print(config.db_host)   # "localhost"</div>`,
+tip:"__getattribute__ mein super().__getattribute__(name) call karna zaroori hai — warna infinite recursion! __getattr__ safer hai — sirf missing attributes ke liye."
+},
+
+{id:78,level:"advanced",cat:"Advanced",q:"Python mein coroutines aur asyncio event loop kaise kaam karta hai?",
+ans:`<div class="code">
+import asyncio
+
+# Coroutine = async function
+async def fetch(url):
+    print(f"Start: {url}")
+    await asyncio.sleep(1)   # I/O simulate — yields control
+    print(f"Done: {url}")
+    return f"Data: {url}"
+
+# Event Loop flow:
+# 1. fetch("api1") start — asyncio.sleep pe yield
+# 2. fetch("api2") start — asyncio.sleep pe yield
+# 3. sleep done → fetch("api1") resume
+# 4. sleep done → fetch("api2") resume
+
+async def main():
+    # gather — concurrent execution
+    results = await asyncio.gather(
+        fetch("api1.com"),
+        fetch("api2.com"),
+        fetch("api3.com")
+    )
+    # Total time: ~1s (not 3s!)
+
+    # create_task — fire and forget
+    task = asyncio.create_task(fetch("api4.com"))
+    # ... do other work ...
+    result = await task
+
+# Run event loop:
+asyncio.run(main())
+
+# async context manager:
+async with aiohttp.ClientSession() as session:
+    async with session.get(url) as response:
+        data = await response.json()</div>`,
+tip:"Event loop single-threaded hai — awaiting I/O pe control doosre coroutine ko deta hai. CPU-bound work event loop block karta hai — asyncio.run_in_executor() use karo."
+},
+
+{id:79,level:"advanced",cat:"Advanced",q:"Python mein __slots__ aur weakref kaise kaam karte hain?",
+ans:`<div class="code">
+import weakref
+
+# WEAKREF — garbage collection block nahi karta
+class Database:
+    def __init__(self, name):
+        self.name = name
+
+db = Database("mydb")
+weak_ref = weakref.ref(db)
+
+print(weak_ref())     # &lt;Database: mydb&gt;  ← alive
+del db                # strong reference delete
+print(weak_ref())     # None ← garbage collected!
+
+# WeakValueDictionary — auto-cleanup
+cache = weakref.WeakValueDictionary()
+obj = Database("cached")
+cache["db"] = obj
+print(cache["db"])    # exists
+del obj
+# cache["db"] automatically removed!
+
+# Use cases:
+# 1. Cache — heavy objects jab zaroorat na ho toh free ho jaayein
+# 2. Observer pattern — dead objects ka reference hold na karo
+# 3. Circular reference prevent karna
+
+# __slots__ with weakref:
+class Slot:
+    __slots__ = ('x', '__weakref__')   # weakref support add karo
+    def __init__(self, x):
+        self.x = x</div>`,
+tip:"Cache mein weakref use karo — memory leak nahi hogi. functools.lru_cache strong references rakhta hai — bahut bade objects ke liye custom weak cache likho."
+},
+
+{id:80,level:"advanced",cat:"Advanced",q:"CPython, PyPy, Jython — Python implementations mein kya fark hai?",
+ans:`<div class="code">
+# CPython (default)
+# → C mein likha gaya, GIL hai
+# → Reference implementation
+# → Most compatible
+
+# PyPy
+# → JIT (Just-In-Time) compilation
+# → 5-10x faster than CPython for CPU-bound
+# → GIL hai lekin JIT se fast
+# → Some C extensions incompatible
+
+# Jython
+# → Java Virtual Machine pe chalata hai
+# → No GIL — true threading!
+# → Java libraries use kar sakte ho
+# → Slow startup, less maintained
+
+# IronPython
+# → .NET/CLR pe chalata hai
+# → C# libraries integrate karo
+
+# MicroPython
+# → Microcontrollers ke liye (ESP32, Raspberry Pi)
+# → Very small memory footprint
+
+# Choosing:
+# General use → CPython
+# High performance CPU-bound → PyPy
+# Java integration → Jython
+# Microcontroller → MicroPython</div>`,
+tip:"Production mein CPython hi use hota hai mostly. PyPy kuch cases mein drop-in replacement hai — test karo compatibility. Data science mein CPython + NumPy (C extensions) fastest hai."
+},
+
+{id:81,level:"advanced",cat:"Advanced",q:"Python mein bytecode aur dis module kya hai?",
+ans:`<div class="code">
+import dis
+
+# Python code bytecode mein convert hota hai
+def add(a, b):
+    return a + b
+
+# Bytecode dekho:
+dis.dis(add)
+# Output:
+#   2   LOAD_FAST   0 (a)
+#       LOAD_FAST   1 (b)
+#       BINARY_OP   0 (+)
+#       RETURN_VALUE
+
+# Compiled bytecode file:
+# __pycache__/module.cpython-311.pyc
+
+# Code object:
+print(add.__code__.co_varnames)    # ('a', 'b')
+print(add.__code__.co_consts)      # (None,)
+print(add.__code__.co_filename)
+
+# Comprehension vs map speed:
+list_comp = compile('[x**2 for x in range(10)]', '', 'eval')
+dis.dis(list_comp)   # see the bytecode difference</div>`,
+tip:"dis module performance optimization ke liye use hota hai — dekho Python actually kya kar raha hai. Bytecode .pyc files cache hote hain — same code dobara compile nahi hota."
+},
+
+{id:82,level:"advanced",cat:"Advanced",q:"Python mein abstract base classes (ABC) deep dive",
+ans:`<div class="code">
+from abc import ABC, abstractmethod, abstractclassmethod
+
+class Collection(ABC):
+    # Abstract methods — child MUST implement
+    @abstractmethod
+    def __contains__(self, item): ...
+
+    @abstractmethod
+    def __len__(self): ...
+
+    @abstractmethod
+    def __iter__(self): ...
+
+    # Concrete method — already implemented
+    def __bool__(self):
+        return len(self) > 0
+
+    # Register existing class as virtual subclass
+    @classmethod
+    def __subclasshook__(cls, C):
+        if cls is Collection:
+            if all(hasattr(C, m) for m in ('__contains__', '__len__', '__iter__')):
+                return True
+        return NotImplemented
+
+# Virtual subclass:
+class MyList:
+    def __contains__(self, x): ...
+    def __len__(self): ...
+    def __iter__(self): ...
+
+# MyList doesn't inherit but:
+print(isinstance(MyList(), Collection))  # True!
+print(issubclass(MyList, Collection))    # True!</div>`,
+tip:"collections.abc module mein ready-made ABCs hain — Iterable, Iterator, Sequence, Mapping, etc. Khud inherit karo ya register karo via register() method."
+},
+
+{id:83,level:"advanced",cat:"Advanced",q:"Python mein performance profiling kaise karte hain?",
+ans:`<div class="code">
+# 1. cProfile — function call stats
+import cProfile
+
+def slow_function():
+    return sum(x**2 for x in range(1000000))
+
+cProfile.run('slow_function()')
+# Output: calls, time, cumtime per function
+
+# 2. timeit — micro benchmarks
+import timeit
+
+t1 = timeit.timeit('[x**2 for x in range(100)]', number=10000)
+t2 = timeit.timeit('list(map(lambda x:x**2, range(100)))', number=10000)
+print(f"Comprehension: {t1:.3f}s")
+print(f"Map: {t2:.3f}s")
+
+# 3. line_profiler — line by line
+# pip install line_profiler
+# @profile decorator use karo, run: kernprof -l script.py
+
+# 4. memory_profiler — memory usage
+# pip install memory_profiler
+# @profile, run: python -m memory_profiler script.py
+
+# 5. Quick timing
+import time
+start = time.perf_counter()   # high resolution
+# ... code ...
+print(f"Time: {time.perf_counter() - start:.6f}s")</div>`,
+tip:"Premature optimization root of all evil — pehle profile karo, phir optimize. 80% time 20% code mein jaata hai (Pareto principle). perf_counter() use karo, time() nahi."
+},
+
+{id:84,level:"advanced",cat:"Advanced",q:"Python mein C extensions kaise kaam karte hain?",
+ans:`<div class="code">
+# Python C ke saath kaise interact karta hai:
+
+# 1. ctypes — existing C library call karo
+import ctypes
+
+# libc load karo
+libc = ctypes.CDLL("libc.so.6")
+libc.printf(b"Hello from C!\n")
+
+# 2. cffi — C code Python se
+from cffi import FFI
+ffi = FFI()
+ffi.cdef("int add(int a, int b);")
+
+# 3. Cython — Python code C mein compile karo
+# .pyx file likhte hain, Cython C code generate karta hai
+# 10-100x speedup possible
+
+# 4. numpy — C backend use karta hai
+import numpy as np
+arr = np.array([1.0, 2.0, 3.0])
+result = np.sum(arr)   # C loop, GIL released!
+
+# Why C extensions?
+# - CPU intensive work ke liye
+# - Existing C libraries use karna
+# - GIL release karna (NumPy, Pandas karte hain)
+# - Memory control</div>`,
+tip:"NumPy, Pandas, Pillow sab C/C++ extensions hain — isliye fast hain. Python Data Science stack fast isliye hai kyunki C backend hai with GIL released during computation."
+},
+
+{id:85,level:"advanced",cat:"Advanced",q:"Python mein import system aur sys.path kya hai?",
+ans:`<div class="code">
+import sys
+
+# Python modules kahan dhundta hai:
+print(sys.path)
+# ['', '/usr/lib/python3.11', '/usr/lib/python3.11/lib-dynload', ...]
+# '' = current directory
+
+# Custom path add karo:
+sys.path.insert(0, '/my/custom/modules')
+
+# Import kaise kaam karta hai:
+# 1. sys.modules check — already imported?
+# 2. sys.path mein dhundho
+# 3. .py file → compile to bytecode
+# 4. Execute module code
+# 5. sys.modules mein cache karo
+
+# Lazy import (performance ke liye):
+def my_function():
+    import heavy_module    # sirf tab import jab needed
+    heavy_module.do_work()
+
+# importlib — programmatic imports
+import importlib
+mod = importlib.import_module('json')
+json_loads = getattr(mod, 'loads')
+
+# Reload module:
+importlib.reload(mod)
+
+# __import__ (low level):
+json = __import__('json')</div>`,
+tip:"sys.modules ek dict hai — already imported modules cache hote hain. Circular imports avoid karo — kisi ek file mein import function ke andar move karo."
+},
+
+{id:86,level:"advanced",cat:"Advanced",q:"Python mein weakref, finalize aur garbage collection ka cycle kya hai?",
+ans:`<div class="code">
+import gc
+import weakref
+
+# Generational GC:
+# Generation 0 — naye objects
+# Generation 1 — survived 1 collection
+# Generation 2 — survived 2+ collections (long-lived)
+
+# GC stats:
+print(gc.get_count())     # (gen0, gen1, gen2) counts
+print(gc.get_threshold()) # collection thresholds
+
+# Circular reference detect karo:
+import gc
+gc.collect()   # manual collection
+
+# Object cleanup callback:
+def on_delete(ref):
+    print("Object deleted!")
+
+obj = SomeClass()
+ref = weakref.ref(obj, on_delete)
+
+del obj    # "Object deleted!" print hoga
+
+# finalize (Python 3.4+):
+obj2 = SomeClass()
+weakref.finalize(obj2, cleanup, "arg1", key="val")
+
+# GC disable (performance critical code):
+gc.disable()
+# ... performance critical section ...
+gc.enable()</div>`,
+tip:"Long-running applications mein memory leaks circular references se hoti hain. weakref.finalize resource cleanup ke liye use karo — context manager se better for objects with unpredictable lifetime."
+},
+
+{id:87,level:"advanced",cat:"Advanced",q:"Python mein class decorators kya hote hain?",
+ans:`<div class="code">
+# Class as decorator:
+class Timer:
+    def __init__(self, func):
+        self.func = func
+        self.__doc__ = func.__doc__
+        self.__name__ = func.__name__
+
+    def __call__(self, *args, **kwargs):
+        import time
+        start = time.perf_counter()
+        result = self.func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        print(f"{self.func.__name__}: {elapsed:.4f}s")
+        return result
+
+@Timer
+def slow_function():
+    sum(range(1000000))
+
+slow_function()   # prints timing
+
+# Parametrized class decorator:
+class Retry:
+    def __init__(self, times=3, exceptions=(Exception,)):
+        self.times = times
+        self.exceptions = exceptions
+
+    def __call__(self, func):
+        def wrapper(*args, **kwargs):
+            for attempt in range(self.times):
+                try:
+                    return func(*args, **kwargs)
+                except self.exceptions as e:
+                    if attempt == self.times - 1:
+                        raise
+                    print(f"Retry {attempt+1}")
+        return wrapper
+
+@Retry(times=3, exceptions=(ConnectionError,))
+def fetch_data():
+    pass</div>`,
+tip:"Class decorator vs function decorator: class decorator state maintain karne mein better hai. Parametrized decorators ke liye class cleaner hoti hai than nested functions."
+},
+
+{id:88,level:"advanced",cat:"Advanced",q:"Python mein __init_subclass__ kya karta hai?",
+ans:`<div class="code">
+# __init_subclass__ — jab koi class inherit kare toh automatically call ho
+class PluginBase:
+    _plugins = {}
+
+    def __init_subclass__(cls, plugin_name=None, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if plugin_name:
+            PluginBase._plugins[plugin_name] = cls
+            print(f"Registered plugin: {plugin_name}")
+
+class EmailPlugin(PluginBase, plugin_name="email"):
+    def send(self, msg): print(f"Email: {msg}")
+
+class SMSPlugin(PluginBase, plugin_name="sms"):
+    def send(self, msg): print(f"SMS: {msg}")
+
+# Auto-registered!
+print(PluginBase._plugins)
+# {'email': EmailPlugin, 'sms': SMSPlugin}
+
+# Use:
+plugin = PluginBase._plugins["email"]()
+plugin.send("Hello!")
+
+# Other use: enforce interface
+class MustHaveName:
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if not hasattr(cls, 'name'):
+            raise TypeError(f"{cls.__name__} must have 'name' attribute")</div>`,
+tip:"__init_subclass__ metaclass se simpler hai plugin systems ke liye. Django, SQLAlchemy model registration isi pattern se karte hain internally."
+},
+
+{id:89,level:"advanced",cat:"Advanced",q:"Python mein __class_getitem__ aur generics kya hain?",
+ans:`<div class="code">
+# Python 3.9+ — list[int], dict[str, int] syntax
+# Yeh __class_getitem__ se possible hai
+
+# Built-in:
+from typing import Generic, TypeVar
+
+T = TypeVar('T')
+
+class Stack(Generic[T]):
+    def __init__(self) -> None:
+        self._items: list[T] = []
+
+    def push(self, item: T) -> None:
+        self._items.append(item)
+
+    def pop(self) -> T:
+        return self._items.pop()
+
+# Type-safe stack
+int_stack: Stack[int] = Stack()
+int_stack.push(1)
+int_stack.push(2)
+print(int_stack.pop())   # 2
+
+# Custom __class_getitem__:
+class MyContainer:
+    def __class_getitem__(cls, item):
+        print(f"MyContainer[{item}] created")
+        return cls
+
+x: MyContainer[int]   # runtime pe: "MyContainer[int] created"</div>`,
+tip:"Generics runtime pe enforce nahi hoti Python mein — sirf type checker (mypy) ke liye. Python 3.12 mein new generic syntax aaya: class Stack[T]: ..."
+},
+
+{id:90,level:"advanced",cat:"Advanced",q:"Python mein abstract syntax tree (AST) kya hai?",
+ans:`<div class="code">
+import ast
+
+code = """
+def add(a, b):
+    return a + b
+
+result = add(1, 2)
+"""
+
+# Parse to AST:
+tree = ast.parse(code)
+print(ast.dump(tree, indent=2))
+
+# AST nodes traverse:
+for node in ast.walk(tree):
+    if isinstance(node, ast.FunctionDef):
+        print(f"Function: {node.name}")
+    elif isinstance(node, ast.Call):
+        print(f"Call: {node.func.id if hasattr(node.func,'id') else '?'}")
+
+# AST Transform — code modify karo!
+class ReturnTransformer(ast.NodeTransformer):
+    def visit_Return(self, node):
+        # Har return value pe abs() wrap karo
+        new_node = ast.Return(
+            value=ast.Call(
+                func=ast.Name(id='abs', ctx=ast.Load()),
+                args=[node.value], keywords=[]
+            )
+        )
+        return ast.copy_location(new_node, node)
+
+# Compile modified AST:
+new_tree = ReturnTransformer().visit(tree)
+ast.fix_missing_locations(new_tree)
+exec(compile(new_tree, '<string>', 'exec'))</div>`,
+tip:"AST ko linters (pylint, flake8), code formatters (black), type checkers (mypy) use karte hain. macros/code generation ke liye powerful tool hai."
+},
+
+{id:91,level:"advanced",cat:"Advanced",q:"Python mein monkey patching kya hai? Kab sahi? Kab wrong?",
+ans:`Monkey patching = <strong>runtime pe existing code ka behavior change karna</strong>
+
+<div class="code">
+# Class method replace karo:
+class MyClass:
+    def greet(self):
+        return "Hello"
+
+def new_greet(self):
+    return "Namaste"
+
+obj = MyClass()
+MyClass.greet = new_greet   # patch!
+print(obj.greet())           # "Namaste"
+
+# Module function patch:
+import json
+
+original_dumps = json.dumps
+def patched_dumps(obj, **kwargs):
+    print("JSON serializing!")
+    return original_dumps(obj, **kwargs)
+
+json.dumps = patched_dumps
+
+# Testing mein VALID use:
+from unittest.mock import patch
+
+@patch('requests.get')
+def test_fetch(mock_get):
+    mock_get.return_value.json.return_value = {"data": "test"}
+    result = fetch_data()
+    assert result == {"data": "test"}</div>
+
+<strong>Sahi kab:</strong> Testing, third-party bug fix temporarily
+<strong>Wrong kab:</strong> Production code, unpredictable side effects`,
+tip:"Production mein monkey patching avoid karo — maintainability nightmare. Testing mein unittest.mock preferred hai. Gevent, eventlet async ke liye OS socket monkey-patch karte hain."
+},
+
+{id:92,level:"advanced",cat:"Advanced",q:"Python mein __prepare__ aur namespace kya hai?",
+ans:`<div class="code">
+# __prepare__ — class namespace create hone se pehle call hota hai
+# OrderedDict ya custom dict return kar sakte ho
+
+class OrderedMeta(type):
+    @classmethod
+    def __prepare__(mcs, name, bases, **kwargs):
+        # Class body execute hone se pehle
+        return {}   # custom namespace return karo
+
+    def __new__(mcs, name, bases, namespace):
+        # namespace ab available hai
+        print(f"Creating class: {name}")
+        print(f"Methods: {list(namespace.keys())}")
+        return super().__new__(mcs, name, bases, namespace)
+
+class MyClass(metaclass=OrderedMeta):
+    def method_a(self): pass
+    def method_b(self): pass
+
+# Enum internally __prepare__ use karta hai:
+from enum import Enum
+
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+# Order preserved!</div>`,
+tip:"__prepare__ bahut advanced hai — mostly framework/library development mein use hota hai. Python Enum, Django models internally use karte hain."
+},
+
+{id:93,level:"advanced",cat:"Advanced",q:"Python mein concurrent.futures kya hai?",
+ans:`<div class="code">
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
+import time
+
+def fetch_url(url):
+    time.sleep(1)   # simulate I/O
+    return f"Data from {url}"
+
+urls = ["url1.com", "url2.com", "url3.com", "url4.com"]
+
+# ThreadPoolExecutor — I/O bound
+with ThreadPoolExecutor(max_workers=4) as executor:
+    # map — same order, blocking
+    results = list(executor.map(fetch_url, urls))
+
+    # submit — individual futures
+    futures = {executor.submit(fetch_url, url): url for url in urls}
+    for future in as_completed(futures):
+        url = futures[future]
+        try:
+            result = future.result()
+            print(f"{url}: {result}")
+        except Exception as e:
+            print(f"{url} failed: {e}")
+
+# ProcessPoolExecutor — CPU bound
+def cpu_task(n):
+    return sum(x**2 for x in range(n))
+
+with ProcessPoolExecutor(max_workers=4) as executor:
+    results = list(executor.map(cpu_task, [10**6]*4))</div>`,
+tip:"ThreadPoolExecutor I/O bound (API calls, DB queries) ke liye. ProcessPoolExecutor CPU bound (data processing) ke liye. max_workers tune karo — too many = overhead."
+},
+
+{id:94,level:"advanced",cat:"Advanced",q:"Python mein __missing__ kya karta hai dict mein?",
+ans:`<div class="code">
+# __missing__ — missing key pe custom behavior
+
+class DefaultDict(dict):
+    def __missing__(self, key):
+        # missing key pe default value set karo
+        self[key] = []   # create empty list
+        return self[key]
+
+d = DefaultDict()
+d["fruits"].append("apple")   # key nahi thi, auto-created!
+d["fruits"].append("banana")
+print(d)   # {'fruits': ['apple', 'banana']}
+
+# collections.defaultdict internally __missing__ use karta hai
+from collections import defaultdict
+dd = defaultdict(list)
+
+# Counter ka __missing__:
+from collections import Counter
+c = Counter()
+c["missing_key"]   # 0 return karta hai, KeyError nahi!
+
+# Cache with __missing__:
+class LazyCache(dict):
+    def __missing__(self, key):
+        value = expensive_compute(key)
+        self[key] = value
+        return value</div>`,
+tip:"defaultdict __missing__ implementation hai. Custom dict subclass mein __missing__ override karo for clean auto-creation semantics. dict.get() se alag — get() __missing__ call nahi karta."
+},
+
+{id:95,level:"advanced",cat:"Advanced",q:"Python mein copy-on-write semantics kya hai?",
+ans:`<div class="code">
+# Python mein COW natively nahi hai string/list mein
+# lekin fork() pe OS level COW hota hai
+
+import os, sys
+
+# multiprocessing fork — COW at OS level
+import multiprocessing
+
+shared_data = [1, 2, 3, 4, 5] * 1000000  # large list
+
+def worker():
+    # Child process data READ karta hai — no copy (COW)
+    result = sum(shared_data)
+    # Agar data modify karo toh copy hoti hai (COW)
+
+# Practical Python COW pattern:
+class ImmutableList:
+    def __init__(self, data):
+        self._data = tuple(data)   # immutable!
+
+    def append(self, item):
+        return ImmutableList(self._data + (item,))  # new object
+
+lst1 = ImmutableList([1, 2, 3])
+lst2 = lst1.append(4)   # lst1 unchanged!
+
+# Pandas COW (default in Pandas 2.0):
+import pandas as pd
+df = pd.DataFrame({'a': [1,2,3]})
+df2 = df[df['a'] > 1]   # view ya copy?
+# Pandas 2.0 mein COW by default</div>`,
+tip:"Pandas 2.0 Copy-on-Write by default — isliye df['col'] = value SettingWithCopyWarning de sakta hai. Hamesha explicit copy karo: df.copy()"
+},
+
+{id:96,level:"advanced",cat:"Advanced",q:"Python mein __fspath__ aur PathLike objects kya hain?",
+ans:`<div class="code">
+import os
+from pathlib import Path
+
+# os.fspath() — path-like object ko string/bytes mein convert
+p = Path("/home/user/file.txt")
+print(os.fspath(p))   # '/home/user/file.txt'
+
+# __fspath__ protocol:
+class MyPath:
+    def __init__(self, path):
+        self._path = path
+
+    def __fspath__(self):   # string return karo
+        return str(self._path)
+
+    def __str__(self):
+        return self._path
+
+# open() mein use:
+my_p = MyPath("/tmp/test.txt")
+with open(my_p, 'w') as f:   # ✅ works because __fspath__
+    f.write("Hello")
+
+# pathlib.Path — best practice
+from pathlib import Path
+
+p = Path.home() / "documents" / "file.txt"
+print(p.name)      # "file.txt"
+print(p.stem)      # "file"
+print(p.suffix)    # ".txt"
+print(p.parent)    # home/documents
+print(p.exists())  # True/False</div>`,
+tip:"os.path ke bajaye pathlib use karo — object-oriented, cross-platform, readable. Python 3.6+ mein f-strings aur pathlib ek saath bahut clean code dete hain."
+},
+
+{id:97,level:"advanced",cat:"Advanced",q:"Python mein __set_name__ descriptor hook kya hai?",
+ans:`<div class="code">
+# __set_name__ — descriptor class mein assign hone pe
+# owner class aur attribute name milta hai
+
+class TypedField:
+    def __set_name__(self, owner, name):
+        # owner = class jisme assign hua
+        # name = attribute name
+        self.name = name
+        self.private_name = f'_{name}'
+
+    def __init__(self, expected_type):
+        self.expected_type = expected_type
+
+    def __get__(self, obj, objtype=None):
+        if obj is None: return self
+        return getattr(obj, self.private_name, None)
+
+    def __set__(self, obj, value):
+        if not isinstance(value, self.expected_type):
+            raise TypeError(
+                f"{self.name} must be {self.expected_type.__name__}, "
+                f"got {type(value).__name__}"
+            )
+        setattr(obj, self.private_name, value)
+
+class Person:
+    name  = TypedField(str)
+    age   = TypedField(int)
+    score = TypedField(float)
+
+p = Person()
+p.name  = "Ashish"   # ✅
+p.age   = 29         # ✅
+p.name  = 123        # ❌ TypeError: name must be str, got int</div>`,
+tip:"Django ORM fields, Pydantic fields internally isi pattern use karte hain. __set_name__ Python 3.6+ mein aaya — pehle manually name pass karna padta tha."
+},
+
+{id:98,level:"advanced",cat:"Advanced",q:"Python mein __init_subclass__ se plugin system banao",
+ans:`<div class="code">
+from abc import ABC, abstractmethod
+
+class Serializer(ABC):
+    _registry = {}
+
+    def __init_subclass__(cls, format=None, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if format:
+            Serializer._registry[format] = cls
+
+    @abstractmethod
+    def serialize(self, data) -> str: ...
+
+    @abstractmethod
+    def deserialize(self, text) -> dict: ...
+
+    @classmethod
+    def get(cls, format: str) -> 'Serializer':
+        if format not in cls._registry:
+            raise ValueError(f"Unknown format: {format}")
+        return cls._registry[format]()
+
+# Auto-registered!
+class JSONSerializer(Serializer, format="json"):
+    def serialize(self, data):
+        import json
+        return json.dumps(data)
+    def deserialize(self, text):
+        import json
+        return json.loads(text)
+
+class YAMLSerializer(Serializer, format="yaml"):
+    def serialize(self, data):
+        import yaml
+        return yaml.dump(data)
+    def deserialize(self, text):
+        import yaml
+        return yaml.safe_load(text)
+
+# Use:
+s = Serializer.get("json")
+text = s.serialize({"name": "Ashish"})
+data = s.deserialize(text)</div>`,
+tip:"Yeh pattern production-grade plugin architecture hai. Flask, Django, Click sab isi tarah extensions register karte hain. Import hone pe registration ho jaati hai automatically."
+},
+
+{id:99,level:"advanced",cat:"Advanced",q:"Python mein async generators aur async comprehensions kya hain?",
+ans:`<div class="code">
+import asyncio
+
+# Async Generator:
+async def fetch_pages(urls):
+    for url in urls:
+        await asyncio.sleep(0.1)   # simulate fetch
+        yield f"Content of {url}"   # async yield!
+
+# Use async generator:
+async def process():
+    async for page in fetch_pages(["url1", "url2", "url3"]):
+        print(page)   # processes one at a time
+
+    # Async list comprehension:
+    pages = [page async for page in fetch_pages(["a","b","c"])]
+
+    # Async generator expression:
+    gen = (page async for page in fetch_pages(["x","y","z"]))
+    async for page in gen:
+        print(page)
+
+asyncio.run(process())
+
+# aiofiles — async file reading:
+import aiofiles
+
+async def read_large_file():
+    async with aiofiles.open("large.txt") as f:
+        async for line in f:   # async generator!
+            process(line)
+
+# Database streaming (asyncpg):
+async def stream_users(conn):
+    async for record in conn.cursor("SELECT * FROM users"):
+        yield record</div>`,
+tip:"Async generators large datasets streaming ke liye perfect hain — memory O(1). aiofiles, asyncpg, motor (MongoDB async) sab async generators use karte hain."
+},
+
+{id:100,level:"advanced",cat:"Advanced",q:"Python mein performance optimization ki top techniques kya hain?",
+ans:`<div class="code">
+# 1. Correct Data Structure
+# O(1) lookup: set, dict
+# O(n) lookup: list, tuple
+if item in my_set:    # O(1) ✅
+if item in my_list:   # O(n) ❌
+
+# 2. Local variables faster hain
+import math
+def optimized():
+    local_sqrt = math.sqrt   # local reference
+    return [local_sqrt(x) for x in range(1000)]
+
+# 3. String building — join()
+parts = [str(i) for i in range(10000)]
+result = "".join(parts)   # O(n) ✅
+
+# 4. Generator vs List for large data
+total = sum(x**2 for x in range(10**7))   # O(1) memory
+
+# 5. NumPy for numerical operations
+import numpy as np
+arr = np.array(range(10**6))
+result = np.sum(arr**2)   # C speed!
+
+# 6. lru_cache for repeated calls
+from functools import lru_cache
+@lru_cache(maxsize=None)
+def expensive(n): ...
+
+# 7. slots for many objects
+class Point:
+    __slots__ = ('x', 'y')
+
+# 8. Avoid global variables in tight loops
+# 9. Use built-ins (map, filter, sum) — C implemented
+# 10. Profile first, optimize second! Never guess.</div>`,
+tip:"Premature optimization avoid karo — pehle cProfile se bottleneck dhundho. 90% cases mein algorithm improvement > micro-optimization. Big-O complexity sabse pehle improve karo."
+},
+];
+
+// STATE
+let done = new Set(JSON.parse(localStorage.getItem('pyiq_done') || '[]'));
+let filterLvl = 'all';
+
+function save() {
+  try { localStorage.setItem('pyiq_done', JSON.stringify([...done])); } catch(e) {}
+}
+
+function render() {
+  const search = document.getElementById('srch').value.toLowerCase();
+  const list = document.getElementById('qlist');
+
+  let filtered = QS.filter(q => {
+    const lm = filterLvl === 'all' || q.level === filterLvl;
+    const sm = !search || q.q.toLowerCase().includes(search) || q.cat.toLowerCase().includes(search);
+    return lm && sm;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty">No questions found 🔍</div>';
+    return;
+  }
+
+  // Group by level
+  const groups = { basic: [], intermediate: [], advanced: [] };
+  filtered.forEach(q => groups[q.level].push(q));
+
+  let html = '';
+
+  const levelInfo = {
+    basic: { label: 'Basic (1-35)', cls: 'sb-basic' },
+    intermediate: { label: 'Intermediate (36-75)', cls: 'sb-inter' },
+    advanced: { label: 'Advanced (76-100)', cls: 'sb-adv' }
+  };
+
+  Object.entries(groups).forEach(([level, qs]) => {
+    if (!qs.length) return;
+    const info = levelInfo[level];
+    html += `
+      <div class="sec-head">
+        <div class="sec-line"></div>
+        <div class="sec-badge ${info.cls}">${info.label}</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="qlist">
+        ${qs.map((q, idx) => `
+          <div class="qcard ${done.has(q.id)?'done':''}" id="qc${q.id}">
+            <div class="qhead" onclick="tog(${q.id})">
+              <div class="qn">Q${q.id}</div>
+              <div class="qmain">
+                <div class="qtags">
+                  <span class="tag t-${q.level}">${q.level}</span>
+                  <span class="tag t-cat">${q.cat}</span>
+                  ${done.has(q.id)?'<span class="tag t-done">✓ done</span>':''}
+                </div>
+                <div class="qtitle">${q.q}</div>
+              </div>
+              <div class="qarr">▼</div>
+            </div>
+            <div class="qbody">
+              <div class="qlabel">Answer</div>
+              <div class="ans-box" id="ab${q.id}">${q.ans}${q.tip?`<div class="tip-box">${q.tip}</div>`:''}</div>
+              <div class="brow">
+                <button class="btn btn-ans" onclick="togAns(event,${q.id})">💡 Show Answer</button>
+                <button class="btn btn-done ${done.has(q.id)?'active':''}" onclick="markDone(event,${q.id})">
+                  ${done.has(q.id)?'✅ Done':'☐ Mark Done'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  });
+
+  list.innerHTML = html;
+  updateStats();
+}
+
+function tog(id) {
+  document.getElementById('qc'+id).classList.toggle('is-open');
+}
+
+function togAns(e, id) {
+  e.stopPropagation();
+  const box = document.getElementById('ab'+id);
+  box.classList.toggle('show');
+  e.target.textContent = box.classList.contains('show') ? '💡 Hide Answer' : '💡 Show Answer';
+}
+
+function markDone(e, id) {
+  e.stopPropagation();
+  done.has(id) ? done.delete(id) : done.add(id);
+  save();
+  const open = [...document.querySelectorAll('.qcard.is-open')].map(c=>parseInt(c.id.replace('qc','')));
+  render();
+  open.forEach(oid=>{const c=document.getElementById('qc'+oid);if(c)c.classList.add('is-open');});
+}
+
+function updateStats() {
+  const n = done.size;
+  document.getElementById('sSolved').textContent = n;
+  document.getElementById('pNum').textContent = n;
+  document.getElementById('pTot').textContent = QS.length;
+  document.getElementById('pBar').style.width = (n/QS.length*100).toFixed(1)+'%';
+}
+
+// Filters
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('[data-f]');
+  if (!btn) return;
+  filterLvl = btn.dataset.f;
+  document.querySelectorAll('.fb').forEach(b => {
+    b.className = 'fb' + (b.dataset.f === filterLvl ? ` on-${filterLvl}` : '');
+  });
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

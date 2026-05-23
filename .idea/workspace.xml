@@ -1,36 +1,505 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="" />
+    <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/PythonRevision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonRevision.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bank.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/3174_clear_digits.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/Listsstring.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/Practic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/Vaild_Anagran.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/contain_duplicates.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/data_types.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/get_num_And_get_den.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/remove_duplicates_and_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/reverse_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/second_largest.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/sum_of_n.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/two_eggs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/two_sums.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/two_unsorted_arrays.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Array &amp; Hashing &amp; String/uniqye.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Best_Time_to_Buy_and_Sell_Stock.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Binary_search.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Comprehension/Comprehension.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Compress_string.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Decorators &amp; Generators &amp; Iterators/Generatorss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Decorators &amp; Generators &amp; Iterators/decorartorss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Decorators &amp; Generators &amp; Iterators/second.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Find_index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Find_majority.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Insertion_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Leetcode/1652.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Leetcode/2940.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Leetcode/Weekly_contest_429.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Linked_List/Doubly_Linked_List.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Linked_List/Singly_Linked_List.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Linked_List/linked_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/Daimond_problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/Daimonds_problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/Multilevel_Inher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/Polymorphimss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/class_object.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/inheritence.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/inheritences.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/multiple_inheritence.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/overridings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/pyth__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/raiseing_exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/OOPS/set_of_arguments.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Palindrome_tuple.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Python_Revision.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Quick_Sorts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Reverse_linked_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Reverse_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Solving_quires.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/bubble_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/find_majority.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/first_and_last_position.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/merge_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/peak_element.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/quick_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/return_count_of_swap.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Sorting/selection_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Test_if_tuple_is_distinct.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Top_K_Frequent_Elements.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/Two_sum.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/ab.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/anagrams.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/arrays.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/assessment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/bubble_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/check_two_num_array.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/convert_to_integer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/count_character.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/count_of_number_occurance.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/counting_vowels.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/dicts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/example.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/fibonacci_series.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/file_handling.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/find_duplicate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/first_and _second_highest.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/first_non_repeating_char.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/group_anagram.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/listss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/longest_substring.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/merge_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/merge_two_sorted.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/middle_element_of_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/non_repeating.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/print_space.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/reverse_string.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/reverse_strings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/second_largest_element.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/sellection_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data Structure/string_is_palindrome.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Encapsulationsss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interview_theory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Polymorphismss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Comprehensions/List_compr.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Data_types/chapter_1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Data_types/chapter_3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day1/Day1.1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day1/Day1.1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day1/Day1.2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day1/Day1.2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day1/Day1.3.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day1/Day1.3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day1/Day1.3_atm_cal.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day1/Day1.3_atm_cal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day10/collections_py.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day10/collections_py.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day10/combine_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day10/combine_task.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day10/custom_expection_Chain.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day10/custom_expection_Chain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day10/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day10/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day10/generator_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day10/generator_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day11/Kadane's_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day11/Kadane's_algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day11/Longest_substring_without_repeating_characters.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day11/Longest_substring_without_repeating_characters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day11/array_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day11/array_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day11/prefix_sum.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day11/prefix_sum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day12/complete_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day12/complete_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day12/complex_try.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day12/complex_try.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day12/custom_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day12/custom_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day12/custom_exception_erros.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day12/custom_exception_erros.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day12/exception_try.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day12/exception_try.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day12/multiple_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day12/multiple_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day13/threading.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day13/threading.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day2/day2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day2/day2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day2/day2_loops.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day2/day2_loops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day2/day2_while.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day2/day2_while.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day2/day_continue.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day2/day_continue.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day2/mini_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day2/mini_project.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day3/Palindrome.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day3/Palindrome.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day3/anagram.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day3/anagram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day3/day3_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day3/day3_problems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day3/string_day1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day3/string_day1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day4/day4_lists.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day4/day4_lists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day4/maximum_subarray.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day4/maximum_subarray.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day4/maximum_subarray_I.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day4/maximum_subarray_I.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day4/two_sum.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day4/two_sum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day5/LeetCode_387.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day5/LeetCode_387.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day5/day1_dictionary.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day5/day1_dictionary.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day6/day6_sets_tuples.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day6/day6_sets_tuples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day6/word_frequency.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day6/word_frequency.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day7/funciton_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day7/funciton_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day7/function_2_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day7/function_2_problems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day7/function_recursive.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day7/function_recursive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/Bank_account.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/Bank_account.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/Employe_System.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/Employe_System.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/Shape_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/Shape_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/Vehicle_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/Vehicle_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/inheritance_super.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/inheritance_super.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/multi_level_multiple_inheritence.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/multi_level_multiple_inheritence.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/opps.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/opps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day8/opps_instance_vs_class_vs_static_method.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day8/opps_instance_vs_class_vs_static_method.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day9/Dunder_Methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day9/Dunder_Methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day9/Encapsulation_ATM.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day9/Encapsulation_ATM.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day9/Encapsulations.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day9/Encapsulations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day9/Payment_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day9/Payment_system.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Day9/Polymorphisms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/Day9/Polymorphisms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/Function/first_chapter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/loops/token_dispatcher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/loops/whie_loop.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/oops/attribute_shadowing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/oops/chaoter1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python_Revision_Questions/split_the_array.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/central_alert_system.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/centralized_system.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/citizen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/consumer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/mobile_app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/new_task.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/notes.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/operator_subscriber.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/producer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/receive.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/send.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RabbitMQ/worker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Abstract_Factory_Design_Pattern/Abstract_Factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Abstract_Factory_Design_Pattern/Pizza.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Decorator_Design_Pattern/Decorator_design.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Factory_Design_Pattern/Payment_Gateway_Integration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Factory_Design_Pattern/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Factory_Design_Pattern/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Factory_Design_Pattern/gateway_interface.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Factory_Design_Pattern/gateways.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Factory_Design_Pattern/notes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Observer_Design_Pattern/Observer_Design.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SINGLETON/Baisc_implementation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SINGLETON/Singleton.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SINGLETON/notes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/Dependency_Inversion_Principle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/DocumentEditor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/Interface_Segration_Principle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/Liskov_Substitution_Principle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/Open_Closed_Principle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/Single_Responsibility_Principle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/SOLID/notes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Strategy_Design_Patterns/Robot_articiture.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Strategy_Design_Patterns/Sorting_Strategis_Ex1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Strategy_Design_Patterns/Strategy_Design_Patterns.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SystemDesign/Strategy_Design_Patterns/notes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TV.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oops/01_solution.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/websocket_server.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="629" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;achaurasiyaa&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ashishchaurasiyaa/Geeks_for_Geeks_Leetcode_Questions.git&quot;,
+    &quot;accountId&quot;: &quot;27d6e5e0-71eb-4423-aacb-81a8edbfa696&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Data Structure/Sorting/bubble_sort.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Data Structure/Sorting/find_majority.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Data Structure/Sorting/merge_sort.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RabbitMQ/new_task.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RabbitMQ/send.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/oops/01_solution.py" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2nkiOr9TII8qi64ac9YOdmyHANF" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.01_solution.executor": "Run",
+    "Python.2940.executor": "Run",
+    "Python.Bank.executor": "Run",
+    "Python.Compress_string.executor": "Run",
+    "Python.Encapsulationsss.executor": "Run",
+    "Python.Find_majority.executor": "Run",
+    "Python.First.executor": "Run",
+    "Python.HigherOrLowerProcedural.executor": "Run",
+    "Python.OO_LightSwitch_with_Test_Code.executor": "Run",
+    "Python.Polymorphismss.executor": "Run",
+    "Python.Rev1.executor": "Run",
+    "Python.Rev2.executor": "Run",
+    "Python.Reverse_linked_list.executor": "Run",
+    "Python.Second.executor": "Run",
+    "Python.Singly_Linked_List.executor": "Run",
+    "Python.Strings.executor": "Run",
+    "Python.SysAssignment.executor": "Run",
+    "Python.TV.executor": "Run",
+    "Python.Third.executor": "Run",
+    "Python.Weekly_contest_429.executor": "Run",
+    "Python.anagrams.executor": "Run",
+    "Python.arrays.executor": "Run",
+    "Python.bubble_sort.executor": "Run",
+    "Python.compare_two_list.executor": "Run",
+    "Python.condition_loops.executor": "Run",
+    "Python.count_character.executor": "Run",
+    "Python.extract_sheet.executor": "Run",
+    "Python.find_duplicate.executor": "Run",
+    "Python.find_majority.executor": "Run",
+    "Python.first.executor": "Run",
+    "Python.first_and _second_highest.executor": "Run",
+    "Python.first_and_last_position.executor": "Run",
+    "Python.group_anagram.executor": "Run",
+    "Python.inheritence.executor": "Run",
+    "Python.kms.executor": "Run",
+    "Python.linked_list.executor": "Run",
+    "Python.login_system.executor": "Run",
+    "Python.longest_substring.executor": "Run",
+    "Python.merge_sort.executor": "Run",
+    "Python.merge_two_sorted.executor": "Run",
+    "Python.methods_functions.executor": "Run",
+    "Python.non_repeating.executor": "Run",
+    "Python.pdf_to_json_extractor.executor": "Run",
+    "Python.peak_element.executor": "Run",
+    "Python.pyth__init__.executor": "Run",
+    "Python.quick_sort.executor": "Run",
+    "Python.return_count_of_swap.executor": "Run",
+    "Python.reverse_string.executor": "Run",
+    "Python.scripts.executor": "Run",
+    "Python.second_largest_element.executor": "Run",
+    "Python.seconf.executor": "Run",
+    "Python.selection_sort.executor": "Run",
+    "Python.send.executor": "Run",
+    "Python.split_the_array.executor": "Run",
+    "Python.string_is_palindrome.executor": "Run",
+    "Python.third.executor": "Run",
+    "Python.traffic_signal_checker.executor": "Run",
+    "Python.uniques_records.executor": "Run",
+    "Python.walrus_operator.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "nodejs_package_manager_path": "npm"
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/youngmanindia/Documents/PythonRevision",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Data Structure" />
+      <recent name="$PROJECT_DIR$/Python_Revision_Questions" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="pip " />
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.pdf_to_json_extractor">
+    <configuration name="01_solution" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonRevision" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/oops" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/oops/01_solution.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="first_and_last_position" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonRevision" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Data Structure/Sorting" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Data Structure/Sorting/first_and_last_position.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pdf_to_json_extractor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonRevision" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Data Structure" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Data Structure/pdf_to_json_extractor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="send" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonRevision" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RabbitMQ" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RabbitMQ/send.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="walrus_operator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonRevision" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Data Structure" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Data Structure/walrus_operator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.pdf_to_json_extractor" />
+        <item itemvalue="Python.walrus_operator" />
+        <item itemvalue="Python.send" />
+        <item itemvalue="Python.01_solution" />
+        <item itemvalue="Python.first_and_last_position" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.23339.19" />
-        <option value="bundled-python-sdk-0029f7779945-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.23339.19" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.23567.174" />
+        <option value="bundled-python-sdk-024ed6589d45-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.23567.174" />
       </set>
     </attachedChunks>
   </component>
@@ -42,7 +511,181 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729523445357</updated>
+      <workItem from="1729523447535" duration="2769000" />
+      <workItem from="1730295199364" duration="609000" />
+      <workItem from="1730560126367" duration="9574000" />
+      <workItem from="1730777576808" duration="3775000" />
+      <workItem from="1731926558003" duration="19203000" />
+      <workItem from="1732127261212" duration="1452000" />
+      <workItem from="1732132366384" duration="6125000" />
+      <workItem from="1732380750443" duration="22180000" />
+      <workItem from="1733499659944" duration="3582000" />
+      <workItem from="1733800381023" duration="13964000" />
+      <workItem from="1733983237251" duration="6268000" />
+      <workItem from="1734104477110" duration="10503000" />
+      <workItem from="1734368802402" duration="834000" />
+      <workItem from="1734834714994" duration="3403000" />
+      <workItem from="1735238074957" duration="10565000" />
+      <workItem from="1735396931553" duration="41000" />
+      <workItem from="1750978778045" duration="57850000" />
+      <workItem from="1751587487111" duration="10807000" />
+      <workItem from="1751975942971" duration="8000" />
+      <workItem from="1752292407208" duration="7218000" />
+      <workItem from="1753226635674" duration="164000" />
+      <workItem from="1753226812934" duration="7000" />
+      <workItem from="1753937738378" duration="8806000" />
+      <workItem from="1755313695218" duration="16515000" />
+      <workItem from="1755886223644" duration="8483000" />
+      <workItem from="1755946878942" duration="22344000" />
+      <workItem from="1756654872244" duration="2819000" />
+      <workItem from="1756746913467" duration="2630000" />
+      <workItem from="1756836306436" duration="4558000" />
+      <workItem from="1757437051941" duration="8946000" />
+      <workItem from="1757765812501" duration="2127000" />
+      <workItem from="1757984615613" duration="328000" />
+      <workItem from="1758149964079" duration="825000" />
+      <workItem from="1758816181588" duration="1206000" />
+      <workItem from="1758869700270" duration="9000" />
+      <workItem from="1759387877022" duration="3365000" />
+      <workItem from="1759476618947" duration="184000" />
+      <workItem from="1759477362180" duration="3803000" />
+      <workItem from="1759734060974" duration="2738000" />
+      <workItem from="1759743906460" duration="3393000" />
+      <workItem from="1759856051000" duration="2644000" />
+      <workItem from="1760256663861" duration="15643000" />
+      <workItem from="1760458488196" duration="566000" />
+      <workItem from="1760485354190" duration="1021000" />
+      <workItem from="1760657431130" duration="9917000" />
+      <workItem from="1761504070891" duration="2872000" />
+      <workItem from="1761609146811" duration="607000" />
+      <workItem from="1763028709536" duration="13000" />
+      <workItem from="1764000160000" duration="3516000" />
+      <workItem from="1764389778177" duration="1210000" />
+      <workItem from="1765495451812" duration="65000" />
+      <workItem from="1765499162515" duration="410000" />
+      <workItem from="1765795789210" duration="2873000" />
+      <workItem from="1765863787464" duration="4795000" />
+      <workItem from="1766440048164" duration="4278000" />
+      <workItem from="1767396352882" duration="6807000" />
+      <workItem from="1767545565400" duration="2576000" />
+      <workItem from="1767627050072" duration="8067000" />
+      <workItem from="1767686754922" duration="1135000" />
+      <workItem from="1767866615502" duration="3000" />
+      <workItem from="1779165489603" duration="16000" />
+      <workItem from="1779189791412" duration="3928000" />
+      <workItem from="1779295827865" duration="42521000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Data Structure/Revision/condition_loops.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Data Structure/Revision/condition_loops.py</url>
+          <line>18</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Data Structure/Revision/condition_loops.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Data Structure/Revision/condition_loops.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Data Structure/Revision/condition_loops.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Data Structure/Revision/condition_loops.py</url>
+          <line>47</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PythonRevision$merge_two_sorted.coverage" NAME="merge_two_sorted Coverage Results" MODIFIED="1735250659074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Compress_string.coverage" NAME="Compress_string Coverage Results" MODIFIED="1735268487086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$pyth__init__.coverage" NAME="pyth__init__ Coverage Results" MODIFIED="1759735480474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/OOPS" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Reverse_linked_list.coverage" NAME="Reverse_linked_list Coverage Results" MODIFIED="1733983996274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$OO_LightSwitch_with_Test_Code.coverage" NAME="OO_LightSwitch_with_Test_Code Coverage Results" MODIFIED="1735250774768" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$uniques_records.coverage" NAME="uniques_records Coverage Results" MODIFIED="1756172992269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Encapsulationsss.coverage" NAME="Encapsulationsss Coverage Results" MODIFIED="1732466744219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$login_system.coverage" NAME="login_system Coverage Results" MODIFIED="1751439458363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$seconf.coverage" NAME="seconf Coverage Results" MODIFIED="1730715440045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Python_Revision_Questions" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Polymorphismss.coverage" NAME="Polymorphismss Coverage Results" MODIFIED="1732512057253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$2940.coverage" NAME="2940 Coverage Results" MODIFIED="1734835753748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Leetcode" />
+    <SUITE FILE_PATH="coverage/PythonRevision$anagrams.coverage" NAME="anagrams Coverage Results" MODIFIED="1733994091001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Singly_Linked_List.coverage" NAME="Singly_Linked_List Coverage Results" MODIFIED="1733890600000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Linked_List" />
+    <SUITE FILE_PATH="coverage/PythonRevision$find_duplicate.coverage" NAME="find_duplicate Coverage Results" MODIFIED="1735269195055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$traffic_signal_checker.coverage" NAME="traffic_signal_checker Coverage Results" MODIFIED="1751437572171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$second_largest_element.coverage" NAME="second_largest_element Coverage Results" MODIFIED="1735269347977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Third.coverage" NAME="Third Coverage Results" MODIFIED="1751367115829" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$walrus_operator.coverage" NAME="walrus_operator Coverage Results" MODIFIED="1767428189124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$TV.coverage" NAME="TV Coverage Results" MODIFIED="1732077949968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$split_the_array.coverage" NAME="split_the_array Coverage Results" MODIFIED="1729570927691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Python_Revision_Questions" />
+    <SUITE FILE_PATH="coverage/PythonRevision$first_and_last_position.coverage" NAME="first_and_last_position Coverage Results" MODIFIED="1761609243202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Rev2.coverage" NAME="Rev2 Coverage Results" MODIFIED="1756228935931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
+    <SUITE FILE_PATH="coverage/PythonRevision$inheritence.coverage" NAME="inheritence Coverage Results" MODIFIED="1735278685497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$methods_functions.coverage" NAME="methods_functions Coverage Results" MODIFIED="1751474246947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Strings.coverage" NAME="Strings Coverage Results" MODIFIED="1752292415496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$condition_loops.coverage" NAME="condition_loops Coverage Results" MODIFIED="1751436640649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$string_is_palindrome.coverage" NAME="string_is_palindrome Coverage Results" MODIFIED="1733985012097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$compare_two_list.coverage" NAME="compare_two_list Coverage Results" MODIFIED="1757296189011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
+    <SUITE FILE_PATH="coverage/PythonRevision$return_count_of_swap.coverage" NAME="return_count_of_swap Coverage Results" MODIFIED="1759672633409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$bubble_sort.coverage" NAME="bubble_sort Coverage Results" MODIFIED="1759389038000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$count_character.coverage" NAME="count_character Coverage Results" MODIFIED="1735266079591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$third.coverage" NAME="third Coverage Results" MODIFIED="1730602452687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Python_Revision_Questions" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Rev1.coverage" NAME="Rev1 Coverage Results" MODIFIED="1755683635460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
+    <SUITE FILE_PATH="coverage/PythonRevision$first.coverage" NAME="first Coverage Results" MODIFIED="1730572141142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Python_Revision_Questions" />
+    <SUITE FILE_PATH="coverage/PythonRevision$quick_sort.coverage" NAME="quick_sort Coverage Results" MODIFIED="1760432793571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$pdf_to_json_extractor.coverage" NAME="pdf_to_json_extractor Coverage Results" MODIFIED="1767672327102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$01_solution.coverage" NAME="01_solution Coverage Results" MODIFIED="1764001841211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/oops" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Bank.coverage" NAME="Bank Coverage Results" MODIFIED="1732010501871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$extract_sheet.coverage" NAME="extract_sheet Coverage Results" MODIFIED="1755332425548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$First.coverage" NAME="First Coverage Results" MODIFIED="1751004976947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/LIST" />
+    <SUITE FILE_PATH="coverage/PythonRevision$peak_element.coverage" NAME="peak_element Coverage Results" MODIFIED="1760659383042" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$arrays.coverage" NAME="arrays Coverage Results" MODIFIED="1732760307960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Weekly_contest_429.coverage" NAME="Weekly_contest_429 Coverage Results" MODIFIED="1734835457581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Leetcode" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Second.coverage" NAME="Second Coverage Results" MODIFIED="1751007005921" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
+    <SUITE FILE_PATH="coverage/PythonRevision$SysAssignment.coverage" NAME="SysAssignment Coverage Results" MODIFIED="1732242570261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$longest_substring.coverage" NAME="longest_substring Coverage Results" MODIFIED="1735268687448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$find_majority.coverage" NAME="find_majority Coverage Results" MODIFIED="1759423702678" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$merge_sort.coverage" NAME="merge_sort Coverage Results" MODIFIED="1760258370157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$send.coverage" NAME="send Coverage Results" MODIFIED="1765795994005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RabbitMQ" />
+    <SUITE FILE_PATH="coverage/PythonRevision$selection_sort.coverage" NAME="selection_sort Coverage Results" MODIFIED="1759856095556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
+    <SUITE FILE_PATH="coverage/PythonRevision$kms.coverage" NAME="kms Coverage Results" MODIFIED="1732015179287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Find_majority.coverage" NAME="Find_majority Coverage Results" MODIFIED="1735269071538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$scripts.coverage" NAME="scripts Coverage Results" MODIFIED="1734368907431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$linked_list.coverage" NAME="linked_list Coverage Results" MODIFIED="1732685989059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Linked_List" />
+    <SUITE FILE_PATH="coverage/PythonRevision$group_anagram.coverage" NAME="group_anagram Coverage Results" MODIFIED="1735268349547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$reverse_string.coverage" NAME="reverse_string Coverage Results" MODIFIED="1735268845288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$non_repeating.coverage" NAME="non_repeating Coverage Results" MODIFIED="1733994545941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$first_and__second_highest.coverage" NAME="first_and _second_highest Coverage Results" MODIFIED="1735250681366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/PythonRevision$HigherOrLowerProcedural.coverage" NAME="HigherOrLowerProcedural Coverage Results" MODIFIED="1731930899927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

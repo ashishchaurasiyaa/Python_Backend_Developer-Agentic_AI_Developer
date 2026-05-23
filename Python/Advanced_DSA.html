@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced DSA — 5 YOE Backend Developer</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a10;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:100;background:#0d0d16;border-bottom:1px solid #1e1e30;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.logo{font-size:15px;font-weight:700;color:#f59e0b;white-space:nowrap}
+.logo span{color:#94a3b8;font-weight:400;font-size:12px;margin-left:6px}
+.prog-wrap{display:flex;align-items:center;gap:8px;flex:1;max-width:340px}
+.prog-bar{flex:1;height:7px;background:#1e1e30;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#f97316);border-radius:4px;transition:width .4s}
+.prog-txt{font-size:11px;color:#94a3b8;white-space:nowrap}
+.btn-reset{font-size:10px;background:transparent;border:1px solid #374151;color:#94a3b8;padding:3px 8px;border-radius:4px;cursor:pointer}
+.btn-reset:hover{border-color:#f59e0b;color:#f59e0b}
+
+/* Tabs */
+.tabs-wrap{overflow-x:auto;background:#0d0d16;border-bottom:1px solid #1e1e30;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tabs{display:flex;padding:0 12px;gap:2px;min-width:max-content}
+.tab{padding:9px 14px;font-size:12px;font-weight:600;color:#94a3b8;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.tab:hover{color:#e2e8f0}
+.tab.active{color:#f59e0b;border-bottom-color:#f59e0b}
+
+/* Filters */
+.filter-bar{padding:10px 16px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#0a0a10;border-bottom:1px solid #111120}
+.flt{font-size:10px;padding:3px 10px;border-radius:20px;border:1px solid #1e1e30;background:transparent;color:#94a3b8;cursor:pointer;transition:all .2s}
+.flt:hover,.flt.on{background:#f59e0b20;border-color:#f59e0b;color:#f59e0b}
+.flt-label{font-size:10px;color:#4b5563;margin-right:2px}
+#search{background:#111120;border:1px solid #1e1e30;color:#e2e8f0;padding:4px 10px;border-radius:20px;font-size:11px;outline:none;width:160px}
+#search:focus{border-color:#f59e0b}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;padding:16px}
+
+/* Card */
+.card{background:#111120;border:1px solid #1e1e30;border-radius:10px;padding:14px;cursor:pointer;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:8px}
+.card:hover{border-color:#f59e0b55;transform:translateY(-1px)}
+.card.done{border-color:#22c55e55;background:#0a1a0f}
+.card.done .c-num{color:#22c55e}
+.card.covered{border-color:#60a5fa55;background:#0a0f1a}
+.card.covered .c-num{color:#60a5fa}
+.c-head{display:flex;align-items:flex-start;gap:10px}
+.c-num{font-size:18px;font-weight:800;color:#f59e0b;min-width:32px}
+.c-meta{flex:1}
+.c-title{font-size:13px;font-weight:700;color:#f1f5f9;line-height:1.3}
+.c-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.tag{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:600;letter-spacing:.3px}
+.tag-hard{background:#7f1d1d;color:#fca5a5}
+.tag-med{background:#78350f;color:#fcd34d}
+.tag-easy{background:#14532d;color:#86efac}
+.tag-pat{background:#1e1b4b;color:#a5b4fc}
+.tag-done{background:#14532d;color:#86efac}
+.tag-covered{background:#1e3a5f;color:#93c5fd}
+.c-note{font-size:11px;color:#64748b;line-height:1.4}
+.c-check{font-size:18px;margin-left:auto;align-self:center}
+
+/* Detail panel */
+.det-btn{align-self:flex-start;font-size:10px;padding:3px 10px;background:transparent;border:1px solid #1e1e30;color:#64748b;border-radius:4px;cursor:pointer;transition:all .2s;margin-top:2px}
+.det-btn:hover{border-color:#f59e0b;color:#f59e0b}
+.det-panel{margin-top:8px;border-top:1px solid #1e1e30;padding-top:10px;display:none;flex-direction:column;gap:10px}
+.det-panel.open{display:flex}
+.det-section{font-size:11px;line-height:1.6;color:#94a3b8}
+.det-section strong{color:#e2e8f0;display:block;margin-bottom:2px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#f59e0b}
+.approach{background:#0d0d16;border-radius:6px;padding:8px 10px;margin:3px 0;border-left:3px solid #1e1e30}
+.approach.brute{border-left-color:#ef4444}
+.approach.better{border-left-color:#eab308}
+.approach.optimal{border-left-color:#22c55e}
+.approach-head{font-size:10px;font-weight:700;margin-bottom:4px}
+.approach.brute .approach-head{color:#ef4444}
+.approach.better .approach-head{color:#eab308}
+.approach.optimal .approach-head{color:#22c55e}
+.tc{font-size:9px;color:#64748b;margin-top:2px}
+pre{background:#080810;border:1px solid #1a1a2e;border-radius:6px;padding:10px;overflow-x:auto;font-size:11px;line-height:1.6;font-family:'JetBrains Mono','Fira Code',monospace;color:#e2e8f0;margin:4px 0}
+.kw{color:#c792ea}
+.bi{color:#82aaff}
+.st{color:#c3e88d}
+.cm{color:#546e7a;font-style:italic}
+.nm{color:#f78c6c}
+.dc{color:#89ddff}
+.cn{color:#ffcb6b}
+.tip-box{background:#0d0d16;border:1px solid #1e293b;border-radius:6px;padding:8px 10px;font-size:10px;color:#fcd34d}
+.tip-box::before{content:'💡 Tip: ';font-weight:700}
+.res-card{background:#111120;border:1px solid #1e1e30;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.res-card h3{font-size:14px;color:#f59e0b}
+.res-card p{font-size:11px;color:#94a3b8;line-height:1.5}
+.res-card a{color:#60a5fa;font-size:11px;text-decoration:none}
+.res-card a:hover{text-decoration:underline}
+.res-tags{display:flex;gap:4px;flex-wrap:wrap}
+.empty{padding:40px;text-align:center;color:#4b5563;font-size:13px}
+.section-head{padding:8px 16px 0;font-size:10px;color:#4b5563;text-transform:uppercase;letter-spacing:.8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Advanced DSA <span>5 YOE Backend Dev</span></div>
+  <div class="prog-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="fill"></div></div>
+    <div class="prog-txt" id="ptxt">0 / 0</div>
+  </div>
+  <button class="btn-reset" onclick="resetAll()">Reset</button>
+</header>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" data-tab="all" onclick="switchTab('all',this)">All (50)</div>
+    <div class="tab" data-tab="arrays" onclick="switchTab('arrays',this)">Arrays &amp; TP</div>
+    <div class="tab" data-tab="sliding" onclick="switchTab('sliding',this)">Sliding Window</div>
+    <div class="tab" data-tab="prefix" onclick="switchTab('prefix',this)">Prefix Sum</div>
+    <div class="tab" data-tab="hashing" onclick="switchTab('hashing',this)">Hashing</div>
+    <div class="tab" data-tab="stack" onclick="switchTab('stack',this)">Stack &amp; Queue</div>
+    <div class="tab" data-tab="linked" onclick="switchTab('linked',this)">Linked List</div>
+    <div class="tab" data-tab="trees" onclick="switchTab('trees',this)">Trees</div>
+    <div class="tab" data-tab="graphs" onclick="switchTab('graphs',this)">Graphs</div>
+    <div class="tab" data-tab="dp" onclick="switchTab('dp',this)">DP</div>
+    <div class="tab" data-tab="greedy" onclick="switchTab('greedy',this)">Greedy</div>
+    <div class="tab" data-tab="heap" onclick="switchTab('heap',this)">Heap</div>
+    <div class="tab" data-tab="concurrency" onclick="switchTab('concurrency',this)">Concurrency</div>
+    <div class="tab" data-tab="sysdesign" onclick="switchTab('sysdesign',this)">System Design</div>
+    <div class="tab" data-tab="covered" onclick="switchTab('covered',this)">✅ From P75</div>
+    <div class="tab" data-tab="resources" onclick="switchTab('resources',this)">📚 Resources</div>
+  </div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <span class="flt-label">Filter:</span>
+  <button class="flt on" data-f="all" onclick="setFilter('all',this)">All</button>
+  <button class="flt" data-f="pending" onclick="setFilter('pending',this)">Pending</button>
+  <button class="flt" data-f="done" onclick="setFilter('done',this)">Done</button>
+  <button class="flt" data-f="hard" onclick="setFilter('hard',this)">Hard</button>
+  <button class="flt" data-f="medium" onclick="setFilter('medium',this)">Medium</button>
+  <input id="search" placeholder="Search..." oninput="renderGrid()">
+</div>
+
+<div id="main"></div>
+
+<script>
+const SK = 'adv_dsa_v1';
+let done = JSON.parse(localStorage.getItem(SK)||'{}');
+let curTab = 'all', curFilter = 'all';
+
+function hl(raw){
+  let s = raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const saved=[], ph='\x01';
+  s = s.replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"[^"\n]*"|'[^'\n]*')/g,m=>{saved.push('<span class="st">'+m+'</span>');return ph+String(saved.length-1)+ph;});
+  s = s.replace(/(#[^\n]*)/g,m=>{saved.push('<span class="cm">'+m+'</span>');return ph+String(saved.length-1)+ph;});
+  s = s.replace(/\b(def|class|return|if|elif|else|for|while|in|not|and|or|import|from|as|with|yield|lambda|pass|break|continue|raise|try|except|finally|async|await|None|True|False|self|cls|global|nonlocal|del|assert|is)\b/g,'<span class="kw">$1</span>');
+  s = s.replace(/@(\w+)/g,'<span class="dc">@$1</span>');
+  s = s.replace(/\b(print|len|range|enumerate|zip|map|filter|sorted|list|dict|set|tuple|str|int|float|bool|type|isinstance|hasattr|getattr|setattr|super|property|staticmethod|classmethod|open|next|iter|sum|min|max|abs|round|any|all|hash|id|input|repr|vars|dir|callable|__init__|__str__|__repr__|__len__|__iter__|__next__|__enter__|__exit__|__new__|__del__|append|extend|pop|remove|get|update|keys|values|items|add|discard|union|intersection)\b/g,'<span class="bi">$1</span>');
+  s = s.replace(/\b([A-Z][A-Za-z0-9_]*)\b/g,'<span class="cn">$1</span>');
+  s = s.replace(/\b(\d+\.?\d*)\b/g,'<span class="nm">$1</span>');
+  s = s.replace(new RegExp(ph+'(\\d+)'+ph,'g'),(_,i)=>saved[+i]);
+  return s;
+}
+
+const questions = [
+// ─── ARRAYS & TWO POINTERS ───
+{id:1,cat:'arrays',diff:'hard',title:'Container With Most Water',tags:['Two Pointers','Greedy'],
+note:'Two pointer inward shrink — max area problem.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n²)',tc:'TC: O(n²) SC: O(1)',desc:'Har pair try karo, max area track karo.',code:`def max_area_brute(height):
+    res = 0
+    for i in range(len(height)):
+        for j in range(i+1, len(height)):
+            res = max(res, min(height[i],height[j])*(j-i))
+    return res`},
+  {type:'optimal',label:'🟢 Optimal O(n)',tc:'TC: O(n) SC: O(1)',desc:'Left-right pointer. Shorter side ko move karo — area tabhi badh sakta hai.',code:`def max_area(height):
+    l, r = 0, len(height) - 1
+    res = 0
+    while l < r:
+        area = min(height[l], height[r]) * (r - l)
+        res = max(res, area)
+        if height[l] < height[r]:
+            l += 1
+        else:
+            r -= 1
+    return res`}
+],tip:'Shorter side move karna key insight hai — larger side move karne se area decrease hoga ya same rahega.'},
+
+{id:2,cat:'arrays',diff:'hard',title:'3Sum (Triplets = 0)',tags:['Two Pointers','Sorting'],
+note:'Sort + two pointer for each fixed element.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n³)',tc:'TC: O(n³) SC: O(1)',desc:'3 nested loops, all triplets check karo.',code:`def three_sum_brute(nums):
+    res = set()
+    for i in range(len(nums)):
+        for j in range(i+1,len(nums)):
+            for k in range(j+1,len(nums)):
+                if nums[i]+nums[j]+nums[k]==0:
+                    res.add(tuple(sorted([nums[i],nums[j],nums[k]])))
+    return list(res)`},
+  {type:'optimal',label:'🟢 Optimal O(n²)',tc:'TC: O(n²) SC: O(1)',desc:'Sort kar, phir har element pe two pointer.',code:`def three_sum(nums):
+    nums.sort()
+    res = []
+    for i, n in enumerate(nums):
+        if i > 0 and nums[i] == nums[i-1]:  # skip dups
+            continue
+        l, r = i + 1, len(nums) - 1
+        while l < r:
+            s = n + nums[l] + nums[r]
+            if s > 0: r -= 1
+            elif s < 0: l += 1
+            else:
+                res.append([n, nums[l], nums[r]])
+                l += 1
+                while l < r and nums[l] == nums[l-1]:
+                    l += 1
+    return res`}
+],tip:'Duplicate skip karna mat bhulna — sorted array mein easy hai.'},
+
+{id:3,cat:'arrays',diff:'hard',title:'Trapping Rain Water',tags:['Two Pointers','DP'],
+note:'Classic — left_max/right_max per index.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n²)',tc:'TC: O(n²) SC: O(1)',desc:'Har position pe left_max aur right_max scan karo.',code:`def trap_brute(height):
+    res = 0
+    for i in range(len(height)):
+        l_max = max(height[:i+1])
+        r_max = max(height[i:])
+        res += min(l_max, r_max) - height[i]
+    return res`},
+  {type:'better',label:'🟡 DP O(n)',tc:'TC: O(n) SC: O(n)',desc:'Precompute left_max[] aur right_max[] arrays.',code:`def trap_dp(height):
+    n = len(height)
+    lm = [0]*n; rm = [0]*n
+    lm[0] = height[0]; rm[-1] = height[-1]
+    for i in range(1,n): lm[i] = max(lm[i-1],height[i])
+    for i in range(n-2,-1,-1): rm[i] = max(rm[i+1],height[i])
+    return sum(min(lm[i],rm[i])-height[i] for i in range(n))`},
+  {type:'optimal',label:'🟢 Two Pointer O(1) space',tc:'TC: O(n) SC: O(1)',desc:'L-R pointer, track running max — O(1) space.',code:`def trap(height):
+    l, r = 0, len(height)-1
+    lm = rm = res = 0
+    while l < r:
+        if height[l] <= height[r]:
+            if height[l] >= lm: lm = height[l]
+            else: res += lm - height[l]
+            l += 1
+        else:
+            if height[r] >= rm: rm = height[r]
+            else: res += rm - height[r]
+            r -= 1
+    return res`}
+],tip:'Water = min(left_max, right_max) - height[i]. Two pointer ye same kaam O(1) space mein karta hai.'},
+
+// ─── SLIDING WINDOW ───
+{id:4,cat:'sliding',diff:'medium',title:'Longest Substring Without Repeating Chars',tags:['Sliding Window','HashMap'],
+note:'Expand right, shrink left when duplicate found.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n²)',tc:'TC: O(n²) SC: O(n)',desc:'Har substring check karo for uniqueness.',code:`def length_of_longest_substring_brute(s):
+    res = 0
+    for i in range(len(s)):
+        seen = set()
+        for j in range(i, len(s)):
+            if s[j] in seen: break
+            seen.add(s[j]); res = max(res, j-i+1)
+    return res`},
+  {type:'optimal',label:'🟢 Sliding Window O(n)',tc:'TC: O(n) SC: O(n)',desc:'char→last_index map, l pointer jump karo.',code:`def length_of_longest_substring(s):
+    char_idx = {}
+    l = res = 0
+    for r, ch in enumerate(s):
+        if ch in char_idx and char_idx[ch] >= l:
+            l = char_idx[ch] + 1
+        char_idx[ch] = r
+        res = max(res, r - l + 1)
+    return res`}
+],tip:'Map mein last seen index store karo, direct jump karo duplicate pe.'},
+
+{id:5,cat:'sliding',diff:'medium',title:'Max Consecutive Ones III (K flips)',tags:['Sliding Window'],
+note:'Window with at most K zeros allowed.',
+approaches:[
+  {type:'optimal',label:'🟢 Sliding Window O(n)',tc:'TC: O(n) SC: O(1)',desc:'Zeros counter rakh, exceed hone pe l shrink karo.',code:`def longest_ones(nums, k):
+    l = zeros = res = 0
+    for r in range(len(nums)):
+        if nums[r] == 0:
+            zeros += 1
+        while zeros > k:
+            if nums[l] == 0: zeros -= 1
+            l += 1
+        res = max(res, r - l + 1)
+    return res`}
+],tip:'At most K wale problems mein window shrink karo jab condition violate ho.'},
+
+{id:6,cat:'sliding',diff:'hard',title:'Minimum Window Substring ✅',tags:['Sliding Window','HashMap'],
+note:'Already in Python 75 (Q39) — for reference.',
+approaches:[
+  {type:'optimal',label:'🟢 Sliding Window O(n)',tc:'TC: O(n) SC: O(n)',desc:'Need dict + have dict, formed counter ke saath expand/shrink.',code:`from collections import Counter
+
+def min_window(s, t):
+    need = Counter(t); have = {}
+    formed = 0; required = len(need)
+    l = 0; res = ""; res_len = float('inf')
+    for r, ch in enumerate(s):
+        have[ch] = have.get(ch, 0) + 1
+        if ch in need and have[ch] == need[ch]:
+            formed += 1
+        while formed == required:
+            if r - l + 1 < res_len:
+                res_len = r - l + 1; res = s[l:r+1]
+            if have[s[l]] == 1: del have[s[l]]
+            else: have[s[l]] -= 1
+            if s[l] in need and have.get(s[l],0) < need[s[l]]:
+                formed -= 1
+            l += 1
+    return res`}
+],tip:'Two dict + formed count — classic. Ye already Python 75 mein hai.'},
+
+// ─── PREFIX SUM ───
+{id:7,cat:'prefix',diff:'medium',title:'Subarray Sum Equals K',tags:['Prefix Sum','HashMap'],
+note:'prefix_sum - k seen before? HashMap with counts.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n²)',tc:'TC: O(n²) SC: O(1)',desc:'Har subarray ka sum compute karo.',code:`def subarray_sum_brute(nums, k):
+    count = 0
+    for i in range(len(nums)):
+        s = 0
+        for j in range(i, len(nums)):
+            s += nums[j]
+            if s == k: count += 1
+    return count`},
+  {type:'optimal',label:'🟢 Prefix Sum + HashMap O(n)',tc:'TC: O(n) SC: O(n)',desc:'prefix_sum[i] - prefix_sum[j] = k → prefix_sum[j] = prefix_sum[i] - k. Map mein count store karo.',code:`from collections import defaultdict
+
+def subarray_sum(nums, k):
+    count = 0
+    prefix = 0
+    seen = defaultdict(int)
+    seen[0] = 1  # empty prefix
+    for n in nums:
+        prefix += n
+        count += seen[prefix - k]
+        seen[prefix] += 1
+    return count`}
+],tip:'seen[0]=1 initialize karna mat bhulna — subarray starting from index 0 handle karta hai.'},
+
+{id:8,cat:'prefix',diff:'easy',title:'Range Sum Query (Immutable)',tags:['Prefix Sum'],
+note:'Precompute prefix, then O(1) query.',
+approaches:[
+  {type:'optimal',label:'🟢 Prefix Array O(1) query',tc:'Build: O(n) Query: O(1)',desc:'prefix[i] = sum(nums[0..i-1]), then range = prefix[r+1]-prefix[l].',code:`class NumArray:
+    def __init__(self, nums):
+        self.prefix = [0] * (len(nums) + 1)
+        for i, n in enumerate(nums):
+            self.prefix[i+1] = self.prefix[i] + n
+
+    def sumRange(self, left, right):
+        return self.prefix[right+1] - self.prefix[left]
+
+# Usage
+na = NumArray([-2, 0, 3, -5, 2, -1])
+print(na.sumRange(0, 2))  # 1
+print(na.sumRange(2, 5))  # -1`}
+],tip:'Backend mein analytics queries pe prefix sum useful — instead of GROUP BY every time.'},
+
+// ─── HASHING ───
+{id:9,cat:'hashing',diff:'medium',title:'Longest Consecutive Sequence',tags:['HashSet','Arrays'],
+note:'Set mein daal, start of sequence dhundho.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n²)',tc:'TC: O(n²) SC: O(1)',desc:'Har number se consecutive check karo.',code:`def longest_consecutive_brute(nums):
+    res = 0
+    for n in nums:
+        length = 1
+        while n + length in nums:
+            length += 1
+        res = max(res, length)
+    return res`},
+  {type:'optimal',label:'🟢 HashSet O(n)',tc:'TC: O(n) SC: O(n)',desc:'Sirf sequence start (n-1 not in set) se count karo.',code:`def longest_consecutive(nums):
+    num_set = set(nums)
+    res = 0
+    for n in num_set:
+        if n - 1 not in num_set:  # start of sequence
+            length = 1
+            while n + length in num_set:
+                length += 1
+            res = max(res, length)
+    return res`}
+],tip:'Key insight: n-1 not in set → sequence ka start hai. Set lookup O(1) hai.'},
+
+{id:10,cat:'hashing',diff:'medium',title:'Group Anagrams ✅',tags:['HashMap','Sorting'],
+note:'Already in Python 75 (Q37) — sorted key.',
+approaches:[
+  {type:'optimal',label:'🟢 Sort Key O(n·k log k)',tc:'TC: O(n·k·log k) SC: O(n)',desc:'sorted(word) ko key banao, dict mein group karo.',code:`from collections import defaultdict
+
+def group_anagrams(strs):
+    groups = defaultdict(list)
+    for s in strs:
+        key = tuple(sorted(s))
+        groups[key].append(s)
+    return list(groups.values())
+
+# Faster: 26-char count as key O(n·k)
+def group_anagrams_v2(strs):
+    groups = defaultdict(list)
+    for s in strs:
+        key = [0] * 26
+        for c in s: key[ord(c)-ord('a')] += 1
+        groups[tuple(key)].append(s)
+    return list(groups.values())`}
+],tip:'Already covered. Count array key = O(k) but constant for small alphabets — faster than sort.'},
+
+// ─── STACK & QUEUE ───
+{id:11,cat:'stack',diff:'medium',title:'Next Greater Element (Monotonic Stack)',tags:['Stack','Monotonic'],
+note:'Monotonic decreasing stack — pop when greater found.',
+approaches:[
+  {type:'brute',label:'🔴 Brute O(n²)',tc:'TC: O(n²) SC: O(n)',desc:'Har element ke liye right side scan karo.',code:`def next_greater_brute(nums):
+    res = [-1] * len(nums)
+    for i in range(len(nums)):
+        for j in range(i+1, len(nums)):
+            if nums[j] > nums[i]:
+                res[i] = nums[j]; break
+    return res`},
+  {type:'optimal',label:'🟢 Monotonic Stack O(n)',tc:'TC: O(n) SC: O(n)',desc:'Stack mein indices rakh. Jab bada element mile, stack pop karte jao.',code:`def next_greater(nums):
+    res = [-1] * len(nums)
+    stack = []  # indices, decreasing order of values
+    for i, n in enumerate(nums):
+        while stack and nums[stack[-1]] < n:
+            idx = stack.pop()
+            res[idx] = n
+        stack.append(i)
+    return res
+
+# Circular array variant
+def next_greater_circular(nums):
+    n = len(nums)
+    res = [-1] * n; stack = []
+    for i in range(2*n):
+        while stack and nums[stack[-1]] < nums[i%n]:
+            res[stack.pop()] = nums[i%n]
+        if i < n: stack.append(i)
+    return res`}
+],tip:'Monotonic stack pattern: "next greater/smaller" type problems. Backend: parse expressions, balanced brackets.'},
+
+{id:12,cat:'stack',diff:'medium',title:'Daily Temperatures',tags:['Stack','Monotonic'],
+note:'Kitne days baad warmer — classic monotonic stack.',
+approaches:[
+  {type:'optimal',label:'🟢 Monotonic Stack O(n)',tc:'TC: O(n) SC: O(n)',desc:'Index stack, pop when warmer day found.',code:`def daily_temperatures(temps):
+    res = [0] * len(temps)
+    stack = []  # indices
+    for i, t in enumerate(temps):
+        while stack and temps[stack[-1]] < t:
+            j = stack.pop()
+            res[j] = i - j
+        stack.append(i)
+    return res
+
+# Example: [73,74,75,71,69,72,76,73]
+# Output:  [1, 1, 4, 2, 1, 1, 0, 0]`}
+],tip:'Days difference = current_index - popped_index. Same pattern as Next Greater Element.'},
+
+{id:13,cat:'stack',diff:'easy',title:'Valid Parentheses ✅',tags:['Stack'],
+note:'Already in Python 75 (Q33) — stack push/pop.',
+approaches:[
+  {type:'optimal',label:'🟢 Stack O(n)',tc:'TC: O(n) SC: O(n)',desc:'Opening bracket push, closing bracket pop aur match check.',code:`def is_valid(s):
+    stack = []
+    mapping = {')':'(', ']':'[', '}':'{'}
+    for ch in s:
+        if ch in mapping:
+            top = stack.pop() if stack else '#'
+            if mapping[ch] != top: return False
+        else:
+            stack.append(ch)
+    return not stack`}
+],tip:'Already covered in Python 75.'},
+
+// ─── LINKED LIST ───
+{id:14,cat:'linked',diff:'easy',title:'Reverse a Linked List',tags:['Linked List','Iteration'],
+note:'Iterative prev-curr-next pointer swap.',
+approaches:[
+  {type:'brute',label:'🔴 List-based',tc:'TC: O(n) SC: O(n)',desc:'Values list mein store karo, reverse order se naye nodes banao.',code:`def reverse_list_naive(head):
+    vals = []
+    cur = head
+    while cur: vals.append(cur.val); cur = cur.next
+    dummy = cur = ListNode(0)
+    for v in reversed(vals):
+        cur.next = ListNode(v); cur = cur.next
+    return dummy.next`},
+  {type:'optimal',label:'🟢 In-place O(1) space',tc:'TC: O(n) SC: O(1)',desc:'prev-curr-next three pointer swap in-place.',code:`class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val; self.next = next
+
+def reverse_list(head):
+    prev = None; curr = head
+    while curr:
+        nxt = curr.next
+        curr.next = prev
+        prev = curr
+        curr = nxt
+    return prev
+
+# Recursive version
+def reverse_recursive(head):
+    if not head or not head.next: return head
+    new_head = reverse_recursive(head.next)
+    head.next.next = head
+    head.next = None
+    return new_head`}
+],tip:'Interview mein dono versions poochhe jaate hain — iterative aur recursive.'},
+
+{id:15,cat:'linked',diff:'medium',title:'Cycle Detection — Floyd\'s Algorithm',tags:['Linked List','Two Pointers'],
+note:'Fast-slow pointer — Tortoise and Hare.',
+approaches:[
+  {type:'brute',label:'🔴 HashSet O(n) space',tc:'TC: O(n) SC: O(n)',desc:'Visited set mein nodes add karo.',code:`def has_cycle_set(head):
+    seen = set()
+    while head:
+        if id(head) in seen: return True
+        seen.add(id(head))
+        head = head.next
+    return False`},
+  {type:'optimal',label:'🟢 Floyd\'s O(1) space',tc:'TC: O(n) SC: O(1)',desc:'slow=1 step, fast=2 steps. Meet hone pe cycle confirmed.',code:`def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast: return True
+    return False
+
+# Find cycle start
+def detect_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next; fast = fast.next.next
+        if slow is fast: break
+    else: return None
+    # Reset one pointer to head
+    slow = head
+    while slow is not fast:
+        slow = slow.next; fast = fast.next
+    return slow  # cycle start node`}
+],tip:'Cycle start dhundhna: ek pointer head se, ek meeting point se — same speed mein chalao.'},
+
+{id:16,cat:'linked',diff:'easy',title:'Find Middle of Linked List',tags:['Linked List','Two Pointers'],
+note:'Fast-slow: slow reaches middle when fast reaches end.',
+approaches:[
+  {type:'optimal',label:'🟢 Fast-Slow O(n)',tc:'TC: O(n) SC: O(1)',desc:'Fast 2 steps, slow 1 step — slow at middle.',code:`def find_middle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    return slow
+
+# Use case: Palindrome LL check
+def is_palindrome_ll(head):
+    # Find middle
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next; fast = fast.next.next
+    # Reverse second half
+    prev = None; curr = slow
+    while curr:
+        nxt = curr.next; curr.next = prev; prev = curr; curr = nxt
+    # Compare
+    l, r = head, prev
+    while r:
+        if l.val != r.val: return False
+        l = l.next; r = r.next
+    return True`}
+],tip:'Merge sort on LL bhi middle dhundh ke split karta hai — same technique.'},
+
+// ─── TREES ───
+{id:17,cat:'trees',diff:'easy',title:'Maximum Depth of Binary Tree',tags:['DFS','Recursion'],
+note:'Recursive depth = 1 + max(left, right).',
+approaches:[
+  {type:'optimal',label:'🟢 DFS Recursive O(n)',tc:'TC: O(n) SC: O(h)',desc:'Base case: null = 0. Phir 1 + max(left, right).',code:`class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val=val; self.left=left; self.right=right
+
+def max_depth(root):
+    if not root: return 0
+    return 1 + max(max_depth(root.left), max_depth(root.right))
+
+# Iterative BFS
+from collections import deque
+def max_depth_bfs(root):
+    if not root: return 0
+    q = deque([root]); depth = 0
+    while q:
+        depth += 1
+        for _ in range(len(q)):
+            node = q.popleft()
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+    return depth`}
+],tip:'DFS = stack space O(h), BFS = O(w) where w = max width. Balanced tree mein h = log n.'},
+
+{id:18,cat:'trees',diff:'medium',title:'Level Order Traversal (BFS)',tags:['BFS','Queue','Trees'],
+note:'Queue se level by level process karo.',
+approaches:[
+  {type:'optimal',label:'🟢 BFS with deque O(n)',tc:'TC: O(n) SC: O(n)',desc:'Har level ke liye len(queue) elements process karo.',code:`from collections import deque
+
+def level_order(root):
+    if not root: return []
+    res = []; q = deque([root])
+    while q:
+        level = []
+        for _ in range(len(q)):
+            node = q.popleft()
+            level.append(node.val)
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+        res.append(level)
+    return res
+
+# Right side view (last node of each level)
+def right_side_view(root):
+    if not root: return []
+    res = []; q = deque([root])
+    while q:
+        for i in range(len(q)):
+            node = q.popleft()
+            if i == len(q): res.append(node.val)  # last node
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+    return res`}
+],tip:'Level-wise kuch bhi karna ho → BFS with len(q) snapshot pattern.'},
+
+{id:19,cat:'trees',diff:'medium',title:'Lowest Common Ancestor (LCA)',tags:['DFS','Trees','Recursion'],
+note:'Both nodes found? Current node hi LCA hai.',
+approaches:[
+  {type:'optimal',label:'🟢 DFS O(n)',tc:'TC: O(n) SC: O(h)',desc:'Agar root p ya q hai, return root. Left aur right dono non-null? Root hi LCA.',code:`def lowest_common_ancestor(root, p, q):
+    if not root: return None
+    if root == p or root == q: return root
+    left = lowest_common_ancestor(root.left, p, q)
+    right = lowest_common_ancestor(root.right, p, q)
+    if left and right: return root  # p and q on different sides
+    return left or right
+
+# BST variant — use BST property
+def lca_bst(root, p, q):
+    while root:
+        if p.val < root.val and q.val < root.val:
+            root = root.left
+        elif p.val > root.val and q.val > root.val:
+            root = root.right
+        else:
+            return root  # split point = LCA`}
+],tip:'BST variant O(h) hai — BST property use karo binary search jaise.'},
+
+{id:20,cat:'trees',diff:'medium',title:'Validate Binary Search Tree',tags:['DFS','BST','Recursion'],
+note:'Min-max range pass down karo recursion mein.',
+approaches:[
+  {type:'brute',label:'🔴 Inorder Check',tc:'TC: O(n) SC: O(n)',desc:'Inorder traversal sorted hona chahiye BST ka.',code:`def is_valid_bst_inorder(root):
+    inorder = []
+    def dfs(node):
+        if not node: return
+        dfs(node.left)
+        inorder.append(node.val)
+        dfs(node.right)
+    dfs(root)
+    return all(inorder[i]<inorder[i+1] for i in range(len(inorder)-1))`},
+  {type:'optimal',label:'🟢 Range Validation O(n)',tc:'TC: O(n) SC: O(h)',desc:'Har node ko valid range (min, max) pass karo.',code:`def is_valid_bst(root, lo=float('-inf'), hi=float('inf')):
+    if not root: return True
+    if not (lo < root.val < hi): return False
+    return (is_valid_bst(root.left, lo, root.val) and
+            is_valid_bst(root.right, root.val, hi))`}
+],tip:'Range approach cleaner hai — sirf node value check nahi, puri subtree valid range mein honi chahiye.'},
+
+// ─── GRAPHS ───
+{id:21,cat:'graphs',diff:'medium',title:'Number of Islands',tags:['DFS','BFS','Graph'],
+note:'Grid DFS — sink visited cells (mark \'0\').',
+approaches:[
+  {type:'optimal',label:'🟢 DFS O(m×n)',tc:'TC: O(m×n) SC: O(m×n)',desc:'Har \'1\' pe DFS chala ke sab connected \'1\' ko \'0\' karo.',code:`def num_islands(grid):
+    if not grid: return 0
+    islands = 0
+    def dfs(r, c):
+        if r<0 or r>=len(grid) or c<0 or c>=len(grid[0]): return
+        if grid[r][c] != '1': return
+        grid[r][c] = '0'  # mark visited
+        dfs(r+1,c); dfs(r-1,c); dfs(r,c+1); dfs(r,c-1)
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if grid[r][c] == '1':
+                islands += 1; dfs(r, c)
+    return islands`}
+],tip:'Grid problems mein DFS/BFS + visited marking common pattern. Union Find se bhi solve hota hai.'},
+
+{id:22,cat:'graphs',diff:'medium',title:'Topological Sort (Course Schedule)',tags:['Graph','BFS','DFS','Cycle Detection'],
+note:'Kahn\'s algorithm (BFS) ya DFS with states.',
+approaches:[
+  {type:'optimal',label:'🟢 Kahn\'s BFS O(V+E)',tc:'TC: O(V+E) SC: O(V+E)',desc:'In-degree 0 nodes se start, process karte jao. Cycle hogi to sab nodes process nahi honge.',code:`from collections import defaultdict, deque
+
+def can_finish(numCourses, prerequisites):
+    graph = defaultdict(list)
+    in_degree = [0] * numCourses
+    for a, b in prerequisites:
+        graph[b].append(a)
+        in_degree[a] += 1
+    q = deque(i for i in range(numCourses) if in_degree[i]==0)
+    processed = 0
+    while q:
+        node = q.popleft(); processed += 1
+        for nei in graph[node]:
+            in_degree[nei] -= 1
+            if in_degree[nei] == 0: q.append(nei)
+    return processed == numCourses  # False = cycle exists
+
+# Get actual order
+def find_order(n, prereqs):
+    graph = defaultdict(list); in_deg = [0]*n
+    for a,b in prereqs: graph[b].append(a); in_deg[a]+=1
+    q = deque(i for i in range(n) if in_deg[i]==0)
+    order = []
+    while q:
+        u = q.popleft(); order.append(u)
+        for v in graph[u]:
+            in_deg[v]-=1
+            if in_deg[v]==0: q.append(v)
+    return order if len(order)==n else []`}
+],tip:'Topological sort sirf DAG pe work karta hai. Cycle check ke liye processed==n verify karo.'},
+
+{id:23,cat:'graphs',diff:'medium',title:'Union Find (Disjoint Set Union)',tags:['Graph','Union Find'],
+note:'Connected components, cycle detection in undirected graph.',
+approaches:[
+  {type:'optimal',label:'🟢 Union Find with Path Compression',tc:'TC: O(α(n)) per op, SC: O(n)',desc:'find() path compress karo, union() rank se merge karo.',code:`class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+        self.components = n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])  # path compression
+        return self.parent[x]
+
+    def union(self, x, y):
+        px, py = self.find(x), self.find(y)
+        if px == py: return False  # already connected
+        if self.rank[px] < self.rank[py]: px, py = py, px
+        self.parent[py] = px
+        if self.rank[px] == self.rank[py]: self.rank[px] += 1
+        self.components -= 1
+        return True
+
+# Usage: Number of connected components
+def count_components(n, edges):
+    uf = UnionFind(n)
+    for a, b in edges: uf.union(a, b)
+    return uf.components`}
+],tip:'Union Find ka use: connected components, kruskal\'s MST, redundant connections. α(n) ≈ O(1) practically.'},
+
+{id:24,cat:'graphs',diff:'hard',title:'Dijkstra\'s Shortest Path',tags:['Graph','Heap','BFS'],
+note:'Min-heap priority queue with (dist, node).',
+approaches:[
+  {type:'optimal',label:'🟢 Dijkstra O((V+E) log V)',tc:'TC: O((V+E)logV) SC: O(V+E)',desc:'Min heap se closest unvisited node process karo.',code:`import heapq
+from collections import defaultdict
+
+def dijkstra(n, edges, start):
+    graph = defaultdict(list)
+    for u, v, w in edges:
+        graph[u].append((w, v))
+        graph[v].append((w, u))
+
+    dist = [float('inf')] * n
+    dist[start] = 0
+    heap = [(0, start)]  # (distance, node)
+
+    while heap:
+        d, u = heapq.heappop(heap)
+        if d > dist[u]: continue  # outdated entry
+        for w, v in graph[u]:
+            new_dist = dist[u] + w
+            if new_dist < dist[v]:
+                dist[v] = new_dist
+                heapq.heappush(heap, (new_dist, v))
+    return dist
+
+# Example
+edges = [(0,1,4),(0,2,1),(2,1,2),(1,3,1)]
+print(dijkstra(4, edges, 0))  # [0, 3, 1, 4]`}
+],tip:'Negative edges pe Bellman-Ford use karo. Dijkstra sirf non-negative weights pe correct hai.'},
+
+// ─── HEAP ───
+{id:25,cat:'heap',diff:'medium',title:'Kth Largest Element in Array',tags:['Heap','QuickSelect'],
+note:'Min-heap of size K — root hai Kth largest.',
+approaches:[
+  {type:'brute',label:'🔴 Sort O(n log n)',tc:'TC: O(n log n) SC: O(1)',desc:'Sort karke k-th from end return karo.',code:`def find_kth_largest_brute(nums, k):
+    return sorted(nums)[-k]`},
+  {type:'better',label:'🟡 Min-Heap O(n log k)',tc:'TC: O(n log k) SC: O(k)',desc:'Size K ka min-heap maintain karo.',code:`import heapq
+
+def find_kth_largest(nums, k):
+    heap = []
+    for n in nums:
+        heapq.heappush(heap, n)
+        if len(heap) > k: heapq.heappop(heap)
+    return heap[0]  # min of top-K = Kth largest`},
+  {type:'optimal',label:'🟢 QuickSelect O(n) avg',tc:'TC: O(n) avg, O(n²) worst SC: O(1)',desc:'Partition around pivot, recurse on one side.',code:`import random
+
+def find_kth_largest_qs(nums, k):
+    k = len(nums) - k  # k-th largest = (n-k)-th smallest
+
+    def quickselect(l, r):
+        pivot = nums[r]; p = l
+        for i in range(l, r):
+            if nums[i] <= pivot:
+                nums[i], nums[p] = nums[p], nums[i]; p += 1
+        nums[p], nums[r] = nums[r], nums[p]
+        if p > k: return quickselect(l, p-1)
+        elif p < k: return quickselect(p+1, r)
+        else: return nums[p]
+
+    return quickselect(0, len(nums)-1)`}
+],tip:'Interview mein heap approach bolo (O(n log k)), QuickSelect bonus. Streaming data pe heap best hai.'},
+
+{id:26,cat:'heap',diff:'hard',title:'Merge K Sorted Lists',tags:['Heap','Linked List'],
+note:'Min-heap pe (val, list_idx, node) push karo.',
+approaches:[
+  {type:'optimal',label:'🟢 Min-Heap O(n log k)',tc:'TC: O(n log k) SC: O(k)',desc:'k lists ke heads heap mein daal, min pop karke result mein jodo.',code:`import heapq
+
+def merge_k_lists(lists):
+    heap = []
+    for i, node in enumerate(lists):
+        if node: heapq.heappush(heap, (node.val, i, node))
+    dummy = curr = ListNode(0)
+    while heap:
+        val, i, node = heapq.heappop(heap)
+        curr.next = node; curr = curr.next
+        if node.next:
+            heapq.heappush(heap, (node.val+1, i, node.next))
+            # Note: use (node.next.val, i, node.next)
+    return dummy.next`}
+],tip:'Python heapq tuple comparison: same val pe i (index) compare hoga, isliye unique i chahiye.'},
+
+// ─── DYNAMIC PROGRAMMING ───
+{id:27,cat:'dp',diff:'medium',title:'House Robber (1D DP)',tags:['DP','Array'],
+note:'Adjacent nahi loot sakte. dp[i] = max(dp[i-2]+nums[i], dp[i-1]).',
+approaches:[
+  {type:'brute',label:'🔴 Recursion O(2^n)',tc:'TC: O(2^n) SC: O(n)',desc:'Har ghar pe loot ya skip dono try karo.',code:`def rob_brute(nums):
+    def dfs(i):
+        if i >= len(nums): return 0
+        return max(nums[i] + dfs(i+2), dfs(i+1))
+    return dfs(0)`},
+  {type:'better',label:'🟡 Memoization O(n)',tc:'TC: O(n) SC: O(n)',desc:'@lru_cache se top-down DP.',code:`from functools import lru_cache
+
+def rob_memo(nums):
+    @lru_cache(maxsize=None)
+    def dp(i):
+        if i >= len(nums): return 0
+        return max(nums[i] + dp(i+2), dp(i+1))
+    return dp(0)`},
+  {type:'optimal',label:'🟢 Tabulation O(1) space',tc:'TC: O(n) SC: O(1)',desc:'Sirf do variables chahiye — prev2 aur prev1.',code:`def rob(nums):
+    prev2 = prev1 = 0
+    for n in nums:
+        prev2, prev1 = prev1, max(prev1, prev2 + n)
+    return prev1`}
+],tip:'Space optimization: full dp array se 2 variables pe reduce. Rolling array technique.'},
+
+{id:28,cat:'dp',diff:'medium',title:'Coin Change (Minimum Coins)',tags:['DP','BFS'],
+note:'dp[amount] = min coins needed. Bottom-up fill karo.',
+approaches:[
+  {type:'brute',label:'🔴 Recursion O(amount × coins)',tc:'TC: O(S·n) SC: O(S)',desc:'Har coin try karo, minimum lo.',code:`def coin_change_brute(coins, amount):
+    def dfs(rem):
+        if rem == 0: return 0
+        if rem < 0: return float('inf')
+        return 1 + min(dfs(rem-c) for c in coins)
+    res = dfs(amount)
+    return res if res != float('inf') else -1`},
+  {type:'optimal',label:'🟢 Bottom-up DP O(S·n)',tc:'TC: O(S·n) SC: O(S)',desc:'dp[i] = min(dp[i], dp[i-coin]+1) for all coins.',code:`def coin_change(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    for amt in range(1, amount + 1):
+        for coin in coins:
+            if coin <= amt:
+                dp[amt] = min(dp[amt], dp[amt-coin] + 1)
+    return dp[amount] if dp[amount] != float('inf') else -1`}
+],tip:'BFS approach bhi valid hai (unweighted shortest path to amount). Tabulation generally preferred.'},
+
+{id:29,cat:'dp',diff:'hard',title:'Longest Increasing Subsequence (LIS)',tags:['DP','Binary Search'],
+note:'dp[i] = LIS ending at index i. O(n²) DP ya O(n log n) patience sort.',
+approaches:[
+  {type:'brute',label:'🔴 O(n²) DP',tc:'TC: O(n²) SC: O(n)',desc:'Har i ke liye sab j<i check karo.',code:`def lis_n2(nums):
+    dp = [1] * len(nums)
+    for i in range(len(nums)):
+        for j in range(i):
+            if nums[j] < nums[i]:
+                dp[i] = max(dp[i], dp[j]+1)
+    return max(dp)`},
+  {type:'optimal',label:'🟢 Binary Search O(n log n)',tc:'TC: O(n log n) SC: O(n)',desc:'tails[] maintain karo — bisect_left se position dhundho.',code:`import bisect
+
+def lis(nums):
+    tails = []
+    for n in nums:
+        pos = bisect.bisect_left(tails, n)
+        if pos == len(tails): tails.append(n)
+        else: tails[pos] = n
+    return len(tails)
+
+# Note: tails is NOT the actual LIS, only its length is correct`}
+],tip:'tails array ki actual values LIS nahi hain — sirf length correct hai. Actual sequence reconstruct karna alag problem hai.'},
+
+{id:30,cat:'dp',diff:'hard',title:'0/1 Knapsack',tags:['DP','Classic'],
+note:'Include ya exclude. dp[i][w] = max value with i items and w capacity.',
+approaches:[
+  {type:'better',label:'🟡 2D DP O(n×W)',tc:'TC: O(n×W) SC: O(n×W)',desc:'Full 2D table: dp[i][w] = max(dp[i-1][w], dp[i-1][w-wt]+val).',code:`def knapsack_2d(weights, values, capacity):
+    n = len(weights)
+    dp = [[0]*(capacity+1) for _ in range(n+1)]
+    for i in range(1, n+1):
+        for w in range(capacity+1):
+            dp[i][w] = dp[i-1][w]  # exclude
+            if weights[i-1] <= w:
+                dp[i][w] = max(dp[i][w], dp[i-1][w-weights[i-1]] + values[i-1])
+    return dp[n][capacity]`},
+  {type:'optimal',label:'🟢 1D DP O(W) space',tc:'TC: O(n×W) SC: O(W)',desc:'1D array, reverse order mein fill karo (avoid overwrite).',code:`def knapsack(weights, values, capacity):
+    dp = [0] * (capacity + 1)
+    for i in range(len(weights)):
+        for w in range(capacity, weights[i]-1, -1):  # reverse!
+            dp[w] = max(dp[w], dp[w-weights[i]] + values[i])
+    return dp[capacity]
+
+# Unbounded Knapsack (item multiple times le sako)
+def unbounded_knapsack(weights, values, capacity):
+    dp = [0] * (capacity + 1)
+    for w in range(1, capacity+1):
+        for i in range(len(weights)):
+            if weights[i] <= w:
+                dp[w] = max(dp[w], dp[w-weights[i]] + values[i])
+    return dp[capacity]`}
+],tip:'0/1: reverse loop. Unbounded (Coin Change variant): forward loop. Yahi main difference hai.'},
+
+{id:31,cat:'dp',diff:'medium',title:'Word Break ✅',tags:['DP','HashMap'],
+note:'Already in Python 75 (Q40). dp[i] = can string[:i] be broken.',
+approaches:[
+  {type:'optimal',label:'🟢 Bottom-up DP O(n²)',tc:'TC: O(n²) SC: O(n)',desc:'dp[i] = True if koi j mein dp[j] True aur s[j:i] in wordDict.',code:`def word_break(s, wordDict):
+    word_set = set(wordDict)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True
+    for i in range(1, len(s)+1):
+        for j in range(i):
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True; break
+    return dp[len(s)]`}
+],tip:'Already covered. Trie se O(n²) ko optimize kar sakte ho string matching ke liye.'},
+
+// ─── GREEDY ───
+{id:32,cat:'greedy',diff:'medium',title:'Merge Intervals',tags:['Greedy','Sorting'],
+note:'Sort by start, merge overlapping.',
+approaches:[
+  {type:'optimal',label:'🟢 Sort + Merge O(n log n)',tc:'TC: O(n log n) SC: O(n)',desc:'Start pe sort karo. Overlap? Extend. Nahi? New interval.',code:`def merge_intervals(intervals):
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+    for start, end in intervals[1:]:
+        if start <= merged[-1][1]:  # overlap
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    return merged
+
+# Meeting Rooms: min rooms needed
+import heapq
+def min_meeting_rooms(intervals):
+    intervals.sort(key=lambda x: x[0])
+    heap = []  # end times
+    for start, end in intervals:
+        if heap and heap[0] <= start: heapq.heappop(heap)
+        heapq.heappush(heap, end)
+    return len(heap)`}
+],tip:'Meeting Rooms II: heap of end times — size = rooms needed. Calendar/scheduling backend problem.'},
+
+{id:33,cat:'greedy',diff:'medium',title:'Jump Game (Can Reach End)',tags:['Greedy'],
+note:'Track maximum reachable index.',
+approaches:[
+  {type:'optimal',label:'🟢 Greedy O(n)',tc:'TC: O(n) SC: O(1)',desc:'max_reach track karo. Agar i > max_reach → stuck.',code:`def can_jump(nums):
+    max_reach = 0
+    for i, n in enumerate(nums):
+        if i > max_reach: return False
+        max_reach = max(max_reach, i + n)
+    return True
+
+# Jump Game II: minimum jumps
+def jump_min(nums):
+    jumps = cur_end = far = 0
+    for i in range(len(nums)-1):
+        far = max(far, i + nums[i])
+        if i == cur_end:
+            jumps += 1; cur_end = far
+    return jumps`}
+],tip:'Greedy: har step pe greedy choice karo, backtrack nahi. Proof: optimal substructure + greedy choice property.'},
+
+// ─── CONCURRENCY IN PYTHON ───
+{id:34,cat:'concurrency',diff:'medium',title:'Producer-Consumer with Queue',tags:['Threading','Queue','Concurrency'],
+note:'Thread-safe Queue, daemon producer-consumer pattern.',
+approaches:[
+  {type:'optimal',label:'🟢 queue.Queue Pattern',tc:'TC: depends on tasks',desc:'queue.Queue thread-safe hai. Producer items dalta hai, consumer process karta hai.',code:`import queue, threading, time
+
+def producer(q, items):
+    for item in items:
+        q.put(item)
+        print(f"Produced: {item}")
+        time.sleep(0.1)
+    q.put(None)  # sentinel
+
+def consumer(q):
+    while True:
+        item = q.get()
+        if item is None: break
+        print(f"Consumed: {item}")
+        q.task_done()
+
+q = queue.Queue(maxsize=5)
+t1 = threading.Thread(target=producer, args=(q, range(10)))
+t2 = threading.Thread(target=consumer, args=(q,))
+t1.start(); t2.start()
+t1.join(); t2.join()
+
+# async version
+import asyncio
+
+async def async_producer(q):
+    for i in range(5):
+        await q.put(i)
+        await asyncio.sleep(0.1)
+
+async def async_consumer(q):
+    while True:
+        item = await q.get()
+        if item is None: break
+        print(f"Got: {item}")`}
+],tip:'queue.Queue mein maxsize se backpressure implement hoti hai. Celery bhi yehi pattern use karta hai internally.'},
+
+{id:35,cat:'concurrency',diff:'hard',title:'Rate Limiter — Token Bucket in Python',tags:['Concurrency','Redis','System Design'],
+note:'Thread-safe token bucket ya Redis-based sliding window.',
+approaches:[
+  {type:'better',label:'🟡 In-memory Token Bucket',tc:'TC: O(1) SC: O(1)',desc:'tokens refill at rate, consume per request. Thread-safe with Lock.',code:`import threading, time
+
+class TokenBucket:
+    def __init__(self, rate, capacity):
+        self.rate = rate        # tokens/sec
+        self.capacity = capacity
+        self.tokens = capacity
+        self.last_refill = time.time()
+        self.lock = threading.Lock()
+
+    def allow(self):
+        with self.lock:
+            now = time.time()
+            elapsed = now - self.last_refill
+            self.tokens = min(
+                self.capacity,
+                self.tokens + elapsed * self.rate
+            )
+            self.last_refill = now
+            if self.tokens >= 1:
+                self.tokens -= 1
+                return True
+            return False
+
+limiter = TokenBucket(rate=10, capacity=10)  # 10 req/sec`},
+  {type:'optimal',label:'🟢 Redis Sliding Window',tc:'TC: O(log n) SC: O(n)',desc:'ZADD timestamps, ZREMRANGEBYSCORE old ones, ZCARD for count.',code:`import redis, time
+
+r = redis.Redis()
+
+def is_allowed(user_id: str, limit: int, window_secs: int) -> bool:
+    key = f"rate:{user_id}"
+    now = time.time()
+    window_start = now - window_secs
+
+    pipe = r.pipeline()
+    pipe.zremrangebyscore(key, 0, window_start)  # remove old
+    pipe.zadd(key, {str(now): now})              # add current
+    pipe.zcard(key)                               # count in window
+    pipe.expire(key, window_secs)
+    results = pipe.execute()
+
+    return results[2] <= limit  # count <= limit
+
+# Django middleware
+class RateLimitMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+    def __call__(self, request):
+        user_id = request.user.id or request.META['REMOTE_ADDR']
+        if not is_allowed(str(user_id), limit=100, window_secs=60):
+            from django.http import HttpResponse
+            return HttpResponse("Too Many Requests", status=429)
+        return self.get_response(request)`}
+],tip:'Redis pipeline = atomic multi-command. Exotel/Twilio jaise APIs pe rate limit handle karna common backend task.'},
+
+{id:36,cat:'concurrency',diff:'medium',title:'asyncio.gather — Parallel API Calls',tags:['asyncio','Concurrency'],
+note:'Multiple coroutines concurrently run karo.',
+approaches:[
+  {type:'optimal',label:'🟢 asyncio.gather Pattern',tc:'TC: max of individual tasks',desc:'gather all coroutines — IO-bound tasks ke liye perfect.',code:`import asyncio, aiohttp
+
+async def fetch_user(session, user_id):
+    async with session.get(f"/api/users/{user_id}") as resp:
+        return await resp.json()
+
+async def fetch_all_users(user_ids):
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_user(session, uid) for uid in user_ids]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+    return results
+
+# Django Channels / ASGI context
+async def main():
+    users = await fetch_all_users([1, 2, 3, 4, 5])
+    print(users)
+
+# Run
+asyncio.run(main())
+
+# Timeout handling
+async def with_timeout():
+    try:
+        results = await asyncio.wait_for(
+            asyncio.gather(*tasks),
+            timeout=5.0
+        )
+    except asyncio.TimeoutError:
+        print("Request timed out")`}
+],tip:'GIL bypass: I/O bound → asyncio/threading. CPU bound → multiprocessing. Gather = concurrent, not parallel.'},
+
+// ─── SYSTEM DESIGN PATTERNS ───
+{id:37,cat:'sysdesign',diff:'medium',title:'URL Shortener Design',tags:['System Design','Hashing','Redis'],
+note:'Base62 encode ID → short URL. Redis for redirect cache.',
+approaches:[
+  {type:'optimal',label:'🟢 Django + Redis Implementation',tc:'Read: O(1) Write: O(1)',desc:'DB mein original URL store karo, Redis mein cache karo.',code:`# models.py
+from django.db import models
+
+class ShortURL(models.Model):
+    original_url = models.URLField(max_length=2048)
+    short_code = models.CharField(max_length=10, unique=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    click_count = models.IntegerField(default=0)
+
+# utils.py
+import string, redis
+BASE62 = string.ascii_letters + string.digits
+r = redis.Redis()
+
+def encode_base62(num: int) -> str:
+    result = []
+    while num:
+        result.append(BASE62[num % 62])
+        num //= 62
+    return ''.join(reversed(result)) or BASE62[0]
+
+# views.py
+from django.shortcuts import redirect
+
+def redirect_url(request, short_code):
+    # Cache-aside: Redis first, then DB
+    cached = r.get(f"url:{short_code}")
+    if cached:
+        return redirect(cached.decode())
+    url_obj = ShortURL.objects.get(short_code=short_code)
+    r.setex(f"url:{short_code}", 3600, url_obj.original_url)
+    ShortURL.objects.filter(short_code=short_code).update(
+        click_count=models.F('click_count')+1  # atomic increment
+    )
+    return redirect(url_obj.original_url)`}
+],tip:'F() expression = atomic DB-level increment. Celery se async analytics bhi track kar sakte ho.'},
+
+{id:38,cat:'sysdesign',diff:'hard',title:'Distributed Locking — Prevent Double Booking',tags:['Redis','System Design','Concurrency'],
+note:'Redis SETNX / Redlock — prevent race conditions.',
+approaches:[
+  {type:'optimal',label:'🟢 Redis Lock + Django select_for_update',tc:'TC: O(1) per lock',desc:'Atomic reservation with DB-level lock ya Redis distributed lock.',code:`import redis, uuid
+from contextlib import contextmanager
+
+r = redis.Redis()
+
+@contextmanager
+def redis_lock(key, expire=10):
+    lock_key = f"lock:{key}"
+    lock_val = str(uuid.uuid4())
+    acquired = r.set(lock_key, lock_val, ex=expire, nx=True)
+    if not acquired:
+        raise Exception(f"Could not acquire lock for {key}")
+    try:
+        yield
+    finally:
+        # Lua script for atomic check-and-delete
+        script = """
+        if redis.call("get", KEYS[1]) == ARGV[1] then
+            return redis.call("del", KEYS[1])
+        else return 0 end"""
+        r.eval(script, 1, lock_key, lock_val)
+
+# Django ORM: DB-level lock
+from django.db import transaction
+
+def book_slot(slot_id, user_id):
+    with transaction.atomic():
+        slot = Slot.objects.select_for_update().get(id=slot_id)
+        if slot.is_booked:
+            raise Exception("Already booked")
+        slot.is_booked = True
+        slot.booked_by_id = user_id
+        slot.save()
+        return slot`}
+],tip:'select_for_update() = pessimistic locking. Redis lock = distributed scenarios. Niroskos mein same pattern.'},
+
+{id:39,cat:'sysdesign',diff:'medium',title:'Job Queue with Celery + Redis',tags:['Celery','Redis','System Design'],
+note:'Async task processing — producer/consumer at scale.',
+approaches:[
+  {type:'optimal',label:'🟢 Celery Pattern',tc:'Async, non-blocking',desc:'Django view mein .delay() se task enqueue karo, worker process karta hai.',code:`# tasks.py
+from celery import shared_task
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
+
+@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+def send_email_task(self, user_id, template, context):
+    try:
+        user = User.objects.get(id=user_id)
+        send_email(user.email, template, context)
+        logger.info(f"Email sent to {user.email}")
+    except Exception as exc:
+        logger.error(f"Email failed: {exc}")
+        raise self.retry(exc=exc)
+
+# views.py — fire and forget
+def register_user(request):
+    user = User.objects.create(...)
+    send_email_task.delay(user.id, 'welcome', {'name': user.name})
+    return JsonResponse({"status": "registered"})
+
+# Celery Beat scheduled task
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'daily-report': {
+        'task': 'tasks.generate_daily_report',
+        'schedule': crontab(hour=8, minute=0),
+    }
+}`}
+],tip:'max_retries + exponential backoff = resilient task. Dead letter queue: CELERY_TASK_ROUTES se separate queue.'},
+
+// ─── COVERED FROM PYTHON 75 ───
+{id:40,cat:'covered',diff:'medium',title:'Pairs with Sum K ✅ (Python 75 — Q10)',tags:['Hashing','Two Pointers'],
+note:'Python 75 mein already covered. Hash set complement check ya sorted two pointer.',
+covered:true,
+approaches:[{type:'optimal',label:'🟢 HashSet O(n)',tc:'TC: O(n) SC: O(n)',desc:'Complement = k-num. Set mein hai to pair found.',
+code:`def pairs_with_sum(nums, k):
+    seen = set(); pairs = []
+    for n in nums:
+        if k - n in seen: pairs.append((k-n, n))
+        seen.add(n)
+    return pairs`}],tip:'Already covered.'},
+
+{id:41,cat:'covered',diff:'easy',title:'Move Zeros ✅ (Python 75 — Q12)',tags:['Two Pointers'],
+note:'Python 75 mein covered. Two pointer: non-zero aage laao.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Two Pointer O(n)',tc:'TC: O(n) SC: O(1)',desc:'Slow pointer = next non-zero position.',
+code:`def move_zeros(nums):
+    slow = 0
+    for fast in range(len(nums)):
+        if nums[fast] != 0:
+            nums[slow], nums[fast] = nums[fast], nums[slow]
+            slow += 1`}],tip:'Already covered.'},
+
+{id:42,cat:'covered',diff:'easy',title:'Merge Sorted Lists ✅ (Python 75 — Q14)',tags:['Two Pointers','Sorting'],
+note:'Python 75 mein covered.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Two Pointer O(n+m)',tc:'TC: O(n+m) SC: O(n+m)',desc:'Compare heads, append smaller.',
+code:`def merge_sorted(l1, l2):
+    result = []
+    i = j = 0
+    while i < len(l1) and j < len(l2):
+        if l1[i] <= l2[j]: result.append(l1[i]); i+=1
+        else: result.append(l2[j]); j+=1
+    return result + l1[i:] + l2[j:]`}],tip:'Already covered.'},
+
+{id:43,cat:'covered',diff:'medium',title:'Missing Number ✅ (Python 75 — Q16)',tags:['Math','XOR'],
+note:'Python 75 mein covered. Sum formula ya XOR.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Math O(n)',tc:'TC: O(n) SC: O(1)',desc:'Expected sum - actual sum = missing.',
+code:`def missing_number(nums):
+    n = len(nums)
+    return n*(n+1)//2 - sum(nums)`}],tip:'Already covered.'},
+
+{id:44,cat:'covered',diff:'medium',title:'Flatten Nested List ✅ (Python 75 — Q17)',tags:['Recursion','DFS'],
+note:'Python 75 mein covered. Recursive DFS ya stack.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Recursive O(n)',tc:'TC: O(n) SC: O(depth)',desc:'List hua to recurse, nahi to append.',
+code:`def flatten(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list): result.extend(flatten(item))
+        else: result.append(item)
+    return result`}],tip:'Already covered.'},
+
+{id:45,cat:'covered',diff:'medium',title:'Maximum Subarray — Kadane\'s ✅ (Q18)',tags:['DP','Greedy'],
+note:'Python 75 mein covered.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Kadane\'s O(n)',tc:'TC: O(n) SC: O(1)',desc:'current_sum = max(num, current_sum+num).',
+code:`def max_subarray(nums):
+    cur = res = nums[0]
+    for n in nums[1:]:
+        cur = max(n, cur + n)
+        res = max(res, cur)
+    return res`}],tip:'Already covered. Circular subarray variant: total - min_subarray.'},
+
+{id:46,cat:'covered',diff:'medium',title:'Best Time to Buy/Sell Stock ✅ (Q19)',tags:['Greedy'],
+note:'Python 75 mein covered.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Greedy O(n)',tc:'TC: O(n) SC: O(1)',desc:'min_price track karo, max profit update karo.',
+code:`def max_profit(prices):
+    min_price = float('inf'); max_profit = 0
+    for p in prices:
+        min_price = min(min_price, p)
+        max_profit = max(max_profit, p - min_price)
+    return max_profit`}],tip:'Already covered.'},
+
+{id:47,cat:'covered',diff:'medium',title:'Product Except Self ✅ (Python 75 — Q20)',tags:['Prefix Sum','Arrays'],
+note:'Python 75 mein covered. Left prefix × right suffix.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Prefix-Suffix O(n)',tc:'TC: O(n) SC: O(1)',desc:'result mein pehle left products, phir right se multiply.',
+code:`def product_except_self(nums):
+    res = [1] * len(nums)
+    prefix = 1
+    for i in range(len(nums)):
+        res[i] = prefix; prefix *= nums[i]
+    suffix = 1
+    for i in range(len(nums)-1,-1,-1):
+        res[i] *= suffix; suffix *= nums[i]
+    return res`}],tip:'Already covered. Division use nahi karna — 0 ka edge case.'},
+
+{id:48,cat:'covered',diff:'hard',title:'Top K Frequent Elements ✅ (Q48)',tags:['Heap','Hashing'],
+note:'Python 75 mein covered.',covered:true,
+approaches:[{type:'optimal',label:'🟢 Heap + Counter O(n log k)',tc:'TC: O(n log k) SC: O(n)',desc:'Counter banao, heap se top K nikalo.',
+code:`from collections import Counter
+import heapq
+
+def top_k_frequent(nums, k):
+    count = Counter(nums)
+    return heapq.nlargest(k, count.keys(), key=count.get)
+
+# Bucket sort O(n) approach
+def top_k_bucket(nums, k):
+    count = Counter(nums)
+    buckets = [[] for _ in range(len(nums)+1)]
+    for n, c in count.items(): buckets[c].append(n)
+    res = []
+    for i in range(len(buckets)-1,-1,-1):
+        res.extend(buckets[i])
+        if len(res) >= k: return res[:k]`}],tip:'Already covered. Bucket sort O(n) approach interview mein impress karta hai.'},
+
+{id:49,cat:'covered',diff:'hard',title:'LRU Cache ✅ (Python 75 — Q54)',tags:['LinkedList','HashMap'],
+note:'Python 75 mein covered.',covered:true,
+approaches:[{type:'optimal',label:'🟢 OrderedDict O(1)',tc:'TC: O(1) SC: O(capacity)',desc:'OrderedDict move_to_end + popitem(last=False).',
+code:`from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key):
+        if key not in self.cache: return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        if key in self.cache: self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.cap:
+            self.cache.popitem(last=False)  # evict LRU`}],tip:'Already covered. Django cache framework internally similar eviction policy use karta hai.'},
+
+{id:50,cat:'covered',diff:'hard',title:'Word Ladder ✅ (Python 75 — Q55)',tags:['BFS','Graph'],
+note:'Python 75 mein covered.',covered:true,
+approaches:[{type:'optimal',label:'🟢 BFS O(n×L²)',tc:'TC: O(n×L²) SC: O(n)',desc:'BFS level by level. Har word ke liye one-char change try karo.',
+code:`from collections import deque
+
+def word_ladder(begin, end, word_list):
+    word_set = set(word_list)
+    if end not in word_set: return 0
+    q = deque([(begin, 1)])
+    visited = {begin}
+    while q:
+        word, steps = q.popleft()
+        for i in range(len(word)):
+            for c in 'abcdefghijklmnopqrstuvwxyz':
+                new_word = word[:i] + c + word[i+1:]
+                if new_word == end: return steps + 1
+                if new_word in word_set and new_word not in visited:
+                    visited.add(new_word); q.append((new_word, steps+1))
+    return 0`}],tip:'Already covered. Bidirectional BFS se optimize kar sakte ho.'},
+];
+
+const resources = [
+  {name:'NeetCode.io',url:'https://neetcode.io',type:'DSA Practice',
+   why:'75→150→250 curated problems. Har problem pe video explanation. Patterns by topic — best for structured prep.',
+   topics:['Arrays','DP','Graphs','Blind 75']},
+  {name:'ByteByteGo (Alex Xu)',url:'https://bytebytego.com',type:'System Design',
+   why:'Visual system design. Rate limiter, URL shortener, chat — sabka architecture diagram mein. Book "System Design Interview" by same author.',
+   topics:['URL Shortener','Chat','Instagram','Rate Limiter']},
+  {name:'System Design Primer (GitHub)',url:'https://github.com/donnemartin/system-design-primer',
+   type:'System Design',why:'Free comprehensive guide. Scalability, CAP theorem, consistency patterns, DB sharding — sab ek jagah.',
+   topics:['CAP','Caching','Sharding','Availability']},
+  {name:'Tech Interview Handbook',url:'https://www.techinterviewhandbook.org',type:'Interview Prep',
+   why:'Grind 75 curated list, resume tips, behavioral guide. Pattern-first approach.',
+   topics:['Grind 75','Two Pointers','DP','Resume']},
+  {name:'Visualgo.net',url:'https://visualgo.net',type:'Visualization',
+   why:'Sorting, graph traversal, heap — animated visualizations. Understanding before coding ke liye best.',
+   topics:['Sorting','BFS/DFS','Heap','Union Find']},
+  {name:'High Scalability Blog',url:'http://highscalability.com',type:'Real-world Architecture',
+   why:'Real company architectures — How Twitter, Facebook, Netflix scale. Practical learning for senior interviews.',
+   topics:['Twitter Scale','Netflix CDN','Database Design']},
+  {name:'Real Python',url:'https://realpython.com',type:'Python Deep Dive',
+   why:'asyncio, GIL, decorators, generators — Python-specific internals explained with examples. Backend-focused tutorials.',
+   topics:['asyncio','GIL','Decorators','Threading']},
+  {name:'Martin Fowler\'s Blog',url:'https://martinfowler.com',type:'Software Architecture',
+   why:'Microservices, CQRS, Event Sourcing, Saga pattern — canonical definitions. "Refactoring" book author.',
+   topics:['Microservices','CQRS','Event Sourcing','Saga']},
+  {name:'CS Dojo (YouTube)',url:'https://www.youtube.com/@CSDojo',type:'Video Learning',
+   why:'Data structures explained simply. Time complexity walkthroughs. Good for visual learners.',
+   topics:['Time Complexity','Binary Search','DP Intro']},
+  {name:'Armin Ronacher\'s Blog (Flask creator)',url:'https://lucumr.pocoo.org',type:'Python Internals',
+   why:'Flask/Jinja creator ke deep dives on Python internals, WSGI, async patterns — advanced Python reading.',
+   topics:['WSGI','Python Internals','Async Patterns']},
+];
+
+// ─── STATE ───
+
+function save(){localStorage.setItem(SK,JSON.stringify(done));}
+
+function updateProgress(){
+  const newQ=questions.filter(q=>!q.covered);
+  const total=newQ.length;
+  const comp=newQ.filter(q=>done[q.id]).length;
+  document.getElementById('fill').style.width=(total?comp/total*100:0)+'%';
+  document.getElementById('ptxt').innerText=comp+' / '+total+' new';
+}
+
+function toggleDone(id){
+  const q=questions.find(q=>q.id===id);
+  if(q&&q.covered)return;
+  done[id]=!done[id];
+  save();updateProgress();renderGrid();
+}
+
+function toggleDetail(event,id){
+  event.stopPropagation();
+  const panel=document.getElementById('det-'+id);
+  const btn=event.target;
+  if(panel.classList.contains('open')){
+    panel.classList.remove('open');btn.textContent='Details ▼';
+  } else {
+    panel.classList.add('open');btn.textContent='Details ▲';
+  }
+}
+
+function switchTab(tab,el){
+  curTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const fb=document.getElementById('filterBar');
+  fb.style.display=tab==='resources'?'none':'flex';
+  renderGrid();
+}
+
+function setFilter(f,el){
+  curFilter=f;
+  document.querySelectorAll('.flt').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderGrid();
+}
+
+function resetAll(){
+  if(!confirm('Reset all progress?'))return;
+  done={};save();updateProgress();renderGrid();
+}
+
+function renderGrid(){
+  const main=document.getElementById('main');
+  if(curTab==='resources'){main.innerHTML=renderResources();return;}
+
+  const search=document.getElementById('search').value.toLowerCase();
+  let qs=questions;
+  if(curTab!=='all')qs=qs.filter(q=>q.cat===curTab);
+  if(curFilter==='pending')qs=qs.filter(q=>!done[q.id]&&!q.covered);
+  if(curFilter==='done')qs=qs.filter(q=>done[q.id]);
+  if(curFilter==='hard')qs=qs.filter(q=>q.diff==='hard');
+  if(curFilter==='medium')qs=qs.filter(q=>q.diff==='medium');
+  if(search)qs=qs.filter(q=>q.title.toLowerCase().includes(search)||q.tags.join().toLowerCase().includes(search));
+
+  if(!qs.length){main.innerHTML='<div class="empty">No questions match your filter.</div>';return;}
+
+  const newQs=qs.filter(q=>!q.covered);
+  const covQs=qs.filter(q=>q.covered);
+  let html='';
+  if(newQs.length){
+    html+='<div class="grid">'+newQs.map(cardHTML).join('')+'</div>';
+  }
+  if(covQs.length){
+    html+='<div class="section-head">✅ Already Covered in Python 75</div><div class="grid">'+covQs.map(cardHTML).join('')+'</div>';
+  }
+  main.innerHTML=html;
+}
+
+function cardHTML(q){
+  const isDone=done[q.id];
+  const cls=(q.covered?'covered':isDone?'done':'');
+  const tagDiff=q.diff==='hard'?'tag-hard':q.diff==='medium'?'tag-med':'tag-easy';
+  const statusTag=q.covered?'<span class="tag tag-covered">✅ Covered</span>':isDone?'<span class="tag tag-done">✓ Done</span>':'';
+  const patTags=q.tags.map(t=>`<span class="tag tag-pat">${t}</span>`).join('');
+  const check=q.covered?'🔵':isDone?'✅':'⬜';
+
+  let detHTML='';
+  if(q.approaches){
+    const apHTML=q.approaches.map(a=>`
+      <div class="approach ${a.type}">
+        <div class="approach-head">${a.label}</div>
+        <div class="det-section">${a.desc}</div>
+        <div class="tc">${a.tc}</div>
+        ${a.code?`<pre>${hl(a.code)}</pre>`:''}
+      </div>`).join('');
+    detHTML=`
+      <button class="det-btn" onclick="toggleDetail(event,${q.id})">Details ▼</button>
+      <div class="det-panel" id="det-${q.id}">
+        ${apHTML}
+        ${q.tip?`<div class="tip-box">${q.tip}</div>`:''}
+      </div>`;
+  }
+
+  return `<div class="card ${cls}" onclick="toggleDone(${q.id})">
+    <div class="c-head">
+      <div class="c-num">${q.id.toString().padStart(2,'0')}</div>
+      <div class="c-meta">
+        <div class="c-title">${q.title}</div>
+        <div class="c-tags">
+          <span class="tag ${tagDiff}">${q.diff}</span>
+          ${patTags}${statusTag}
+        </div>
+      </div>
+      <div class="c-check">${check}</div>
+    </div>
+    <div class="c-note">${q.note}</div>
+    ${detHTML}
+  </div>`;
+}
+
+function renderResources(){
+  const cards=resources.map(r=>`
+    <div class="res-card">
+      <h3>${r.name}</h3>
+      <div class="res-tags">${r.topics.map(t=>`<span class="tag tag-pat">${t}</span>`).join('')}
+        <span class="tag tag-med">${r.type}</span></div>
+      <p>${r.why}</p>
+      <a href="${r.url}" target="_blank" rel="noopener">→ Visit ${r.name}</a>
+    </div>`).join('');
+  return '<div class="grid">'+cards+'</div>';
+}
+
+// Init
+updateProgress();renderGrid();
+</script>
+</body>
+</html>

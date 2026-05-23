@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HLD — Fundamentals + Infrastructure | Python 5 YOE</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8F9FA;color:#1a1a2e}
+.page{max-width:1200px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;font-weight:700;margin-bottom:4px}
+.subtitle{font-size:13px;color:#666;margin-bottom:20px}
+.tab-nav{display:flex;gap:8px;margin-bottom:20px;border-bottom:1.5px solid #E0E0E0;padding-bottom:0}
+.tab-btn{font-size:13px;font-weight:500;padding:8px 18px;border:none;background:transparent;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all .15s}
+.tab-btn.active{color:#085041;border-bottom-color:#1D9E75}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.prog-bar{flex:1;height:7px;background:#E8E8F0;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:#1D9E75;border-radius:4px;transition:width .3s}
+.prog-label{font-size:12px;color:#666;min-width:70px;text-align:right}
+.legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#666}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+.section{margin-bottom:32px}
+.sec-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1.5px solid #E8E8F0}
+.sec-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.sec-title{font-size:15px;font-weight:600}
+.sec-count{font-size:11px;color:#999;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.concept-card{background:#fff;border:1px solid #E8E8F0;border-radius:8px;padding:12px 14px;transition:border-color .15s}
+.concept-card:hover{border-color:#B0B0C0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.concept-card.done{border-color:#1D9E75;background:#F0FBF7}
+.concept-card.done .c-name{color:#085041}
+.concept-card.done .c-tag{background:#9FE1CB;color:#085041}
+.concept-card.imp{border-left:3px solid #7F77DD}
+.c-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;cursor:pointer}
+.c-name{font-size:13px;font-weight:600;line-height:1.4}
+.c-check{width:18px;height:18px;border-radius:4px;border:1.5px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.concept-card.done .c-check{background:#1D9E75;border-color:#1D9E75}
+.checkmark{width:10px;height:10px;display:none}
+.concept-card.done .checkmark{display:block}
+.c-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:#F0F0F8;color:#666;display:inline-block;margin-top:4px}
+.c-note{font-size:11px;color:#888;margin-top:6px;line-height:1.45}
+.det-btn{font-size:10px;padding:3px 10px;border-radius:10px;border:.5px solid #ccc;background:transparent;color:#085041;cursor:pointer;margin-top:8px;font-weight:500;transition:all .15s}
+.det-btn:hover{background:#E1F5EE;border-color:#1D9E75}
+.det-panel{display:none;margin-top:10px;border-top:1px solid #E8E8F0;padding-top:10px}
+.det-explain{font-size:11.5px;color:#333;line-height:1.65;margin-bottom:8px;background:#F0FBF7;padding:8px 10px;border-radius:6px;border-left:3px solid #1D9E75}
+.det-label{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.det-code{font-size:10.5px;background:#1a1a2e;color:#e8e8f0;padding:10px 12px;border-radius:6px;overflow-x:auto;white-space:pre;font-family:'Courier New',monospace;line-height:1.6;margin-bottom:8px}
+.det-tip{font-size:11px;color:#085041;background:#E1F5EE;padding:6px 10px;border-radius:6px;line-height:1.5}
+.det-tip::before{content:"💡 Interview Tip: ";font-weight:700}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>HLD — Fundamentals + Infrastructure</h1>
+  <p class="subtitle">Python Backend Developer · 5 Years Experience · Click header to mark done · Details for deep dive</p>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('all')">All (15)</button>
+    <button class="tab-btn" onclick="showTab('fundamentals')">Fundamentals (6)</button>
+    <button class="tab-btn" onclick="showTab('infra')">Infrastructure (9)</button>
+    <button class="tab-btn" onclick="showTab('pending')">Pending Only</button>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-label" id="prog-label">0 / 15</div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div> Must-know</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div> Completed</div>
+  </div>
+
+  <div id="container"></div>
+</div>
+
+<script>
+const details = {
+
+/* ══════════════════════════════════════
+   HLD — FUNDAMENTALS (6 concepts)
+══════════════════════════════════════ */
+
+"HLD — Fundamentals_Scalability — vertical vs horizontal": {
+explain: `Vertical scaling = ek machine powerful banao (more RAM/CPU). Horizontal scaling = zyada machines add karo. Vertical ki limit hoti hai aur single point of failure hai. Horizontal zyada reliable hai but stateless app chahiye. Django app horizontally scale hoti hai jab sessions DB/Redis mein store hote hain (not in-memory). AWS ALB multiple EC2 instances ke beech traffic distribute karta hai.`,
+example: `# ── Vertical Scaling ─────────────────────────
+# t3.medium → t3.xlarge — bas instance type change karo
+# Limit: largest EC2 = u-24tb1.metal (24TB RAM) — uske baad kya?
+
+# ── Horizontal Scaling ────────────────────────
+# Django stateless banana zaroori hai:
+
+# BAD — in-memory state (breaks horizontal scaling)
+_cache = {}   # Python dict — only on THIS server
+def get_user(user_id):
+    if user_id not in _cache:
+        _cache[user_id] = User.objects.get(id=user_id)
+    return _cache[user_id]
+# Server 2 pe yeh cache empty hoga!
+
+# GOOD — shared state in Redis
+import redis
+r = redis.Redis.from_url(settings.REDIS_URL)
+
+def get_user(user_id):
+    key  = f"user:{user_id}"
+    data = r.get(key)
+    if data:
+        return json.loads(data)
+    user = User.objects.get(id=user_id)
+    r.setex(key, 300, json.dumps(UserSerializer(user).data))
+    return user
+
+# Django Sessions — always use Redis or DB, NOT file/memory
+# settings.py
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"   # points to Redis
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+    }
+}
+
+# Gunicorn — multiple workers on same machine
+# gunicorn myapp.wsgi:application --workers 4 --bind 0.0.0.0:8000
+# AWS ALB routes across multiple EC2 instances running above gunicorn
+
+# ── Auto Scaling (AWS) ─────────────────────────
+# Target tracking policy: scale out when CPU > 70%
+# Scale in when CPU < 30% for 5 minutes
+# Cooldown period: 300 seconds (avoid thrashing)`,
+tip: `"How did you scale your Django app?" — "Humne sessions Redis mein shift kiye, Gunicorn workers badhaye, aur ALB ke peeche multiple EC2 instances rakhe — zero downtime deploy ke liye rolling update use kiya."`
+},
+
+"HLD — Fundamentals_CAP theorem": {
+explain: `CAP = Consistency (har read latest write dekhe), Availability (har request response mile, chahe stale data ho), Partition Tolerance (network split hone pe bhi kaam kare). Distributed system mein network partition inevitable hai — toh real choice C vs A hai. PostgreSQL = CP (consistency choose karta hai). Redis = CP by default. DynamoDB = AP (eventually consistent). Niroskos booking: CP chahiye — double booking acceptable nahi.`,
+example: `# ── CP System — PostgreSQL (Consistency Priority) ─
+# Network partition ke time: write reject karo, stale read mat do
+
+# Booking creation — strong consistency required
+from django.db import transaction
+
+def create_booking(room_id, check_in, check_out, user):
+    with transaction.atomic():
+        # SELECT FOR UPDATE — other transactions WAIT
+        room = Room.objects.select_for_update().get(id=room_id)
+        conflict = Booking.objects.filter(
+            room=room, status="confirmed",
+            check_in__lt=check_out, check_out__gt=check_in
+        ).exists()
+        if conflict:
+            raise RoomNotAvailable()   # fail rather than double book
+        return Booking.objects.create(room=room, ...)
+
+# ── AP System — Redis (Availability Priority) ─
+# Use case: product view count, session data
+# Stale data acceptable
+
+import redis
+r = redis.Redis.from_url(settings.REDIS_URL)
+
+def increment_page_views(page_id):
+    r.incr(f"views:{page_id}")   # fast, available, might lose count on crash
+    # Not critical if count is off by a few — AP is fine here
+
+# ── Choosing C vs A ───────────────────────────
+# USE CONSISTENCY (CP) when:
+#   - Financial transactions (payment, booking, inventory)
+#   - User auth (login tokens must be valid everywhere)
+#   - Inventory decrement (can't oversell)
+
+# USE AVAILABILITY (AP) when:
+#   - Search results (slightly stale is OK)
+#   - Social media likes/views count
+#   - Product recommendations
+#   - User profile reads (minor staleness acceptable)
+
+# ── Real world — same app uses both ──────────
+# PostgreSQL (CP) for bookings, payments
+# Redis (CP/AP configurable) for cache, sessions
+# Elasticsearch (AP) for search index
+# S3 (eventual consistency in old regions) for files`,
+tip: `"P in CAP alag kyun nahi choose kar sakte?" — Network partition real-world mein hoti hi hai (cables fail, network congestion). Isliye P is always required — real choice sirf C ya A hai.`
+},
+
+"HLD — Fundamentals_ACID vs BASE": {
+explain: `ACID (Atomicity, Consistency, Isolation, Durability) = traditional DB guarantees — ya poora transaction hoga ya kuch nahi. BASE (Basically Available, Soft state, Eventually consistent) = distributed systems approach — immediate consistency nahi, par eventually sab sync ho jaata hai. Django ORM ACID follow karta hai (PostgreSQL). Celery tasks BASE follow karte hain — task eventually execute hoga.`,
+example: `# ── ACID — Django ORM Transaction ────────────
+from django.db import transaction
+
+def transfer_money(from_account_id, to_account_id, amount):
+    with transaction.atomic():  # ACID guaranteed
+        # A — Atomic: ya dono updates hongi ya koi nahi
+        sender   = Account.objects.select_for_update().get(id=from_account_id)
+        receiver = Account.objects.select_for_update().get(id=to_account_id)
+
+        # C — Consistent: business rules check
+        if sender.balance < amount:
+            raise InsufficientFundsError()
+
+        # I — Isolated: other transactions wait (select_for_update)
+        sender.balance   -= amount
+        receiver.balance += amount
+        sender.save(update_fields=["balance"])
+        receiver.save(update_fields=["balance"])
+        # D — Durable: on commit, written to disk (WAL in PostgreSQL)
+
+# If exception raised anywhere → ROLLBACK automatically
+# Both accounts stay consistent
+
+# ── BASE — Celery + Redis (Eventual Consistency) ─
+from celery import shared_task
+
+# SAP sync — BASE approach
+# Order created immediately in Django (available)
+# SAP sync happens asynchronously (eventually consistent)
+
+def create_order(data):
+    order = Order.objects.create(**data, sap_synced=False)
+    sync_order_to_sap.delay(order.id)   # fire and forget
+    return order                         # response immediate
+
+@shared_task(bind=True, max_retries=5, default_retry_delay=60)
+def sync_order_to_sap(self, order_id):
+    order = Order.objects.get(id=order_id)
+    try:
+        sap_response = sap_client.create_sales_order(order)
+        order.sap_order_id = sap_response["order_id"]
+        order.sap_synced   = True
+        order.save(update_fields=["sap_order_id", "sap_synced"])
+    except SAPConnectionError as exc:
+        raise self.retry(exc=exc)   # retry up to 5 times
+
+# System is "basically available" (order works without SAP)
+# "Soft state" — sap_synced=False until task runs
+# "Eventually consistent" — SAP will have the order...eventually
+
+# ── When to use which ─────────────────────────
+# ACID: payments, bookings, inventory decrement, user creation
+# BASE: notifications, analytics, SAP sync, feed generation,
+#       search index updates, email sending`,
+tip: `"Your SAP connector — ACID ya BASE?" — "BASE. Order Django mein ACID se create hota hai. SAP sync Celery task hai — eventually consistent. Agar SAP down hai, task retry hota hai — order creation impact nahi hota."`
+},
+
+"HLD — Fundamentals_Latency vs throughput": {
+explain: `Latency = ek request ka response time (milliseconds). Throughput = per second kitni requests handle kar sakte ho (QPS — Queries Per Second). Dono tradeoff mein hote hain — batching se throughput badhta hai par latency badhti hai. P99 latency = 99% requests is time ke andar complete hongi — outliers dikhata hai. Aapne indexing se queries 60% reduce kiye — woh latency improvement tha.`,
+example: `# ── Measuring Latency — Django Silk / Custom ─
+import time, logging
+logger = logging.getLogger(__name__)
+
+class LatencyMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        start    = time.perf_counter()
+        response = self.get_response(request)
+        latency  = (time.perf_counter() - start) * 1000  # ms
+
+        logger.info(f"{request.method} {request.path} {latency:.1f}ms "
+                    f"status={response.status_code}")
+
+        if latency > 500:   # slow request alert
+            logger.warning(f"SLOW REQUEST: {request.path} took {latency:.0f}ms")
+        return response
+
+# ── Improving Latency — Database Index ───────
+# Before: full table scan = 800ms (60k rows)
+class Booking(models.Model):
+    user       = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
+    room       = models.ForeignKey(Room, on_delete=models.CASCADE, db_index=True)
+    check_in   = models.DateField(db_index=True)
+    status     = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user", "status"]),        # composite
+            models.Index(fields=["room", "check_in", "status"]),  # composite
+        ]
+# After: index scan = 5ms  →  60% query time reduction
+
+# ── Throughput — Celery Concurrency ──────────
+# celery -A myapp worker --concurrency=8 --loglevel=info
+# 8 concurrent workers = 8x throughput for async tasks
+
+# ── QPS Estimation ────────────────────────────
+# Niroskos: 50 properties, avg 20 bookings/day each
+# = 1000 bookings/day = 1000/(24*3600) ≈ 0.012 QPS peak
+# With 10x buffer for peak hours = 0.12 QPS
+# Single Django server handles 100-500 QPS easily
+# Django + Gunicorn (4 workers) = ~400 QPS for simple views
+
+# ── P99 Latency ───────────────────────────────
+# P50 = median (50% requests faster than this)
+# P95 = 95% requests faster than this
+# P99 = 99% requests faster (outliers visible here)
+# If P50=50ms but P99=3000ms — 1% users get 3s response
+# Fix: identify slow DB queries with EXPLAIN ANALYZE
+# EXPLAIN ANALYZE SELECT * FROM booking WHERE user_id=1 AND status='confirmed';`,
+tip: `Interview mein "latency vs throughput tradeoff" batao: "Agar hum bulk inserts use karen (batching) toh throughput badhega but individual insert ka latency badhega. Niroskos mein single inserts use karte hain — low latency priority hai."`
+},
+
+"HLD — Fundamentals_SLA / SLO / SLI": {
+explain: `SLI (Service Level Indicator) = actual measured metric (error rate, latency, uptime). SLO (Service Level Objective) = internal target ("99.9% requests under 200ms"). SLA (Service Level Agreement) = client ke saath contract ("99.9% uptime guarantee — breach pe refund"). SLA >= SLO hona chahiye — SLO breach hone pe SLA breach hone se pehle fix karo. Error budget = kitni downtime allowed hai.`,
+example: `# ── SLI Examples ─────────────────────────────
+# SLI 1: Availability = successful_requests / total_requests
+# SLI 2: Latency = % requests completing under 200ms
+# SLI 3: Error Rate = 5xx responses / total responses
+
+# Measure kaise karen:
+import time
+from prometheus_client import Counter, Histogram
+
+REQUEST_COUNT   = Counter("http_requests_total", "Total requests",
+                          ["method", "endpoint", "status"])
+REQUEST_LATENCY = Histogram("http_request_duration_seconds",
+                            "Request latency", ["endpoint"])
+
+class SLIMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        start    = time.time()
+        response = self.get_response(request)
+        latency  = time.time() - start
+
+        REQUEST_COUNT.labels(
+            method   = request.method,
+            endpoint = request.resolver_match.url_name or "unknown",
+            status   = response.status_code,
+        ).inc()
+        REQUEST_LATENCY.labels(
+            endpoint = request.resolver_match.url_name or "unknown"
+        ).observe(latency)
+        return response
+
+# ── Uptime Calculation ────────────────────────
+# SLA 99.9% = 1 - 0.999 = 0.001 downtime allowed
+# Annual downtime  = 365 * 24 * 60 * 0.001 = 525.6 minutes = 8.76 hours
+# Monthly downtime = 30  * 24 * 60 * 0.001 = 43.2 minutes
+
+# SLA 99.99% = 52.6 minutes/year  (very strict)
+# SLA 99.9%  = 8.76 hours/year    (typical SaaS)
+# SLA 99.5%  = 43.8 hours/year    (startup acceptable)
+
+# ── Error Budget ─────────────────────────────
+# SLO: 99.9% uptime per month
+# Total minutes/month = 30 * 24 * 60 = 43,200 min
+# Error budget = 43,200 * 0.001 = 43.2 minutes/month
+# Downtime so far this month = 10 minutes
+# Remaining budget = 33.2 minutes
+# → Safe to deploy risky changes? Yes (budget available)
+# → If budget < 10 min remaining: freeze deploys, fix reliability first
+
+# ── Django Health Check ───────────────────────
+from django.http import JsonResponse
+
+def health_check(request):
+    checks = {}
+    try:
+        from django.db import connection
+        connection.ensure_connection()
+        checks["database"] = "ok"
+    except Exception as e:
+        checks["database"] = f"error: {e}"
+
+    try:
+        import redis
+        r = redis.Redis.from_url(settings.REDIS_URL)
+        r.ping()
+        checks["redis"] = "ok"
+    except Exception as e:
+        checks["redis"] = f"error: {e}"
+
+    status = 200 if all(v == "ok" for v in checks.values()) else 503
+    return JsonResponse({"status": "ok" if status==200 else "degraded",
+                         "checks": checks}, status=status)`,
+tip: `"Aapke project ka SLA kya tha?" — Even if informal: "Hum 99.9% uptime target karte the. Celery tasks ke liye error rate < 1% SLO tha. Alerts Sentry + email pe the jab 5xx rate 1% cross karta."`
+},
+
+"HLD — Fundamentals_Back-of-envelope estimation": {
+explain: `Back-of-envelope = rough calculation jo system design interview ka pehla step hai. Interviewer check karta hai ki aap scale samajhte ho. Key numbers yaad rakho: 1 char = 1 byte, 1 million = 10^6, 1 billion = 10^9, SSD read = 0.1ms, Network round trip = 1-10ms, single DB read = 1-10ms. Hamesha interviewer ko batao assumptions kya hain.`,
+example: `# ── Niroskos Estimation Example ──────────────
+# 50 properties, avg 5 rooms each = 250 rooms
+# Peak: 100 simultaneous users browsing
+# Booking rate: 20 bookings/day
+
+# QPS = 20 / (24 * 3600) ≈ 0.0002 QPS baseline
+# With 10x peak factor = 0.002 QPS → very low
+# Even with 1000 properties: 2 QPS → single server fine
+
+# ── URL Shortener (Common Interview) ──────────
+# Requirements:
+#   - 100M URLs shortened per day
+#   - Read:Write ratio = 100:1 (reads >> writes)
+#   - URLs stored for 5 years
+
+# Write QPS = 100M / (24 * 3600) ≈ 1,157 writes/sec
+# Read  QPS = 1,157 * 100 = 115,700 reads/sec
+
+# Storage per URL:
+#   short_code: 7 chars  =   7 bytes
+#   long_url:   100 chars = 100 bytes
+#   created_at: 8 bytes
+#   Total: ~120 bytes per URL
+
+# Total URLs in 5 years = 100M * 365 * 5 = 182 Billion URLs
+# Total storage = 182B * 120 bytes ≈ 22 TB
+# → Need distributed storage / sharding
+
+# ── WhatsApp (Common Interview) ───────────────
+# 2 Billion users, 50B messages/day
+# Message QPS = 50B / 86400 ≈ 578,000 msg/sec
+# Storage per message = 100 bytes (text avg)
+# Daily storage = 50B * 100 bytes = 5 TB/day
+
+# ── Key Numbers to Memorize ───────────────────
+numbers = {
+    "L1 cache read":          "0.5 ns",
+    "RAM read":               "100 ns",
+    "SSD read":               "150 us (0.15 ms)",
+    "HDD seek":               "10 ms",
+    "Network (same region)":  "0.5 ms",
+    "Network (cross region)": "150 ms",
+    "1 Gbps network":         "1 GB/sec",
+}
+
+# ── Storage Units ─────────────────────────────
+# 1 KB = 1,000 bytes (or 1,024 for binary)
+# 1 MB = 10^6 bytes      (avg photo = 1 MB)
+# 1 GB = 10^9 bytes      (avg movie = 4 GB)
+# 1 TB = 10^12 bytes     (large DB = 10 TB)
+# 1 PB = 10^15 bytes     (Google/Meta scale)
+
+# ── Time ──────────────────────────────────────
+# 1 day    = 86,400 sec  ≈ 10^5
+# 1 month  = 2.6M sec    ≈ 2.5 * 10^6
+# 1 year   = 31.5M sec   ≈ 3 * 10^7`,
+tip: `Interview start mein pehle ye karo: "Let me clarify assumptions — 1M daily active users, 10 requests/user/day = 10M requests/day = 116 QPS." Numbers exact nahi chahiye — order of magnitude sahi hona chahiye.`
+},
+
+/* ══════════════════════════════════════
+   HLD — INFRASTRUCTURE (9 concepts)
+══════════════════════════════════════ */
+
+"HLD — Infrastructure_Load balancing": {
+explain: `Load balancer incoming traffic ko multiple servers mein distribute karta hai. Algorithms: Round Robin (ek-ek karke), Least Connections (sabse kam busy server), IP Hash (same client hamesha same server — sticky sessions), Weighted (powerful servers ko zyada traffic). AWS ALB Layer 7 (HTTP) pe kaam karta hai — path-based routing, health checks, SSL termination. NLB Layer 4 (TCP) pe — ultra-low latency.`,
+example: `# ── What Load Balancer Does (AWS ALB) ────────
+# Client → ALB → [EC2-1, EC2-2, EC2-3]
+# ALB health check: every 30s hit /health/
+# If EC2-2 fails health check → removed from rotation automatically
+
+# ── Nginx as LB (self-hosted) ─────────────────
+# /etc/nginx/nginx.conf
+
+# upstream django_servers {
+#     least_conn;                      # algorithm: least connections
+#     server 10.0.1.10:8000 weight=3;  # handles 3x more traffic
+#     server 10.0.1.11:8000 weight=1;
+#     server 10.0.1.12:8000 weight=1;
+#     keepalive 32;                    # connection pool to backends
+# }
+# server {
+#     listen 80;
+#     location / {
+#         proxy_pass http://django_servers;
+#         proxy_set_header X-Real-IP $remote_addr;
+#     }
+#     location /health/ { return 200 "OK"; }
+# }
+
+# ── Consistent Hashing (for Cache LB) ─────────
+# Problem: 3 cache servers, user_id % 3 for routing
+# Add 4th server → 75% keys remapped → cache miss storm!
+
+# Solution: Consistent Hashing ring
+import hashlib
+
+class ConsistentHashRing:
+    def __init__(self, nodes: list, replicas: int = 100):
+        self.replicas = replicas
+        self.ring     = {}
+        self.sorted_keys = []
+        for node in nodes:
+            self.add_node(node)
+
+    def add_node(self, node: str):
+        for i in range(self.replicas):
+            key = self._hash(f"{node}:{i}")
+            self.ring[key] = node
+            self.sorted_keys.append(key)
+        self.sorted_keys.sort()
+
+    def remove_node(self, node: str):
+        for i in range(self.replicas):
+            key = self._hash(f"{node}:{i}")
+            del self.ring[key]
+            self.sorted_keys.remove(key)
+
+    def get_node(self, key: str) -> str:
+        h = self._hash(key)
+        for ring_key in self.sorted_keys:
+            if h <= ring_key:
+                return self.ring[ring_key]
+        return self.ring[self.sorted_keys[0]]  # wrap around
+
+    def _hash(self, s: str) -> int:
+        return int(hashlib.md5(s.encode()).hexdigest(), 16)
+
+# 4th node add karo → only ~25% keys remapped (not 75%!)
+ring = ConsistentHashRing(["redis-1", "redis-2", "redis-3"])
+node = ring.get_node("user_123")   # consistently maps to same node`,
+tip: `"ALB vs NLB?" — ALB (Layer 7): HTTP headers dekh sakta hai, path-based routing, WebSocket support. NLB (Layer 4): TCP level, million+ connections, ultra-low latency for gaming/trading. Django ke liye ALB.`
+},
+
+"HLD — Infrastructure_Caching strategies": {
+explain: `Cache = fast storage (Redis/Memcached) jo slow storage (DB) ka frequent data store karta hai. Strategies: Cache-Aside (app checks cache first, miss pe DB se laake cache mein store — most common), Write-Through (write cache aur DB simultaneously), Write-Back/Behind (sirf cache mein write, async DB update). Invalidation: TTL-based ya explicit delete on update. Aapne Redis already use kiya hai — is experience se explain karo.`,
+example: `import json, redis
+from django.core.cache import cache
+from functools import wraps
+
+r = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
+
+# ── Cache-Aside (most common) ─────────────────
+def get_room(room_id: int):
+    key  = f"room:{room_id}"
+    data = r.get(key)
+    if data:
+        return json.loads(data)           # cache HIT
+
+    room = Room.objects.select_related("property").get(id=room_id)
+    serialized = RoomSerializer(room).data
+    r.setex(key, 300, json.dumps(serialized))  # cache for 5 min
+    return serialized                      # cache MISS
+
+def update_room(room_id: int, data: dict):
+    room = Room.objects.get(id=room_id)
+    for k, v in data.items():
+        setattr(room, k, v)
+    room.save()
+    r.delete(f"room:{room_id}")           # INVALIDATE cache on update
+
+# ── Write-Through ─────────────────────────────
+def update_user_profile(user_id: int, data: dict):
+    # Write to DB AND cache simultaneously
+    profile = UserProfile.objects.get(user_id=user_id)
+    profile.__dict__.update(data)
+    profile.save()
+    # Immediately update cache — no stale reads
+    cache.set(f"profile:{user_id}", data, timeout=600)
+
+# ── Cache Decorator ────────────────────────────
+def cached(key_fn, ttl: int = 300):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            key  = key_fn(*args, **kwargs)
+            data = r.get(key)
+            if data: return json.loads(data)
+            result = func(*args, **kwargs)
+            r.setex(key, ttl, json.dumps(result))
+            return result
+        return wrapper
+    return decorator
+
+@cached(key_fn=lambda room_id, date: f"availability:{room_id}:{date}", ttl=60)
+def check_availability(room_id: int, date: str) -> bool:
+    return not Booking.objects.filter(
+        room_id=room_id, status="confirmed",
+        check_in__lte=date, check_out__gt=date
+    ).exists()
+
+# ── Cache Stampede Prevention ─────────────────
+# Problem: cache expires, 1000 requests hit DB simultaneously
+# Solution: Lock + early recompute
+
+import threading
+_locks = {}
+
+def get_with_lock(key: str, compute_fn, ttl: int):
+    data = r.get(key)
+    if data: return json.loads(data)
+
+    lock = _locks.setdefault(key, threading.Lock())
+    with lock:
+        data = r.get(key)  # double-check after acquiring lock
+        if data: return json.loads(data)
+        result = compute_fn()
+        r.setex(key, ttl, json.dumps(result))
+        return result`,
+tip: `"Cache invalidation strategies?" — TTL (time-based, simplest), Event-based (delete on update — strong consistency), Versioned keys (user:1:v3 — old key naturally expires). "Cache stampede" mention karo — extra points.`
+},
+
+"HLD — Infrastructure_CDN": {
+explain: `CDN (Content Delivery Network) = globally distributed servers jo static/media files user ke near se serve karte hain. Benefits: low latency (files geographically close), reduce origin server load, DDoS protection. AWS CloudFront Django ke saath use hota hai: media files S3 pe, CloudFront unhe serve karta hai. Django collectstatic files S3/CloudFront pe upload karta hai.`,
+example: `# ── Django + S3 + CloudFront Setup ───────────
+# pip install django-storages boto3
+
+# settings.py
+DEFAULT_FILE_STORAGE    = "storages.backends.s3boto3.S3Boto3Storage"
+STATICFILES_STORAGE     = "storages.backends.s3boto3.S3StaticStorage"
+
+AWS_STORAGE_BUCKET_NAME = "niroskos-media"
+AWS_S3_REGION_NAME      = "ap-south-1"
+
+# CloudFront distribution URL
+AWS_S3_CUSTOM_DOMAIN    = "d1234abcd.cloudfront.net"
+
+MEDIA_URL  = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+
+# python manage.py collectstatic → uploads to S3 → CloudFront serves
+
+# ── Cache Invalidation ────────────────────────
+import boto3
+
+def invalidate_cloudfront(paths: list):
+    """Call when files change (deploy, media update)"""
+    cf = boto3.client("cloudfront")
+    cf.create_invalidation(
+        DistributionId="EXXXXXXXXXXXXX",
+        InvalidationBatch={
+            "Paths": {"Quantity": len(paths), "Items": paths},
+            "CallerReference": str(time.time()),
+        }
+    )
+
+# After deploy: invalidate static files
+invalidate_cloudfront(["/static/*"])
+
+# After media update:
+invalidate_cloudfront(["/media/property/123/photos/*"])
+
+# ── Presigned URL for Private Files ───────────
+# Private S3 files ko CDN through serve karo securely
+import boto3
+from botocore.config import Config
+
+s3 = boto3.client("s3", config=Config(signature_version="s3v4"))
+
+def get_private_file_url(s3_key: str, expiry_seconds: int = 3600) -> str:
+    return s3.generate_presigned_url(
+        "get_object",
+        Params={"Bucket": "niroskos-private", "Key": s3_key},
+        ExpiresIn=expiry_seconds,
+    )
+
+# Property photos (public): serve via CloudFront
+# Guest documents (private): presigned URL, expires in 1 hour
+
+# ── CDN Cache-Control Headers ─────────────────
+# Static assets (CSS/JS with hash): cache forever
+# Cache-Control: public, max-age=31536000, immutable
+
+# API responses: no cache
+# Cache-Control: no-cache, no-store, must-revalidate
+
+# HTML pages: short cache
+# Cache-Control: public, max-age=300  (5 minutes)`,
+tip: `"CDN aur server-side cache mein difference?" — CDN = geographic distribution, caches at edge nodes near users. Server-side cache (Redis) = caches expensive computation within your datacenter. Dono sath use hote hain.`
+},
+
+"HLD — Infrastructure_DNS & reverse proxy": {
+explain: `DNS = domain name ko IP address mein translate karta hai (phone book of internet). Reverse Proxy (Nginx) = client ke requests ko backend servers pe forward karta hai — SSL termination, static file serving, rate limiting karta hai. Aapne django-hosts use kiya Niroskos mein — that's subdomain routing. Nginx → Gunicorn → Django chain.`,
+example: `# ── Nginx as Reverse Proxy ────────────────────
+# /etc/nginx/sites-available/niroskos
+
+# upstream django {
+#     server 127.0.0.1:8000;        # Gunicorn
+#     server 127.0.0.1:8001;        # Gunicorn instance 2
+#     keepalive 32;
+# }
+#
+# server {
+#     listen 80;
+#     server_name niroskos.com *.niroskos.com;
+#     return 301 https://$host$request_uri;   # force HTTPS
+# }
+#
+# server {
+#     listen 443 ssl;
+#     server_name niroskos.com *.niroskos.com;
+#
+#     ssl_certificate     /etc/letsencrypt/live/niroskos.com/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/niroskos.com/privkey.pem;
+#
+#     # Static files — served by Nginx, not Django
+#     location /static/ {
+#         alias /var/www/niroskos/static/;
+#         expires 1y;
+#         add_header Cache-Control "public, immutable";
+#     }
+#
+#     # Media files
+#     location /media/ {
+#         alias /var/www/niroskos/media/;
+#         expires 7d;
+#     }
+#
+#     # Django app
+#     location / {
+#         proxy_pass         http://django;
+#         proxy_set_header   Host              $host;
+#         proxy_set_header   X-Real-IP         $remote_addr;
+#         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+#         proxy_set_header   X-Forwarded-Proto $scheme;
+#         proxy_read_timeout 30s;
+#         client_max_body_size 10M;          # file upload limit
+#     }
+# }
+
+# ── Django settings for proxy ────────────────
+ALLOWED_HOSTS   = ["niroskos.com", "*.niroskos.com"]
+USE_X_FORWARDED_HOST  = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# ── django-hosts: Subdomain Routing ──────────
+# pip install django-hosts
+
+# hosts.py
+from django_hosts import patterns, host
+
+host_patterns = patterns("",
+    host(r"www",            "niroskos.urls.main",      name="main"),
+    host(r"api",            "niroskos.urls.api",       name="api"),
+    host(r"(?P<tenant>\w+)","niroskos.urls.tenant",    name="tenant"),
+    # hotel1.niroskos.com → tenant urls with tenant="hotel1"
+)
+
+# Nginx wildcard: server_name *.niroskos.com
+# DNS: *.niroskos.com → A record → your server IP (or CNAME to ALB)`,
+tip: `"Nginx vs Gunicorn ka role?" — Nginx: SSL termination, static files, rate limiting, connection handling. Gunicorn: Python WSGI server, runs Django. Django development server never use karo production mein.`
+},
+
+"HLD — Infrastructure_API Gateway": {
+explain: `API Gateway = single entry point for all client requests. Functions: rate limiting, authentication (JWT verify), request routing (microservices mein), request/response transformation, logging, caching. AWS API Gateway ya Kong ya Nginx (basic). Monolith mein Django middleware yahi kaam karta hai. Microservices mein dedicated gateway zaroori hai.`,
+example: `# ── Django as its own API Gateway ────────────
+# Monolith mein middleware = API Gateway
+
+# middleware.py
+import jwt
+from django.http import JsonResponse
+from django.utils.deprecation import MiddlewareMixin
+
+class AuthMiddleware(MiddlewareMixin):
+    EXEMPT_PATHS = ["/api/auth/login/", "/api/auth/register/", "/health/"]
+
+    def process_request(self, request):
+        if request.path in self.EXEMPT_PATHS:
+            return None
+
+        token = request.META.get("HTTP_AUTHORIZATION", "").replace("Bearer ", "")
+        if not token:
+            return JsonResponse({"error": "Authentication required"}, status=401)
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            request.user_id  = payload["user_id"]
+            request.tenant   = payload.get("tenant")
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({"error": "Token expired"}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({"error": "Invalid token"}, status=401)
+
+class RateLimitMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        key   = f"ratelimit:{request.META.get('REMOTE_ADDR')}"
+        count = r.incr(key)
+        if count == 1:
+            r.expire(key, 60)
+        if count > 100:
+            return JsonResponse({"error": "Rate limit exceeded"}, status=429)
+
+class RequestLoggingMiddleware(MiddlewareMixin):
+    def process_response(self, request, response):
+        logger.info(f"{request.method} {request.path} → {response.status_code} "
+                    f"user={getattr(request,'user_id','anon')}")
+        return response
+
+# settings.py
+MIDDLEWARE = [
+    "myapp.middleware.AuthMiddleware",
+    "myapp.middleware.RateLimitMiddleware",
+    "myapp.middleware.RequestLoggingMiddleware",
+    ...
+]
+
+# ── Kong API Gateway (Microservices) ──────────
+# Kong sits in front of all services
+# Plugins: JWT auth, rate-limit, logging, CORS
+#
+# Route: GET /bookings/* → booking-service:8001
+# Route: GET /users/*    → user-service:8002
+# Route: GET /payments/* → payment-service:8003
+# Auth:  Kong validates JWT — services don't need auth logic`,
+tip: `"Ek API Gateway ne kya solve kiya?" — "Cross-cutting concerns (auth, rate-limit, logging) ek jagah rakhe — har service mein duplicate nahi karna pada." Yeh DRY principle at infrastructure level hai.`
+},
+
+"HLD — Infrastructure_Message queues": {
+explain: `Message queue = producer message daalta hai, consumer process karta hai asynchronously. Decoupling: producer ko consumer ka wait nahi karna. Patterns: Work Queue (ek message ek consumer process kare — Celery tasks), Pub-Sub (ek message multiple consumers receive kare — Django signals ka distributed version). Tools: Redis (simple), RabbitMQ (features), Kafka (high throughput, retention). Aapka Celery stack yahi use karta hai.`,
+example: `# ── Celery + Redis — Work Queue ──────────────
+# Producer: View task queue mein daalta hai
+class BookingView(APIView):
+    def post(self, request):
+        booking = BookingService.create(request.data, request.user)
+        # Async tasks — immediate return, processing background mein
+        send_confirmation_email.delay(booking.id)
+        generate_invoice.delay(booking.id)
+        notify_property_owner.delay(booking.id)
+        return Response({"id": booking.id}, status=201)  # instant response
+
+# Consumer: Celery worker processes tasks
+@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+def send_confirmation_email(self, booking_id: int):
+    booking = Booking.objects.select_related("user").get(id=booking_id)
+    try:
+        PostmarkClient.send_email(
+            to=booking.user.email,
+            template="booking_confirmed",
+            context={"booking": booking},
+        )
+    except PostmarkAPIError as exc:
+        raise self.retry(exc=exc)   # exponential backoff retry
+
+# settings.py — Celery + Redis config
+CELERY_BROKER_URL    = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_TASK_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT  = ["json"]
+CELERY_TIMEZONE = "Asia/Kolkata"
+
+# Run worker:
+# celery -A myapp worker --loglevel=info --concurrency=4 -Q default,emails
+
+# ── Dead Letter Queue (DLQ) ───────────────────
+# Tasks jo max_retries ke baad bhi fail hon
+@shared_task(bind=True, max_retries=3)
+def sync_to_sap(self, order_id: int):
+    try:
+        SAPClient.create_order(Order.objects.get(id=order_id))
+    except Exception as exc:
+        if self.request.retries >= self.max_retries:
+            # DLQ: save failed task for manual review
+            FailedTask.objects.create(
+                task_name="sync_to_sap",
+                args={"order_id": order_id},
+                error=str(exc),
+            )
+            send_alert_to_team(f"SAP sync failed permanently: order {order_id}")
+            return   # don't retry anymore
+        raise self.retry(exc=exc)
+
+# ── Pub-Sub — Redis Channels ──────────────────
+# For real-time: Django Channels + Redis as channel layer
+# settings.py
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
+    }
+}`,
+tip: `"Work Queue vs Pub-Sub?" — Work Queue: ek message sirf ek worker process kare (Celery tasks, job processing). Pub-Sub: ek message multiple consumers receive karen (notifications to multiple services). Kafka dono support karta hai.`
+},
+
+"HLD — Infrastructure_Service mesh": {
+explain: `Service mesh = microservices ke beech communication manage karna — service discovery, load balancing, mTLS (mutual TLS), circuit breaking, observability, all automatically. Istio (most popular) sidecar proxy (Envoy) har service ke saath deploy karta hai. Monolith/small projects mein zaroorat nahi — 10+ microservices ke baad useful. Kubernetes ke saath use hota hai.`,
+example: `# ── When you DON'T need Service Mesh ────────
+# Monolith Django app — all in one process
+# Small microservices (2-3) — HTTP calls enough
+
+# Direct HTTP between services (simple approach)
+import httpx
+
+class PaymentServiceClient:
+    BASE_URL = settings.PAYMENT_SERVICE_URL   # env variable
+
+    @staticmethod
+    def create_payment(booking_id: int, amount: float) -> dict:
+        response = httpx.post(
+            f"{PaymentServiceClient.BASE_URL}/payments/",
+            json={"booking_id": booking_id, "amount": amount},
+            headers={"Authorization": f"Bearer {get_service_token()}"},
+            timeout=10.0,
+        )
+        response.raise_for_status()
+        return response.json()
+
+# ── What Service Mesh Provides ────────────────
+# Without mesh: each service implements these manually
+# With Istio: sidecar handles all automatically
+
+# mTLS — mutual authentication
+# Each service gets certificate, Envoy handles handshake
+# No code changes needed in Django/FastAPI service
+
+# Service Discovery
+# Without mesh: hardcoded URLs or Consul
+# With K8s + Istio: service-name.namespace.svc.cluster.local
+
+# Traffic Management (Istio VirtualService)
+# 90% traffic → v1 (stable)
+# 10% traffic → v2 (canary deploy)
+
+# Circuit Breaker (Istio DestinationRule)
+# outlierDetection:
+#   consecutiveErrors: 5
+#   interval: 30s
+#   baseEjectionTime: 30s
+#   → If service returns 5xx 5 times → remove from pool for 30s
+
+# ── Python equivalent (without mesh) ─────────
+# Use pybreaker or tenacity for circuit breaking
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=1, max=10),
+)
+def call_sap_api(payload: dict):
+    response = httpx.post(SAP_URL, json=payload, timeout=5.0)
+    response.raise_for_status()
+    return response.json()`,
+tip: `"Service mesh kab chahiye?" — "Jab 10+ microservices hon, mTLS zaroori ho (security requirement), ya observability (distributed tracing) manually manage karna mushkil ho jaye. Chhote systems mein overkill hai."`
+},
+
+"HLD — Infrastructure_Event-driven architecture": {
+explain: `Event-driven architecture: services events publish karte hain, interested services consume karte hain — direct coupling nahi hoti. Event = "something happened" (OrderPlaced, PaymentReceived). Producer event publish karta hai aur forget karta hai. Multiple consumers independently react karte hain. Benefits: loose coupling, independent scaling, easy to add new consumers. Idempotency zaroori hai — same event do baar aaye toh duplicate side effects nahi hone chahiye.`,
+example: `# ── Event Schema ─────────────────────────────
+from dataclasses import dataclass, asdict
+from datetime import datetime
+import uuid, json
+
+@dataclass
+class DomainEvent:
+    event_id:   str
+    event_type: str
+    occurred_at: str
+    payload:    dict
+
+    @classmethod
+    def create(cls, event_type: str, payload: dict) -> "DomainEvent":
+        return cls(
+            event_id    = str(uuid.uuid4()),
+            event_type  = event_type,
+            occurred_at = datetime.utcnow().isoformat(),
+            payload     = payload,
+        )
+
+# ── Publishing Events ─────────────────────────
+class BookingService:
+    @staticmethod
+    def confirm(booking_id: int):
+        booking = Booking.objects.get(id=booking_id)
+        booking.status = "confirmed"
+        booking.save()
+
+        # Publish event
+        event = DomainEvent.create("booking.confirmed", {
+            "booking_id": booking.id,
+            "user_id":    booking.user_id,
+            "room_id":    booking.room_id,
+            "total":      str(booking.total),
+        })
+        EventBus.publish(event)
+
+# ── Event Bus (Redis Streams) ─────────────────
+class EventBus:
+    _stream = "domain_events"
+
+    @classmethod
+    def publish(cls, event: DomainEvent):
+        r.xadd(cls._stream, asdict(event))
+
+    @classmethod
+    def consume(cls, consumer_group: str, consumer_name: str):
+        try:
+            r.xgroup_create(cls._stream, consumer_group, id="0", mkstream=True)
+        except redis.ResponseError:
+            pass   # group already exists
+
+        while True:
+            messages = r.xreadgroup(consumer_group, consumer_name,
+                                    {cls._stream: ">"}, count=10, block=1000)
+            for _, msgs in (messages or []):
+                for msg_id, data in msgs:
+                    yield msg_id, data
+
+# ── Consumers (independent services/workers) ──
+class NotificationConsumer:
+    def run(self):
+        for msg_id, data in EventBus.consume("notifications", "worker-1"):
+            if data["event_type"] == "booking.confirmed":
+                booking_id = data["payload"]["booking_id"]
+                self.send_notification(booking_id)
+            r.xack("domain_events", "notifications", msg_id)  # acknowledge
+
+# ── Idempotency (critical for events) ─────────
+class InvoiceConsumer:
+    def handle_booking_confirmed(self, event: dict):
+        booking_id = event["payload"]["booking_id"]
+        event_id   = event["event_id"]
+
+        # Idempotency check — same event might come twice
+        if ProcessedEvent.objects.filter(event_id=event_id).exists():
+            return   # already processed, skip
+
+        with transaction.atomic():
+            Invoice.objects.create(booking_id=booking_id)
+            ProcessedEvent.objects.create(event_id=event_id)`,
+tip: `"Event-driven architecture ka biggest challenge?" — Idempotency aur ordering. "Ordering guarantee?" — Kafka partition-level ordering deta hai, Redis Streams consumer groups with single consumer per partition dete hain.`
+},
+
+"HLD — Infrastructure_Circuit breaker pattern": {
+explain: `Circuit breaker = ek failing service pe repeated calls stop karta hai — cascade failures prevent karta hai. 3 states: Closed (normal — calls pass through), Open (service fail hai — calls blocked, fallback return), Half-Open (thodi calls allow — check if service recovered). Aapke SAP connector mein yeh zaroor hona chahiye — SAP down hone pe sab requests fail nahi honi chahiye.`,
+example: `# ── Manual Circuit Breaker ────────────────────
+import time
+from enum import Enum
+from threading import Lock
+
+class CircuitState(Enum): CLOSED="closed"; OPEN="open"; HALF_OPEN="half_open"
+
+class CircuitBreaker:
+    def __init__(self, failure_threshold=5, recovery_timeout=60, half_open_calls=3):
+        self.failure_threshold = failure_threshold
+        self.recovery_timeout  = recovery_timeout
+        self.half_open_calls   = half_open_calls
+
+        self._state          = CircuitState.CLOSED
+        self._failure_count  = 0
+        self._last_failure   = None
+        self._half_open_cnt  = 0
+        self._lock           = Lock()
+
+    def call(self, func, *args, **kwargs):
+        with self._lock:
+            if self._state == CircuitState.OPEN:
+                if time.time() - self._last_failure > self.recovery_timeout:
+                    self._state = CircuitState.HALF_OPEN
+                    self._half_open_cnt = 0
+                else:
+                    raise CircuitOpenError("Circuit OPEN — service unavailable")
+
+        try:
+            result = func(*args, **kwargs)
+            self._on_success()
+            return result
+        except Exception as exc:
+            self._on_failure()
+            raise
+
+    def _on_success(self):
+        with self._lock:
+            if self._state == CircuitState.HALF_OPEN:
+                self._half_open_cnt += 1
+                if self._half_open_cnt >= self.half_open_calls:
+                    self._state         = CircuitState.CLOSED
+                    self._failure_count = 0
+            elif self._state == CircuitState.CLOSED:
+                self._failure_count = 0
+
+    def _on_failure(self):
+        with self._lock:
+            self._failure_count += 1
+            self._last_failure   = time.time()
+            if self._failure_count >= self.failure_threshold:
+                self._state = CircuitState.OPEN
+
+# ── Usage with SAP Connector ──────────────────
+sap_breaker = CircuitBreaker(failure_threshold=5, recovery_timeout=60)
+
+def create_sap_order(order_id: int):
+    try:
+        return sap_breaker.call(SAPClient.create_order, order_id)
+    except CircuitOpenError:
+        # Fallback — queue for later sync
+        PendingSAPSync.objects.create(order_id=order_id)
+        logger.warning(f"SAP circuit open — order {order_id} queued")
+        return {"status": "queued", "sap_order_id": None}
+    except Exception as exc:
+        logger.error(f"SAP call failed: {exc}")
+        raise
+
+# ── Using tenacity library (simpler) ─────────
+from tenacity import (retry, stop_after_attempt,
+                      wait_exponential, CircuitBreaker as TenacityBreaker)
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=30),
+    reraise=True,
+)
+def call_external_api(payload: dict):
+    response = httpx.post(EXTERNAL_API_URL, json=payload, timeout=5.0)
+    response.raise_for_status()
+    return response.json()`,
+tip: `"Circuit breaker vs Retry?" — Retry: same request dobara try karo (good for transient errors). Circuit breaker: agar service consistently fail ho rahi hai toh calls hi band karo — downstream protect karo. Dono sath use karo: retry inside circuit breaker.`
+}
+
+}; // end details
+
+/* ════════════════════════════════
+   DATA ARRAY
+════════════════════════════════ */
+const data = [
+  {
+    section: "HLD — Fundamentals",
+    badge: "HLD", tab: "fundamentals",
+    badgeColor: "#E1F5EE", badgeText: "#085041",
+    concepts: [
+      {name:"Scalability — vertical vs horizontal", tag:"core",  imp:true,  note:"Scale up vs scale out — stateless Django for horizontal"},
+      {name:"CAP theorem",                          tag:"core",  imp:true,  note:"Consistency vs Availability — PostgreSQL=CP, DynamoDB=AP"},
+      {name:"ACID vs BASE",                         tag:"core",  imp:true,  note:"Django ORM=ACID, Celery async=BASE — your SAP sync!"},
+      {name:"Latency vs throughput",                tag:"core",  imp:true,  note:"P99 latency, QPS — your 60% query reduction with indexes"},
+      {name:"SLA / SLO / SLI",                     tag:"core",  imp:false, note:"99.9% uptime = 8.76 hrs downtime/year — error budget"},
+      {name:"Back-of-envelope estimation",          tag:"core",  imp:true,  note:"Every interview starts here — QPS, storage, bandwidth"},
+    ]
+  },
+  {
+    section: "HLD — Infrastructure",
+    badge: "Infra", tab: "infra",
+    badgeColor: "#FAEEDA", badgeText: "#633806",
+    concepts: [
+      {name:"Load balancing",            tag:"infra", imp:true,  note:"Round robin, least conn, consistent hashing — AWS ALB/NLB"},
+      {name:"Caching strategies",        tag:"infra", imp:true,  note:"Cache-aside, write-through, TTL — your Redis experience"},
+      {name:"CDN",                       tag:"infra", imp:true,  note:"CloudFront + S3 — cache invalidation, presigned URLs"},
+      {name:"DNS & reverse proxy",       tag:"infra", imp:false, note:"Nginx config, django-hosts for Niroskos subdomains"},
+      {name:"API Gateway",               tag:"infra", imp:true,  note:"Rate limiting, auth, routing — Django middleware = gateway"},
+      {name:"Message queues",            tag:"infra", imp:true,  note:"Celery+Redis/RabbitMQ — work queue vs pub-sub, DLQ"},
+      {name:"Service mesh",              tag:"infra", imp:false, note:"Istio, Envoy sidecar — for 10+ microservices scale"},
+      {name:"Event-driven architecture", tag:"infra", imp:true,  note:"Domain events, Redis Streams, idempotency — loose coupling"},
+      {name:"Circuit breaker pattern",   tag:"infra", imp:true,  note:"Prevent cascade failures — SAP connector fallback!"},
+    ]
+  }
+];
+
+/* ════════════════════════════════
+   STATE & RENDER
+════════════════════════════════ */
+const state = JSON.parse(localStorage.getItem("hld_fi_v1") || "{}");
+let currentTab = "all";
+
+function save() { localStorage.setItem("hld_fi_v1", JSON.stringify(state)); }
+
+function toggleDone(evt, key) {
+  evt.stopPropagation();
+  state[key] = !state[key];
+  save(); render();
+}
+
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  ["all","fundamentals","infra","pending"].forEach((t, i) => {
+    if (t === tab) document.querySelectorAll(".tab-btn")[i].classList.add("active");
+  });
+  render();
+}
+
+function toggleDetail(evt, id) {
+  evt.stopPropagation();
+  const panel = document.getElementById(id);
+  const btn   = evt.currentTarget;
+  if (!panel) return;
+  const open = panel.style.display !== "none";
+  panel.style.display = open ? "none" : "block";
+  btn.textContent     = open ? "Details ▼" : "Details ▲";
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function makeId(sec, name) {
+  return "d_" + (sec + "_" + name).replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+function getDetail(sec, name) {
+  const d = details[sec + "_" + name];
+  if (!d) return '<p style="font-size:11px;color:#999;padding:8px">Coming soon...</p>';
+  return `
+    <div class="det-explain">${d.explain}</div>
+    <div class="det-label">Python / Django Code Example</div>
+    <pre class="det-code">${escHtml(d.example)}</pre>
+    <div class="det-tip">${d.tip}</div>`;
+}
+
+function render() {
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+  let total = 0, done = 0;
+
+  data.forEach(sec => {
+    const concepts = sec.concepts.filter(c => {
+      if (currentTab === "fundamentals" && sec.tab !== "fundamentals") return false;
+      if (currentTab === "infra"        && sec.tab !== "infra")        return false;
+      if (currentTab === "pending" && state[sec.section + "_" + c.name]) return false;
+      return true;
+    });
+    if (!concepts.length) return;
+
+    total += sec.concepts.length;
+    sec.concepts.forEach(c => { if (state[sec.section + "_" + c.name]) done++; });
+
+    const doneCount = sec.concepts.filter(c => state[sec.section + "_" + c.name]).length;
+    const el = document.createElement("div");
+    el.className = "section";
+    el.innerHTML = `
+      <div class="sec-header">
+        <span class="sec-badge" style="background:${sec.badgeColor};color:${sec.badgeText}">${sec.badge}</span>
+        <span class="sec-title">${sec.section}</span>
+        <span class="sec-count">${doneCount}/${sec.concepts.length} done</span>
+      </div>
+      <div class="grid">${concepts.map(c => {
+        const sk  = sec.section + "_" + c.name;
+        const did = makeId(sec.section, c.name);
+        const isDone = !!state[sk];
+        return `
+        <div class="concept-card${c.imp?" imp":""}${isDone?" done":""}">
+          <div class="c-top" onclick="toggleDone(event,'${sk.replace(/'/g,"\\'")}')">
+            <div class="c-name">${c.name}</div>
+            <div class="c-check">
+              <svg class="checkmark" viewBox="0 0 10 10" fill="none">
+                <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <span class="c-tag">${c.tag}</span>
+          <div class="c-note">${c.note}</div>
+          <button class="det-btn" onclick="toggleDetail(event,'${did}')">Details ▼</button>
+          <div class="det-panel" id="${did}">${getDetail(sec.section, c.name)}</div>
+        </div>`;
+      }).join("")}</div>`;
+    container.appendChild(el);
+  });
+
+  const fill = total ? Math.round(done/total*100) : 0;
+  document.getElementById("prog-fill").style.width  = fill + "%";
+  document.getElementById("prog-label").textContent = done + " / " + total;
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python OOP Interview Questions</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f0f13;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;border-bottom:2px solid #7c3aed}
+header h1{font-size:22px;color:#a78bfa;letter-spacing:0.5px}
+header p{font-size:12px;color:#888;margin-top:4px}
+.stats{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+.stat{background:#1e1e2e;padding:6px 14px;border-radius:20px;font-size:12px;color:#a78bfa;border:1px solid #3d2b6e}
+.tabs{display:flex;gap:6px;padding:14px 24px;background:#12121a;border-bottom:1px solid #2a2a3e;flex-wrap:wrap}
+.tab{padding:6px 16px;border-radius:20px;border:1px solid #3d2b6e;background:transparent;color:#888;cursor:pointer;font-size:12px;transition:all .2s}
+.tab.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+.tab:hover:not(.active){border-color:#7c3aed;color:#a78bfa}
+.progress-bar{height:4px;background:#1e1e2e;margin:0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width .4s;border-radius:2px}
+main{padding:20px 24px;max-width:1100px;margin:0 auto}
+.section-title{font-size:14px;color:#7c3aed;margin:20px 0 12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-bottom:24px}
+.card{background:#1a1a2e;border:1px solid #2a2a3e;border-radius:10px;overflow:hidden;transition:border-color .2s}
+.card:hover{border-color:#5b21b6}
+.card.done{border-color:#059669;background:#0d2018}
+.card-head{padding:14px;cursor:pointer;user-select:none}
+.card-head:hover{background:rgba(124,58,237,.06)}
+.q-num{font-size:10px;color:#7c3aed;font-weight:700;margin-bottom:4px;letter-spacing:0.5px}
+.q-title{font-size:13px;font-weight:600;color:#e0e0e0;line-height:1.4}
+.card.done .q-title{color:#34d399}
+.badges{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.lvl-fresher{background:#064e3b;color:#34d399}
+.lvl-junior{background:#451a03;color:#fbbf24}
+.lvl-mid{background:#431407;color:#fb923c}
+.lvl-senior{background:#450a0a;color:#f87171}
+.lvl-bonus{background:#1e1b4b;color:#a78bfa}
+.done-badge{background:#065f46;color:#6ee7b7;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:auto}
+.card-toggle{padding:0 14px 12px;display:flex;align-items:center;justify-content:space-between}
+.toggle-btn{font-size:11px;padding:4px 12px;border-radius:6px;border:1px solid #3d2b6e;background:transparent;color:#a78bfa;cursor:pointer;transition:all .2s}
+.toggle-btn:hover{background:#2d1b69;border-color:#7c3aed}
+.mark-btn{font-size:11px;padding:4px 12px;border-radius:6px;border:1px solid #2a2a3e;background:transparent;color:#555;cursor:pointer;transition:all .2s}
+.mark-btn:hover{border-color:#059669;color:#34d399}
+.card.done .mark-btn{border-color:#059669;color:#34d399}
+.answer-panel{display:none;border-top:1px solid #2a2a3e;background:#13131f}
+.answer-panel.open{display:block}
+.answer-inner{padding:14px}
+.section-label{font-size:10px;color:#7c3aed;font-weight:700;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.section-label:first-child{margin-top:0}
+.explain{font-size:12px;color:#c0c0d0;line-height:1.6}
+.tip{font-size:11px;color:#fbbf24;background:#1c1500;border-left:3px solid #fbbf24;padding:6px 10px;border-radius:0 4px 4px 0;margin-top:8px}
+pre{background:#0d0d15;border:1px solid #2a2a3e;border-radius:6px;padding:12px;overflow-x:auto;margin-top:8px}
+code{font-family:'Fira Code','Cascadia Code',monospace;font-size:11.5px;line-height:1.6;color:#c9d1d9}
+.kw{color:#ff79c6}
+.fn{color:#50fa7b}
+.cl{color:#8be9fd}
+.cm{color:#6272a4;font-style:italic}
+.st{color:#f1fa8c}
+.num{color:#bd93f9}
+.dec{color:#ffb86c}
+.empty{text-align:center;color:#555;padding:60px 20px;font-size:14px}
+@media(max-width:600px){main{padding:12px};.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🐍 Python OOP — Interview Questions</h1>
+  <p>Fresher → 5 Years Experience | 41 Questions with Detailed Answers</p>
+  <div class="stats">
+    <div class="stat">Total: <span id="s-total">41</span></div>
+    <div class="stat">Done: <span id="s-done">0</span></div>
+    <div class="stat">Remaining: <span id="s-rem">41</span></div>
+    <div class="stat" style="color:#34d399">Made for Ashish — 30 LPA 🎯</div>
+  </div>
+</header>
+
+<div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+
+<div class="tabs">
+  <button class="tab active" onclick="setTab('all')">All (41)</button>
+  <button class="tab" onclick="setTab('fresher')">🟢 Fresher (Q1–10)</button>
+  <button class="tab" onclick="setTab('junior')">🟡 Junior (Q11–20)</button>
+  <button class="tab" onclick="setTab('mid')">🟠 Mid (Q21–28)</button>
+  <button class="tab" onclick="setTab('senior')">🔴 Senior (Q29–35)</button>
+  <button class="tab" onclick="setTab('bonus')">⭐ Missing Topics (Q36–41)</button>
+  <button class="tab" onclick="setTab('pending')">⏳ Pending</button>
+</div>
+
+<main id="main"></main>
+
+<script>
+const STORE = 'oop_iq_v1';
+let state = JSON.parse(localStorage.getItem(STORE) || '{}');
+let currentTab = 'all';
+
+const questions = [
+  // FRESHER
+  {id:1, level:'fresher', title:'OOP kya hai? 4 pillars kya hain?',
+   explain:'OOP ek paradigm hai jisme real-world entities ko objects ke roop mein model karte hain. 4 pillars: Encapsulation (data + methods bundle), Inheritance (child inherits parent), Polymorphism (same interface, different behavior), Abstraction (hide implementation).',
+   tip:'Real-life analogy dena — "Car class is a blueprint, my Honda is an object."',
+   code:`<span class="cm"># 4 Pillars example</span>
+<span class="kw">class</span> <span class="cl">Animal</span>:                     <span class="cm"># Abstraction</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name):
+        self._name = name            <span class="cm"># Encapsulation</span>
+
+    <span class="kw">def</span> <span class="fn">speak</span>(self):               <span class="cm"># Polymorphism</span>
+        <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">Dog</span>(Animal):                <span class="cm"># Inheritance</span>
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">return</span> <span class="st">"Woof!"</span>
+
+<span class="kw">class</span> <span class="cl">Cat</span>(Animal):
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">return</span> <span class="st">"Meow!"</span>
+
+animals = [<span class="cl">Dog</span>(<span class="st">"Tommy"</span>), <span class="cl">Cat</span>(<span class="st">"Kitty"</span>)]
+<span class="kw">for</span> a <span class="kw">in</span> animals:
+    <span class="fn">print</span>(a.speak())`},
+
+  {id:2, level:'fresher', title:'Class aur Object mein kya fark hai?',
+   explain:'Class ek blueprint/template hai. Object us class ka actual instance hai. Class memory mein nahi hota — object create hone par memory allocate hoti hai.',
+   tip:'"Class ek mold hai, object us mold se bani cheez." Ek class se multiple objects ban sakte hain.',
+   code:`<span class="kw">class</span> <span class="cl">Car</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, brand, speed):
+        self.brand = brand
+        self.speed = speed
+
+    <span class="kw">def</span> <span class="fn">drive</span>(self):
+        <span class="fn">print</span>(<span class="st">f"</span>{self.brand}<span class="st"> driving at </span>{self.speed}<span class="st"> kmph"</span>)
+
+car1 = <span class="cl">Car</span>(<span class="st">"Toyota"</span>, <span class="num">120</span>)  <span class="cm"># Object 1</span>
+car2 = <span class="cl">Car</span>(<span class="st">"BMW"</span>, <span class="num">200</span>)     <span class="cm"># Object 2</span>
+car1.drive()  <span class="cm"># Toyota driving at 120 kmph</span>`},
+
+  {id:3, level:'fresher', title:'__init__ method kya hota hai? self kya hai?',
+   explain:'__init__ constructor hai — object create hote waqt automatically call hota hai. self current object ka reference hai — Python internally pass karta hai. s.show() internally Student.show(s) ke barabar hai.',
+   tip:'self ka naam kuch bhi ho sakta hai technically, but convention hai self use karna.',
+   code:`<span class="kw">class</span> <span class="cl">Student</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, marks):
+        self.name  = name    <span class="cm"># instance variable</span>
+        self.marks = marks
+
+    <span class="kw">def</span> <span class="fn">show</span>(self):
+        <span class="fn">print</span>(<span class="st">f"</span>{self.name}<span class="st">: </span>{self.marks}<span class="st">"</span>)
+
+s = <span class="cl">Student</span>(<span class="st">"Ashish"</span>, <span class="num">90</span>)
+s.show()             <span class="cm"># Ashish: 90</span>
+<span class="cl">Student</span>.show(s)     <span class="cm"># Same! Python yahi karta hai internally</span>`},
+
+  {id:4, level:'fresher', title:'Instance variable aur Class variable mein fark?',
+   explain:'Class variable sab objects share karte hain (ek hi copy). Instance variable har object ka apna alag hota hai. Class variable access: ClassName.var; instance variable: self.var.',
+   tip:'Mutable class variables (list/dict) dangerous hain — ek object change kare toh sab ko affect karta hai.',
+   code:`<span class="kw">class</span> <span class="cl">Student</span>:
+    school = <span class="st">"ABC School"</span>  <span class="cm"># Class variable — shared</span>
+    count  = <span class="num">0</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name):
+        self.name = name         <span class="cm"># Instance variable — apna</span>
+        <span class="cl">Student</span>.count += <span class="num">1</span>
+
+s1 = <span class="cl">Student</span>(<span class="st">"Ashish"</span>)
+s2 = <span class="cl">Student</span>(<span class="st">"Priya"</span>)
+
+<span class="fn">print</span>(s1.name)        <span class="cm"># Ashish</span>
+<span class="fn">print</span>(s2.name)        <span class="cm"># Priya</span>
+<span class="fn">print</span>(<span class="cl">Student</span>.school) <span class="cm"># ABC School — shared</span>
+<span class="fn">print</span>(<span class="cl">Student</span>.count)  <span class="cm"># 2</span>`},
+
+  {id:5, level:'fresher', title:'Inheritance kya hai? Types kya hain?',
+   explain:'Child class parent class ke attributes aur methods inherit karta hai. Types: Single (A→B), Multi-level (A→B→C), Multiple (A,B→C), Hierarchical (A→B,C), Hybrid (combination).',
+   tip:'IS-A relationship: Dog IS-A Animal → Inheritance sahi. HAS-A: Car HAS-A Engine → Composition.',
+   code:`<span class="kw">class</span> <span class="cl">Animal</span>:
+    <span class="kw">def</span> <span class="fn">eat</span>(self): <span class="fn">print</span>(<span class="st">"eating"</span>)
+
+<span class="kw">class</span> <span class="cl">Dog</span>(<span class="cl">Animal</span>):          <span class="cm"># Single inheritance</span>
+    <span class="kw">def</span> <span class="fn">bark</span>(self): <span class="fn">print</span>(<span class="st">"Woof!"</span>)
+
+<span class="kw">class</span> <span class="cl">GoldenRetriever</span>(<span class="cl">Dog</span>): <span class="cm"># Multi-level</span>
+    <span class="kw">def</span> <span class="fn">fetch</span>(self): <span class="fn">print</span>(<span class="st">"Fetching!"</span>)
+
+d = <span class="cl">GoldenRetriever</span>()
+d.eat()   <span class="cm"># ✅ from Animal</span>
+d.bark()  <span class="cm"># ✅ from Dog</span>
+d.fetch() <span class="cm"># ✅ own method</span>
+
+<span class="fn">print</span>(<span class="fn">isinstance</span>(d, <span class="cl">Animal</span>))  <span class="cm"># True!</span>`},
+
+  {id:6, level:'fresher', title:'super() kya karta hai?',
+   explain:'super() parent class (MRO ke next class) ko call karta hai. Multiple inheritance mein super() chain properly MRO follow karta hai — isliye sirf ek baar parent init call hota hai.',
+   tip:'super() MRO ke next class ko call karta hai — multiple inheritance mein bahut important. super().__init__() bhoolna common mistake hai.',
+   code:`<span class="kw">class</span> <span class="cl">Animal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, sound):
+        self.name  = name
+        self.sound = sound
+
+<span class="kw">class</span> <span class="cl">Dog</span>(<span class="cl">Animal</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, breed):
+        <span class="fn">super</span>().__init__(name, <span class="st">"Woof"</span>)  <span class="cm"># Parent init call</span>
+        self.breed = breed
+
+    <span class="kw">def</span> <span class="fn">info</span>(self):
+        <span class="fn">print</span>(<span class="st">f"</span>{self.name}<span class="st"> (</span>{self.breed}<span class="st">) says </span>{self.sound}<span class="st">"</span>)
+
+d = <span class="cl">Dog</span>(<span class="st">"Tommy"</span>, <span class="st">"Labrador"</span>)
+d.info()  <span class="cm"># Tommy (Labrador) says Woof</span>`},
+
+  {id:7, level:'fresher', title:'Method Overriding kya hai?',
+   explain:'Child class parent ke same method ko apne implementation se replace karta hai. Runtime pe decide hota hai kaun sa method call hoga (Runtime Polymorphism). Python mein method overloading directly nahi hota — *args se implement karte hain.',
+   tip:'Overriding = Runtime Polymorphism. Java wala Overloading Python mein *args se handle karte hain.',
+   code:`<span class="kw">class</span> <span class="cl">Animal</span>:
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="st">"..."</span>
+
+<span class="kw">class</span> <span class="cl">Dog</span>(<span class="cl">Animal</span>):
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="st">"Woof!"</span>  <span class="cm"># Override</span>
+
+<span class="kw">class</span> <span class="cl">Cat</span>(<span class="cl">Animal</span>):
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="st">"Meow!"</span>  <span class="cm"># Override</span>
+
+animals = [<span class="cl">Dog</span>(), <span class="cl">Cat</span>(), <span class="cl">Animal</span>()]
+<span class="kw">for</span> a <span class="kw">in</span> animals:
+    <span class="fn">print</span>(a.speak())
+<span class="cm"># Woof! / Meow! / ...  — same call, different result!</span>`},
+
+  {id:8, level:'fresher', title:'__str__ aur __repr__ mein kya fark hai?',
+   explain:'__str__ user-friendly string (print ke liye). __repr__ developer-friendly, debug ke liye. List/dict mein object hone par __repr__ call hota hai. Rule: repr(obj) ideally eval karke same object recreate ho sake.',
+   tip:'Always define __repr__ — __str__ nahi define karo toh Python __repr__ fallback karta hai.',
+   code:`<span class="kw">class</span> <span class="cl">Book</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, title, author):
+        self.title  = title
+        self.author = author
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> <span class="st">f"'</span>{self.title}<span class="st">' by </span>{self.author}<span class="st">"</span>
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self):
+        <span class="kw">return</span> <span class="st">f"Book(title='</span>{self.title}<span class="st">', author='</span>{self.author}<span class="st">')"</span>
+
+b = <span class="cl">Book</span>(<span class="st">"Harry Potter"</span>, <span class="st">"J.K. Rowling"</span>)
+<span class="fn">print</span>(b)        <span class="cm"># 'Harry Potter' by J.K. Rowling  ← __str__</span>
+<span class="fn">print</span>(<span class="fn">repr</span>(b))  <span class="cm"># Book(title='Harry Potter', ...)  ← __repr__</span>
+<span class="fn">print</span>([b])      <span class="cm"># [Book(...)]  ← __repr__ in collections!</span>`},
+
+  {id:9, level:'fresher', title:'Public, Protected, Private attributes kya hote hain?',
+   explain:'Public (name): koi bhi access. Protected (_name): convention only — child can use but discouraged outside. Private (__name): name mangling hota hai _ClassName__name ban jaata hai. Python mein TRUE private nahi hota.',
+   tip:'__name actually _ClassName__name ban jaata hai (name mangling). Ye prevent karta hai accidental override in subclasses, not true security.',
+   code:`<span class="kw">class</span> <span class="cl">BankAccount</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.name   = <span class="st">"Ashish"</span>   <span class="cm"># public</span>
+        self._bal   = <span class="num">5000</span>       <span class="cm"># protected — convention</span>
+        self.__pin  = <span class="num">1234</span>       <span class="cm"># private — name mangling</span>
+
+acc = <span class="cl">BankAccount</span>()
+<span class="fn">print</span>(acc.name)               <span class="cm"># ✅ Ashish</span>
+<span class="fn">print</span>(acc._bal)               <span class="cm"># ⚠️ Works but bad practice</span>
+<span class="cm"># print(acc.__pin)            # ❌ AttributeError</span>
+<span class="fn">print</span>(acc._BankAccount__pin)  <span class="cm"># 1234 — name mangling bypass</span>`},
+
+  {id:10, level:'fresher', title:'Multiple Inheritance aur Diamond Problem kya hai?',
+   explain:'Multiple inheritance: ek class multiple parents inherit kare. Diamond problem: A→B, A→C, B,C→D — A ka method kaun sa call ho? Python C3 Linearization se solve karta hai — A sirf ek baar call hota hai.',
+   tip:'D.__mro__ se MRO check karo. C3 algorithm: D → B → C → A → object. super() always MRO follow karta hai.',
+   code:`<span class="kw">class</span> <span class="cl">A</span>:
+    <span class="kw">def</span> <span class="fn">method</span>(self): <span class="fn">print</span>(<span class="st">"A"</span>)
+
+<span class="kw">class</span> <span class="cl">B</span>(<span class="cl">A</span>):
+    <span class="kw">def</span> <span class="fn">method</span>(self): <span class="fn">print</span>(<span class="st">"B"</span>)
+
+<span class="kw">class</span> <span class="cl">C</span>(<span class="cl">A</span>):
+    <span class="kw">def</span> <span class="fn">method</span>(self): <span class="fn">print</span>(<span class="st">"C"</span>)
+
+<span class="kw">class</span> <span class="cl">D</span>(<span class="cl">B</span>, <span class="cl">C</span>):  <span class="cm"># Diamond!</span>
+    <span class="kw">pass</span>
+
+d = <span class="cl">D</span>()
+d.method()          <span class="cm"># "B" — MRO decide karta hai</span>
+<span class="fn">print</span>(<span class="cl">D</span>.__mro__)
+<span class="cm"># D → B → C → A → object (A sirf once!)</span>`},
+
+  // JUNIOR
+  {id:11, level:'junior', title:'Encapsulation ka real-world use kya hai?',
+   explain:'Encapsulation = data aur methods bundle + access control. @property use karo attribute jaisi access ke liye with validation. Private attributes direct access se protect karte hain.',
+   tip:'@property encapsulation ka best practice hai — attribute jaisa dikhta hai but controlled access milta hai.',
+   code:`<span class="kw">class</span> <span class="cl">Employee</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, salary):
+        self.name     = name
+        self.__salary = salary  <span class="cm"># Private!</span>
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">salary</span>(self):
+        <span class="kw">return</span> self.__salary
+
+    <span class="dec">@salary.setter</span>
+    <span class="kw">def</span> <span class="fn">salary</span>(self, amount):
+        <span class="kw">if</span> amount < <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cl">ValueError</span>(<span class="st">"Salary negative nahi ho sakta!"</span>)
+        self.__salary = amount
+
+emp = <span class="cl">Employee</span>(<span class="st">"Ashish"</span>, <span class="num">60000</span>)
+emp.salary = <span class="num">80000</span>   <span class="cm"># Setter ✅</span>
+<span class="cm"># emp.salary = -100  # ❌ ValueError</span>`},
+
+  {id:12, level:'junior', title:'@property, @setter, @deleter explain karo.',
+   explain:'@property getter define karta hai. @name.setter setter define karta hai with validation. @name.deleter delete behavior. Computed properties (fahrenheit) sirf getter hoti hain — no setter needed.',
+   tip:'Django models mein @property bahut use hota hai — calculated fields jaise full_name = first_name + last_name.',
+   code:`<span class="kw">class</span> <span class="cl">Temperature</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, celsius=<span class="num">0</span>):
+        self._celsius = celsius
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">celsius</span>(self):
+        <span class="kw">return</span> self._celsius
+
+    <span class="dec">@celsius.setter</span>
+    <span class="kw">def</span> <span class="fn">celsius</span>(self, value):
+        <span class="kw">if</span> value < <span class="num">-273.15</span>:
+            <span class="kw">raise</span> <span class="cl">ValueError</span>(<span class="st">"Below absolute zero!"</span>)
+        self._celsius = value
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">fahrenheit</span>(self):           <span class="cm"># Computed — read only</span>
+        <span class="kw">return</span> self._celsius * <span class="num">9</span>/<span class="num">5</span> + <span class="num">32</span>
+
+t = <span class="cl">Temperature</span>(<span class="num">100</span>)
+<span class="fn">print</span>(t.fahrenheit)  <span class="cm"># 212.0</span>
+t.celsius = <span class="num">0</span>        <span class="cm"># setter ✅</span>
+<span class="cm"># t.celsius = -300   # ❌ ValueError</span>`},
+
+  {id:13, level:'junior', title:'@classmethod aur @staticmethod mein kya fark hai?',
+   explain:'Instance method: self (instance + class access). @classmethod: cls (only class access) — alternative constructors ke liye. @staticmethod: kuch nahi — utility functions jo class se logically belong karte hain par state nahi chahiye.',
+   tip:'@classmethod alternative constructor pattern ke liye best hai — from_string, from_dict, from_json.',
+   code:`<span class="kw">class</span> <span class="cl">Student</span>:
+    school = <span class="st">"ABC"</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, marks):
+        self.name  = name
+        self.marks = marks
+
+    <span class="dec">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">from_string</span>(cls, data):   <span class="cm"># "Ashish-90"</span>
+        name, marks = data.split(<span class="st">"-"</span>)
+        <span class="kw">return</span> cls(name, <span class="fn">int</span>(marks))
+
+    <span class="dec">@staticmethod</span>
+    <span class="kw">def</span> <span class="fn">is_passing</span>(marks):        <span class="cm"># No self/cls</span>
+        <span class="kw">return</span> marks >= <span class="num">40</span>
+
+s = <span class="cl">Student</span>.from_string(<span class="st">"Ashish-90"</span>)  <span class="cm"># classmethod</span>
+<span class="fn">print</span>(<span class="cl">Student</span>.is_passing(<span class="num">35</span>))          <span class="cm"># False</span>`},
+
+  {id:14, level:'junior', title:'Abstract class kya hoti hai? ABC kya hai?',
+   explain:'Abstract class directly instantiate nahi ho sakti — sirf inherit kar sakte hain. @abstractmethod force karta hai child ko implement karna. Python mein Interface keyword nahi — all-abstract ABC = Interface.',
+   tip:'Django REST Framework ke APIView, GenericView sab ABC pattern follow karte hain.',
+   code:`<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cl">Shape</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">area</span>(self): <span class="kw">pass</span>
+
+    <span class="kw">def</span> <span class="fn">describe</span>(self):            <span class="cm"># Concrete method OK</span>
+        <span class="fn">print</span>(<span class="st">f"Area: </span>{self.area():.2f}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">Circle</span>(<span class="cl">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, r): self.r = r
+    <span class="kw">def</span> <span class="fn">area</span>(self): <span class="kw">return</span> <span class="num">3.14</span> * self.r ** <span class="num">2</span>
+
+<span class="cm"># s = Shape()    # ❌ TypeError — abstract!</span>
+c = <span class="cl">Circle</span>(<span class="num">5</span>)
+c.describe()    <span class="cm"># Area: 78.50 ✅</span>`},
+
+  {id:15, level:'junior', title:'Polymorphism ke types kya hain Python mein?',
+   explain:'1. Method Overriding: same method name, different implementation in child. 2. Duck Typing: "if it walks like duck" — no inheritance needed, just needs the method. 3. Operator Overloading: dunder methods se + - * etc redefine karo.',
+   tip:'Duck typing Python ka superpower hai — Type nahi, behavior matter karta hai. Django views iska heavy use karte hain.',
+   code:`<span class="cm"># Duck Typing — no inheritance needed!</span>
+<span class="kw">class</span> <span class="cl">JsonWriter</span>:
+    <span class="kw">def</span> <span class="fn">write</span>(self, data): <span class="fn">print</span>(<span class="st">f"JSON: </span>{data}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">XmlWriter</span>:
+    <span class="kw">def</span> <span class="fn">write</span>(self, data): <span class="fn">print</span>(<span class="st">f"XML: </span>{data}<span class="st">"</span>)
+
+<span class="kw">def</span> <span class="fn">save</span>(writer, data):
+    writer.write(data)    <span class="cm"># Just needs .write()</span>
+
+<span class="fn">save</span>(<span class="cl">JsonWriter</span>(), <span class="st">"hello"</span>)  <span class="cm"># ✅</span>
+<span class="fn">save</span>(<span class="cl">XmlWriter</span>(), <span class="st">"hello"</span>)  <span class="cm"># ✅</span>
+
+<span class="cm"># Operator Overloading</span>
+<span class="kw">class</span> <span class="cl">Vector</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y): self.x=x; self.y=y
+    <span class="kw">def</span> <span class="fn">__add__</span>(self, o): <span class="kw">return</span> <span class="cl">Vector</span>(self.x+o.x, self.y+o.y)
+    <span class="kw">def</span> <span class="fn">__str__</span>(self): <span class="kw">return</span> <span class="st">f"Vector(</span>{self.x}<span class="st">, </span>{self.y}<span class="st">)"</span>
+
+<span class="fn">print</span>(<span class="cl">Vector</span>(<span class="num">1</span>,<span class="num">2</span>) + <span class="cl">Vector</span>(<span class="num">3</span>,<span class="num">4</span>))  <span class="cm"># Vector(4, 6)</span>`},
+
+  {id:16, level:'junior', title:'Important Dunder Methods kaunse hain?',
+   explain:'Dunder (double underscore) methods Python ke special methods hain jo built-in operations define karte hain. __len__ len() ke liye, __eq__ == ke liye, __lt__ < ke liye, __contains__ in ke liye.',
+   tip:'__lt__ define karo toh sorting automatically kaam karta hai. functools.total_ordering se baaki comparisons auto-generate ho jaate hain.',
+   code:`<span class="kw">class</span> <span class="cl">Product</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, price, qty):
+        self.name=name; self.price=price; self.qty=qty
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):    <span class="kw">return</span> <span class="st">f"</span>{self.name}<span class="st"> @ ₹</span>{self.price}<span class="st">"</span>
+    <span class="kw">def</span> <span class="fn">__len__</span>(self):    <span class="kw">return</span> self.qty
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, o):  <span class="kw">return</span> self.name == o.name
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, o):  <span class="kw">return</span> self.price < o.price
+    <span class="kw">def</span> <span class="fn">__contains__</span>(self, item):
+        <span class="kw">return</span> item.lower() <span class="kw">in</span> self.name.lower()
+
+p1 = <span class="cl">Product</span>(<span class="st">"Apple"</span>, <span class="num">20</span>, <span class="num">50</span>)
+<span class="fn">print</span>(<span class="fn">len</span>(p1))       <span class="cm"># 50</span>
+<span class="fn">print</span>(<span class="st">"app"</span> <span class="kw">in</span> p1)  <span class="cm"># True</span>
+products = [<span class="cl">Product</span>(<span class="st">"B"</span>,<span class="num">80</span>,<span class="num">1</span>), <span class="cl">Product</span>(<span class="st">"A"</span>,<span class="num">20</span>,<span class="num">1</span>)]
+products.sort()     <span class="cm"># __lt__ use karta hai ✅</span>`},
+
+  {id:17, level:'junior', title:'isinstance() aur issubclass() mein kya fark hai?',
+   explain:'isinstance(obj, Class): object ka type check, inheritance bhi dekha. issubclass(Child, Parent): class relationship check. type() strict hai — inheritance nahi dekha.',
+   tip:'Production mein isinstance() prefer karo — inheritance handle karta hai. type() == strict comparison hai jab exact type chahiye.',
+   code:`<span class="kw">class</span> <span class="cl">Animal</span>: <span class="kw">pass</span>
+<span class="kw">class</span> <span class="cl">Dog</span>(<span class="cl">Animal</span>): <span class="kw">pass</span>
+
+d = <span class="cl">Dog</span>()
+
+<span class="fn">print</span>(<span class="fn">isinstance</span>(d, <span class="cl">Dog</span>))      <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">isinstance</span>(d, <span class="cl">Animal</span>))   <span class="cm"># True — inheritance!</span>
+
+<span class="fn">print</span>(<span class="fn">issubclass</span>(<span class="cl">Dog</span>, <span class="cl">Animal</span>)) <span class="cm"># True</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(d) == <span class="cl">Dog</span>)          <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">type</span>(d) == <span class="cl">Animal</span>)       <span class="cm"># False ← isinstance se alag!</span>
+
+<span class="cm"># isinstance multiple types check kar sakta hai</span>
+<span class="fn">print</span>(<span class="fn">isinstance</span>(<span class="num">5</span>, (<span class="cl">int</span>, <span class="cl">float</span>)))  <span class="cm"># True</span>`},
+
+  {id:18, level:'junior', title:'Composition vs Inheritance — kab kya use karein?',
+   explain:'Inheritance (IS-A): Dog IS-A Animal. Composition (HAS-A): Car HAS-A Engine. Composition flexible hai — Engine change kar sako bina Car class change kiye. Inheritance tight coupling banata hai.',
+   tip:'"Favor Composition over Inheritance" — GoF book ka golden rule. Agar behavior change karna ho at runtime, composition sahi hai.',
+   code:`<span class="cm"># COMPOSITION — HAS-A</span>
+<span class="kw">class</span> <span class="cl">Engine</span>:
+    <span class="kw">def</span> <span class="fn">start</span>(self): <span class="fn">print</span>(<span class="st">"Engine start"</span>)
+
+<span class="kw">class</span> <span class="cl">ElectricMotor</span>:
+    <span class="kw">def</span> <span class="fn">start</span>(self): <span class="fn">print</span>(<span class="st">"Motor start"</span>)
+
+<span class="kw">class</span> <span class="cl">Car</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, engine):
+        self.engine = engine   <span class="cm"># Composition!</span>
+
+    <span class="kw">def</span> <span class="fn">drive</span>(self):
+        self.engine.start()
+
+car1 = <span class="cl">Car</span>(<span class="cl">Engine</span>())         <span class="cm"># Petrol</span>
+car2 = <span class="cl">Car</span>(<span class="cl">ElectricMotor</span>())  <span class="cm"># Electric</span>
+<span class="cm"># Same Car class, different behavior!</span>`},
+
+  {id:19, level:'junior', title:'Method Resolution Order (MRO) kya hai?',
+   explain:'MRO = Python ka method lookup order in multiple inheritance. C3 Linearization algorithm use karta hai: child first, left to right, base classes baad mein. super() always MRO follow karta hai.',
+   tip:'Interview mein D.__mro__ run karke dikha do — shows exact order. Cooperative multiple inheritance ke liye super() har class mein hona chahiye.',
+   code:`<span class="kw">class</span> <span class="cl">A</span>:
+    <span class="kw">def</span> <span class="fn">hello</span>(self): <span class="fn">print</span>(<span class="st">"A"</span>)
+
+<span class="kw">class</span> <span class="cl">B</span>(<span class="cl">A</span>):
+    <span class="kw">def</span> <span class="fn">hello</span>(self): <span class="fn">print</span>(<span class="st">"B"</span>)
+
+<span class="kw">class</span> <span class="cl">C</span>(<span class="cl">A</span>):
+    <span class="kw">def</span> <span class="fn">hello</span>(self): <span class="fn">print</span>(<span class="st">"C"</span>)
+
+<span class="kw">class</span> <span class="cl">D</span>(<span class="cl">B</span>, <span class="cl">C</span>): <span class="kw">pass</span>
+
+<span class="cl">D</span>().hello()      <span class="cm"># "B"</span>
+<span class="fn">print</span>(<span class="cl">D</span>.__mro__)
+<span class="cm"># D → B → C → A → object</span>
+<span class="cm"># A ek hi baar! Diamond problem solved.</span>`},
+
+  {id:20, level:'junior', title:'__slots__ kya hota hai? Kab use karein?',
+   explain:'Normal class objects mein __dict__ hoti hai — flexible but memory heavy. __slots__ fixed attributes define karta hai — no __dict__, less memory. 1 million objects ke saath significant savings.',
+   tip:'Django ORM models mein __slots__ mat use karo — metaclass se conflict karta hai. Lakhon lightweight objects ke liye use karo.',
+   code:`<span class="kw">class</span> <span class="cl">NormalPoint</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x = x; self.y = y
+
+<span class="kw">class</span> <span class="cl">FastPoint</span>:
+    __slots__ = (<span class="st">'x'</span>, <span class="st">'y'</span>)   <span class="cm"># Only these!</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x = x; self.y = y
+
+<span class="kw">import</span> sys
+p1 = <span class="cl">NormalPoint</span>(<span class="num">1</span>, <span class="num">2</span>)
+p2 = <span class="cl">FastPoint</span>(<span class="num">1</span>, <span class="num">2</span>)
+
+<span class="fn">print</span>(sys.getsizeof(p1.__dict__))  <span class="cm"># ~232 bytes</span>
+<span class="cm"># p2 has no __dict__ — much less memory!</span>
+<span class="cm"># p2.z = 3  # ❌ AttributeError</span>`},
+
+  // MID
+  {id:21, level:'mid', title:'Decorator pattern kaise implement karein OOP mein?',
+   explain:'Decorator kisi function/class ke behavior ko wrap karke extend karta hai without modifying original code. Function decorator ya class-based decorator (@classname) dono valid hain.',
+   tip:'Django middleware, DRF permission_classes, @login_required sab decorator pattern hain. @wraps use karo — nahi toh func.__name__ wrapper ho jaata hai.',
+   code:`<span class="kw">from</span> functools <span class="kw">import</span> wraps
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="dec">@wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        start  = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        <span class="fn">print</span>(<span class="st">f"</span>{func.__name__}<span class="st"> took </span>{elapsed:.4f}<span class="st">s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="cm"># Class-based decorator with params</span>
+<span class="kw">class</span> <span class="cl">Retry</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, times=<span class="num">3</span>):
+        self.times = times
+
+    <span class="kw">def</span> <span class="fn">__call__</span>(self, func):
+        <span class="dec">@wraps</span>(func)
+        <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+            <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(self.times):
+                <span class="kw">try</span>: <span class="kw">return</span> func(*args, **kwargs)
+                <span class="kw">except</span> <span class="cl">Exception</span>:
+                    <span class="kw">if</span> i == self.times - <span class="num">1</span>: <span class="kw">raise</span>
+        <span class="kw">return</span> wrapper
+
+<span class="dec">@Retry</span>(times=<span class="num">3</span>)
+<span class="kw">def</span> <span class="fn">call_sap_api</span>(): <span class="kw">pass</span>  <span class="cm"># Auto-retry 3 times</span>`},
+
+  {id:22, level:'mid', title:'Singleton pattern kaise implement karein?',
+   explain:'Singleton ensures sirf ek instance banta hai. __new__ override karo ya decorator use karo. Database connection pool, Config manager, Logger ke liye use hota hai.',
+   tip:'Thread-safe Singleton ke liye threading.Lock use karo — Q37 dekho. Django mein settings module naturally singleton hai.',
+   code:`<span class="cm"># __new__ override</span>
+<span class="kw">class</span> <span class="cl">Database</span>:
+    _instance = <span class="kw">None</span>
+
+    <span class="kw">def</span> <span class="fn">__new__</span>(cls):
+        <span class="kw">if</span> cls._instance <span class="kw">is</span> <span class="kw">None</span>:
+            cls._instance = <span class="fn">super</span>().__new__(cls)
+            cls._instance.connected = <span class="kw">False</span>
+        <span class="kw">return</span> cls._instance
+
+db1 = <span class="cl">Database</span>()
+db2 = <span class="cl">Database</span>()
+<span class="fn">print</span>(db1 <span class="kw">is</span> db2)  <span class="cm"># True — same object!</span>
+
+<span class="cm"># Decorator approach (cleaner)</span>
+<span class="kw">def</span> <span class="fn">singleton</span>(cls):
+    instances = {}
+    <span class="kw">def</span> <span class="fn">get</span>(*a, **kw):
+        <span class="kw">if</span> cls <span class="kw">not in</span> instances:
+            instances[cls] = cls(*a, **kw)
+        <span class="kw">return</span> instances[cls]
+    <span class="kw">return</span> get
+
+<span class="dec">@singleton</span>
+<span class="kw">class</span> <span class="cl">Config</span>:
+    db_url = <span class="st">"localhost:5432"</span>`},
+
+  {id:23, level:'mid', title:'Observer pattern kaise implement karein?',
+   explain:'Observer = event emitter pattern. Subject observers ki list maintain karta hai. Event fire hone par sab observers notify hote hain. Django signals (post_save, pre_delete) exactly yahi hai.',
+   tip:'Django signals = built-in observer pattern. Real project mein custom EventEmitter se zyada Django signals prefer karo.',
+   code:`<span class="kw">class</span> <span class="cl">EventEmitter</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self._handlers = {}
+
+    <span class="kw">def</span> <span class="fn">on</span>(self, event, handler):
+        self._handlers.setdefault(event, []).append(handler)
+
+    <span class="kw">def</span> <span class="fn">emit</span>(self, event, *args):
+        <span class="kw">for</span> h <span class="kw">in</span> self._handlers.get(event, []):
+            h(*args)
+
+<span class="kw">class</span> <span class="cl">UserService</span>(<span class="cl">EventEmitter</span>):
+    <span class="kw">def</span> <span class="fn">register</span>(self, user):
+        <span class="fn">print</span>(<span class="st">f"Registered: </span>{user}<span class="st">"</span>)
+        self.emit(<span class="st">"user_registered"</span>, user)
+
+svc = <span class="cl">UserService</span>()
+svc.on(<span class="st">"user_registered"</span>, <span class="kw">lambda</span> u: <span class="fn">print</span>(<span class="st">f"📧 Welcome email → </span>{u}<span class="st">"</span>))
+svc.on(<span class="st">"user_registered"</span>, <span class="kw">lambda</span> u: <span class="fn">print</span>(<span class="st">f"📊 Analytics logged"</span>))
+svc.register(<span class="st">"Ashish"</span>)`},
+
+  {id:24, level:'mid', title:'Context Manager kaise banate hain?',
+   explain:'Context manager with statement ke liye __enter__ (setup) aur __exit__ (cleanup) define karta hai. Exceptions automatically handle hoti hain. contextlib.contextmanager se generator se bana sakte hain.',
+   tip:'Database transactions, file handles, locks ke liye context manager use karo — guarantee hai cleanup hoga.',
+   code:`<span class="cm"># Class-based</span>
+<span class="kw">class</span> <span class="cl">DBConnection</span>:
+    <span class="kw">def</span> <span class="fn">__enter__</span>(self):
+        <span class="fn">print</span>(<span class="st">"DB Connected"</span>)
+        <span class="kw">return</span> self
+
+    <span class="kw">def</span> <span class="fn">__exit__</span>(self, exc_type, exc_val, tb):
+        <span class="fn">print</span>(<span class="st">"DB Closed"</span>)
+        <span class="kw">return</span> <span class="kw">False</span>  <span class="cm"># Propagate exceptions</span>
+
+<span class="kw">with</span> <span class="cl">DBConnection</span>() <span class="kw">as</span> db:
+    <span class="fn">print</span>(<span class="st">"Running queries..."</span>)
+
+<span class="cm"># contextlib approach (simpler)</span>
+<span class="kw">from</span> contextlib <span class="kw">import</span> contextmanager
+
+<span class="dec">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">timer</span>(label):
+    <span class="kw">import</span> time
+    t = time.perf_counter()
+    <span class="kw">try</span>:
+        <span class="kw">yield</span>
+    <span class="kw">finally</span>:
+        <span class="fn">print</span>(<span class="st">f"</span>{label}<span class="st">: </span>{time.perf_counter()-t:.4f}<span class="st">s"</span>)
+
+<span class="kw">with</span> <span class="fn">timer</span>(<span class="st">"Query"</span>):
+    <span class="fn">sum</span>(<span class="fn">range</span>(<span class="num">1_000_000</span>))`},
+
+  {id:25, level:'mid', title:'Mixin classes kya hoti hain?',
+   explain:'Mixin = small reusable class jo specific behavior add kare. Full inheritance nahi — sirf functionality plug-in. Django REST Framework ka LoginRequiredMixin, PermissionMixin sab mixins hain.',
+   tip:'Mixin names mein "Mixin" suffix lagao convention ke liye. Mixin class ka apna __init__ nahi hona chahiye.',
+   code:`<span class="kw">class</span> <span class="cl">LogMixin</span>:
+    <span class="kw">def</span> <span class="fn">log</span>(self, msg):
+        <span class="fn">print</span>(<span class="st">f"[</span>{self.__class__.__name__}<span class="st">] </span>{msg}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">SerializeMixin</span>:
+    <span class="kw">def</span> <span class="fn">to_json</span>(self):
+        <span class="kw">import</span> json
+        <span class="kw">return</span> json.dumps(self.__dict__)
+
+<span class="kw">class</span> <span class="cl">ValidateMixin</span>:
+    <span class="kw">def</span> <span class="fn">validate</span>(self):
+        <span class="kw">for</span> k, v <span class="kw">in</span> self.__dict__.items():
+            <span class="kw">if</span> v <span class="kw">is</span> <span class="kw">None</span>:
+                <span class="kw">raise</span> <span class="cl">ValueError</span>(<span class="st">f"</span>{k}<span class="st"> cannot be None"</span>)
+
+<span class="kw">class</span> <span class="cl">User</span>(<span class="cl">LogMixin</span>, <span class="cl">SerializeMixin</span>, <span class="cl">ValidateMixin</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, email):
+        self.name=name; self.email=email
+
+    <span class="kw">def</span> <span class="fn">save</span>(self):
+        self.validate()
+        self.log(<span class="st">f"Saving: </span>{self.name}<span class="st">"</span>)
+        <span class="fn">print</span>(self.to_json())`},
+
+  {id:26, level:'mid', title:'Factory Pattern kaise implement karein?',
+   explain:'Factory = object creation logic centralize karo. Caller ko concrete class nahi pata — sirf type pass karo. Open/Closed principle: naye types add karo without changing existing code.',
+   tip:'Django REST Framework serializer selection, payment gateway selection (Razorpay/PayU) — Factory pattern perfect hai.',
+   code:`<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cl">Notification</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">send</span>(self, msg): <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">EmailNotification</span>(<span class="cl">Notification</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, email): self.email=email
+    <span class="kw">def</span> <span class="fn">send</span>(self, msg): <span class="fn">print</span>(<span class="st">f"📧 </span>{self.email}<span class="st">: </span>{msg}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">SMSNotification</span>(<span class="cl">Notification</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, phone): self.phone=phone
+    <span class="kw">def</span> <span class="fn">send</span>(self, msg): <span class="fn">print</span>(<span class="st">f"📱 </span>{self.phone}<span class="st">: </span>{msg}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">NotificationFactory</span>:
+    _map = {<span class="st">"email"</span>: <span class="cl">EmailNotification</span>, <span class="st">"sms"</span>: <span class="cl">SMSNotification</span>}
+
+    <span class="dec">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">create</span>(cls, type_, *args):
+        <span class="kw">if</span> type_ <span class="kw">not in</span> cls._map:
+            <span class="kw">raise</span> <span class="cl">ValueError</span>(<span class="st">f"Unknown: </span>{type_}<span class="st">"</span>)
+        <span class="kw">return</span> cls._map[type_](*args)
+
+n = <span class="cl">NotificationFactory</span>.create(<span class="st">"email"</span>, <span class="st">"a@b.com"</span>)
+n.send(<span class="st">"Order shipped!"</span>)`},
+
+  {id:27, level:'mid', title:'Dataclass kya hota hai? Kab use karein?',
+   explain:'@dataclass __init__, __repr__, __eq__ auto-generate karta hai. frozen=True immutable banata hai (hashable). order=True comparison operators deta hai. NamedTuple se zyada flexible.',
+   tip:'Pydantic BaseModel (FastAPI) dataclass ka powerful alternative hai — validation bhi karta hai. DTO (Data Transfer Objects) ke liye perfect.',
+   code:`<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> typing <span class="kw">import</span> List
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cl">Student</span>:
+    name:    str
+    age:     int
+    marks:   float = <span class="num">0.0</span>
+    subjects: List[str] = field(default_factory=list)
+
+    <span class="kw">def</span> <span class="fn">grade</span>(self) -> str:
+        <span class="kw">if</span> self.marks >= <span class="num">90</span>: <span class="kw">return</span> <span class="st">"A"</span>
+        <span class="kw">if</span> self.marks >= <span class="num">80</span>: <span class="kw">return</span> <span class="st">"B"</span>
+        <span class="kw">return</span> <span class="st">"C"</span>
+
+s = <span class="cl">Student</span>(<span class="st">"Ashish"</span>, <span class="num">29</span>, <span class="num">90.0</span>)
+<span class="fn">print</span>(s)          <span class="cm"># Student(name='Ashish', age=29, ...)</span>
+<span class="fn">print</span>(s.grade())  <span class="cm"># A</span>
+
+<span class="dec">@dataclass</span>(frozen=<span class="kw">True</span>)
+<span class="kw">class</span> <span class="cl">Point</span>:
+    x: float; y: float
+
+p = <span class="cl">Point</span>(<span class="num">1.0</span>, <span class="num">2.0</span>)
+<span class="cm"># p.x = 3  # ❌ FrozenInstanceError</span>`},
+
+  {id:28, level:'mid', title:'__call__ method kya karta hai?',
+   explain:'__call__ define karo toh object ko function ki tarah call kar sakte hain. callable(obj) True return karta hai. Class-based decorators @Retry(times=3) isi se kaam karte hain.',
+   tip:'__call__ use karo jab object stateful behavior ke saath callable chahiye — config decorator, rate limiter, middleware.',
+   code:`<span class="kw">class</span> <span class="cl">Multiplier</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, factor):
+        self.factor = factor
+
+    <span class="kw">def</span> <span class="fn">__call__</span>(self, number):
+        <span class="kw">return</span> number * self.factor
+
+double = <span class="cl">Multiplier</span>(<span class="num">2</span>)
+triple = <span class="cl">Multiplier</span>(<span class="num">3</span>)
+
+<span class="fn">print</span>(double(<span class="num">5</span>))  <span class="cm"># 10</span>
+<span class="fn">print</span>(triple(<span class="num">5</span>))  <span class="cm"># 15</span>
+<span class="fn">print</span>(<span class="fn">callable</span>(double))  <span class="cm"># True</span>
+
+<span class="cm"># Practical: configurable function-like object</span>
+<span class="kw">class</span> <span class="cl">Validator</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, min_len, max_len):
+        self.min_len = min_len
+        self.max_len = max_len
+
+    <span class="kw">def</span> <span class="fn">__call__</span>(self, value):
+        <span class="kw">return</span> self.min_len <= <span class="fn">len</span>(value) <= self.max_len
+
+password_ok = <span class="cl">Validator</span>(<span class="num">8</span>, <span class="num">20</span>)
+<span class="fn">print</span>(password_ok(<span class="st">"abc"</span>))      <span class="cm"># False</span>
+<span class="fn">print</span>(password_ok(<span class="st">"secure123"</span>)) <span class="cm"># True</span>`},
+
+  // SENIOR
+  {id:29, level:'senior', title:'Descriptor Protocol kya hai?',
+   explain:'Descriptor = class with __get__, __set__, __delete__. Kisi doosri class ke attribute pe control milta hai. @property internally descriptor hai. Django ORM fields, SQLAlchemy columns sab descriptors hain.',
+   tip:'__set_name__ Python 3.6+ mein add hua — descriptor ko apna attribute name pata chal jaata hai automatically.',
+   code:`<span class="kw">class</span> <span class="cl">TypedAttr</span>:
+    <span class="kw">def</span> <span class="fn">__set_name__</span>(self, owner, name):
+        self.name = name
+        self.private = <span class="st">f'_</span>{name}<span class="st">'</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, expected_type):
+        self.expected_type = expected_type
+
+    <span class="kw">def</span> <span class="fn">__get__</span>(self, obj, objtype=<span class="kw">None</span>):
+        <span class="kw">if</span> obj <span class="kw">is</span> <span class="kw">None</span>: <span class="kw">return</span> self
+        <span class="kw">return</span> <span class="fn">getattr</span>(obj, self.private, <span class="kw">None</span>)
+
+    <span class="kw">def</span> <span class="fn">__set__</span>(self, obj, value):
+        <span class="kw">if</span> <span class="kw">not</span> <span class="fn">isinstance</span>(value, self.expected_type):
+            <span class="kw">raise</span> <span class="cl">TypeError</span>(<span class="st">f"</span>{self.name}<span class="st"> must be </span>{self.expected_type}<span class="st">"</span>)
+        <span class="fn">setattr</span>(obj, self.private, value)
+
+<span class="kw">class</span> <span class="cl">Employee</span>:
+    name   = <span class="cl">TypedAttr</span>(str)
+    salary = <span class="cl">TypedAttr</span>((<span class="cl">int</span>, <span class="cl">float</span>))
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, salary):
+        self.name=name; self.salary=salary
+
+e = <span class="cl">Employee</span>(<span class="st">"Ashish"</span>, <span class="num">60000</span>)  <span class="cm"># ✅</span>
+<span class="cm"># Employee(123, 60000)           # ❌ TypeError</span>`},
+
+  {id:30, level:'senior', title:'Metaclass kya hota hai?',
+   explain:'Class ki bhi ek class hoti hai — Metaclass. Default metaclass = type. Custom metaclass se class creation control kar sakte hain — fields auto-collect, table names auto-set, API registration. Django ORM ka ModelBase metaclass hai.',
+   tip:'Metaclass bahut powerful hai but rarely needed — Django/SQLAlchemy banane ke liye hai. Interview mein: "class ka class" bol do, example do.',
+   code:`<span class="cm"># type se dynamically class banao</span>
+<span class="cl">MyClass</span> = <span class="fn">type</span>(<span class="st">'MyClass'</span>, (<span class="fn">object</span>,), {<span class="st">'x'</span>: <span class="num">10</span>})
+<span class="fn">print</span>(<span class="cl">MyClass</span>().x)  <span class="cm"># 10</span>
+
+<span class="cm"># Custom metaclass — ORM-like</span>
+<span class="kw">class</span> <span class="cl">ModelMeta</span>(<span class="fn">type</span>):
+    <span class="kw">def</span> <span class="fn">__new__</span>(mcs, name, bases, ns):
+        fields = {k:v <span class="kw">for</span> k,v <span class="kw">in</span> ns.items()
+                  <span class="kw">if not</span> k.startswith(<span class="st">'_'</span>)
+                  <span class="kw">and not</span> <span class="fn">callable</span>(v)}
+        ns[<span class="st">'_fields'</span>] = fields
+        ns[<span class="st">'_table'</span>]  = name.lower() + <span class="st">'s'</span>
+        <span class="kw">return</span> <span class="fn">super</span>().__new__(mcs, name, bases, ns)
+
+<span class="kw">class</span> <span class="cl">Model</span>(metaclass=<span class="cl">ModelMeta</span>): <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">User</span>(<span class="cl">Model</span>):
+    name  = str
+    email = str
+
+<span class="fn">print</span>(<span class="cl">User</span>._table)   <span class="cm"># users</span>
+<span class="fn">print</span>(<span class="cl">User</span>._fields)  <span class="cm"># {'name': str, 'email': str}</span>`},
+
+  {id:31, level:'senior', title:'__init_subclass__ kya karta hai?',
+   explain:'__init_subclass__ tab call hota hai jab koi class inherit kare. Plugin system banane ke liye perfect — subclass define karte hi auto-register ho jaata hai. @classmethod nahi hona chahiye.',
+   tip:'Plugin/handler registry banane ke liye metaclass se zyada simple hai __init_subclass__. Celery tasks ka registration similar pattern use karta hai.',
+   code:`<span class="kw">class</span> <span class="cl">Plugin</span>:
+    _registry = {}
+
+    <span class="kw">def</span> <span class="fn">__init_subclass__</span>(cls, plugin_name=<span class="kw">None</span>, **kw):
+        <span class="fn">super</span>().__init_subclass__(**kw)
+        <span class="kw">if</span> plugin_name:
+            <span class="cl">Plugin</span>._registry[plugin_name] = cls
+            <span class="fn">print</span>(<span class="st">f"Registered: </span>{plugin_name}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">EmailPlugin</span>(<span class="cl">Plugin</span>, plugin_name=<span class="st">"email"</span>):
+    <span class="kw">def</span> <span class="fn">execute</span>(self, data):
+        <span class="fn">print</span>(<span class="st">f"📧 </span>{data}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">SMSPlugin</span>(<span class="cl">Plugin</span>, plugin_name=<span class="st">"sms"</span>):
+    <span class="kw">def</span> <span class="fn">execute</span>(self, data):
+        <span class="fn">print</span>(<span class="st">f"📱 </span>{data}<span class="st">"</span>)
+
+<span class="cm"># Auto-registered on class definition!</span>
+<span class="cl">Plugin</span>._registry[<span class="st">"email"</span>]().execute(<span class="st">"Hello!"</span>)`},
+
+  {id:32, level:'senior', title:'Memory management aur Object lifecycle kya hai?',
+   explain:'Python reference counting se garbage collection karta hai. count = 0 → object free. Circular references (a→b→a) reference counting se handle nahi hota — cyclic GC (gc module) handle karta hai.',
+   tip:'del object deletes reference, not necessarily the object. gc.collect() force circular ref cleanup. weakref.ref se circular ref avoid karo.',
+   code:`<span class="kw">import</span> sys, gc
+
+x = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]
+<span class="fn">print</span>(sys.getrefcount(x))   <span class="cm"># 2 (x + function arg)</span>
+
+y = x                        <span class="cm"># count +1 = 3</span>
+<span class="kw">del</span> y                        <span class="cm"># count -1 = 2</span>
+
+<span class="cm"># Circular reference</span>
+<span class="kw">class</span> <span class="cl">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self.next = <span class="kw">None</span>
+
+a = <span class="cl">Node</span>(); b = <span class="cl">Node</span>()
+a.next = b; b.next = a       <span class="cm"># Circular!</span>
+<span class="kw">del</span> a, b                    <span class="cm"># ref count > 0 but unreachable</span>
+gc.collect()                 <span class="cm"># GC cleans circular refs</span>
+
+<span class="cm"># weakref to avoid circular ref</span>
+<span class="kw">import</span> weakref
+<span class="kw">class</span> <span class="cl">Parent</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self.child = <span class="kw">None</span>
+
+<span class="kw">class</span> <span class="cl">Child</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, parent):
+        self.parent = weakref.ref(parent)  <span class="cm"># Weak ref!</span>`},
+
+  {id:33, level:'senior', title:'Abstract Factory Pattern kaise implement karein?',
+   explain:'Abstract Factory related objects ka family create karta hai without specifying concrete classes. Factory of Factories. UI toolkit example: Windows factory creates Windows buttons/textfields, Mac factory creates Mac ones.',
+   tip:'Difference: Factory = ek product type banata hai. Abstract Factory = related products ka pura family banata hai.',
+   code:`<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cl">Button</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">render</span>(self): <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">WindowsButton</span>(<span class="cl">Button</span>):
+    <span class="kw">def</span> <span class="fn">render</span>(self): <span class="fn">print</span>(<span class="st">"🔲 Windows Button"</span>)
+
+<span class="kw">class</span> <span class="cl">MacButton</span>(<span class="cl">Button</span>):
+    <span class="kw">def</span> <span class="fn">render</span>(self): <span class="fn">print</span>(<span class="st">"⬛ Mac Button"</span>)
+
+<span class="kw">class</span> <span class="cl">UIFactory</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">create_button</span>(self) -> <span class="cl">Button</span>: <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">WindowsFactory</span>(<span class="cl">UIFactory</span>):
+    <span class="kw">def</span> <span class="fn">create_button</span>(self): <span class="kw">return</span> <span class="cl">WindowsButton</span>()
+
+<span class="kw">class</span> <span class="cl">MacFactory</span>(<span class="cl">UIFactory</span>):
+    <span class="kw">def</span> <span class="fn">create_button</span>(self): <span class="kw">return</span> <span class="cl">MacButton</span>()
+
+<span class="kw">def</span> <span class="fn">build_ui</span>(factory: <span class="cl">UIFactory</span>):
+    factory.create_button().render()
+
+<span class="fn">build_ui</span>(<span class="cl">WindowsFactory</span>())  <span class="cm"># 🔲 Windows Button</span>
+<span class="fn">build_ui</span>(<span class="cl">MacFactory</span>())      <span class="cm"># ⬛ Mac Button</span>`},
+
+  {id:34, level:'senior', title:'SOLID Principles Python mein explain karo.',
+   explain:'S=Single Responsibility, O=Open/Closed, L=Liskov Substitution, I=Interface Segregation, D=Dependency Inversion. Ye principles loosely coupled, maintainable code ke liye hain.',
+   tip:'Interview mein: "S — ek class ka ek kaam, O — extension ke liye open modification ke liye closed" — sab 5 ek line mein bolne ki practice karo.',
+   code:`<span class="cm"># S — Single Responsibility</span>
+<span class="kw">class</span> <span class="cl">UserRepository</span>:  <span class="cm"># Only DB</span>
+    <span class="kw">def</span> <span class="fn">save</span>(self, user): <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">EmailService</span>:    <span class="cm"># Only email</span>
+    <span class="kw">def</span> <span class="fn">send</span>(self, user): <span class="kw">pass</span>
+
+<span class="cm"># O — Open/Closed</span>
+<span class="kw">class</span> <span class="cl">Discount</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">apply</span>(self, price): <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">StudentDiscount</span>(<span class="cl">Discount</span>):   <span class="cm"># New — no existing change!</span>
+    <span class="kw">def</span> <span class="fn">apply</span>(self, price): <span class="kw">return</span> price * <span class="num">0.7</span>
+
+<span class="cm"># D — Dependency Inversion</span>
+<span class="kw">class</span> <span class="cl">OrderService</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, notifier: <span class="cl">Notification</span>):
+        self.notifier = notifier   <span class="cm"># Abstraction inject!</span>
+
+    <span class="kw">def</span> <span class="fn">place</span>(self, order):
+        <span class="fn">print</span>(<span class="st">f"Placed: </span>{order}<span class="st">"</span>)
+        self.notifier.send(<span class="st">f"Confirmed: </span>{order}<span class="st">"</span>)`},
+
+  {id:35, level:'senior', title:'Strategy Pattern kaise implement karein?',
+   explain:'Strategy = algorithm family define karo, har ek encapsulate karo, interchange karo. Payment gateway selection, sorting algorithm, discount calculation — runtime pe change kar sako.',
+   tip:'Django REST parsers (JSONParser, MultiPartParser) strategy pattern use karte hain. Payment service mein Razorpay/PayU switch bhi Strategy hai.',
+   code:`<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cl">PaymentStrategy</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">pay</span>(self, amount): <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cl">RazorpayStrategy</span>(<span class="cl">PaymentStrategy</span>):
+    <span class="kw">def</span> <span class="fn">pay</span>(self, amount):
+        <span class="fn">print</span>(<span class="st">f"💳 Razorpay: ₹</span>{amount}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">UPIStrategy</span>(<span class="cl">PaymentStrategy</span>):
+    <span class="kw">def</span> <span class="fn">pay</span>(self, amount):
+        <span class="fn">print</span>(<span class="st">f"📱 UPI: ₹</span>{amount}<span class="st">"</span>)
+
+<span class="kw">class</span> <span class="cl">Checkout</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, strategy: <span class="cl">PaymentStrategy</span>):
+        self._strategy = strategy
+
+    <span class="kw">def</span> <span class="fn">set_strategy</span>(self, s): self._strategy = s
+
+    <span class="kw">def</span> <span class="fn">pay</span>(self, amount):
+        self._strategy.pay(amount)
+
+c = <span class="cl">Checkout</span>(<span class="cl">RazorpayStrategy</span>())
+c.pay(<span class="num">1000</span>)                     <span class="cm"># 💳 Razorpay</span>
+c.set_strategy(<span class="cl">UPIStrategy</span>())  <span class="cm"># Runtime switch!</span>
+c.pay(<span class="num">500</span>)                      <span class="cm"># 📱 UPI</span>`},
+
+  // BONUS — MISSING TOPICS
+  {id:36, level:'bonus', title:'Custom Iterator Protocol — __iter__ aur __next__',
+   explain:'Iterator protocol: __iter__ returns self, __next__ returns next value or raises StopIteration. Lazy evaluation — memory efficient. Generator se simpler cases handle karo.',
+   tip:'for loop internally __iter__ call karta hai phir baar baar __next__. Python list, dict sab iterable hain kyunki __iter__ define hai.',
+   code:`<span class="kw">class</span> <span class="cl">CountDown</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, start):
+        self.current = start
+
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self):
+        <span class="kw">return</span> self   <span class="cm"># Iterator returns itself</span>
+
+    <span class="kw">def</span> <span class="fn">__next__</span>(self):
+        <span class="kw">if</span> self.current <= <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cl">StopIteration</span>
+        val = self.current
+        self.current -= <span class="num">1</span>
+        <span class="kw">return</span> val
+
+<span class="kw">for</span> n <span class="kw">in</span> <span class="cl">CountDown</span>(<span class="num">3</span>):
+    <span class="fn">print</span>(n)   <span class="cm"># 3, 2, 1</span>
+
+<span class="cm"># Generator — simpler way</span>
+<span class="kw">def</span> <span class="fn">countdown</span>(n):
+    <span class="kw">while</span> n > <span class="num">0</span>:
+        <span class="kw">yield</span> n
+        n -= <span class="num">1</span>
+
+<span class="cm"># Lazy DB query — memory safe</span>
+<span class="kw">def</span> <span class="fn">fetch_in_batches</span>(queryset, batch=<span class="num">100</span>):
+    offset = <span class="num">0</span>
+    <span class="kw">while</span> <span class="kw">True</span>:
+        batch_qs = queryset[offset:offset+batch]
+        <span class="kw">if not</span> batch_qs: <span class="kw">break</span>
+        <span class="kw">yield from</span> batch_qs
+        offset += batch`},
+
+  {id:37, level:'bonus', title:'Thread-safe Singleton with threading.Lock',
+   explain:'Basic Singleton thread-safe nahi hota — do threads simultaneously _instance is None check karke do alag instances bana sakte hain. threading.Lock se double-checked locking pattern use karo.',
+   tip:'Backend applications (Celery workers, Django threading) mein Singleton ko thread-safe banana MUST hai.',
+   code:`<span class="kw">import</span> threading
+
+<span class="kw">class</span> <span class="cl">ThreadSafeDB</span>:
+    _instance = <span class="kw">None</span>
+    _lock = threading.Lock()
+
+    <span class="kw">def</span> <span class="fn">__new__</span>(cls):
+        <span class="cm"># Double-checked locking</span>
+        <span class="kw">if</span> cls._instance <span class="kw">is</span> <span class="kw">None</span>:
+            <span class="kw">with</span> cls._lock:           <span class="cm"># Lock acquire</span>
+                <span class="kw">if</span> cls._instance <span class="kw">is</span> <span class="kw">None</span>:  <span class="cm"># Double check</span>
+                    cls._instance = <span class="fn">super</span>().__new__(cls)
+                    cls._instance.pool = []
+                    <span class="fn">print</span>(<span class="st">"DB Pool created"</span>)
+        <span class="kw">return</span> cls._instance
+
+<span class="cm"># Test with threads</span>
+<span class="kw">def</span> <span class="fn">get_db</span>():
+    db = <span class="cl">ThreadSafeDB</span>()
+    <span class="fn">print</span>(<span class="fn">id</span>(db))
+
+threads = [threading.Thread(target=get_db) <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>)]
+<span class="kw">for</span> t <span class="kw">in</span> threads: t.start()
+<span class="kw">for</span> t <span class="kw">in</span> threads: t.join()
+<span class="cm"># All same id — true singleton!</span>`},
+
+  {id:38, level:'bonus', title:'typing.Protocol vs ABC — kya fark hai?',
+   explain:'ABC = nominal subtyping (explicitly inherit karna padta hai). Protocol = structural subtyping (duck typing) — class sirf methods implement kare, inherit nahi karna. Python 3.8+ mein Protocol add hua.',
+   tip:'Modern Python (3.8+) mein Protocol prefer karo type hints ke liye — third-party classes bhi compatible ho jaate hain without changing them.',
+   code:`<span class="kw">from</span> typing <span class="kw">import</span> Protocol
+
+<span class="cm"># Protocol — structural typing</span>
+<span class="kw">class</span> <span class="cl">Drawable</span>(<span class="cl">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">draw</span>(self) -> str: ...
+
+<span class="cm"># No inheritance needed!</span>
+<span class="kw">class</span> <span class="cl">Circle</span>:
+    <span class="kw">def</span> <span class="fn">draw</span>(self) -> str: <span class="kw">return</span> <span class="st">"○"</span>
+
+<span class="kw">class</span> <span class="cl">Square</span>:
+    <span class="kw">def</span> <span class="fn">draw</span>(self) -> str: <span class="kw">return</span> <span class="st">"□"</span>
+
+<span class="kw">def</span> <span class="fn">render</span>(shape: <span class="cl">Drawable</span>):   <span class="cm"># Type-checked!</span>
+    <span class="fn">print</span>(shape.draw())
+
+<span class="fn">render</span>(<span class="cl">Circle</span>())  <span class="cm"># ✅ No ABC needed</span>
+<span class="fn">render</span>(<span class="cl">Square</span>())  <span class="cm"># ✅</span>
+
+<span class="cm"># vs ABC — must explicitly inherit</span>
+<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cl">DrawableABC</span>(<span class="cl">ABC</span>):
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">draw</span>(self): <span class="kw">pass</span>
+
+<span class="cm"># Third-party class won't work with ABC without modification</span>
+<span class="cm"># Protocol works with ANY class that has .draw()</span>`},
+
+  {id:39, level:'bonus', title:'Async Context Manager — __aenter__ aur __aexit__',
+   explain:'Async context managers async with ke liye hain. __aenter__ aur __aexit__ coroutines hote hain (async def). aiohttp, asyncpg, Django Channels mein bahut use hota hai.',
+   tip:'FastAPI/async Django mein database connections async context manager se manage karo. asynccontextmanager decorator se simpler syntax.',
+   code:`<span class="kw">import</span> asyncio
+
+<span class="kw">class</span> <span class="cl">AsyncDBConnection</span>:
+    <span class="kw">async def</span> <span class="fn">__aenter__</span>(self):
+        <span class="fn">print</span>(<span class="st">"Async DB connecting..."</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="num">0.1</span>)  <span class="cm"># Simulate async connect</span>
+        <span class="kw">return</span> self
+
+    <span class="kw">async def</span> <span class="fn">__aexit__</span>(self, exc_type, exc_val, tb):
+        <span class="fn">print</span>(<span class="st">"Async DB closing..."</span>)
+        <span class="kw">await</span> asyncio.sleep(<span class="num">0.01</span>)
+        <span class="kw">return</span> <span class="kw">False</span>
+
+    <span class="kw">async def</span> <span class="fn">execute</span>(self, query):
+        <span class="fn">print</span>(<span class="st">f"Query: </span>{query}<span class="st">"</span>)
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    <span class="kw">async with</span> <span class="cl">AsyncDBConnection</span>() <span class="kw">as</span> db:
+        <span class="kw">await</span> db.execute(<span class="st">"SELECT * FROM users"</span>)
+
+asyncio.run(main())
+
+<span class="cm"># asynccontextmanager decorator</span>
+<span class="kw">from</span> contextlib <span class="kw">import</span> asynccontextmanager
+
+<span class="dec">@asynccontextmanager</span>
+<span class="kw">async def</span> <span class="fn">get_db_session</span>():
+    session = <span class="st">"async_session"</span>
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> session
+    <span class="kw">finally</span>:
+        <span class="fn">print</span>(<span class="st">"Session closed"</span>)`},
+
+  {id:40, level:'bonus', title:'Builder Pattern kaise implement karein?',
+   explain:'Builder complex objects step-by-step banata hai. Constructor mein bohot saare optional params ke liye useful. Method chaining (fluent interface) se readable code milta hai.',
+   tip:'Django ORM QuerySet ka filter().exclude().order_by().select_related() Builder pattern hai. HTTP request builders, test data factories.',
+   code:`<span class="kw">class</span> <span class="cl">QueryBuilder</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, table):
+        self._table  = table
+        self._wheres = []
+        self._limit  = <span class="kw">None</span>
+        self._cols   = [<span class="st">"*"</span>]
+
+    <span class="kw">def</span> <span class="fn">select</span>(self, *cols):
+        self._cols = <span class="fn">list</span>(cols)
+        <span class="kw">return</span> self   <span class="cm"># Method chaining!</span>
+
+    <span class="kw">def</span> <span class="fn">where</span>(self, condition):
+        self._wheres.append(condition)
+        <span class="kw">return</span> self
+
+    <span class="kw">def</span> <span class="fn">limit</span>(self, n):
+        self._limit = n
+        <span class="kw">return</span> self
+
+    <span class="kw">def</span> <span class="fn">build</span>(self):
+        sql = <span class="st">f"SELECT </span>{<span class="st">','</span>.join(self._cols)}<span class="st"> FROM </span>{self._table}<span class="st">"</span>
+        <span class="kw">if</span> self._wheres:
+            sql += <span class="st">f" WHERE </span>{<span class="st">' AND '</span>.join(self._wheres)}<span class="st">"</span>
+        <span class="kw">if</span> self._limit:
+            sql += <span class="st">f" LIMIT </span>{self._limit}<span class="st">"</span>
+        <span class="kw">return</span> sql
+
+<span class="cm"># Fluent interface — readable!</span>
+query = (<span class="cl">QueryBuilder</span>(<span class="st">"users"</span>)
+    .select(<span class="st">"id"</span>, <span class="st">"name"</span>, <span class="st">"email"</span>)
+    .where(<span class="st">"age > 18"</span>)
+    .where(<span class="st">"active = 1"</span>)
+    .limit(<span class="num">10</span>)
+    .build())
+<span class="fn">print</span>(query)
+<span class="cm"># SELECT id,name,email FROM users WHERE age > 18 AND active = 1 LIMIT 10</span>`},
+
+  {id:41, level:'bonus', title:'__new__ vs __init__ — exact difference kya hai?',
+   explain:'__new__ object creation karta hai (memory allocate). __init__ object initialization karta hai (attributes set). __new__ pehle chalta hai, __init__ baad mein. Immutable types (str, int, tuple) ke custom subclass ke liye __new__ chahiye.',
+   tip:'Singleton __new__ mein implement karo — __init__ har baar call hoga but __new__ se same instance return kar sakte hain.',
+   code:`<span class="kw">class</span> <span class="cl">MyClass</span>:
+    <span class="kw">def</span> <span class="fn">__new__</span>(cls, *args, **kwargs):
+        <span class="fn">print</span>(<span class="st">f"__new__ called — creating instance"</span>)
+        instance = <span class="fn">super</span>().__new__(cls)  <span class="cm"># Memory allocate</span>
+        <span class="kw">return</span> instance
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, value):
+        <span class="fn">print</span>(<span class="st">f"__init__ called — value={value}"</span>)
+        self.value = value
+
+obj = <span class="cl">MyClass</span>(<span class="num">42</span>)
+<span class="cm"># __new__ called — creating instance</span>
+<span class="cm"># __init__ called — value=42</span>
+
+<span class="cm"># Immutable str subclass — needs __new__</span>
+<span class="kw">class</span> <span class="cl">UpperStr</span>(<span class="fn">str</span>):
+    <span class="kw">def</span> <span class="fn">__new__</span>(cls, value):
+        <span class="kw">return</span> <span class="fn">super</span>().__new__(cls, value.upper())
+
+s = <span class="cl">UpperStr</span>(<span class="st">"hello"</span>)
+<span class="fn">print</span>(s)         <span class="cm"># HELLO</span>
+<span class="fn">print</span>(<span class="fn">type</span>(s))  <span class="cm"># UpperStr</span>`},
+];
+
+function setTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function toggleAnswer(id) {
+  const panel = document.getElementById('ap-' + id);
+  const btn = document.getElementById('tb-' + id);
+  const open = panel.classList.toggle('open');
+  btn.textContent = open ? 'Hide ▲' : 'Answer ▼';
+}
+
+function toggleDone(id) {
+  state[id] = !state[id];
+  localStorage.setItem(STORE, JSON.stringify(state));
+  render();
+  updateStats();
+}
+
+function levelLabel(lv) {
+  const map = {fresher:'🟢 Fresher',junior:'🟡 Junior',mid:'🟠 Mid',senior:'🔴 Senior',bonus:'⭐ Bonus'};
+  return map[lv] || lv;
+}
+
+function levelClass(lv) {
+  return 'lvl-' + lv;
+}
+
+function updateStats() {
+  const done = Object.values(state).filter(Boolean).length;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-rem').textContent = questions.length - done;
+  document.getElementById('prog').style.width = Math.round(done / questions.length * 100) + '%';
+}
+
+function render() {
+  const el = document.getElementById('main');
+  let filtered = questions;
+
+  if (currentTab !== 'all' && currentTab !== 'pending') {
+    filtered = questions.filter(q => q.level === currentTab);
+  } else if (currentTab === 'pending') {
+    filtered = questions.filter(q => !state[q.id]);
+  }
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty">🎉 All done! Great work Ashish.</div>';
+    return;
+  }
+
+  const sectionOrder = ['fresher','junior','mid','senior','bonus'];
+  const sectionTitles = {
+    fresher: '🟢 Fresher Level (0-1 Year)',
+    junior:  '🟡 Junior Level (1-2 Years)',
+    mid:     '🟠 Mid Level (2-3 Years)',
+    senior:  '🔴 Senior Level (3-5 Years)',
+    bonus:   '⭐ Missing Topics (Important for 5 YOE)',
+  };
+
+  let html = '';
+  const levels = currentTab === 'all' || currentTab === 'pending'
+    ? sectionOrder : [currentTab];
+
+  levels.forEach(lv => {
+    const qs = filtered.filter(q => q.level === lv);
+    if (!qs.length) return;
+
+    if (currentTab === 'all' || currentTab === 'pending') {
+      html += `<div class="section-title">${sectionTitles[lv]}</div>`;
+    }
+    html += '<div class="grid">';
+    qs.forEach(q => {
+      const done = !!state[q.id];
+      html += `
+        <div class="card${done?' done':''}">
+          <div class="card-head" onclick="toggleAnswer(${q.id})">
+            <div class="q-num">Q${q.id}</div>
+            <div class="q-title">${q.title}</div>
+            <div class="badges">
+              <span class="badge ${levelClass(q.level)}">${levelLabel(q.level)}</span>
+              ${done ? '<span class="done-badge">✅ Done</span>' : ''}
+            </div>
+          </div>
+          <div class="card-toggle">
+            <button class="toggle-btn" id="tb-${q.id}" onclick="toggleAnswer(${q.id})">Answer ▼</button>
+            <button class="mark-btn" onclick="toggleDone(${q.id})">${done ? '✅ Done' : '○ Mark Done'}</button>
+          </div>
+          <div class="answer-panel" id="ap-${q.id}">
+            <div class="answer-inner">
+              <div class="section-label">📖 Explanation</div>
+              <div class="explain">${q.explain}</div>
+              <div class="section-label">💻 Code</div>
+              <pre><code>${q.code}</code></pre>
+              <div class="tip">💡 Interview Tip: ${q.tip}</div>
+            </div>
+          </div>
+        </div>`;
+    });
+    html += '</div>';
+  });
+
+  el.innerHTML = html;
+  updateStats();
+}
+
+render();
+</script>
+</body>
+</html>

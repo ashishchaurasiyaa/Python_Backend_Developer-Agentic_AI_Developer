@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLD Study Sheet — Python Backend (5 YOE)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8F9FA;color:#1a1a2e;line-height:1.5}
+.page{max-width:1200px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;font-weight:700;margin-bottom:4px;color:#1a1a2e}
+.subtitle{font-size:13px;color:#666;margin-bottom:20px}
+
+/* ── TAB NAV ── */
+.tab-nav{display:flex;gap:8px;margin-bottom:20px;border-bottom:1.5px solid #E0E0E0;padding-bottom:0}
+.tab-btn{font-size:13px;font-weight:500;padding:8px 18px;border:none;background:transparent;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all 0.15s}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover{color:#3C3489}
+
+/* ── PROGRESS ── */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.prog-bar{flex:1;height:7px;background:#E8E8F0;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:#1D9E75;border-radius:4px;transition:width 0.3s}
+.prog-label{font-size:12px;color:#666;min-width:70px;text-align:right}
+
+/* ── LEGEND ── */
+.legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#666}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+
+/* ── FILTER ── */
+.filter-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:11px;color:#999;margin-right:4px}
+.filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid #ccc;background:transparent;color:#666;cursor:pointer;transition:all 0.15s}
+.filter-btn.active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+
+/* ── SECTION ── */
+.section{margin-bottom:32px}
+.sec-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1.5px solid #E8E8F0}
+.sec-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.sec-title{font-size:15px;font-weight:600;color:#1a1a2e}
+.sec-count{font-size:11px;color:#999;margin-left:auto}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+
+/* ── CARD ── */
+.concept-card{background:#fff;border:1px solid #E8E8F0;border-radius:8px;padding:12px 14px;cursor:pointer;transition:border-color 0.15s;position:relative}
+.concept-card:hover{border-color:#B0B0C0;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.concept-card.done{border-color:#1D9E75;background:#F0FBF7}
+.concept-card.done .c-name{color:#085041}
+.concept-card.done .c-tag{background:#9FE1CB;color:#085041}
+.concept-card.imp{border-left:3px solid #7F77DD}
+.c-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.c-name{font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.4}
+.c-check{width:18px;height:18px;border-radius:4px;border:1.5px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.concept-card.done .c-check{background:#1D9E75;border-color:#1D9E75}
+.checkmark{width:10px;height:10px;display:none}
+.concept-card.done .checkmark{display:block}
+.c-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:#F0F0F8;color:#666;display:inline-block;margin-top:4px}
+.c-note{font-size:11px;color:#888;margin-top:6px;line-height:1.45}
+
+/* ── DETAIL BUTTON ── */
+.det-btn{font-size:10px;padding:3px 10px;border-radius:10px;border:0.5px solid #ccc;background:transparent;color:#3C3489;cursor:pointer;margin-top:8px;display:inline-block;font-weight:500;transition:all 0.15s}
+.det-btn:hover{background:#EEEDFE;border-color:#AFA9EC}
+
+/* ── DETAIL PANEL ── */
+.det-panel{display:none;margin-top:10px;border-top:1px solid #E8E8F0;padding-top:10px}
+.det-explain{font-size:11.5px;color:#444;line-height:1.6;margin-bottom:8px;background:#F8F9FA;padding:8px 10px;border-radius:6px;border-left:3px solid #7F77DD}
+.det-section-label{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.det-code{font-size:10.5px;background:#1a1a2e;color:#e8e8f0;padding:10px 12px;border-radius:6px;overflow-x:auto;white-space:pre;font-family:'Courier New',Courier,monospace;line-height:1.6;margin-bottom:8px}
+.det-tip{font-size:11px;color:#3C3489;background:#EEEDFE;padding:6px 10px;border-radius:6px;line-height:1.5;font-style:italic}
+.det-tip::before{content:"💡 Interview Tip: ";font-weight:600;font-style:normal}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>LLD Study Sheet</h1>
+  <p class="subtitle">Python Backend Developer — 5 Years Experience | Click card to mark done | Click "Details" for in-depth answer</p>
+
+  <!-- Tab Nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('all')">All LLD</button>
+    <button class="tab-btn" onclick="showTab('oop')">OOP Concepts (12)</button>
+    <button class="tab-btn" onclick="showTab('practice')">Practice Problems (10)</button>
+    <button class="tab-btn" onclick="showTab('pending')">Pending Only</button>
+  </div>
+
+  <!-- Progress -->
+  <div class="prog-row">
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-label" id="prog-label">0 / 22</div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div> Must-know (left border)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div> Completed</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#EEEDFE;border:1px solid #AFA9EC"></div> Click card = Mark done</div>
+  </div>
+
+  <div id="container"></div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   DETAIL CONTENT — All 22 LLD Concepts
+   Python Backend Developer (5 YOE) focused
+   ════════════════════════════════════════════ */
+const details = {
+
+"LLD — Object-Oriented Design_SOLID principles": {
+explain: `SOLID = 5 principles jo code ko maintainable aur extensible banate hain. S=Single Responsibility (ek class ek kaam kare), O=Open/Closed (naya feature add karo bina purana code touch kiye), L=Liskov Substitution (child class parent ki jagah seamlessly kaam kare), I=Interface Segregation (ek badi interface mat banao), D=Dependency Inversion (concrete pe nahi, abstraction pe depend karo). Aapke SAP connector mein jab aapne retry logic alag class mein rakha — woh SRP tha.`,
+example: `# ── S: Single Responsibility ──────────────────
+# BAD: View mein business logic + email — SRP violation
+class BadOrderView(APIView):
+    def post(self, request):
+        order = Order.objects.create(**request.data)
+        send_email(order.user.email, "Order placed!")  # wrong place
+        order.total = order.qty * order.price          # wrong place
+        order.save()
+        return Response({"id": order.id})
+
+# GOOD: View sirf HTTP handle kare
+class OrderView(APIView):
+    def post(self, request):
+        order = OrderService.create(request.data, request.user)
+        return Response({"id": order.id}, status=201)
+
+class OrderService:                  # business logic yahan
+    @staticmethod
+    def create(data, user):
+        order = Order.objects.create(**data, user=user)
+        NotificationService.send_order_confirmation(order)
+        return order
+
+# ── O: Open/Closed ────────────────────────────
+from abc import ABC, abstractmethod
+
+class PaymentGateway(ABC):           # open for extension
+    @abstractmethod
+    def charge(self, amount: int) -> dict: ...
+
+class RazorpayGateway(PaymentGateway):  # closed for modification
+    def charge(self, amount):
+        return razorpay_client.order.create({"amount": amount * 100})
+
+class StripeGateway(PaymentGateway):    # new gateway — existing code untouched
+    def charge(self, amount):
+        return stripe.Charge.create(amount=amount, currency="inr")
+
+# ── D: Dependency Inversion ───────────────────
+class CheckoutService:
+    def __init__(self, gateway: PaymentGateway):  # inject abstraction
+        self.gateway = gateway
+
+    def checkout(self, cart):
+        return self.gateway.charge(cart.total)
+
+# Production
+svc = CheckoutService(RazorpayGateway())
+# Testing — mock inject karo
+svc = CheckoutService(MockGateway())`,
+tip: `SOLID ek sath mat ratto — interviewer ko specific example do: "Humne service layer mein OCP follow kiya tha — naya payment provider add karne ke liye existing code nahi chhuna pada."`
+},
+
+"LLD — Object-Oriented Design_Design patterns — Creational": {
+explain: `Creational patterns object creation control karte hain. Factory Method: subclass decide karta hai kaunsa object banana hai. Abstract Factory: related objects ka family banata hai. Singleton: poore app mein sirf ek instance. Builder: complex object step-by-step banata hai. Prototype: existing object copy karta hai. Aapke payment gateway selection mein Factory pattern naturally fit hota hai.`,
+example: `# ── Factory Method ───────────────────────────
+class PaymentFactory:
+    _registry = {
+        "razorpay": RazorpayGateway,
+        "stripe":   StripeGateway,
+        "payu":     PayUGateway,
+    }
+    @classmethod
+    def create(cls, provider: str) -> PaymentGateway:
+        klass = cls._registry.get(provider)
+        if not klass:
+            raise ValueError(f"Unknown payment provider: {provider}")
+        return klass()
+
+# Usage — settings se provider aata hai, code nahi badlata
+gateway = PaymentFactory.create(settings.PAYMENT_PROVIDER)
+gateway.charge(order.total)
+
+# ── Singleton — Redis Connection ──────────────
+import redis, threading
+
+class RedisClient:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:                      # thread-safe
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance.client = redis.Redis.from_url(
+                        settings.REDIS_URL, decode_responses=True
+                    )
+        return cls._instance
+
+r = RedisClient().client  # always same connection
+
+# ── Builder — Complex Report Query ───────────
+class ReportQueryBuilder:
+    def __init__(self):
+        self._qs = Order.objects.select_related("user", "tenant")
+
+    def by_date(self, start, end):
+        self._qs = self._qs.filter(created_at__range=(start, end))
+        return self                              # method chaining
+
+    def by_tenant(self, tenant_id):
+        self._qs = self._qs.filter(tenant_id=tenant_id)
+        return self
+
+    def by_status(self, status):
+        self._qs = self._qs.filter(status=status)
+        return self
+
+    def build(self):
+        return self._qs
+
+# Usage
+report = (ReportQueryBuilder()
+          .by_tenant(request.tenant.id)
+          .by_date("2024-01-01", "2024-12-31")
+          .by_status("confirmed")
+          .build())`,
+tip: `Factory + Singleton ek sath puchha jaata hai. Batao: "Factory decides which class, Singleton ensures one instance." Thread-safety ka mention bonus points deta hai.`
+},
+
+"LLD — Object-Oriented Design_Design patterns — Structural": {
+explain: `Structural patterns classes/objects ko compose karke naye structures banate hain. Decorator: object ke around new behaviour wrap karta hai bina class change kiye (Django middleware exactly yahi hai). Adapter: incompatible interface ko compatible banata hai (SAP BAPI ko REST-like interface dena). Facade: complex subsystem ke upar simple interface. Proxy: original object ke access ko control karta hai.`,
+example: `# ── Decorator Pattern ─────────────────────────
+# Django middleware = Decorator pattern!
+# Custom example: Request timing decorator
+
+import time, functools, logging
+logger = logging.getLogger(__name__)
+
+def log_execution_time(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        logger.info(f"{func.__name__} took {elapsed:.3f}s")
+        return result
+    return wrapper
+
+class OrderService:
+    @log_execution_time              # decorator wraps, doesn't modify
+    def create_order(self, data):
+        return Order.objects.create(**data)
+
+# ── Adapter Pattern ────────────────────────────
+# SAP BAPI returns dict with German field names
+# Our system expects standard Python interface
+
+class SAPRawClient:
+    def get_material(self, matnr: str):         # SAP's interface
+        return {"MATNR": matnr, "MAKTX": "Steel Rod", "MEINS": "KG"}
+
+class SAPMaterialAdapter:                       # Adapter — bridges the gap
+    def __init__(self, sap_client: SAPRawClient):
+        self._client = sap_client
+
+    def get_product(self, product_code: str):   # Our interface
+        raw = self._client.get_material(product_code)
+        return {                                 # translate field names
+            "code":  raw["MATNR"],
+            "name":  raw["MAKTX"],
+            "unit":  raw["MEINS"],
+        }
+
+# Rest of our code uses adapter, never raw SAP client
+adapter = SAPMaterialAdapter(SAPRawClient())
+product = adapter.get_product("MAT001")
+
+# ── Facade Pattern ─────────────────────────────
+# Notification system: Email + SMS + Push complexity hidden
+class NotificationFacade:
+    def __init__(self):
+        self._email = EmailService()    # Postmark
+        self._sms   = SMSService()      # Twilio
+        self._push  = PushService()     # FCM
+
+    def send_booking_confirmation(self, booking):
+        self._email.send(booking.user.email, "booking_confirmed", booking)
+        self._sms.send(booking.user.phone, f"Booking #{booking.id} confirmed")
+        if booking.user.push_token:
+            self._push.send(booking.user.push_token, "Booking Confirmed!")
+        # caller does not know about 3 services — just one call
+
+notifier = NotificationFacade()
+notifier.send_booking_confirmation(booking)`,
+tip: `"Decorator pattern aur Python decorator alag hain" — yeh important distinction hai. Python @decorator syntactic sugar hai, GoF Decorator wrapping is about class composition.`
+},
+
+"LLD — Object-Oriented Design_Design patterns — Behavioral": {
+explain: `Behavioral patterns algorithms aur object responsibilities ke baare mein hain. Observer: ek change hota hai, multiple dependents notify hote hain (Django signals exactly yahi). Strategy: runtime pe algorithm swap karo. State: object ka behavior uske state ke hisaab se badalta hai. Command: request ko object mein encapsulate karo (Celery tasks yahi karte hain). Template Method: algorithm ka skeleton define karo, steps subclass mein.`,
+example: `# ── Observer — Django Signals ─────────────────
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from celery import shared_task
+
+@receiver(post_save, sender=Booking)
+def on_booking_created(sender, instance, created, **kwargs):
+    if created:
+        send_confirmation_email.delay(instance.id)  # async
+        update_availability_cache.delay(instance.room_id)
+
+@shared_task
+def send_confirmation_email(booking_id):
+    booking = Booking.objects.select_related("user").get(id=booking_id)
+    EmailService.send(booking.user.email, "booking_confirmed", booking)
+
+# ── Strategy Pattern ──────────────────────────
+from abc import ABC, abstractmethod
+
+class PricingStrategy(ABC):
+    @abstractmethod
+    def calculate(self, base_price: float, context: dict) -> float: ...
+
+class StandardPricing(PricingStrategy):
+    def calculate(self, base_price, context):
+        return base_price
+
+class WeekendSurgePricing(PricingStrategy):
+    def calculate(self, base_price, context):
+        return base_price * 1.5   # 50% surge
+
+class CorporatePricing(PricingStrategy):
+    def calculate(self, base_price, context):
+        return base_price * 0.8   # 20% discount
+
+class PriceCalculator:
+    def __init__(self, strategy: PricingStrategy):
+        self.strategy = strategy
+
+    def get_price(self, room, context):
+        return self.strategy.calculate(room.base_price, context)
+
+# Runtime switch
+strategy = WeekendSurgePricing() if is_weekend() else StandardPricing()
+calculator = PriceCalculator(strategy)
+price = calculator.get_price(room, context)
+
+# ── Template Method ───────────────────────────
+class BaseReportGenerator(ABC):
+    def generate(self):              # template method — fixed skeleton
+        data = self.fetch_data()
+        processed = self.process(data)
+        return self.format_output(processed)
+
+    @abstractmethod
+    def fetch_data(self): ...        # subclass implements these
+    @abstractmethod
+    def process(self, data): ...
+    @abstractmethod
+    def format_output(self, data): ...
+
+class PDFBookingReport(BaseReportGenerator):
+    def fetch_data(self):
+        return Booking.objects.filter(status="confirmed")
+    def process(self, data):
+        return [{"id": b.id, "total": b.total} for b in data]
+    def format_output(self, data):
+        return generate_pdf(data)`,
+tip: `Strategy pattern bahut common hai — "Alag algorithms ko family mein organize karo." Interviewer pooche: 'Strategy vs State?' — Strategy mein client algorithm choose karta hai, State mein object apna behavior khud change karta hai.`
+},
+
+"LLD — Object-Oriented Design_UML class diagrams": {
+explain: `UML Class Diagrams visually show karते hain: classes, attributes, methods, aur relationships (inheritance, composition, association). Interview mein whiteboard pe draw karna padta hai. Key relationships: Inheritance (is-a, solid arrow), Composition (has-a, filled diamond — child bina parent nahi jee sakta), Aggregation (has-a, hollow diamond — child independent exist kar sakta hai), Association (uses-a, plain arrow).`,
+example: `# UML se Python mein mapping:
+
+# ── Inheritance (solid arrow, is-a) ───────────
+class Vehicle:              # parent
+    speed: int
+    def move(self): ...
+
+class Car(Vehicle):         # child  -->  solid arrow to Vehicle
+    doors: int
+    def move(self): ...     # override
+
+# ── Composition (filled diamond, strong has-a) ─
+class Order:                # Order "has" OrderItems
+    def __init__(self):
+        self.items = []     # OrderItem cannot exist without Order
+
+class OrderItem:
+    order_id: int
+    product_id: int
+    qty: int
+    # DELETE Order → DELETE OrderItems (CASCADE in DB)
+
+# ── Aggregation (hollow diamond, weak has-a) ──
+class Department:
+    def __init__(self, employees):
+        self.employees = employees  # Employee can exist without Department
+
+class Employee:
+    name: str
+    # Employee survives if Department is deleted
+
+# ── Association (uses, plain arrow) ───────────
+class OrderService:
+    def create(self, user: User):     # OrderService uses User (association)
+        return Order(user=user)
+
+# ── Multiplicity ──────────────────────────────
+# One-to-Many:  1 User ──< many Orders
+# Many-to-Many: many Students >──< many Courses (through table)
+# One-to-One:   1 User ──1 UserProfile
+
+# Django model se UML:
+class Booking(models.Model):          # 1 Booking
+    room    = models.ForeignKey(Room, ...)   # many-to-one (Room ──< Booking)
+    user    = models.ForeignKey(User, ...)   # many-to-one
+    payment = models.OneToOneField(Payment, ...)  # 1-to-1`,
+tip: `Interview mein exact UML syntax perfect nahi hona chahiye — clarity important hai. Pehle boxes banao, phir arrows. Bolte jao kya draw kar rahe ho.`
+},
+
+"LLD — Object-Oriented Design_Abstraction & encapsulation": {
+explain: `Abstraction = complexity chhupao, sirf zaruri details dikhao (ABC, @abstractmethod se implement karte hain Python mein). Encapsulation = data ko methods ke through access karo, direct access mat do (@property, leading underscore se). Dono milke code ko safe aur maintainable banate hain. Django ka Model class abstraction hai — aapko SQL likhni nahi padti.`,
+example: `from abc import ABC, abstractmethod
+
+# ── Abstraction ──────────────────────────────
+class NotificationChannel(ABC):
+    """Abstract base — implementation details hidden"""
+
+    @abstractmethod
+    def send(self, recipient: str, message: str) -> bool:
+        """Subclass must implement this"""
+        ...
+
+    @abstractmethod
+    def validate_recipient(self, recipient: str) -> bool: ...
+
+class EmailChannel(NotificationChannel):
+    def send(self, recipient, message):
+        # Postmark API details hidden from caller
+        return postmark.send(to=recipient, body=message)
+
+    def validate_recipient(self, recipient):
+        return "@" in recipient
+
+class SMSChannel(NotificationChannel):
+    def send(self, recipient, message):
+        # Twilio details hidden from caller
+        return twilio_client.messages.create(to=recipient, body=message)
+
+    def validate_recipient(self, recipient):
+        return recipient.startswith("+")
+
+# ── Encapsulation ─────────────────────────────
+class BankAccount:
+    def __init__(self, balance: float):
+        self._balance = balance      # _prefix = convention "private"
+        self.__pin = None            # __prefix = name mangling (truly private)
+
+    @property
+    def balance(self):               # read-only from outside
+        return self._balance
+
+    @balance.setter
+    def balance(self, value):
+        if value < 0:
+            raise ValueError("Balance cannot be negative")
+        self._balance = value        # validation enforced here
+
+    def deposit(self, amount: float):
+        if amount <= 0:
+            raise ValueError("Deposit must be positive")
+        self._balance += amount
+        return self._balance
+
+# Usage
+acc = BankAccount(1000)
+print(acc.balance)      # 1000  (via @property)
+acc.balance = -500      # raises ValueError (encapsulation at work)
+# acc._balance = -500   # possible but convention says don't
+# acc.__pin             # AttributeError (name mangled to _BankAccount__pin)`,
+tip: `"Abstract class vs Interface?" — Python mein Interface = ABC with all @abstractmethod (no implementation). Abstract class = ABC with some concrete methods. Java ki tarah strict nahi hai Python mein.`
+},
+
+"LLD — Object-Oriented Design_Composition over inheritance": {
+explain: `"Prefer composition over inheritance" matlab: object ke andar doosre objects rakho (has-a), doosre objects se inherit mat karo (is-a). Kyun? Deep inheritance chains fragile hoti hain — parent change hone se sab children break ho jaate hain. Composition flexible hai — runtime pe behavior swap kar sakte ho. Agar sochna pade "is X really a Y?" — toh composition better hai.`,
+example: `# ── Problem with deep inheritance ────────────
+class Animal:
+    def breathe(self): ...
+
+class FlyingAnimal(Animal):
+    def fly(self): ...
+
+class SwimmingAnimal(Animal):
+    def swim(self): ...
+
+# Duck — flies AND swims — multiple inheritance = mess!
+class Duck(FlyingAnimal, SwimmingAnimal): ...  # fragile, MRO issues
+
+# ── Solution: Composition ─────────────────────
+class FlyBehavior:
+    def fly(self):
+        return "Flying with wings"
+
+class SwimBehavior:
+    def swim(self):
+        return "Swimming with webbed feet"
+
+class NoBehavior:
+    def fly(self): return "Cannot fly"
+    def swim(self): return "Cannot swim"
+
+class Duck:
+    def __init__(self):
+        self.fly_behavior  = FlyBehavior()     # has-a
+        self.swim_behavior = SwimBehavior()    # has-a
+
+    def fly(self):  return self.fly_behavior.fly()
+    def swim(self): return self.swim_behavior.swim()
+
+class Penguin:
+    def __init__(self):
+        self.fly_behavior  = NoBehavior()      # swap behavior!
+        self.swim_behavior = SwimBehavior()
+
+# Real-world: Order payment type — don't inherit, compose
+class Order:
+    def __init__(self, payment_strategy: PaymentGateway):
+        self.payment = payment_strategy        # has-a, not is-a
+
+    def checkout(self):
+        return self.payment.charge(self.total)
+
+# Wrong way (inheritance):
+# class RazorpayOrder(Order): ...  BAD — couples payment to order
+# class StripeOrder(Order):   ...  BAD — code duplication
+
+# Right way (composition):
+razorpay_order = Order(payment_strategy=RazorpayGateway())
+stripe_order   = Order(payment_strategy=StripeGateway())`,
+tip: `Rule of thumb: "Agar tum 'is-a' relationship ke baare mein doubt mein ho, composition use karo." Django ke Generic Views deep inheritance use karte hain — yeh ek known trade-off hai, not a recommendation to copy.`
+},
+
+"LLD — Object-Oriented Design_Dependency injection": {
+explain: `Dependency Injection (DI) = class apni dependencies khud create nahi karta, bahar se receive karta hai (constructor, method, ya property ke through). Benefits: Testing mein mock inject kar sakte ho, real implementation swap kar sakte ho bina class change kiye. Aapke SAP connector testing mein aapne mock inject kiya hoga — woh DI tha. Pytest fixtures bhi DI ka ek form hai.`,
+example: `# ── WITHOUT DI (tightly coupled — bad) ───────
+class OrderService:
+    def __init__(self):
+        self.repo    = OrderRepository()   # hardcoded
+        self.mailer  = EmailService()      # hardcoded
+        self.payment = RazorpayGateway()   # hardcoded
+    # Can't test without hitting real DB + email + Razorpay
+
+# ── WITH DI (loosely coupled — good) ─────────
+class OrderService:
+    def __init__(
+        self,
+        repo:    OrderRepository,          # injected
+        mailer:  EmailService,             # injected
+        payment: PaymentGateway,           # injected (abstraction)
+    ):
+        self.repo    = repo
+        self.mailer  = mailer
+        self.payment = payment
+
+    def create(self, data, user):
+        order = self.repo.create(data, user)
+        self.mailer.send_confirmation(order)
+        return order
+
+# Production
+svc = OrderService(
+    repo    = OrderRepository(),
+    mailer  = PostmarkEmailService(),
+    payment = RazorpayGateway(),
+)
+
+# Testing — inject mocks
+class MockEmailService:
+    def __init__(self): self.sent = []
+    def send_confirmation(self, order): self.sent.append(order)
+
+mock_mail = MockEmailService()
+svc = OrderService(
+    repo    = FakeOrderRepository(),
+    mailer  = mock_mail,
+    payment = MockPaymentGateway(),
+)
+order = svc.create(data, user)
+assert len(mock_mail.sent) == 1  # no real email sent
+
+# ── Pytest fixtures = DI ─────────────────────
+import pytest
+
+@pytest.fixture
+def order_service(db):           # db fixture injected by pytest
+    return OrderService(
+        repo    = OrderRepository(),
+        mailer  = MockEmailService(),
+        payment = MockPaymentGateway(),
+    )
+
+def test_order_creation(order_service):
+    order = order_service.create(valid_data, user)
+    assert order.status == "pending"`,
+tip: `Django DI ka example: settings.DATABASES inject ho jata hai ORM mein. Test mein sqlite use hoti hai, production mein PostgreSQL — same ORM code, different injection.`
+},
+
+"LLD — Object-Oriented Design_Repository pattern": {
+explain: `Repository pattern data access layer ko business logic se alag karta hai. Repository ek layer hai jo database queries encapsulate karta hai — service ko yeh nahi pata ki data PostgreSQL se aa raha hai ya MongoDB se. Agar kal DB change karo toh sirf repository change hoga, business logic untouched rahega. Testing mein in-memory fake repository use kar sakte ho.`,
+example: `from abc import ABC, abstractmethod
+from typing import Optional, List
+
+# ── Abstract Repository ───────────────────────
+class BookingRepository(ABC):
+    @abstractmethod
+    def get_by_id(self, id: int) -> Optional["Booking"]: ...
+
+    @abstractmethod
+    def get_by_user(self, user_id: int) -> List["Booking"]: ...
+
+    @abstractmethod
+    def create(self, data: dict) -> "Booking": ...
+
+    @abstractmethod
+    def update_status(self, id: int, status: str) -> "Booking": ...
+
+# ── Django ORM Implementation ─────────────────
+class DjangoBookingRepository(BookingRepository):
+    def get_by_id(self, id):
+        try:
+            return Booking.objects.select_related("user", "room").get(id=id)
+        except Booking.DoesNotExist:
+            return None
+
+    def get_by_user(self, user_id):
+        return list(
+            Booking.objects.filter(user_id=user_id)
+                           .select_related("room")
+                           .order_by("-created_at")
+        )
+
+    def create(self, data):
+        return Booking.objects.create(**data)
+
+    def update_status(self, id, status):
+        Booking.objects.filter(id=id).update(status=status)
+        return self.get_by_id(id)
+
+# ── Service uses Repository (not ORM directly) ─
+class BookingService:
+    def __init__(self, repo: BookingRepository):
+        self.repo = repo
+
+    def confirm_booking(self, booking_id: int):
+        booking = self.repo.get_by_id(booking_id)
+        if not booking:
+            raise BookingNotFoundError(booking_id)
+        return self.repo.update_status(booking_id, "confirmed")
+
+# ── Testing with In-Memory Fake ───────────────
+class InMemoryBookingRepository(BookingRepository):
+    def __init__(self): self._store = {}
+
+    def get_by_id(self, id): return self._store.get(id)
+    def get_by_user(self, user_id):
+        return [b for b in self._store.values() if b.user_id == user_id]
+    def create(self, data):
+        b = Booking(**data); self._store[b.id] = b; return b
+    def update_status(self, id, status):
+        self._store[id].status = status; return self._store[id]
+
+# No DB needed in test!
+svc = BookingService(repo=InMemoryBookingRepository())`,
+tip: `"Repository vs DAO?" — Almost same. DAO (Data Access Object) Java term hai, closer to DB. Repository DDD term hai, closer to domain language. Python mein interchangeable bolte hain.`
+},
+
+"LLD — Object-Oriented Design_Service layer pattern": {
+explain: `Service layer mein poori business logic rehti hai — view (HTTP) aur repository (DB) ke beech. View sirf request/response handle karta hai, repository sirf DB queries — business rules service mein. Aapka SAP connector service layer pattern use karta hai: SAPSyncService ne business rules handle kiye, raw API calls alag class mein. Is pattern se code testable aur reusable hota hai.`,
+example: `# ── View (HTTP Layer) ────────────────────────
+class BookingCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = BookingCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            booking = BookingService.create(
+                data=serializer.validated_data,
+                user=request.user,
+            )
+            return Response(BookingSerializer(booking).data, status=201)
+        except RoomNotAvailableError as e:
+            return Response({"error": str(e)}, status=409)
+
+# ── Service Layer (Business Logic) ────────────
+class BookingService:
+    @staticmethod
+    def create(data: dict, user) -> Booking:
+        room = RoomRepository.get_available(
+            data["room_id"], data["check_in"], data["check_out"]
+        )
+        if not room:
+            raise RoomNotAvailableError(data["room_id"])
+
+        # Business rule: can't book more than 30 days
+        duration = (data["check_out"] - data["check_in"]).days
+        if duration > 30:
+            raise ValidationError("Max booking duration is 30 days")
+
+        with transaction.atomic():
+            booking = BookingRepository.create({
+                **data, "user": user, "status": "pending",
+                "total": room.price_per_night * duration,
+            })
+            PaymentService.create_payment_order(booking)
+            NotificationService.send_booking_pending(booking)
+
+        return booking
+
+    @staticmethod
+    def confirm(booking_id: int, payment_id: str) -> Booking:
+        booking = BookingRepository.get_by_id(booking_id)
+        PaymentService.verify_payment(payment_id, booking.total)
+        return BookingRepository.update_status(booking_id, "confirmed")
+
+# ── Repository Layer (Data Access) ───────────
+class RoomRepository:
+    @staticmethod
+    def get_available(room_id, check_in, check_out):
+        conflicting = Booking.objects.filter(
+            room_id=room_id, status="confirmed",
+            check_in__lt=check_out, check_out__gt=check_in
+        )
+        if conflicting.exists():
+            return None
+        return Room.objects.get(id=room_id)`,
+tip: `Service layer ko fat controller se differentiate karo: "Django ka view sirf HTTP concerns handle kare — validation, auth, serialize. Business rules service mein, DB queries repository mein."`
+},
+
+"LLD — Object-Oriented Design_State machine design": {
+explain: `State machine = ek object jin states mein ho sakta hai unhe define karo, aur valid transitions define karo. Niroskos booking exactly yahi hai: Draft → Confirmed → Cancelled. State machine se invalid transitions automatically blocked hoti hain. Python mein 'transitions' library use karte hain ya manually enum + methods se implement karte hain.`,
+example: `# ── Manual State Machine ──────────────────────
+from enum import Enum
+
+class BookingStatus(Enum):
+    DRAFT     = "draft"
+    CONFIRMED = "confirmed"
+    CANCELLED = "cancelled"
+    COMPLETED = "completed"
+
+VALID_TRANSITIONS = {
+    BookingStatus.DRAFT:     [BookingStatus.CONFIRMED, BookingStatus.CANCELLED],
+    BookingStatus.CONFIRMED: [BookingStatus.CANCELLED, BookingStatus.COMPLETED],
+    BookingStatus.CANCELLED: [],   # terminal state
+    BookingStatus.COMPLETED: [],   # terminal state
+}
+
+class Booking(models.Model):
+    status = models.CharField(
+        max_length=20,
+        choices=[(s.value, s.name) for s in BookingStatus],
+        default=BookingStatus.DRAFT.value,
+    )
+
+    def transition_to(self, new_status: BookingStatus):
+        current = BookingStatus(self.status)
+        allowed = VALID_TRANSITIONS[current]
+        if new_status not in allowed:
+            raise InvalidTransitionError(
+                f"Cannot go from {current.value} to {new_status.value}"
+            )
+        self.status = new_status.value
+        self.save(update_fields=["status"])
+
+# Usage
+booking.transition_to(BookingStatus.CONFIRMED)  # OK
+booking.transition_to(BookingStatus.DRAFT)       # InvalidTransitionError!
+
+# ── Using 'transitions' library ───────────────
+from transitions import Machine
+
+class Booking:
+    states = ["draft", "confirmed", "cancelled", "completed"]
+    transitions = [
+        {"trigger": "confirm",   "source": "draft",     "dest": "confirmed"},
+        {"trigger": "cancel",    "source": ["draft","confirmed"], "dest": "cancelled"},
+        {"trigger": "complete",  "source": "confirmed", "dest": "completed"},
+    ]
+    def __init__(self):
+        self.machine = Machine(model=self, states=self.states,
+                               transitions=self.transitions, initial="draft")
+    def on_enter_confirmed(self):       # auto-called on state enter
+        NotificationService.send_confirmation(self)
+
+b = Booking()
+b.confirm()    # b.state == "confirmed"
+b.complete()   # b.state == "completed"
+b.cancel()     # InvalidTransition (terminal state)`,
+tip: `State machine question mein pehle states likhao whiteboard pe, phir transitions. Phys "terminal states kaunse hain?" — completed aur cancelled se aage nahi ja sakte.`
+},
+
+"LLD — Object-Oriented Design_Observer / event-driven": {
+explain: `Observer pattern: ek subject (publisher) ki state change hoti hai toh registered observers (subscribers) automatically notify hote hain. Django signals is exact pattern ka implementation hai. Celery tasks observer ki tarah kaam karte hain — event hota hai, async task trigger hota hai. Iska benefit: publisher ko pata nahi hota subscriber kaun hai — loose coupling.`,
+example: `# ── Django Signals = Observer Pattern ─────────
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver, Signal
+
+# Custom signal define karo
+booking_confirmed = Signal()  # custom domain event
+
+# ── Publisher (Subject) ───────────────────────
+class BookingService:
+    @staticmethod
+    def confirm(booking_id):
+        booking = Booking.objects.get(id=booking_id)
+        booking.status = "confirmed"
+        booking.save()
+        booking_confirmed.send(sender=Booking, booking=booking)
+        # Sender doesn't know WHO will handle this signal
+
+# ── Observers (Subscribers) ───────────────────
+@receiver(booking_confirmed, sender=Booking)
+def send_confirmation_email(sender, booking, **kwargs):
+    EmailService.send(booking.user.email, "booking_confirmed", booking)
+
+@receiver(booking_confirmed, sender=Booking)
+def send_sms_notification(sender, booking, **kwargs):
+    SMSService.send(booking.user.phone, f"Booking #{booking.id} confirmed!")
+
+@receiver(booking_confirmed, sender=Booking)
+def update_availability_cache(sender, booking, **kwargs):
+    cache_key = f"room_availability_{booking.room_id}"
+    cache.delete(cache_key)          # invalidate cache
+
+@receiver(booking_confirmed, sender=Booking)
+def trigger_invoice_generation(sender, booking, **kwargs):
+    generate_invoice.delay(booking.id)   # Celery async task
+
+# ── ORM Signal for automatic behavior ─────────
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+        OnboardingService.send_welcome_email.delay(instance.id)
+
+# ── Pure Observer (without Django) ───────────
+class EventBus:
+    _handlers: dict = {}
+
+    @classmethod
+    def subscribe(cls, event_type: str, handler):
+        cls._handlers.setdefault(event_type, []).append(handler)
+
+    @classmethod
+    def publish(cls, event_type: str, data: dict):
+        for handler in cls._handlers.get(event_type, []):
+            handler(data)
+
+EventBus.subscribe("booking.confirmed", send_email)
+EventBus.subscribe("booking.confirmed", update_cache)
+EventBus.publish("booking.confirmed", {"booking_id": 123})`,
+tip: `"Observer vs Pub-Sub?" — Observer mein publisher subscriber ko directly jaanta hai (same process). Pub-Sub mein message broker beech mein hota hai (Kafka, RabbitMQ) — different processes, different servers.`
+},
+
+/* ═══════════════════════════════════════════
+   LLD — PRACTICE PROBLEMS
+   ═══════════════════════════════════════════ */
+
+"LLD — Practice Problems_Design Parking Lot": {
+explain: `Parking Lot design mein key classes: ParkingLot (entry point), Floor, ParkingSlot (types: small, medium, large), Vehicle (types: Bike, Car, Truck), Ticket (entry time, slot), BillingSystem (calculate charges). Main challenges: slot allocation (find nearest), concurrent booking (race conditions), multi-floor traversal. Har vehicle type ke liye sirf appropriate slot size allow karo.`,
+example: `from datetime import datetime
+from enum import Enum
+from typing import Optional
+
+class VehicleType(Enum): BIKE=1; CAR=2; TRUCK=3
+
+class SlotSize(Enum):   SMALL=1; MEDIUM=2; LARGE=3
+
+VEHICLE_SLOT_MAP = {
+    VehicleType.BIKE:  [SlotSize.SMALL],
+    VehicleType.CAR:   [SlotSize.SMALL, SlotSize.MEDIUM],
+    VehicleType.TRUCK: [SlotSize.LARGE],
+}
+
+class Vehicle:
+    def __init__(self, plate: str, v_type: VehicleType):
+        self.plate  = plate
+        self.v_type = v_type
+
+class ParkingSlot:
+    def __init__(self, slot_id: str, size: SlotSize, floor: int):
+        self.slot_id   = slot_id
+        self.size      = size
+        self.floor     = floor
+        self.is_free   = True
+        self.vehicle   = None
+
+    def park(self, vehicle: Vehicle):
+        self.vehicle = vehicle
+        self.is_free = False
+
+    def free(self):
+        self.vehicle = None
+        self.is_free = True
+
+class Ticket:
+    def __init__(self, vehicle: Vehicle, slot: ParkingSlot):
+        self.vehicle    = vehicle
+        self.slot       = slot
+        self.entry_time = datetime.now()
+
+class ParkingFloor:
+    def __init__(self, floor_no: int, slots: list[ParkingSlot]):
+        self.floor_no = floor_no
+        self.slots    = slots
+
+    def get_free_slot(self, v_type: VehicleType) -> Optional[ParkingSlot]:
+        allowed_sizes = VEHICLE_SLOT_MAP[v_type]
+        for slot in self.slots:
+            if slot.is_free and slot.size in allowed_sizes:
+                return slot
+        return None
+
+class BillingSystem:
+    RATE_PER_HOUR = {SlotSize.SMALL: 20, SlotSize.MEDIUM: 40, SlotSize.LARGE: 80}
+
+    @staticmethod
+    def calculate(ticket: Ticket) -> float:
+        hours = (datetime.now() - ticket.entry_time).seconds / 3600
+        rate  = BillingSystem.RATE_PER_HOUR[ticket.slot.size]
+        return max(1, round(hours)) * rate  # min 1 hour charge
+
+class ParkingLot:
+    def __init__(self, floors: list[ParkingFloor]):
+        self.floors  = floors
+        self.tickets = {}  # plate -> Ticket
+
+    def park(self, vehicle: Vehicle) -> Optional[Ticket]:
+        for floor in self.floors:
+            slot = floor.get_free_slot(vehicle.v_type)
+            if slot:
+                slot.park(vehicle)
+                ticket = Ticket(vehicle, slot)
+                self.tickets[vehicle.plate] = ticket
+                return ticket
+        return None  # full
+
+    def exit(self, plate: str) -> float:
+        ticket = self.tickets.pop(plate, None)
+        if not ticket: raise ValueError("Ticket not found")
+        ticket.slot.free()
+        return BillingSystem.calculate(ticket)`,
+tip: `Interviewer aksar puchha: "Concurrent vehicles ek saath aa rahe hain?" — Use threading.Lock() around slot.park() ya database-level SELECT FOR UPDATE use karo.`
+},
+
+"LLD — Practice Problems_Design Booking System": {
+explain: `Booking system (hotel/flight) ke core challenges: concurrent booking (do log same room/seat book karen toh?), state machine (pending → confirmed → cancelled), payment integration, availability checking. Django mein solution: select_for_update() se row-level lock lagao — ek transaction poori hone tak doosra wait karega. Real Niroskos use case!`,
+example: `# ── Core Models ──────────────────────────────
+class Room(models.Model):
+    number       = models.CharField(max_length=10)
+    price_per_night = models.DecimalField(max_digits=8, decimal_places=2)
+    room_type    = models.CharField(max_length=20)  # single, double, suite
+
+class Booking(models.Model):
+    STATUS_CHOICES = [("pending","Pending"),("confirmed","Confirmed"),
+                      ("cancelled","Cancelled"),("completed","Completed")]
+    room       = models.ForeignKey(Room, on_delete=models.PROTECT)
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)
+    check_in   = models.DateField()
+    check_out  = models.DateField()
+    status     = models.CharField(max_length=20, choices=STATUS_CHOICES,
+                                  default="pending")
+    total      = models.DecimalField(max_digits=10, decimal_places=2)
+    idempotency_key = models.UUIDField(unique=True, default=uuid.uuid4)
+
+# ── Availability Check + Concurrent Lock ─────
+from django.db import transaction
+
+class BookingService:
+    @staticmethod
+    def create_booking(user, room_id, check_in, check_out):
+        with transaction.atomic():
+            # SELECT FOR UPDATE — row-level lock
+            room = Room.objects.select_for_update().get(id=room_id)
+
+            # Check conflicts within same transaction
+            conflict = Booking.objects.filter(
+                room=room, status__in=["pending","confirmed"],
+                check_in__lt=check_out,
+                check_out__gt=check_in,
+            ).exists()
+
+            if conflict:
+                raise RoomNotAvailableError(
+                    f"Room {room.number} not available for given dates"
+                )
+
+            nights = (check_out - check_in).days
+            total  = room.price_per_night * nights
+
+            booking = Booking.objects.create(
+                room=room, user=user, check_in=check_in,
+                check_out=check_out, total=total, status="pending"
+            )
+            # Async: send pending confirmation
+            send_booking_pending_email.delay(booking.id)
+            return booking
+
+    @staticmethod
+    def confirm_booking(booking_id, payment_reference):
+        with transaction.atomic():
+            booking = Booking.objects.select_for_update().get(id=booking_id)
+            if booking.status != "pending":
+                raise InvalidTransitionError(booking.status)
+            booking.status = "confirmed"
+            booking.payment_reference = payment_reference
+            booking.save(update_fields=["status", "payment_reference"])
+        send_booking_confirmed_email.delay(booking_id)
+        return booking`,
+tip: `"select_for_update() kya karta hai?" — SELECT ... FOR UPDATE SQL generate karta hai jo row lock karta hai until transaction end. Isse double booking impossible ho jaati hai.`
+},
+
+"LLD — Practice Problems_Design LRU Cache": {
+explain: `LRU (Least Recently Used) Cache: jab cache full hो toh sabse purana (least recently used) item remove karo. Python mein OrderedDict se O(1) implement hota hai — move_to_end() use karo. Prodution mein Redis use karo (built-in LRU eviction policy support hai). functools.lru_cache decorator bhi internally yahi karta hai.`,
+example: `from collections import OrderedDict
+from threading import Lock
+
+# ── Pure LRU Implementation ───────────────────
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache    = OrderedDict()   # maintains insertion order
+        self._lock    = Lock()          # thread-safe
+
+    def get(self, key: str):
+        with self._lock:
+            if key not in self.cache:
+                return None
+            self.cache.move_to_end(key)  # mark as recently used
+            return self.cache[key]
+
+    def put(self, key: str, value):
+        with self._lock:
+            if key in self.cache:
+                self.cache.move_to_end(key)
+            self.cache[key] = value
+            if len(self.cache) > self.capacity:
+                self.cache.popitem(last=False)  # remove LRU (first item)
+
+# ── Usage example ─────────────────────────────
+cache = LRUCache(capacity=100)
+cache.put("user_1", {"name": "Ashish", "email": "a@x.com"})
+cache.get("user_1")  # moves to end (most recent)
+cache.put("user_2", {"name": "Raj"})
+
+# ── Python built-in decorator ─────────────────
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def get_room_pricing(room_type: str, season: str) -> float:
+    # expensive DB call — cached after first call
+    return RoomPricing.objects.get(room_type=room_type, season=season).price
+
+# ── Django + Redis LRU-style cache ───────────
+from django.core.cache import cache
+
+def get_user_profile(user_id: int):
+    cache_key = f"user_profile_{user_id}"
+    data = cache.get(cache_key)
+    if data is None:
+        data = UserProfile.objects.select_related("user").get(user_id=user_id)
+        cache.set(cache_key, data, timeout=300)   # TTL = 5 min
+    return data
+
+# Redis config with LRU eviction:
+# maxmemory-policy allkeys-lru  (in redis.conf)
+# maxmemory 256mb
+
+# ── LRU with Doubly Linked List + HashMap (manual) ──
+# This is the O(1) interview solution:
+# HashMap: key -> Node (for O(1) lookup)
+# DLL: maintains order (head=LRU, tail=MRU)
+# On get: move node to tail
+# On put: add to tail; if full, remove head`,
+tip: `Interview mein OrderedDict solution acceptable hai. Agar interviewer puchhe "without OrderedDict?" — tab HashMap + Doubly Linked List approach explain karo.`
+},
+
+"LLD — Practice Problems_Design Rate Limiter": {
+explain: `Rate limiter ek service ko protect karta hai excessive requests se. Main algorithms: Token Bucket (fixed rate pe tokens refill hote hain — burst allow), Sliding Window Log (last N seconds ka exact count), Fixed Window Counter (simplest — har minute mein count reset). Aapne Exotel ke liye 200 req/min rate limit implement ki thi — woh Token Bucket tha. Redis best fit hai distributed rate limiting ke liye.`,
+example: `import redis, time
+from django.http import JsonResponse
+
+r = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
+
+# ── Token Bucket ─────────────────────────────
+class TokenBucketRateLimiter:
+    def __init__(self, rate: int, per_seconds: int):
+        self.rate       = rate          # tokens per period
+        self.per        = per_seconds   # period in seconds
+
+    def allow(self, key: str) -> bool:
+        now          = time.time()
+        bucket_key   = f"ratelimit:bucket:{key}"
+        last_key     = f"ratelimit:last:{key}"
+
+        pipe = r.pipeline()
+        pipe.get(bucket_key)
+        pipe.get(last_key)
+        tokens_str, last_str = pipe.execute()
+
+        tokens    = float(tokens_str) if tokens_str else float(self.rate)
+        last_time = float(last_str)   if last_str  else now
+
+        elapsed   = now - last_time
+        tokens    = min(float(self.rate), tokens + elapsed * (self.rate / self.per))
+
+        if tokens >= 1:
+            pipe = r.pipeline()
+            pipe.set(bucket_key, tokens - 1, ex=self.per * 2)
+            pipe.set(last_key, now, ex=self.per * 2)
+            pipe.execute()
+            return True
+        return False
+
+# ── Sliding Window (Redis ZADD) ───────────────
+class SlidingWindowRateLimiter:
+    def __init__(self, limit: int, window_seconds: int):
+        self.limit  = limit
+        self.window = window_seconds
+
+    def allow(self, key: str) -> bool:
+        now  = time.time()
+        pipe = r.pipeline()
+        zkey = f"ratelimit:sw:{key}"
+
+        pipe.zremrangebyscore(zkey, 0, now - self.window)  # remove old
+        pipe.zadd(zkey, {str(now): now})                   # add current
+        pipe.zcard(zkey)                                   # count
+        pipe.expire(zkey, self.window)
+        results = pipe.execute()
+        return results[2] <= self.limit   # count <= limit?
+
+# ── Django Middleware ─────────────────────────
+exotel_limiter = SlidingWindowRateLimiter(limit=200, window_seconds=60)
+
+class RateLimitMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        key = f"user:{request.user.id}" if request.user.is_authenticated \
+              else f"ip:{request.META.get('REMOTE_ADDR')}"
+        if not exotel_limiter.allow(key):
+            return JsonResponse(
+                {"error": "Rate limit exceeded. Max 200 req/min."},
+                status=429,
+                headers={"Retry-After": "60"},
+            )
+        return self.get_response(request)`,
+tip: `"Kaunsa algorithm best hai?" — Token Bucket for APIs (burst allowed), Sliding Window for strict per-window limits. Exotel use case: "200 requests per minute" = Sliding Window best fit.`
+},
+
+"LLD — Practice Problems_Design Notification System": {
+explain: `Notification system multi-channel hai: Email (Postmark/SendGrid), SMS (Twilio), Push (FCM/APNs), In-app. Design challenges: Channel selection (user preference), delivery guarantee, async processing (Celery), retry on failure, template management. Observer pattern + Strategy pattern use hota hai. Aapne Twilio + Postmark dono use kiye hain — is design ko real examples se explain kar sakte ho.`,
+example: `from abc import ABC, abstractmethod
+from celery import shared_task
+
+# ── Strategy: Notification Channels ──────────
+class NotificationChannel(ABC):
+    @abstractmethod
+    def send(self, recipient: str, subject: str, body: str) -> bool: ...
+
+    @abstractmethod
+    def supports(self, channel_type: str) -> bool: ...
+
+class EmailChannel(NotificationChannel):
+    def send(self, recipient, subject, body):
+        try:
+            postmark.send(to=recipient, subject=subject, html_body=body)
+            return True
+        except Exception as e:
+            logger.error(f"Email failed to {recipient}: {e}")
+            return False
+    def supports(self, channel_type): return channel_type == "email"
+
+class SMSChannel(NotificationChannel):
+    def send(self, recipient, subject, body):
+        try:
+            twilio.messages.create(to=recipient, body=body[:160])
+            return True
+        except Exception as e:
+            logger.error(f"SMS failed to {recipient}: {e}")
+            return False
+    def supports(self, channel_type): return channel_type == "sms"
+
+class PushChannel(NotificationChannel):
+    def send(self, recipient, subject, body):
+        fcm.notify(token=recipient, title=subject, body=body)
+        return True
+    def supports(self, channel_type): return channel_type == "push"
+
+# ── Facade: NotificationService ──────────────
+class NotificationService:
+    _channels = [EmailChannel(), SMSChannel(), PushChannel()]
+
+    @classmethod
+    def send(cls, user, template_key: str, context: dict):
+        template  = NotificationTemplate.objects.get(key=template_key)
+        prefs     = UserNotificationPrefs.objects.get(user=user)
+
+        for channel_type in prefs.enabled_channels:  # ["email","sms"]
+            channel = next(
+                (c for c in cls._channels if c.supports(channel_type)), None
+            )
+            if channel:
+                recipient = cls._get_recipient(user, channel_type)
+                body      = template.render(context, channel_type)
+                subject   = template.subject
+                send_notification_async.delay(
+                    channel_type, recipient, subject, body
+                )
+
+@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+def send_notification_async(self, channel_type, recipient, subject, body):
+    service = NotificationService()
+    channel = next(c for c in service._channels if c.supports(channel_type))
+    success = channel.send(recipient, subject, body)
+    if not success:
+        raise self.retry()  # retry up to 3 times with 60s delay`,
+tip: `"How do you handle notification failures?" — Celery retry with exponential backoff. "Dead letter queue?" — Failed tasks after max_retries go to a monitoring queue (Flower/Sentry alerts).`
+},
+
+"LLD — Practice Problems_Design Elevator System": {
+explain: `Elevator system ke key components: ElevatorCar (state, current floor), ElevatorController (dispatch requests), RequestQueue (pending requests), Door, Button. Main algorithm: SCAN (disk scheduling jaisa) — ek direction mein jaao, saari requests serve karo, phir reverse karo. States: Idle, MovingUp, MovingDown, DoorsOpen.`,
+example: `from enum import Enum
+from collections import defaultdict
+
+class Direction(Enum): UP=1; DOWN=-1; IDLE=0
+class ElevatorState(Enum): IDLE="idle"; MOVING="moving"; DOOR_OPEN="door_open"
+
+class ElevatorCar:
+    def __init__(self, car_id: int, total_floors: int):
+        self.car_id       = car_id
+        self.current_floor = 1
+        self.direction    = Direction.IDLE
+        self.state        = ElevatorState.IDLE
+        self.requests     = set()   # floors to stop at
+
+    def add_request(self, floor: int):
+        self.requests.add(floor)
+
+    def move_one_floor(self):
+        if not self.requests:
+            self.direction = Direction.IDLE
+            self.state     = ElevatorState.IDLE
+            return
+
+        if self.direction == Direction.UP:
+            self.current_floor += 1
+        elif self.direction == Direction.DOWN:
+            self.current_floor -= 1
+
+        if self.current_floor in self.requests:
+            self.requests.discard(self.current_floor)
+            self.open_door()
+
+    def open_door(self):
+        self.state = ElevatorState.DOOR_OPEN
+        print(f"Elevator {self.car_id}: Door open at floor {self.current_floor}")
+        # In real system: wait 3 seconds then close
+        self.state = ElevatorState.MOVING
+
+    def decide_direction(self):
+        if not self.requests: return
+        up_floors   = [f for f in self.requests if f > self.current_floor]
+        down_floors = [f for f in self.requests if f < self.current_floor]
+        if self.direction == Direction.UP and up_floors:
+            pass    # continue up (SCAN)
+        elif down_floors:
+            self.direction = Direction.DOWN
+        elif up_floors:
+            self.direction = Direction.UP
+
+class ElevatorController:
+    def __init__(self, num_cars: int, total_floors: int):
+        self.cars = [ElevatorCar(i, total_floors) for i in range(num_cars)]
+
+    def request_elevator(self, from_floor: int, to_floor: int):
+        best_car = self._find_best_car(from_floor)
+        best_car.add_request(from_floor)
+        best_car.add_request(to_floor)
+        best_car.decide_direction()
+
+    def _find_best_car(self, floor: int) -> ElevatorCar:
+        # Nearest idle car, else nearest moving car
+        return min(self.cars, key=lambda c: abs(c.current_floor - floor))`,
+tip: `Interviewer aksar puchhe: "Kaunsa scheduling algorithm?" — SCAN (Elevator Algorithm) realistic hai. FCFS (First Come First Served) simple hai. Mention karo ki real systems mein multiple elevators ke liye zone-based assignment hota hai.`
+},
+
+"LLD — Practice Problems_Design Chess / Snake": {
+explain: `Chess design ke key classes: Board (8x8 grid), Piece (abstract — King, Queen, Rook, Bishop, Knight, Pawn), Player, Game, Move. Har Piece ka get_valid_moves() method alag hota hai. Snake & Ladder: Board, Snake, Ladder, Player, Dice, GameController. Dono mein game loop important hai — turn management aur win condition check.`,
+example: `# ── Chess Core Classes ───────────────────────
+from abc import ABC, abstractmethod
+from typing import List, Tuple
+
+Position = Tuple[int, int]  # (row, col)
+
+class Piece(ABC):
+    def __init__(self, color: str):  # "white" or "black"
+        self.color = color
+
+    @abstractmethod
+    def get_valid_moves(self, pos: Position, board: "Board") -> List[Position]:
+        """Return list of valid target positions"""
+        ...
+
+    def __repr__(self): return f"{self.color[0].upper()}{self.__class__.__name__[0]}"
+
+class Rook(Piece):
+    def get_valid_moves(self, pos, board):
+        moves = []
+        row, col = pos
+        # Horizontal + vertical — stop at piece
+        for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:
+            r, c = row + dr, col + dc
+            while 0 <= r < 8 and 0 <= c < 8:
+                if board.grid[r][c] is None:
+                    moves.append((r, c))
+                elif board.grid[r][c].color != self.color:
+                    moves.append((r, c)); break  # capture
+                else: break                       # blocked by own piece
+                r += dr; c += dc
+        return moves
+
+class King(Piece):
+    def get_valid_moves(self, pos, board):
+        row, col = pos
+        moves = []
+        for dr in [-1, 0, 1]:
+            for dc in [-1, 0, 1]:
+                if dr == dc == 0: continue
+                r, c = row + dr, col + dc
+                if 0 <= r < 8 and 0 <= c < 8:
+                    if board.grid[r][c] is None or \
+                       board.grid[r][c].color != self.color:
+                        moves.append((r, c))
+        return moves
+
+class Board:
+    def __init__(self):
+        self.grid = [[None] * 8 for _ in range(8)]
+
+    def place(self, piece: Piece, pos: Position):
+        self.grid[pos[0]][pos[1]] = piece
+
+    def move(self, from_pos: Position, to_pos: Position):
+        piece = self.grid[from_pos[0]][from_pos[1]]
+        self.grid[to_pos[0]][to_pos[1]] = piece
+        self.grid[from_pos[0]][from_pos[1]] = None
+
+class Game:
+    def __init__(self, p1: str, p2: str):
+        self.board   = Board()
+        self.players = [p1, p2]
+        self.turn    = 0          # 0=white, 1=black
+        self._setup_board()
+
+    def make_move(self, from_pos, to_pos):
+        piece  = self.board.grid[from_pos[0]][from_pos[1]]
+        valids = piece.get_valid_moves(from_pos, self.board)
+        if to_pos not in valids:
+            raise InvalidMoveError(f"{to_pos} not valid for {piece}")
+        self.board.move(from_pos, to_pos)
+        self.turn ^= 1  # switch turn`,
+tip: `Chess design mein pehle Piece hierarchy explain karo, phir Board, phir Game loop. "Check/Checkmate detection?" — After every move, verify if opponent's King is in valid moves of any of your pieces.`
+},
+
+"LLD — Practice Problems_Design File System": {
+explain: `File System design Composite pattern ka classic example hai: File aur Directory dono ek Node interface implement karte hain. Directory mein aur Nodes ho sakti hain (recursive). Key operations: create, delete, read, ls (list), find. Permissions (RBAC): read/write/execute per user. Inode concept: metadata (size, permissions, timestamps) alag store hota hai content se.`,
+example: `from abc import ABC, abstractmethod
+from datetime import datetime
+from typing import Optional, List
+
+# ── Composite Pattern ─────────────────────────
+class FileSystemNode(ABC):
+    def __init__(self, name: str, owner: str):
+        self.name       = name
+        self.owner      = owner
+        self.created_at = datetime.now()
+        self.permissions = {"read": True, "write": True, "execute": False}
+
+    @abstractmethod
+    def get_size(self) -> int: ...
+
+    @abstractmethod
+    def ls(self, indent=0) -> str: ...
+
+class File(FileSystemNode):
+    def __init__(self, name: str, content: bytes, owner: str):
+        super().__init__(name, owner)
+        self._content = content
+
+    def get_size(self) -> int:
+        return len(self._content)
+
+    def read(self, user: str) -> bytes:
+        if not self.permissions["read"]:
+            raise PermissionError(f"{user} cannot read {self.name}")
+        return self._content
+
+    def write(self, content: bytes, user: str):
+        if user != self.owner and not self.permissions["write"]:
+            raise PermissionError(f"{user} cannot write to {self.name}")
+        self._content = content
+
+    def ls(self, indent=0) -> str:
+        return " " * indent + f"[FILE] {self.name} ({self.get_size()}B)"
+
+class Directory(FileSystemNode):
+    def __init__(self, name: str, owner: str):
+        super().__init__(name, owner)
+        self._children: List[FileSystemNode] = []
+
+    def add(self, node: FileSystemNode):
+        self._children.append(node)
+
+    def remove(self, name: str):
+        self._children = [c for c in self._children if c.name != name]
+
+    def find(self, name: str) -> Optional[FileSystemNode]:
+        for child in self._children:
+            if child.name == name: return child
+            if isinstance(child, Directory):
+                result = child.find(name)
+                if result: return result
+        return None
+
+    def get_size(self) -> int:
+        return sum(c.get_size() for c in self._children)
+
+    def ls(self, indent=0) -> str:
+        result = " " * indent + f"[DIR]  {self.name}/\n"
+        for child in self._children:
+            result += child.ls(indent + 2) + "\n"
+        return result.rstrip()
+
+# Usage
+root = Directory("/", "root")
+home = Directory("home", "root")
+user = Directory("ashish", "ashish")
+f1   = File("config.py", b"DEBUG=True", "ashish")
+
+root.add(home); home.add(user); user.add(f1)
+print(root.ls())
+print(f"Total size: {root.get_size()}B")`,
+tip: `"Symbolic links?" — Add a SymLink class that holds a reference to another node. "Search optimization?" — Maintain a HashMap of name→node for O(1) lookup instead of recursive traversal.`
+},
+
+"LLD — Practice Problems_Design ATM": {
+explain: `ATM design State Machine + Transaction handling ka combination hai. States: Idle → CardInserted → PINEntered → SelectingTransaction → DispensingCash → PrintingReceipt → Idle. Key classes: ATM, CardReader, CashDispenser, Keypad, Screen, BankAccount, Transaction. Critical: database transactions ensure atomicity — cash sirf tabhi nikle jab account successfully debit ho.`,
+example: `from enum import Enum
+from decimal import Decimal
+import uuid
+
+class ATMState(Enum):
+    IDLE                = "idle"
+    CARD_INSERTED       = "card_inserted"
+    PIN_ENTERED         = "pin_entered"
+    TRANSACTION_SELECT  = "transaction_select"
+    DISPENSING          = "dispensing"
+
+class ATM:
+    def __init__(self, atm_id: str, cash_available: Decimal):
+        self.atm_id         = atm_id
+        self._cash          = cash_available
+        self._state         = ATMState.IDLE
+        self._current_card  = None
+        self._current_account = None
+
+    def insert_card(self, card_number: str):
+        if self._state != ATMState.IDLE:
+            raise ATMError("ATM busy, please wait")
+        self._current_card = card_number
+        self._state = ATMState.CARD_INSERTED
+        return "Card inserted. Please enter PIN."
+
+    def enter_pin(self, pin: str) -> bool:
+        if self._state != ATMState.CARD_INSERTED:
+            raise ATMError("Please insert card first")
+
+        account = BankAccount.objects.filter(
+            card_number=self._current_card
+        ).first()
+
+        if not account or not account.verify_pin(pin):
+            self._eject_card()
+            raise AuthenticationError("Invalid PIN")
+
+        self._current_account = account
+        self._state = ATMState.PIN_ENTERED
+        return True
+
+    def withdraw(self, amount: Decimal) -> bool:
+        if self._state != ATMState.PIN_ENTERED:
+            raise ATMError("Authentication required")
+
+        if amount > self._cash:
+            raise InsufficientATMCashError("ATM has insufficient cash")
+
+        # Atomic transaction — both or nothing
+        with transaction.atomic():
+            account = BankAccount.objects.select_for_update().get(
+                id=self._current_account.id
+            )
+            if account.balance < amount:
+                raise InsufficientFundsError(f"Balance: {account.balance}")
+
+            account.balance -= amount
+            account.save(update_fields=["balance"])
+
+            Transaction.objects.create(
+                account    = account,
+                amount     = amount,
+                txn_type   = "withdrawal",
+                atm_id     = self.atm_id,
+                reference  = str(uuid.uuid4()),
+            )
+
+        self._cash    -= amount
+        self._state    = ATMState.DISPENSING
+        self._eject_card()
+        return True
+
+    def _eject_card(self):
+        self._current_card    = None
+        self._current_account = None
+        self._state           = ATMState.IDLE`,
+tip: `"What if power fails during dispensing?" — Two-phase: first debit DB (with transaction_id), then dispense. On startup, check incomplete transactions. This is saga pattern basics.`
+},
+
+"LLD — Practice Problems_Design Online Shopping Cart": {
+explain: `Shopping Cart ke core: Cart, CartItem, Product, DiscountEngine, Inventory. Key flows: Add to cart (check inventory), Apply coupon (discount chain), Checkout (payment + order creation + inventory decrement). Chain of Responsibility pattern discount engine ke liye: percent discount → flat discount → buy-1-get-1. Race condition: concurrent checkout ke time inventory check.`,
+example: `from decimal import Decimal
+from typing import List, Optional
+from abc import ABC, abstractmethod
+
+# ── Models ────────────────────────────────────
+class Product:
+    def __init__(self, id: int, name: str, price: Decimal, stock: int):
+        self.id    = id; self.name = name
+        self.price = price; self.stock = stock
+
+class CartItem:
+    def __init__(self, product: Product, qty: int):
+        self.product = product
+        self.qty     = qty
+
+    @property
+    def subtotal(self) -> Decimal:
+        return self.product.price * self.qty
+
+class Cart:
+    def __init__(self, user_id: int):
+        self.user_id = user_id
+        self.items: List[CartItem] = []
+
+    def add_item(self, product: Product, qty: int):
+        existing = next((i for i in self.items if i.product.id == product.id), None)
+        if existing:
+            existing.qty += qty
+        else:
+            self.items.append(CartItem(product, qty))
+
+    def remove_item(self, product_id: int):
+        self.items = [i for i in self.items if i.product.id != product_id]
+
+    @property
+    def subtotal(self) -> Decimal:
+        return sum(item.subtotal for item in self.items)
+
+# ── Chain of Responsibility: Discount Engine ──
+class DiscountHandler(ABC):
+    def __init__(self, next_handler: Optional["DiscountHandler"] = None):
+        self._next = next_handler
+
+    @abstractmethod
+    def apply(self, cart: Cart, coupon: str) -> Decimal: ...
+
+    def _pass_to_next(self, cart, coupon) -> Decimal:
+        return self._next.apply(cart, coupon) if self._next else cart.subtotal
+
+class PercentageDiscount(DiscountHandler):
+    _coupons = {"SAVE10": 0.10, "SAVE20": 0.20}
+    def apply(self, cart, coupon):
+        if coupon in self._coupons:
+            discount = cart.subtotal * Decimal(str(self._coupons[coupon]))
+            return cart.subtotal - discount
+        return self._pass_to_next(cart, coupon)
+
+class FlatDiscount(DiscountHandler):
+    _coupons = {"FLAT100": Decimal("100"), "FLAT200": Decimal("200")}
+    def apply(self, cart, coupon):
+        if coupon in self._coupons:
+            return max(Decimal("0"), cart.subtotal - self._coupons[coupon])
+        return self._pass_to_next(cart, coupon)
+
+# Build chain
+discount_chain = PercentageDiscount(next_handler=FlatDiscount())
+
+# ── Checkout ──────────────────────────────────
+class CheckoutService:
+    @staticmethod
+    def checkout(cart: Cart, coupon: str, payment_method: str) -> "Order":
+        final_total = discount_chain.apply(cart, coupon)
+
+        with transaction.atomic():
+            for item in cart.items:
+                # Concurrent checkout protection
+                product = Product.objects.select_for_update().get(id=item.product.id)
+                if product.stock < item.qty:
+                    raise OutOfStockError(f"{product.name} has only {product.stock} left")
+                product.stock -= item.qty
+                product.save(update_fields=["stock"])
+
+            order = Order.objects.create(user_id=cart.user_id, total=final_total)
+            OrderItem.objects.bulk_create([
+                OrderItem(order=order, product_id=i.product.id,
+                          qty=i.qty, price=i.product.price)
+                for i in cart.items
+            ])
+        return order`,
+tip: `"Cart storage?" — Redis for session-based cart (fast, expires automatically), DB for persistent cart (logged-in users). Real e-commerce: hybrid — Redis for active session, sync to DB on login.`
+}
+
+}; // end details
+
+/* ════════════════════════════════════════════
+   DATA — Section definitions
+   ════════════════════════════════════════════ */
+const data = [
+  {
+    section: "LLD — Object-Oriented Design",
+    badge: "OOP",
+    badgeColor: "#EEEDFE", badgeText: "#3C3489",
+    tab: "oop",
+    concepts: [
+      {name:"SOLID principles",             tag:"fundamentals", imp:true,  note:"S-O-L-I-D — maintainable code ka backbone"},
+      {name:"Design patterns — Creational", tag:"patterns",     imp:true,  note:"Factory, Abstract Factory, Singleton, Builder, Prototype"},
+      {name:"Design patterns — Structural", tag:"patterns",     imp:true,  note:"Adapter, Decorator, Facade, Proxy, Composite"},
+      {name:"Design patterns — Behavioral", tag:"patterns",     imp:true,  note:"Observer, Strategy, Command, Iterator, State, Template Method"},
+      {name:"UML class diagrams",           tag:"notation",     imp:false, note:"Classes, interfaces, inheritance, association, composition"},
+      {name:"Abstraction & encapsulation",  tag:"oop",          imp:false, note:"ABC, @abstractmethod, @property — Python specific"},
+      {name:"Composition over inheritance", tag:"oop",          imp:true,  note:"has-a over is-a — avoid deep inheritance chains"},
+      {name:"Dependency injection",         tag:"patterns",     imp:true,  note:"Constructor injection — testability ka key"},
+      {name:"Repository pattern",           tag:"patterns",     imp:true,  note:"Decouple data access from business logic"},
+      {name:"Service layer pattern",        tag:"patterns",     imp:true,  note:"Business logic isolation — your SAP connector!"},
+      {name:"State machine design",         tag:"patterns",     imp:true,  note:"Draft→Confirm flows — Niroskos booking system"},
+      {name:"Observer / event-driven",      tag:"patterns",     imp:true,  note:"Django signals + Celery events"},
+    ]
+  },
+  {
+    section: "LLD — Practice Problems",
+    badge: "Practice",
+    badgeColor: "#FAEEDA", badgeText: "#633806",
+    tab: "practice",
+    concepts: [
+      {name:"Design Parking Lot",          tag:"classic", imp:true,  note:"Floors, slots, vehicle types, billing — warm-up problem"},
+      {name:"Design Booking System",       tag:"classic", imp:true,  note:"State machine, select_for_update, payment — Niroskos!"},
+      {name:"Design LRU Cache",            tag:"classic", imp:true,  note:"OrderedDict or HashMap+DLL — O(1) get/put"},
+      {name:"Design Rate Limiter",         tag:"classic", imp:true,  note:"Token bucket / Sliding window — your Exotel 200 req/min"},
+      {name:"Design Notification System",  tag:"classic", imp:true,  note:"Multi-channel: email, SMS, push — Observer + Strategy"},
+      {name:"Design Elevator System",      tag:"classic", imp:false, note:"State machine + SCAN scheduling algorithm"},
+      {name:"Design Chess / Snake",        tag:"classic", imp:false, note:"Piece hierarchy, Board, Game loop"},
+      {name:"Design File System",          tag:"classic", imp:false, note:"Composite pattern — File + Directory implement Node"},
+      {name:"Design ATM",                  tag:"classic", imp:false, note:"State machine + atomic DB transaction"},
+      {name:"Design Online Shopping Cart", tag:"classic", imp:false, note:"Cart, DiscountEngine (Chain of Responsibility), Checkout"},
+    ]
+  }
+];
+
+/* ════════════════════════════════════════════
+   STATE & LOGIC
+   ════════════════════════════════════════════ */
+const state = JSON.parse(localStorage.getItem("lld_concepts_v2") || "{}");
+let currentTab = "all";
+
+function save() {
+  localStorage.setItem("lld_concepts_v2", JSON.stringify(state));
+}
+
+function toggleDone(evt, key) {
+  evt.stopPropagation();
+  state[key] = !state[key];
+  save();
+  render();
+}
+
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  const map = ["all","oop","practice","pending"];
+  document.querySelectorAll(".tab-btn")[map.indexOf(tab)]?.classList.add("active");
+  render();
+}
+
+function toggleDetail(evt, id) {
+  evt.stopPropagation();
+  const panel = document.getElementById(id);
+  const btn   = evt.currentTarget;
+  if (!panel) return;
+  const open = panel.style.display !== "none";
+  panel.style.display = open ? "none" : "block";
+  btn.textContent     = open ? "Details ▼" : "Details ▲";
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function makeId(section, name) {
+  return "det_" + (section + "_" + name).replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+function getDetailHtml(section, name) {
+  const key = section + "_" + name;
+  const d   = details[key];
+  if (!d) return '<div style="font-size:11px;color:#999;padding:8px">Details coming soon...</div>';
+  return `
+    <div class="det-explain">${d.explain}</div>
+    <div class="det-section-label">Python Code Example</div>
+    <pre class="det-code">${escHtml(d.example)}</pre>
+    <div class="det-tip">${d.tip}</div>`;
+}
+
+function render() {
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+  let total = 0, done = 0;
+
+  data.forEach(sec => {
+    const filtered = sec.concepts.filter(c => {
+      if (currentTab === "oop"      && sec.tab !== "oop")      return false;
+      if (currentTab === "practice" && sec.tab !== "practice") return false;
+      if (currentTab === "pending"  && state[sec.section + "_" + c.name]) return false;
+      return true;
+    });
+    if (!filtered.length) return;
+
+    total += sec.concepts.length;
+    sec.concepts.forEach(c => { if (state[sec.section + "_" + c.name]) done++; });
+
+    const secEl = document.createElement("div");
+    secEl.className = "section";
+
+    const doneCount = sec.concepts.filter(c => state[sec.section + "_" + c.name]).length;
+
+    secEl.innerHTML = `
+      <div class="sec-header">
+        <span class="sec-badge" style="background:${sec.badgeColor};color:${sec.badgeText}">${sec.badge}</span>
+        <span class="sec-title">${sec.section}</span>
+        <span class="sec-count">${doneCount}/${sec.concepts.length} done</span>
+      </div>
+      <div class="grid">${filtered.map(c => {
+        const stateKey = sec.section + "_" + c.name;
+        const detId    = makeId(sec.section, c.name);
+        const isDone   = !!state[stateKey];
+        const safeSKey = stateKey.replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+        return `
+        <div class="concept-card${c.imp ? " imp" : ""}${isDone ? " done" : ""}">
+          <div class="c-top" onclick="toggleDone(event,'${safeSKey}')" style="cursor:pointer">
+            <div class="c-name">${c.name}</div>
+            <div class="c-check">
+              <svg class="checkmark" viewBox="0 0 10 10" fill="none">
+                <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <span class="c-tag">${c.tag}</span>
+          <div class="c-note">${c.note}</div>
+          <button class="det-btn" onclick="toggleDetail(event,'${detId}')">Details ▼</button>
+          <div class="det-panel" id="${detId}">${getDetailHtml(sec.section, c.name)}</div>
+        </div>`;
+      }).join("")}</div>`;
+
+    container.appendChild(secEl);
+  });
+
+  const fill = total ? Math.round(done / total * 100) : 0;
+  document.getElementById("prog-fill").style.width  = fill + "%";
+  document.getElementById("prog-label").textContent = done + " / " + total;
+}
+
+render();
+</script>
+</body>
+</html>
