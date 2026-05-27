@@ -6,6 +6,34 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Lecture2_GIL_Notes_English.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Lecture3_Threading_DeepDive_English.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Lecture4_Multiprocessing_DeepDive_English.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Python_Concurrency_Interview_Notes.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase2_RabbitMQ/Introduction_RabbitMQ.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase2_RabbitMQ/Rabbit Mq Interview Notes (complete From Official Tutorials).pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase2_RabbitMQ/RabbitMQ+at+Udemy.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/API+Gateway+-+Interview+Questions+&amp;+Detailed+Answers.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/CDN+System+Design+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Client-Server+Model_+Interview+Questions+and+Answers.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/DNS+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/HTTP+Interview+Questions.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+&amp;+Answers+on+Load+Balancing.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+&amp;+Answers+on+REST+&amp;+RESTful+API+Design+Principles.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+&amp;+Answers_+Forward+Proxy+vs+Reverse+Proxy.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions++-+Software+Architecture+Patterns+&amp;+Styles.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+-+Event+driven+architecture.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+-+IP+addresses.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+-+Real+time+communication.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+questions+-+Beyond+REST.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+questions+-+TCP+and+UDP.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Mastering+System+Design+-+Section+2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Microservices+Architecture+-+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Multi-Tier+Architecture+-+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Slides+-+Section+11+-+blueprint.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Slides+-+Section+12+-+URL+Shortener.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Slides+-+Section+3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/slides+-+Section+4+-+Mastering+System+Design.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +41,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1258" />
+    <option name="cachedIndexableFilesCount" value="1297" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -378,6 +406,9 @@
       <workItem from="1779295827865" duration="73545000" />
       <workItem from="1779701465152" duration="1769000" />
       <workItem from="1779707439024" duration="1591000" />
+      <workItem from="1779709102446" duration="89000" />
+      <workItem from="1779722441924" duration="764000" />
+      <workItem from="1779761659210" duration="11084000" />
     </task>
     <servers />
   </component>
