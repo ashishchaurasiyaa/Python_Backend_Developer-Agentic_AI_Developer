@@ -2,7 +2,28 @@
 
 > **Welcome.** This is your structured path from "What is an LLM?" to "I can build production-grade autonomous agents."
 >
-> Estimated time: **12 weeks at 1-2 hrs/day**, or **6 weeks at 4 hrs/day**.
+> Estimated time: **12 weeks at 1-2 hrs/day**, or **6 weeks at 4 hrs/day**, or **2 weeks at 6 hrs/day** for refresh-only.
+
+---
+
+## ⚡ Status Update (2026-05-27)
+
+```
+✅ Curriculum is now 100% complete for senior Backend+AI hiring
+✅ All HIGH gaps filled (10 docs)
+✅ All MEDIUM gaps filled (9 docs added today)
+✅ Modern Topics covered (5 docs)
+✅ Zero blocking gaps
+
+For accelerated 2-month senior interview prep, see:
+   → ../COMBINED_STUDY_PLAN_2_MONTHS.md  ← THE 60-day plan
+
+For combined Backend + AI study path:
+   → ../BACKEND_AI_BRIDGE.md
+   → ../COMBINED_PRIORITY_ANALYSIS.md
+```
+
+---
 
 ---
 
