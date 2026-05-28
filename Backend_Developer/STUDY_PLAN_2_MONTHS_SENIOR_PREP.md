@@ -14,10 +14,10 @@
 
 ```
 You ARE NOT a junior anymore. STOP:
-   ✗ Reading Phase1_Python_Daily/Day1-30 (you know this)
+   ✗ Reading 00_Year0-2_Junior/02_Python_Daily/Day1-30 (you know this)
    ✗ Setting up Python virtualenv tutorials
    ✗ "Learning" FastAPI basics
-   ✗ Studying Phase0_Foundations (Linux/Git — you live this)
+   ✗ Studying 00_Year0-2_Junior/01_Foundations (Linux/Git — you live this)
 
 You ARE a 4.3-year senior candidate. FOCUS:
    ✓ DSA refresh (atrophied since college)
@@ -99,7 +99,7 @@ Tonight:
 
 ```
 Day 2:
-   ✓ Rewrite resume per [Phase8_Interview_Prep/11_resume_walkthrough_prep.md]
+   ✓ Rewrite resume per [03_Interview_AnyYear/02_Interview_Prep/11_resume_walkthrough_prep.md]
    ✓ Quantify achievements (numbers, scale, impact)
    ✓ Tailor to "Senior Backend Engineer" titles
 
@@ -116,30 +116,30 @@ Based on your gap list, drill 1-2 gaps per day. Most common gaps for 4-year expe
 
 ```
 Day 4  →  AI/LLM Integration (2026 must-know)
-          [Phase2_FastAPI/31-35] — LLM, function calling, RAG, MCP
+          [00_Year0-2_Junior/06_FastAPI/31-35] — LLM, function calling, RAG, MCP
 
 Day 5  →  Vector DBs + RAG Architecture
-          [Phase2_Database/28_vector_databases_comparison.md]
-          [Phase2_FastAPI/34_rag_backend_architecture.md]
+          [00_Year0-2_Junior/04_Database_SQL/28_vector_databases_comparison.md]
+          [00_Year0-2_Junior/06_FastAPI/34_rag_backend_architecture.md]
 
 Day 6  →  Distributed Systems Theory
-          [Phase3_Microservices/10_distributed_systems_theory.md]
+          [01_Year3-4_Mid/05_Microservices/10_distributed_systems_theory.md]
           [HLD_Theory/07-08, 09, 35]
 
 Day 7  →  Saga + Outbox Patterns
-          [Phase3_Microservices/04, 05]
+          [01_Year3-4_Mid/05_Microservices/04, 05]
 
 Day 8  →  Modern Auth (Passkeys + OAuth deep)
-          [Phase3_Security/18_passkeys_webauthn.md]
-          [Phase3_Security/04_oauth2_flows_deep.md]
+          [01_Year3-4_Mid/03_Security/18_passkeys_webauthn.md]
+          [01_Year3-4_Mid/03_Security/04_oauth2_flows_deep.md]
 
 Day 9  →  K8s + Observability (if missing)
-          [Phase3_DevOps/06, 16]
-          [Phase2_FastAPI/14_opentelemetry_distributed_tracing.md]
+          [01_Year3-4_Mid/04_DevOps/06, 16]
+          [00_Year0-2_Junior/06_FastAPI/14_opentelemetry_distributed_tracing.md]
 
 Day 10 →  Temporal + Feature Flags
-          [Phase3_Microservices/15_temporal_durable_workflows.md]
-          [Phase3_DevOps/18_feature_flags_experimentation.md]
+          [01_Year3-4_Mid/05_Microservices/15_temporal_durable_workflows.md]
+          [01_Year3-4_Mid/04_DevOps/18_feature_flags_experimentation.md]
 ```
 
 **Daily across Days 4-10:**
@@ -185,7 +185,7 @@ Day 24 — Intervals + Bit Manip  (5 problems)
 Day 25 — REVIEW weak categories (re-solve hardest 10)
 ```
 
-**Source docs:** [Phase8_DSA/](Phase8_DSA/) categories 01-17
+**Source docs:** [03_Interview_AnyYear/01_DSA/](03_Interview_AnyYear/01_DSA) categories 01-17
 
 **Volume target by Day 25:**
 ```
@@ -209,20 +209,20 @@ Block 5 (30 min)  →  Behavioral story refinement
 Spread across Days 11-25:
 
 ```
-Day 11 →  ClickHouse for OLAP [Phase2_Database/27]
-Day 12 →  Event Sourcing + CQRS [Phase3_Microservices/05]
-Day 13 →  Service Mesh [Phase3_Microservices/06]
-Day 14 →  AsyncAPI + HTTP/3 [Phase3_API_Design/19, 20]
-Day 15 →  GraphQL Federation v2 [Phase2_GraphQL/07]
-Day 16 →  SAST/DAST + Supply Chain [Phase3_Security/16]
-Day 17 →  Multi-region Deployment [Phase3_DevOps/15]
-Day 18 →  Cell-based Architecture [Phase3_Microservices/14]
-Day 19 →  India DPDP Compliance [Phase3_Security/17]
-Day 20 →  Voice Agent Backend [Phase2_FastAPI/37]
-Day 21 →  Local LLM Serving [Phase2_FastAPI/36]
-Day 22 →  Contract Testing (Pact) [Phase2_Testing/contract_testing_pact.md]
-Day 23 →  Property-based Testing [Phase2_Testing/property_based_testing_hypothesis.md]
-Day 24 →  Expand-contract Migrations [Phase2_Database/26]
+Day 11 →  ClickHouse for OLAP [00_Year0-2_Junior/04_Database_SQL/27]
+Day 12 →  Event Sourcing + CQRS [01_Year3-4_Mid/05_Microservices/05]
+Day 13 →  Service Mesh [01_Year3-4_Mid/05_Microservices/06]
+Day 14 →  AsyncAPI + HTTP/3 [01_Year3-4_Mid/02_API_Design/19, 20]
+Day 15 →  GraphQL Federation v2 [01_Year3-4_Mid/12_GraphQL/07]
+Day 16 →  SAST/DAST + Supply Chain [01_Year3-4_Mid/03_Security/16]
+Day 17 →  Multi-region Deployment [01_Year3-4_Mid/04_DevOps/15]
+Day 18 →  Cell-based Architecture [01_Year3-4_Mid/05_Microservices/14]
+Day 19 →  India DPDP Compliance [01_Year3-4_Mid/03_Security/17]
+Day 20 →  Voice Agent Backend [00_Year0-2_Junior/06_FastAPI/37]
+Day 21 →  Local LLM Serving [00_Year0-2_Junior/06_FastAPI/36]
+Day 22 →  Contract Testing (Pact) [00_Year0-2_Junior/10_Testing/contract_testing_pact.md]
+Day 23 →  Property-based Testing [00_Year0-2_Junior/10_Testing/property_based_testing_hypothesis.md]
+Day 24 →  Expand-contract Migrations [00_Year0-2_Junior/04_Database_SQL/26]
 Day 25 →  Review + Reinforce weak topics
 ```
 
@@ -280,7 +280,7 @@ Day 39  →  Google Docs / Collaborative
 Day 40  →  Modern AI: ChatGPT Backend / RAG / Agent Orchestration
 ```
 
-All problems in [PythonBackend_SystemDesign/HLD_Problems/](PythonBackend_SystemDesign/HLD_Problems/)
+All problems in [02_Year5+_Senior/01_System_Design/HLD_Problems/](02_Year5+_Senior/01_System_Design/HLD_Problems)
 
 ## LLD Problems (Alternate days, Block 3)
 
@@ -457,8 +457,8 @@ Practice these STAR-format stories DAILY (15 min each):
 
 ## Behavioral Resources
 
-- [Phase8_Interview_Prep/10_behavioral_backend.md](Phase8_Interview_Prep/10_behavioral_backend.md)
-- [Phase8_Interview_Prep/11_resume_walkthrough_prep.md](Phase8_Interview_Prep/11_resume_walkthrough_prep.md)
+- [03_Interview_AnyYear/02_Interview_Prep/10_behavioral_backend.md](03_Interview_AnyYear/02_Interview_Prep/10_behavioral_backend.md)
+- [03_Interview_AnyYear/02_Interview_Prep/11_resume_walkthrough_prep.md](03_Interview_AnyYear/02_Interview_Prep/11_resume_walkthrough_prep.md)
 
 **End of Phase 4 (Day 50) Checkpoint:**
 - ✅ 9+ mock interviews done
@@ -575,7 +575,7 @@ After interview:
 
 ## Negotiation Phase (Days 58-60)
 
-**Reference:** [Phase8_Interview_Prep/12_negotiation_offer.md](Phase8_Interview_Prep/12_negotiation_offer.md)
+**Reference:** [03_Interview_AnyYear/02_Interview_Prep/12_negotiation_offer.md](03_Interview_AnyYear/02_Interview_Prep/12_negotiation_offer.md)
 
 ### Key Tactics
 
@@ -694,8 +694,8 @@ Prioritized list based on common 4-yr experience gaps:
 ## 🚨 Critical "Don't Do" List
 
 ```
-✗ Don't start with Phase 0 (Foundations) — you know this
-✗ Don't read Phase 1 Daily Day 1-30 — too basic
+✗ Don't start with 00_Year0-2_Junior/01_Foundations — you know this
+✗ Don't read 02_Python_Daily (Day01-30) — too basic
 ✗ Don't try to learn ALL phases in 60 days — IMPOSSIBLE
 ✗ Don't skip DSA "because I have experience" — atrophied!
 ✗ Don't avoid system design until "ready" — START NOW
@@ -876,7 +876,7 @@ Land the offer.
 
 - [PRIORITY_ANALYSIS_5YEAR_2026.md](PRIORITY_ANALYSIS_5YEAR_2026.md) — HIGH/MEDIUM/LOW topics
 - [GAP_ANALYSIS.md](GAP_ANALYSIS.md) — verified zero gaps
-- [Phase8_Interview_Prep/](Phase8_Interview_Prep/) — interview prep docs
+- [03_Interview_AnyYear/02_Interview_Prep/](03_Interview_AnyYear/02_Interview_Prep) — interview prep docs
 - This file — your 60-day action plan
 
 ---

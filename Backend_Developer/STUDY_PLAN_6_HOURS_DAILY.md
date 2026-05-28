@@ -116,37 +116,37 @@ Total/week: 17.5 hrs vs 36 hrs full-time
 
 ```
 Day 1 Monday
-   Block 1 (Theory)    →  [Phase0_Foundations/01_linux_bash_essentials.md] sections 1-5
+   Block 1 (Theory)    →  [00_Year0-2_Junior/01_Foundations/01_linux_bash_essentials.md] sections 1-5
    Block 2 (Code)      →  Practice 30 bash commands in terminal
-   Block 3 (DSA)       →  [Phase8_DSA/01] — Two Sum, Best Time to Buy Stock
+   Block 3 (DSA)       →  [03_Interview_AnyYear/01_DSA/01] — Two Sum, Best Time to Buy Stock
    Block 4 (Project)   →  Set up Python 3.12 + uv + ruff + mypy
    Block 5 (Review)    →  Read about Python history + ecosystem
 
 Day 2 Tuesday
    Block 1   →  [01_linux_bash_essentials.md] sections 6-10
    Block 2   →  Write 5 bash scripts (backup, log search, etc.)
-   Block 3   →  [Phase8_DSA/01] — Contains Duplicate, Valid Anagram
+   Block 3   →  [03_Interview_AnyYear/01_DSA/01] — Contains Duplicate, Valid Anagram
    Block 4   →  Git init project, first commits
-   Block 5   →  [Phase0_Foundations/04_git_workflows.md] intro
+   Block 5   →  [00_Year0-2_Junior/01_Foundations/04_git_workflows.md] intro
 
 Day 3 Wednesday
-   Block 1   →  [Phase0_Foundations/02_os_concepts.md] sections 1-4
+   Block 1   →  [00_Year0-2_Junior/01_Foundations/02_os_concepts.md] sections 1-4
    Block 2   →  Practice ps, top, htop, kill
-   Block 3   →  [Phase8_DSA/01] — Group Anagrams, Top K Frequent
+   Block 3   →  [03_Interview_AnyYear/01_DSA/01] — Group Anagrams, Top K Frequent
    Block 4   →  Python: variables, types, control flow [Day1]
    Block 5   →  Linux exit codes + signals
 
 Day 4 Thursday
    Block 1   →  [02_os_concepts.md] sections 5-8
    Block 2   →  Write Python script using subprocess + signal
-   Block 3   →  [Phase8_DSA/02] — Valid Palindrome
+   Block 3   →  [03_Interview_AnyYear/01_DSA/02] — Valid Palindrome
    Block 4   →  Python: functions + scope [Day2-3]
    Block 5   →  Review process vs thread vs async
 
 Day 5 Friday
-   Block 1   →  [Phase0_Foundations/03_networking_fundamentals.md] sections 1-5
+   Block 1   →  [00_Year0-2_Junior/01_Foundations/03_networking_fundamentals.md] sections 1-5
    Block 2   →  curl + dig + ss practice
-   Block 3   →  [Phase8_DSA/02] — Longest Substring Without Repeating
+   Block 3   →  [03_Interview_AnyYear/01_DSA/02] — Longest Substring Without Repeating
    Block 4   →  Python: lists, tuples, dicts [Day4-5]
    Block 5   →  HTTP status codes flashcards
 
@@ -215,11 +215,11 @@ Sun  →  REST + END-OF-MONTH REVIEW
 #### Week 5 — FastAPI Routing + Pydantic
 
 ```
-Mon  →  [Phase2_FastAPI/01_routing_params.md] + setup FastAPI
-Tue  →  [Phase2_FastAPI/02_pydantic_models_validation.md] + practice
-Wed  →  [Phase2_FastAPI/02_dependency_injection.md] + practice
-Thu  →  [Phase2_FastAPI/03_middleware_websockets.md] (middleware part)
-Fri  →  [Phase2_FastAPI/05_exception_handling.md]
+Mon  →  [00_Year0-2_Junior/06_FastAPI/01_routing_params.md] + setup FastAPI
+Tue  →  [00_Year0-2_Junior/06_FastAPI/02_pydantic_models_validation.md] + practice
+Wed  →  [00_Year0-2_Junior/06_FastAPI/02_dependency_injection.md] + practice
+Thu  →  [00_Year0-2_Junior/06_FastAPI/03_middleware_websockets.md] (middleware part)
+Fri  →  [00_Year0-2_Junior/06_FastAPI/05_exception_handling.md]
 Sat  →  PROJECT: Build "todo API" with FastAPI + in-memory store
 Sun  →  REST
 ```
@@ -227,11 +227,11 @@ Sun  →  REST
 #### Week 6 — SQL + SQLAlchemy
 
 ```
-Mon  →  SQL basics [Phase8_Interview_Prep/04_sql_interview_questions.md] - SELECT, WHERE, JOIN
+Mon  →  SQL basics [03_Interview_AnyYear/02_Interview_Prep/04_sql_interview_questions.md] - SELECT, WHERE, JOIN
 Tue  →  SQL JOINS deep + GROUP BY + aggregates
-Wed  →  Postgres basics [Phase2_Database/01_postgresql_advanced.md]
-Thu  →  Indexes [Phase2_Database/20_advanced_indexing.md]
-Fri  →  SQLAlchemy basics [Phase2_FastAPI/04_testing_sqlalchemy.md]
+Wed  →  Postgres basics [00_Year0-2_Junior/04_Database_SQL/01_postgresql_advanced.md]
+Thu  →  Indexes [00_Year0-2_Junior/04_Database_SQL/20_advanced_indexing.md]
+Fri  →  SQLAlchemy basics [00_Year0-2_Junior/06_FastAPI/04_testing_sqlalchemy.md]
 Sat  →  PROJECT: Convert todo API to Postgres + SQLAlchemy
 Sun  →  REST
 ```
@@ -239,10 +239,10 @@ Sun  →  REST
 #### Week 7 — Auth + JWT
 
 ```
-Mon  →  [Phase2_FastAPI/06_security_jwt.md]
-Tue  →  [Phase2_FastAPI/19_oauth2_full_flows.md] (basic flows)
-Wed  →  [Phase3_Security/01_jwt_oauth2_rbac.md]
-Thu  →  [Phase3_Security/03_jwt_vulnerabilities_2fa_secrets.md]
+Mon  →  [00_Year0-2_Junior/06_FastAPI/06_security_jwt.md]
+Tue  →  [00_Year0-2_Junior/06_FastAPI/19_oauth2_full_flows.md] (basic flows)
+Wed  →  [01_Year3-4_Mid/03_Security/01_jwt_oauth2_rbac.md]
+Thu  →  [01_Year3-4_Mid/03_Security/03_jwt_vulnerabilities_2fa_secrets.md]
 Fri  →  RBAC implementation
 Sat  →  PROJECT: Add JWT auth + roles to todo API
 Sun  →  REST
@@ -251,11 +251,11 @@ Sun  →  REST
 #### Week 8 — Tests + Migrations
 
 ```
-Mon  →  [Phase2_Testing/theory/08_fastapi_testing_patterns.md]
-Tue  →  Alembic migrations [Phase2_Database/22_alembic_advanced.md]
+Mon  →  [00_Year0-2_Junior/10_Testing/theory/08_fastapi_testing_patterns.md]
+Tue  →  Alembic migrations [00_Year0-2_Junior/04_Database_SQL/22_alembic_advanced.md]
 Wed  →  Test database fixtures
 Thu  →  Integration tests with testcontainers
-Fri  →  CI setup with GitHub Actions [Phase3_DevOps/03_github_actions_cicd.md]
+Fri  →  CI setup with GitHub Actions [01_Year3-4_Mid/04_DevOps/03_github_actions_cicd.md]
 Sat  →  PROJECT: 80% coverage + CI pipeline + deploy to Railway/Render
 Sun  →  REST + MONTH-END REVIEW
 ```
@@ -274,11 +274,11 @@ Sun  →  REST + MONTH-END REVIEW
 #### Week 9 — Redis + Caching
 
 ```
-Mon  →  [Phase2_Redis/theory/01_basics_installation_cli.md]
-Tue  →  [Phase2_Redis/theory/02_pipeline_connection_pool.md]
-Wed  →  [Phase2_Caching/theory/01_caching_patterns.md]
-Thu  →  [Phase2_Caching/theory/03_cache_stampede_cold_start.md]
-Fri  →  [Phase2_Caching/theory/04_memory_eviction_policies.md]
+Mon  →  [00_Year0-2_Junior/08_Redis/theory/01_basics_installation_cli.md]
+Tue  →  [00_Year0-2_Junior/08_Redis/theory/02_pipeline_connection_pool.md]
+Wed  →  [00_Year0-2_Junior/09_Caching/theory/01_caching_patterns.md]
+Thu  →  [00_Year0-2_Junior/09_Caching/theory/03_cache_stampede_cold_start.md]
+Fri  →  [00_Year0-2_Junior/09_Caching/theory/04_memory_eviction_policies.md]
 Sat  →  PROJECT: Add Redis caching to todo API + measure latency
 Sun  →  REST
 ```
@@ -286,7 +286,7 @@ Sun  →  REST
 #### Week 10 — Docker + Containerization
 
 ```
-Mon  →  [Phase3_DevOps/01_docker.md]
+Mon  →  [01_Year3-4_Mid/04_DevOps/01_docker.md]
 Tue  →  Dockerfile best practices (multi-stage)
 Wed  →  Docker Compose
 Thu  →  Networking + volumes
@@ -298,11 +298,11 @@ Sun  →  REST
 #### Week 11 — REST Best Practices + Rate Limiting
 
 ```
-Mon  →  [Phase3_API_Design/01_rest_best_practices.md]
-Tue  →  [Phase3_API_Design/02_api_advanced_patterns.md]
-Wed  →  [Phase3_API_Design/06_rate_limiting_deep.md]
-Thu  →  [Phase2_FastAPI/22_hmac_webhooks_idempotency.md]
-Fri  →  [Phase3_API_Design/15_versioning_strategies_deep.md]
+Mon  →  [01_Year3-4_Mid/02_API_Design/01_rest_best_practices.md]
+Tue  →  [01_Year3-4_Mid/02_API_Design/02_api_advanced_patterns.md]
+Wed  →  [01_Year3-4_Mid/02_API_Design/06_rate_limiting_deep.md]
+Thu  →  [00_Year0-2_Junior/06_FastAPI/22_hmac_webhooks_idempotency.md]
+Fri  →  [01_Year3-4_Mid/02_API_Design/15_versioning_strategies_deep.md]
 Sat  →  PROJECT: Add rate limiting + idempotency + API versioning
 Sun  →  REST
 ```
@@ -349,14 +349,14 @@ Sun  →  REST + END-OF-QUARTER REVIEW
 **Topics (Week-by-Week):**
 
 ```
-Week 13  →  Asyncio fundamentals [Day31] + [Phase1_Python_Advanced/theory/05]
+Week 13  →  Asyncio fundamentals [Day31] + [01_Year3-4_Mid/01_Python_Advanced/theory/05]
 Week 14  →  Pydantic v2 deep [Day47]
-Week 15  →  Postgres deep [Phase2_Database/05-07]
+Week 15  →  Postgres deep [00_Year0-2_Junior/04_Database_SQL/05-07]
 Week 16  →  N+1 + query optimization
-Week 17  →  Transactions + isolation [Phase2_Database/19, 21]
-Week 18  →  Connection pooling + PgBouncer [Phase2_Database/09]
-Week 19  →  Postgres HA + replicas [Phase2_Database/07]
-Week 20  →  Sharding strategies [Phase2_Database/08]
+Week 17  →  Transactions + isolation [00_Year0-2_Junior/04_Database_SQL/19, 21]
+Week 18  →  Connection pooling + PgBouncer [00_Year0-2_Junior/04_Database_SQL/09]
+Week 19  →  Postgres HA + replicas [00_Year0-2_Junior/04_Database_SQL/07]
+Week 20  →  Sharding strategies [00_Year0-2_Junior/04_Database_SQL/08]
 ```
 
 **Big Project (Months 4-5):**
@@ -370,14 +370,14 @@ Week 20  →  Sharding strategies [Phase2_Database/08]
 ### Months 6-7 — Messaging + Microservices
 
 ```
-Week 21  →  Celery basics [Phase2_Celery/theory/01]
-Week 22  →  Celery advanced patterns [Phase2_Celery/theory/02-09]
-Week 23  →  RabbitMQ [Phase2_RabbitMQ/theory/01-04]
+Week 21  →  Celery basics [01_Year3-4_Mid/09_Celery/theory/01]
+Week 22  →  Celery advanced patterns [01_Year3-4_Mid/09_Celery/theory/02-09]
+Week 23  →  RabbitMQ [01_Year3-4_Mid/08_RabbitMQ/theory/01-04]
 Week 24  →  RabbitMQ advanced (DLX, HA) [theory/05-07]
-Week 25  →  Kafka [Phase2_Kafka/]
-Week 26  →  Microservices patterns [Phase3_Microservices/01-03]
-Week 27  →  Saga + Outbox [Phase3_Microservices/04-05]
-Week 28  →  Service mesh [Phase3_Microservices/06]
+Week 25  →  Kafka [01_Year3-4_Mid/07_Kafka/]
+Week 26  →  Microservices patterns [01_Year3-4_Mid/05_Microservices/01-03]
+Week 27  →  Saga + Outbox [01_Year3-4_Mid/05_Microservices/04-05]
+Week 28  →  Service mesh [01_Year3-4_Mid/05_Microservices/06]
 ```
 
 **Big Project (Months 6-7):**
@@ -391,10 +391,10 @@ Week 28  →  Service mesh [Phase3_Microservices/06]
 ### Month 8 — Security + Testing
 
 ```
-Week 29  →  OWASP Top 10 [Phase3_Security/02, Phase2_FastAPI/20]
-Week 30  →  OAuth2 deep [Phase3_Security/04]
-Week 31  →  Zero-trust + mTLS [Phase3_Security/10]
-Week 32  →  Advanced testing (contract, load) [Phase2_Testing]
+Week 29  →  OWASP Top 10 [01_Year3-4_Mid/03_Security/02, 00_Year0-2_Junior/06_FastAPI/20]
+Week 30  →  OAuth2 deep [01_Year3-4_Mid/03_Security/04]
+Week 31  →  Zero-trust + mTLS [01_Year3-4_Mid/03_Security/10]
+Week 32  →  Advanced testing (contract, load) [00_Year0-2_Junior/10_Testing]
 ```
 
 **MONTH 8 MILESTONE (END OF PHASE 2):**
@@ -410,14 +410,14 @@ Week 32  →  Advanced testing (contract, load) [Phase2_Testing]
 ### Months 9-10 — DevOps + Cloud
 
 ```
-Week 33  →  Kubernetes + Helm [Phase3_DevOps/06]
-Week 34  →  Terraform [Phase3_DevOps/07]
-Week 35  →  AWS deep [Phase3_DevOps/04]
-Week 36  →  GitOps (ArgoCD/Flux) [Phase3_DevOps/13]
-Week 37  →  Prometheus + Grafana [Phase3_DevOps/05]
-Week 38  →  ELK + Loki [Phase3_DevOps/08]
-Week 39  →  OpenTelemetry [Phase2_FastAPI/14]
-Week 40  →  SRE practices [Phase3_DevOps/16]
+Week 33  →  Kubernetes + Helm [01_Year3-4_Mid/04_DevOps/06]
+Week 34  →  Terraform [01_Year3-4_Mid/04_DevOps/07]
+Week 35  →  AWS deep [01_Year3-4_Mid/04_DevOps/04]
+Week 36  →  GitOps (ArgoCD/Flux) [01_Year3-4_Mid/04_DevOps/13]
+Week 37  →  Prometheus + Grafana [01_Year3-4_Mid/04_DevOps/05]
+Week 38  →  ELK + Loki [01_Year3-4_Mid/04_DevOps/08]
+Week 39  →  OpenTelemetry [00_Year0-2_Junior/06_FastAPI/14]
+Week 40  →  SRE practices [01_Year3-4_Mid/04_DevOps/16]
 ```
 
 **Big Project (Months 9-10):**
@@ -431,8 +431,8 @@ Week 40  →  SRE practices [Phase3_DevOps/16]
 ### Months 11-12 — Architecture + System Design
 
 ```
-Week 41  →  Clean architecture + DDD [Phase2_FastAPI/12, Phase3_Microservices/09]
-Week 42  →  Software Architecture Section 1-3 [Software_Architecture_Patterns/]
+Week 41  →  Clean architecture + DDD [00_Year0-2_Junior/06_FastAPI/12, 01_Year3-4_Mid/05_Microservices/09]
+Week 42  →  Software Architecture Section 1-3 [02_Year5+_Senior/02_Architecture_Patterns/]
 Week 43  →  Software Architecture Section 4-6
 Week 44  →  Software Architecture Section 7-9
 Week 45  →  HLD theory drill [HLD_Theory/]
@@ -470,9 +470,9 @@ Week 52  →  LLD problems (Parking Lot, ATM, LRU Cache, Splitwise)
 ### Month 14 — AI/LLM Integration
 
 ```
-Week 53  →  LLM in FastAPI [Phase2_FastAPI/31-32]
-Week 54  →  RAG architecture [Phase2_FastAPI/34, Phase2_Database/28]
-Week 55  →  MCP server [Phase2_FastAPI/35]
+Week 53  →  LLM in FastAPI [00_Year0-2_Junior/06_FastAPI/31-32]
+Week 54  →  RAG architecture [00_Year0-2_Junior/06_FastAPI/34, 00_Year0-2_Junior/04_Database_SQL/28]
+Week 55  →  MCP server [00_Year0-2_Junior/06_FastAPI/35]
 Week 56  →  Modern HLD (ChatGPT/RAG/Agent) [HLD_Problems/]
 ```
 
@@ -487,10 +487,10 @@ Week 56  →  Modern HLD (ChatGPT/RAG/Agent) [HLD_Problems/]
 ### Month 15 — Advanced Topics
 
 ```
-Week 57  →  ClickHouse for OLAP [Phase2_Database/27]
-Week 58  →  Temporal workflows [Phase3_Microservices/15]
-Week 59  →  Feature flags [Phase3_DevOps/18]
-Week 60  →  Passkeys + DPDP [Phase3_Security/17, 18]
+Week 57  →  ClickHouse for OLAP [00_Year0-2_Junior/04_Database_SQL/27]
+Week 58  →  Temporal workflows [01_Year3-4_Mid/05_Microservices/15]
+Week 59  →  Feature flags [01_Year3-4_Mid/04_DevOps/18]
+Week 60  →  Passkeys + DPDP [01_Year3-4_Mid/03_Security/17, 18]
 ```
 
 ---
@@ -498,9 +498,9 @@ Week 60  →  Passkeys + DPDP [Phase3_Security/17, 18]
 ### Month 16 — Interview Prep Marathon
 
 ```
-Week 61  →  Coding patterns review [Phase8_Interview_Prep/02]
-Week 62  →  System design 50Q [Phase8_Interview_Prep/01]
-Week 63  →  Python tricky questions [Phase8_Interview_Prep/03]
+Week 61  →  Coding patterns review [03_Interview_AnyYear/02_Interview_Prep/02]
+Week 62  →  System design 50Q [03_Interview_AnyYear/02_Interview_Prep/01]
+Week 63  →  Python tricky questions [03_Interview_AnyYear/02_Interview_Prep/03]
 Week 64  →  Mock interviews (3/week)
 ```
 
@@ -522,7 +522,7 @@ Week 65-68:
    ✓ 5-10 interviews/week
    ✓ Daily DSA + mock
    ✓ Resume polish
-   ✓ Behavioral prep [Phase8_Interview_Prep/10]
+   ✓ Behavioral prep [03_Interview_AnyYear/02_Interview_Prep/10]
 ```
 
 ### Month 18 — Negotiate + Land
@@ -531,7 +531,7 @@ Week 65-68:
 Week 69-72:
    ✓ Final rounds
    ✓ Multiple offers expected
-   ✓ Negotiate [Phase8_Interview_Prep/12]
+   ✓ Negotiate [03_Interview_AnyYear/02_Interview_Prep/12]
    ✓ Pick the right one
 ```
 
