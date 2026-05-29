@@ -18,10 +18,9 @@ Backend_Developer/
 ├── 02_Year5+_Senior/         ← system design, architecture, leadership
 ├── 03_Interview_AnyYear/     ← DSA + interview prep + projects (kabhi bhi)
 │
-├── README.md                 ← (yeh file) master index + priority map
-├── STUDY_PLAN_0_TO_5_YEARS.md
-├── STUDY_PLAN_6_HOURS_DAILY.md
-└── STUDY_PLAN_2_MONTHS_SENIOR_PREP.md
+└── README.md                 ← (yeh file) master index + priority map
+
+(Roadmap / study-plan → repo root: ../00_START_HERE.md)
 ```
 
 **Do dimensions naam me encoded hain:**
@@ -117,12 +116,9 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 | **Year 0-2 (Junior)** | `00_Year0-2_Junior/01_Foundations` → `02_Python_Daily` → core stack (04–10) |
 | **Year 3-4 (Mid)** | `01_Year3-4_Mid/` (especially 02, 03, 04, 14) + `03_Interview_AnyYear/01_DSA` |
 | **Year 5+ (Senior)** | `02_Year5+_Senior/` (all 3) + `03_Interview_AnyYear/02_Interview_Prep` |
-| **Interview mode** | `03_Interview_AnyYear/` + `STUDY_PLAN_2_MONTHS_SENIOR_PREP.md` |
+| **Interview mode** | `03_Interview_AnyYear/` + [`../00_START_HERE.md`](../00_START_HERE.md) |
 
-**Detailed roadmaps:**
-- [STUDY_PLAN_0_TO_5_YEARS.md](STUDY_PLAN_0_TO_5_YEARS.md) — full year-by-year journey
-- [STUDY_PLAN_6_HOURS_DAILY.md](STUDY_PLAN_6_HOURS_DAILY.md) — compressed 18-month path
-- [STUDY_PLAN_2_MONTHS_SENIOR_PREP.md](STUDY_PLAN_2_MONTHS_SENIOR_PREP.md) — 2-month senior interview crack
+**Detailed roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) — single phase-wise plan (5h/day, interview-focused).
 
 ---
 

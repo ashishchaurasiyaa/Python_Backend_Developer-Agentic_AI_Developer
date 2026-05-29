@@ -15,12 +15,8 @@
 ✅ Modern Topics covered (5 docs)
 ✅ Zero blocking gaps
 
-For accelerated 2-month senior interview prep, see:
-   → ../COMBINED_STUDY_PLAN_2_MONTHS.md  ← THE 60-day plan
-
-For combined Backend + AI study path:
-   → ../BACKEND_AI_BRIDGE.md
-   → ../COMBINED_PRIORITY_ANALYSIS.md
+For the combined Backend + AI study path and interview plan, see:
+   → ../00_START_HERE.md
 ```
 
 ---
