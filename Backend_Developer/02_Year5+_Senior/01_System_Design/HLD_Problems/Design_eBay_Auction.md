@@ -1121,7 +1121,7 @@ async def place_bid(...):
 
 ## Related Implementation Docs
 - [00_Year0-2_Junior/06_FastAPI/15_websocket_scaling_patterns.md](../../../00_Year0-2_Junior/06_FastAPI/15_websocket_scaling_patterns.md) — WebSocket scaling
-- [00_Year0-2_Junior/08_Redis/02_redlock_distributed_locks.md](../../../00_Year0-2_Junior/08_Redis/02_redlock_distributed_locks.md) — distributed locks
+- [00_Year0-2_Junior/09_Caching/theory/02_redlock_distributed_locks.md](../../../00_Year0-2_Junior/09_Caching/theory/02_redlock_distributed_locks.md) — distributed locks
 - [01_Year3-4_Mid/07_Kafka/](../../../01_Year3-4_Mid/07_Kafka) — Kafka patterns
 - [01_Year3-4_Mid/05_Microservices/04_outbox_event_sourcing.md](../../../01_Year3-4_Mid/05_Microservices/04_outbox_event_sourcing.md) — event sourcing
 - [01_Year3-4_Mid/04_DevOps/16_sre_practices_sli_slo.md](../../../01_Year3-4_Mid/04_DevOps/16_sre_practices_sli_slo.md) — SLO design

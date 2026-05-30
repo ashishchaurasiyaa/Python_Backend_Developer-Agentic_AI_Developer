@@ -131,8 +131,7 @@ def count_no_adjacent_same(N):
             new_started = started or (d > 0)
             new_prev = d if new_started else -1
             total += dp(pos + 1, tight and (d == limit), new_started, new_prev)
-        # Also count "0" → just don't pass it; or count empty
-        return total + (1 if pos == 0 and not started else 0) if False else total
+        return total
 
     return dp(0, True, False, -1)
 

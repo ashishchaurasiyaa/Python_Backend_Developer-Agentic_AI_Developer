@@ -122,8 +122,8 @@ p = Product(
     internalCode="IC-X", # using validation_alias
 )
 print(p)
+print("dump (field names):", p.model_dump())
 print("dump (by alias):", p.model_dump(by_alias=True))
-print("dump (by serialization_alias):", p.model_dump(by_alias=True))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -397,7 +397,7 @@ class OrderItem(BaseModel):
     product: str
     quantity: int
     unit_price: Decimal
-    created_at: datetime = None
+    created_at: datetime | None = None
 
     def model_post_init(self, __context: Any) -> None:
         if self.created_at is None:
@@ -669,7 +669,6 @@ TypeAdapter — ultra-fast validation without a full model:
 print(PERFORMANCE_NOTES)
 
 from pydantic import TypeAdapter
-from typing import list as List
 
 int_list_adapter = TypeAdapter(list[int])
 result = int_list_adapter.validate_python(["1", "2", "3"])  # coerces strs

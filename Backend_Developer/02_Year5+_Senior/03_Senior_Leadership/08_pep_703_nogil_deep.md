@@ -406,7 +406,7 @@ Compatibility matrix matters.
 
 > **Multiple Python interpreters** in one process. Each with own GIL.
 
-Coming in Python 3.12+.
+Per-interpreter GIL (PEP 684) CPython 3.12 me C-API level pe ship hua. High-level `interpreters` stdlib module (PEP 734) 3.13/3.14 me aa raha hai.
 
 #### Difference from No-GIL
 

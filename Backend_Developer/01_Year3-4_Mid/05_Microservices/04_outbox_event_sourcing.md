@@ -103,10 +103,22 @@ class OutboxRelay:
     def __init__(self, session_factory, rabbitmq_url: str):
         self.session_factory = session_factory
         self.rabbitmq_url = rabbitmq_url
+        self.connection = None
+        self.exchange = None
+
+    async def _ensure_connection(self):
+        """Connect once per relay (not per batch) and reuse channel + exchange."""
+        if self.connection is None or self.connection.is_closed:
+            self.connection = await aio_pika.connect_robust(self.rabbitmq_url)
+            channel = await self.connection.channel()
+            self.exchange = await channel.declare_exchange(
+                "domain_events", aio_pika.ExchangeType.TOPIC
+            )
 
     async def run(self, poll_interval: float = 1.0):
         """Continuously poll outbox and publish events"""
         print("Outbox Relay started")
+        await self._ensure_connection()
         while True:
             try:
                 await self._process_batch()
@@ -132,34 +144,30 @@ class OutboxRelay:
             if not events:
                 return
 
-            # Publish to RabbitMQ
-            connection = await aio_pika.connect_robust(self.rabbitmq_url)
-            async with connection:
-                channel = await connection.channel()
-                exchange = await channel.declare_exchange(
-                    "domain_events", aio_pika.ExchangeType.TOPIC
-                )
+            # Reuse the relay's long-lived connection (NOT a new one per batch).
+            # Note: SKIP LOCKED rows commit ke pehle locked rehte hain — yani publish
+            # duration ke liye lock held hai (is simple variant ka known tradeoff).
+            # Batch chhota rakho taaki lock-hold window short rahe.
+            for event in events:
+                try:
+                    await self.exchange.publish(
+                        aio_pika.Message(
+                            json.dumps(event.payload).encode(),
+                            message_id=str(event.id),
+                            delivery_mode=aio_pika.DeliveryMode.PERSISTENT,
+                        ),
+                        routing_key=event.event_type
+                    )
+                    event.status = "published"
+                    event.published_at = datetime.utcnow()
+                    print(f"Published: {event.event_type} ({event.aggregate_id})")
+                except Exception as e:
+                    event.retry_count += 1
+                    if event.retry_count >= 5:
+                        event.status = "failed"
+                    print(f"Failed: {event.event_type}: {e}")
 
-                for event in events:
-                    try:
-                        await exchange.publish(
-                            aio_pika.Message(
-                                json.dumps(event.payload).encode(),
-                                message_id=str(event.id),
-                                delivery_mode=aio_pika.DeliveryMode.PERSISTENT,
-                            ),
-                            routing_key=event.event_type
-                        )
-                        event.status = "published"
-                        event.published_at = datetime.utcnow()
-                        print(f"Published: {event.event_type} ({event.aggregate_id})")
-                    except Exception as e:
-                        event.retry_count += 1
-                        if event.retry_count >= 5:
-                            event.status = "failed"
-                        print(f"Failed: {event.event_type}: {e}")
-
-                await session.commit()
+            await session.commit()
 ```
 
 ### Outbox Pattern Variants

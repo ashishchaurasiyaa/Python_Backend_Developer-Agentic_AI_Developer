@@ -202,7 +202,7 @@ print(a is b)   # True — same object (cached)
 
 c = 1000
 d = 1000
-print(c is d)   # False — different objects (not cached, >256)
+print(c is d)   # True yahan! Ek hi code object me equal literals ek co_consts entry share karte hain (small-int cache nahi). REPL/alag compile me → False
 
 # String interning
 s1 = "hello"
@@ -288,7 +288,7 @@ pn = PointNormal(1.0, 2.0, 3.0)
 ps = PointSlots(1.0, 2.0, 3.0)
 
 print(f"Normal:  {sys.getsizeof(pn)} bytes + {sys.getsizeof(pn.__dict__)} dict")
-# Normal:  48 bytes + 104 dict  →  total ~152 bytes
+# Normal:  ~48 bytes + ~296 dict on CPython 3.12 (version-dependent) → __dict__ overhead bada
 
 print(f"Slots:   {sys.getsizeof(ps)} bytes (no dict)")
 # Slots:   56 bytes — no __dict__
@@ -467,7 +467,7 @@ print(f"Empty string:      {sys.getsizeof('')} bytes")
 # Note: sys.getsizeof is SHALLOW — nested objects ka size nahi deta
 import json
 nested = {"a": [1, 2, 3], "b": {"c": 4}}
-print(f"\nNested dict shallow: {sys.getsizeof(nested)} bytes")  # ~232
+print(f"\nNested dict shallow: {sys.getsizeof(nested)} bytes")  # ~184 on CPython 3.12 (version-dependent)
 
 # Deep size calculation
 def deep_size(obj, seen=None):

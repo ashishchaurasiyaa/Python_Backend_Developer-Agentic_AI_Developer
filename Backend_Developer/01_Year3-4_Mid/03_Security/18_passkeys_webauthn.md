@@ -388,7 +388,7 @@ def login_finish(
     cred_id_hex = credential_response["id"]
     # Note: browser sends base64url; convert to hex to match our DB
     import base64
-    cred_id_bytes = base64.urlsafe_b64decode(cred_id_hex + "==")
+    cred_id_bytes = base64.urlsafe_b64decode(cred_id_hex + "=" * (-len(cred_id_hex) % 4))
     cred = db.query(Credential).filter_by(id=cred_id_bytes.hex()).first()
     if not cred:
         raise HTTPException(404, "Credential not found")
@@ -1000,4 +1000,4 @@ Senior recommendation: **multiple passkeys + recovery codes**.
 - [04_oauth2_flows_deep.md](04_oauth2_flows_deep.md) — OAuth2 flows
 - [09_session_management.md](09_session_management.md) — session after passkey
 - [17_india_dpdp_compliance.md](17_india_dpdp_compliance.md) — passkey + DPDP
-- [00_Year0-2_Junior/06_FastAPI/05_security_jwt.md](../../00_Year0-2_Junior/06_FastAPI/05_security_jwt.md) — FastAPI security
+- [00_Year0-2_Junior/06_FastAPI/06_security_jwt_rbac.md](../../00_Year0-2_Junior/06_FastAPI/06_security_jwt_rbac.md) — FastAPI security

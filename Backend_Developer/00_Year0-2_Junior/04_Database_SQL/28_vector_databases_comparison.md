@@ -848,6 +848,6 @@ Changing distance metric:
 - [06_pgvector_schema_design.md](06_pgvector_schema_design.md) — pgvector deep
 - [18_pgvector_ai_workloads.md](18_pgvector_ai_workloads.md) — production patterns
 - [27_clickhouse_olap.md](27_clickhouse_olap.md) — analytics alternative
-- [../00_Year0-2_Junior/09_Caching/06_semantic_caching_llm.md](../09_Caching/06_semantic_caching_llm.md) — semantic cache
+- [../00_Year0-2_Junior/09_Caching/theory/06_semantic_caching_llm.md](../09_Caching/theory/06_semantic_caching_llm.md) — semantic cache
 - [../00_Year0-2_Junior/06_FastAPI/34_rag_backend_architecture.md](../06_FastAPI/34_rag_backend_architecture.md) — RAG impl
 - [../Projects/08_FastAPI_OpenAI_RAG_Backend.md](../../03_Interview_AnyYear/03_Projects/08_FastAPI_OpenAI_RAG_Backend.md) — full project

@@ -1295,7 +1295,7 @@ print(type(p.__dict__))  # <class 'dict'>
 # Dict overhead bahut bada hai:
 import sys
 print(sys.getsizeof(p))           # ~48 bytes (object header)
-print(sys.getsizeof(p.__dict__))  # ~232 bytes (empty dict!)
+print(sys.getsizeof(p.__dict__))  # ~296 bytes on CPython 3.12 — instance __dict__, version-dependent
 ```
 
 ### `__slots__` — Dict Replace karo Array Se

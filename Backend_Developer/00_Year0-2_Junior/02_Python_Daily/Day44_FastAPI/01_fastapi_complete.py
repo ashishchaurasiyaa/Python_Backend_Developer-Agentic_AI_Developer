@@ -823,7 +823,7 @@ def test_with_dependency_override() -> None:
 @pytest.mark.anyio
 async def test_async_health_check() -> None:
     """Use httpx.AsyncClient for testing async endpoints."""
-    async with httpx.AsyncClient(app=app, base_url="http://test") as ac:
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.get("/health")
     assert response.status_code == 200
 

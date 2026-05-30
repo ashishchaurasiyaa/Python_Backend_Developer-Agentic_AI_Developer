@@ -469,9 +469,9 @@ CP or AP
 
 ### Redis Cluster
 
-CP
-- Shards consistent
-- Sometimes unavailable
+AP-leaning (not strongly consistent)
+- Async replication shards ke beech → failover pe acked writes lost ho sakte hain
+- Har shard independently available; cross-slot ops limited
 
 ---
 

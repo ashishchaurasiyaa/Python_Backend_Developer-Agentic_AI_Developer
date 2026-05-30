@@ -767,8 +767,8 @@ Considerations:
 
 ## Related Topics
 
-- [06_cap_theorem_db_selection.md](06_cap_theorem_db_selection.md) — when to choose ClickHouse
-- [15_timescaledb_timeseries.md](15_timescaledb_timeseries.md) — alternative for time-series
+- [08_cap_theorem_db_selection.md](08_cap_theorem_db_selection.md) — when to choose ClickHouse
+- [17_timescaledb_timeseries.md](17_timescaledb_timeseries.md) — alternative for time-series
 - [25_cdc_debezium_postgresql.md](25_cdc_debezium_postgresql.md) — CDC pipeline to ClickHouse
 - [28_vector_databases_comparison.md](28_vector_databases_comparison.md) — sister doc
 - [../01_Year3-4_Mid/07_Kafka/](../../01_Year3-4_Mid/07_Kafka) — Kafka feeding ClickHouse

@@ -98,41 +98,27 @@ print(False == False == True)  # False ?!
 
 ---
 
-### Q6. `+=` vs `+` on lists in shared state
+### Q6. `+=` vs `x = x + ...` on lists in shared state
 
 ```python
-def modify(x):
-    x += [4]           # creates new list, doesn't mutate
+def use_iadd(x):
+    x += [4]          # __iadd__: mutates the list in place
     return x
 
-def append(x):
-    x.append(4)        # mutates in-place
+def use_concat(x):
+    x = x + [4]       # builds a NEW list, rebinds local x only
     return x
 
 a = [1, 2, 3]
-modify(a); print(a)    # [1, 2, 3]
-append(a); print(a)    # [1, 2, 3, 4]
+use_iadd(a)
+print(a)              # [1, 2, 3, 4]  ← caller's list IS mutated
+
+b = [1, 2, 3]
+use_concat(b)
+print(b)              # [1, 2, 3]     ← caller's list unchanged
 ```
 
-**Why:** `+=` on lists is actually `__iadd__` which usually mutates, BUT in this snippet `x += [4]` is shadowed — `x` becomes a new local binding because of `=`. Subtle.
-
-Actually correction — for lists, `+=` does mutate in-place, but if you do `x = x + [4]`, it doesn't. Let me verify:
-
-```python
-def modify(x):
-    x = x + [4]   # rebind to new list
-    return x
-
-def iadd(x):
-    x += [4]      # mutates
-    return x
-
-a = [1, 2, 3]
-modify(a); print(a)  # [1, 2, 3]
-iadd(a);   print(a)  # [1, 2, 3, 4]  ← mutated!
-```
-
-**Lesson:** `+=` and `+` aren't symmetric for mutable types.
+**Why:** For lists, `+=` calls `__iadd__`, which mutates the list in place (like `.extend()`) and returns the *same* object — so the caller sees the change. `x = x + [4]` builds a brand-new list and only rebinds the local name `x`; the caller's list is untouched. So `+=` and `x = x + ...` are **not** equivalent for mutable types.
 
 ---
 

@@ -5,10 +5,18 @@ Grandfather → Father → Son
 How Python Handles It
 Python uses Method Resolution Order (MRO).
 """
-from Day8.inheritance_super import Animal
+# Animal normally 07_inheritance_super.py me hai, lekin digit se shuru hone wale
+# module name ko import nahi kar sakte — isliye yahan minimal Animal define karte hain.
+class Animal:
+    def __init__(self, name, sound):
+        self.name = name
+        self.sound = sound
+
+    def speak(self):
+        print(f"{self.name} says {self.sound}")
 
 
-class Vechile:
+class Vehicle:
     def __init__(self, brand):
         self.brand = brand
 
@@ -16,7 +24,7 @@ class Vechile:
         print(f"Starting {self.brand} vehicle")
 
 
-class Car(Vechile):
+class Car(Vehicle):
     def __init__(self, brand, model):
         super().__init__(brand)
         self.model = model
