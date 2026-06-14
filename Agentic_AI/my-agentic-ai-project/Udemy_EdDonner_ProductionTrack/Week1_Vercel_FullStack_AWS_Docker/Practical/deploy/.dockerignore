@@ -1,0 +1,33 @@
+# .dockerignore — .gitignore jaisa, par DOCKER BUILD CONTEXT ke liye.
+# Yeh files build context se EXCLUDE hoti hain => image chhoti, build fast,
+# aur secrets (jaise .env) galti se image mein bake nahi hote.
+# Build context = Practical/ (Dockerfile -f deploy/Dockerfile se build hota hai).
+
+# Virtual envs — kabhi image mein nahi (deps requirements-docker.txt se aate hain)
+.venv
+venv
+env
+
+# Python bytecode / caches — useless in image
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# SECRETS — .env kabhi container image mein nahi jaana chahiye. Production mein
+# env vars App Runner UI se inject hote hain (12-factor), build mein NAHI.
+.env
+.env.*
+
+# Git metadata — runtime ko nahi chahiye, sirf size badhata hai
+.git
+.gitignore
+
+# Notes / docs / lecture markdown — runtime ko irrelevant
+notes
+*.md
+
+# Editor / OS junk
+.idea
+.vscode
+.DS_Store

@@ -1,0 +1,104 @@
+[
+  {
+    "at": "2026-06-13T05:36:08",
+    "quotes": [
+      {
+        "symbol": "AAPL",
+        "price": 227.01,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -0.43,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      },
+      {
+        "symbol": "TSLA",
+        "price": 247.86,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -1.64,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      },
+      {
+        "symbol": "MSFT",
+        "price": 432.3,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": 0.07,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      }
+    ]
+  },
+  {
+    "at": "2026-06-13T05:37:59",
+    "quotes": [
+      {
+        "symbol": "AAPL",
+        "price": 227.01,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -0.43,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      }
+    ]
+  },
+  {
+    "at": "2026-06-13T05:38:00",
+    "quotes": [
+      {
+        "symbol": "GOOGL",
+        "price": 175.34,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -1.5,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      }
+    ]
+  },
+  {
+    "at": "2026-06-13T05:38:00",
+    "quotes": [
+      {
+        "symbol": "AAPL",
+        "price": 227.01,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -0.43,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      },
+      {
+        "symbol": "GOOGL",
+        "price": 175.34,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -1.5,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      }
+    ]
+  },
+  {
+    "at": "2026-06-13T05:39:52",
+    "quotes": [
+      {
+        "symbol": "GOOGL",
+        "price": 175.34,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": -1.5,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      }
+    ]
+  },
+  {
+    "at": "2026-06-13T05:39:52",
+    "quotes": [
+      {
+        "symbol": "MSFT",
+        "price": 432.3,
+        "currency": "USD",
+        "date": "2026-06-13",
+        "change_pct_today": 0.07,
+        "source": "simulated (course me yahan Polygon EOD hota)"
+      }
+    ]
+  }
+]

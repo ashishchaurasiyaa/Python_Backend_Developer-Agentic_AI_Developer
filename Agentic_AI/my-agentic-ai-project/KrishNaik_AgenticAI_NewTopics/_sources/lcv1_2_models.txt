@@ -1,0 +1,126 @@
+### [MD]
+### Models Integration With OpenAI, Google Gemini and GROQ
+
+### [CODE]
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
+os.environ["GOOGLE_API_KEY"]=os.getenv("GOOGLE_API_KEY")
+os.environ["GROQ_API_KEY"]=os.getenv("GROQ_API_KEY")
+
+### [CODE]
+from langchain.chat_models import init_chat_model
+model=init_chat_model("gpt-4.1")
+model
+
+### [CODE]
+## invoke the model
+response=model.invoke("Hello How are you?")
+response
+
+### [CODE]
+### ChatOpenAI
+
+from langchain_openai import ChatOpenAI
+model=ChatOpenAI(model="gpt-4.1")
+response=model.invoke("Hello How are you?")
+response
+
+### [CODE]
+response.content
+
+### [MD]
+### Google Gemini Model Integration
+
+
+
+### [CODE]
+import os
+from langchain.chat_models import init_chat_model
+
+os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+
+model = init_chat_model("google_genai:gemini-2.5-flash")
+response = model.invoke("Why do parrots talk?")
+response.content
+
+### [CODE]
+import os
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+
+
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
+response = model.invoke("Why do parrots talk?")
+response
+
+### [MD]
+### GROQ MODEL Integration
+
+### [CODE]
+import os
+from langchain.chat_models import init_chat_model
+
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+
+model = init_chat_model("groq:qwen/qwen3-32b")
+response = model.invoke("Why do parrots talk?")
+response
+
+### [CODE]
+import os
+from langchain_groq import ChatGroq
+
+
+
+model = ChatGroq(model="qwen/qwen3-32b")
+response = model.invoke("Why do parrots talk?")
+response
+
+### [MD]
+### Streaming And Batch
+
+### Streaming
+Most models can stream their output content while it is being generated. By displaying output progressively, streaming significantly improves user experience, particularly for longer responses.
+Calling stream() returns an iterator that yields output chunks as they are produced. You can use a loop to process each chunk in real-time:
+
+### [CODE]
+model.invoke("Write me a 200 words paragraph on Artificial Intelligence")
+
+### [CODE]
+for chunk in model.stream("Write me a 200 words paragraph on Artificial Intelligence"):
+    print(chunk.text, end="|", flush=True)
+
+### [CODE]
+model.invoke("Why do parrots have colorful feathers?")
+
+
+### [CODE]
+for chunk in model.stream("Why do parrots have colorful feathers?"):
+    print(chunk.text, end="|", flush=True)
+
+### [MD]
+
+#### Batch
+Batching a collection of independent requests to a model can significantly improve performance and reduce costs, as the processing can be done in parallel:
+
+### [CODE]
+responses = model.batch([
+    "Why do parrots have colorful feathers?",
+    "How do airplanes fly?",
+    "What is quantum computing?"
+])
+for response in responses:
+    print(response)
+
+### [CODE]
+model.batch(
+    ["Why do parrots have colorful feathers?",
+    "How do airplanes fly?",
+    "What is quantum computing?"],
+    config={
+        'max_concurrency': 5,  # Limit to 5 parallel calls
+    }
+)

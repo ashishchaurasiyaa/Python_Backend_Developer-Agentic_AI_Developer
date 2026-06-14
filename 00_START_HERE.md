@@ -100,11 +100,11 @@ Interview me yeh cheezein filter karti hain (priority order):
 
 ## 🚫 SKIP karo (tere goal ke liye FAALTU)
 - ✅ **4 purane study plans DELETE kar diye** (is file me consolidate) → ab sirf YEH file follow karo, koi confusion nahi.
-- ❌ **Duplicate SD theory:** `HLD_Theory/Udemy_MasteringSystemDesign/` + `SystemDesign_Theory/` → `HLD_Theory/01–58` hi spine, baaki sirf revision.
+- ✅ **Duplicate SD theory DELETE kar di** (Jun 2026 cleanup: `Udemy_MasteringSystemDesign/`, `SystemDesign_Theory/`, `HTML_Sheets/`, Agentic `_existing_ref/`, root Udemy/PDF docs) → ab `HLD_Theory/01–58` hi single spine hai, koi confusion nahi.
 - ✅ **Gap/priority docs DELETE kar diye** (`COMBINED_GAP_ANALYSIS`, `COMBINED_PRIORITY_ANALYSIS`, `Agentic/GAP_ANALYSIS`) → sab covered tha, ab clutter nahi.
 - ❌ **Niche backend** (gRPC, RabbitMQ, Elasticsearch, GraphQL) → **sirf tab** jab JD me ho. Default skip.
 - ❌ Foundations basics (Linux/git/networking) → tujhe aata hai.
-- ⚠️ `my-agentic-ai-project/.env` ko git me commit mat karna (secrets).
+- ⚠️ `Agentic_AI/my-agentic-ai-project/.env` ko git me commit mat karna (secrets).
 
 ---
 

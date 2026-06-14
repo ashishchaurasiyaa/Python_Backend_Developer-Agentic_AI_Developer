@@ -1,0 +1,3 @@
+- LangChain is a software framework for integrating large language models (LLMs) into applications.
+- It helps with tasks such as document analysis and summarization, chatbots, and code analysis.
+- Another related technology is Milvus, an open-source vector database developed by Zilliz.

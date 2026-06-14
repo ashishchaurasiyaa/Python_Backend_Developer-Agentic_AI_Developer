@@ -1,0 +1,124 @@
+1|52441427|W1|14|Video|Day 1 - Instant AI Deployment: Your First Production App on Vercel in Minutes
+2|52441869|W1|6|Video|Day 1 - From Zero to Live: Deploying Your First AI-Powered SaaS on Vercel
+3|52441889|W1|6|Video|Day 1 - From AI Concepts to Cloud Deployment: Navigating the DevOps Landscape
+4|56544181|W1|4|Video|Your Path to Becoming a Proficient AI Engineer
+5|52441905|W1|8|Video|Day 1 - Course Overview: Building Production AI Systems Across 4 Weeks
+6|52441929|W1|12|Video|Day 1 - Deploy Your First Live AI App with OpenAI and Vercel Integration
+7|52442065|W1|12|Video|Day 1 - Managing API Costs and Environment Setup for Production AI Systems
+8|52442087|W1|6|Video|Day 1 - Course Expectations and Community Support for Production AI
+9|52442113|W1|8|Video|Day 2 - Building Full-Stack AI Apps: Frontend-Backend Architecture for LLMs
+10|52442205|W1|13|Video|Day 2 - Building Full-Stack AI Apps with React, FastAPI, and NextJS
+11|52442239|W1|10|Video|Day 2 - Building Your First Full-Stack AI SaaS with NextJS and FastAPI
+12|52442267|W1|9|Video|Day 2 - Building Your First FastAPI Backend for Production LLM Deployment
+13|52442279|W1|11|Video|Day 2 - Deploying Full-Stack AI Apps with Next.js Frontend and FastAPI Backend
+14|52442293|W1|10|Video|Day 2 - Adding Real-Time Streaming and Professional UI to Your LLM App
+15|52442521|W1|11|Video|Day 3 - Adding User Authentication to Your Production AI Application
+16|52442855|W1|9|Video|Day 3 - Adding User Authentication to Production AI Apps with Clerk
+17|52442869|W1|7|Video|Day 3 - Adding Subscription Billing to Your Production AI SaaS Application
+18|52443037|W1|11|Video|Day 3 - Adding Authentication and Billing to Production AI Applications
+19|52443409|W1|6|Video|Day 4 - Building Your First Commercial AI App: From Prototype to Business
+20|52443417|W1|8|Video|Day 4 - Building Healthcare AI Apps with FastAPI and Structured Prompts
+21|52443457|W1|6|Video|Day 4 - Deploying Your Complete AI Healthcare App to Production on Vercel
+22|52443467|W1|5|Video|Day 4 - Building a Production Healthcare AI SaaS with Streaming LLMs
+23|52443477|W1|11|Video|Day 5 - AWS Setup and IAM for Production AI: Your First Cloud Deployment
+24|52443489|W1|8|Video|Day 5 - Setting Up AWS Cost Monitoring for Production AI Deployments
+25|52443627|W1|10|Video|Day 5 - Setting Up Secure IAM Users for Production AI Deployments on AWS
+26|52443651|W1|10|Video|Day 5 - Containerizing AI Apps with Docker for Cloud Deployment
+27|52443683|W1|9|Video|Day 5 - Migrating Your AI App from Vercel to AWS for Production Scale
+28|52443699|W1|9|Video|Day 5 - Containerizing Your AI App: Docker Images for Production Deployment
+29|52443709|W1|12|Video|Day 5 - Deploying Dockerized AI Apps to AWS with ECR and App Runner
+30|52443721|W1|5|Video|Day 5 - Deploying Your AI App Live on AWS App Runner with Auto-Scaling
+31|52443723|W1|6|Video|Day 5 - From Vercel to AWS: Deploying Production LLM Apps at Scale
+32|52450871|W2|13|Video|Day 1 - AWS Foundations for Production AI: From Console to Infrastructure
+33|52450885|W2|8|Video|Day 1 - Cloud Deployment Architectures for Production AI Applications
+34|52450893|W2|7|Video|Day 1 - AWS Cloud Components for Production AI: S3, Lambda, and Bedrock
+35|52450897|W2|11|Video|Day 1 - Building Your Digital Twin: AWS Lambda + Bedrock Architecture Setup
+36|52498391|W2|11|Video|Day 1 - Building Your AI Digital Twin: Production Setup with NextJS App Router
+37|52450977|W2|11|Video|Day 1 - Building Your First Full-Stack AI App with FastAPI and React
+38|52450983|W2|5|Video|Day 1 - Building Conversational Memory for Production AI Chat Applications
+39|52450985|W2|12|Video|Day 2 - Building Production-Ready AI Agents with AWS Lambda and S3
+40|52450993|W2|11|Video|Day 2 - Migrating AI Chat Apps from Local Storage to AWS S3 and Lambda
+41|52451065|W2|10|Video|Day 2 - Deploying Your First Production LLM API on AWS Lambda
+42|52451073|W2|8|Video|Day 2 - Configuring AWS Lambda and S3 for Production LLM Memory Storage
+43|52451171|W2|13|Video|Day 2 - Setting Up S3 Buckets and API Gateway for Production AI Apps
+44|52451211|W2|10|Video|Day 2 - Deploying AI Frontend Through CloudFront for Global Distribution
+45|52451329|W2|6|Video|Day 2 - Testing Your Live AI Agent and Configuring CORS for Production
+46|52451507|W2|10|Video|Day 3 - Setting Up Amazon Bedrock for Production LLM Deployment on AWS
+47|52451531|W2|9|Video|Day 3 - Migrating from OpenAI to AWS Bedrock for Cost-Effective LLM Deployment
+48|52451539|W2|5|Video|Day 3 - Deploying Bedrock LLMs to AWS Lambda and Testing Production APIs
+49|52451547|W2|8|Video|Day 3 - Monitoring Production AI with CloudWatch and Bedrock Metrics
+50|52458213|W2|13|Video|Day 4 - Infrastructure as Code for AI: Deploying LLM Apps with Terraform
+51|52458217|W2|13|Video|Day 4 - Infrastructure as Code: Automating AI Deployments with Terraform
+52|52458269|W2|10|Video|Day 4 - Automating AI Deployments with Terraform and Shell Scripts
+53|52458271|W2|9|Video|Day 4 - Automating Full-Stack AI Deployment with Terraform and AWS
+54|52458287|W2|11|Video|Day 4 - Multi-Environment AI Deployments: Dev, Test, and Production Setup
+55|52458347|W2|9|Video|Day 4 - Testing Production AI Deployments and Terraform Cleanup Workflows
+56|52458459|W2|9|Video|Day 5 - Automating AI Infrastructure Deployments with GitHub Actions CI/CD
+57|52458469|W2|10|Video|Day 5 - Setting Up Git and GitHub Actions for AI Production Deployments
+58|52458475|W2|10|Video|Day 5 - Setting Up GitHub Actions for Automated AI Model Deployment
+59|52458485|W2|9|Video|Day 5 - Setting Up GitHub Actions for Automated AI Infrastructure Deployment
+60|52458827|W2|9|Video|Day 5 - Setting Up GitHub Actions for Automated AI Agent Deployments
+61|52458833|W2|12|Video|Day 5 - Live CI/CD Pipeline Deploy: From Git Push to Production AI Agent
+62|52458839|W2|8|Video|Day 5 - Automated CI/CD Pipelines for Production AI Apps with Git Deploy
+63|52458847|W2|13|Video|Day 5 - Resource Management and Cost Control for Production AI Systems
+64|52498471|W3|12|Video|Day 1 - Multi-Cloud AI Deployment: Azure, GCP & Cybersecurity Agent Setup
+65|52498507|W3|10|Video|Day 1 - Building AI Security Agents with MCP Servers and Semgrep Integration
+66|52498511|W3|12|Video|Day 1 - Containerizing AI Agents with Docker for Cloud Deployment
+67|52498513|W3|10|Video|Day 1 - Setting Up Azure Infrastructure for Production AI Container Deployment
+68|52498515|W3|10|Video|Day 1 - Deploying AI Apps to Azure with Terraform Infrastructure as Code
+69|52498517|W3|10|Video|Day 1 - Deploying AI Agents with MCP Servers to Azure Container Apps
+70|52498529|W3|10|Video|Day 2 - Setting Up GCP Infrastructure for Production AI Agent Deployment
+71|52498547|W3|3|Video|Day 2 - Setting Up Google Cloud CLI for Production AI Container Deployment
+72|52498555|W3|7|Video|Day 2 - Deploying AI Agents to GCP Cloud Run with Terraform Infrastructure
+73|52498559|W3|11|Video|Day 2 - Deploying AI Agents Across GCP and Azure with Container Services
+74|52498975|W3|14|Video|Day 3 - Building ALEX: Multi-Agent Financial AI System on AWS Infrastructure
+75|52498979|W3|10|Video|Day 3 - Setting Up AWS Permissions and SageMaker for Production AI Agents
+76|52499099|W3|8|Video|Day 3 - SageMaker vs Bedrock: Deploying Custom AI Models in Production
+77|52499111|W3|10|Video|Day 3 - Deploying SageMaker Embedding Models for Production RAG Systems
+78|52499115|W3|3|Video|Day 3 - Exploring SageMaker AI's Full Platform for Production ML Workflows
+79|52499213|W3|8|Video|Day 4 - Building Vector Data Pipelines with SageMaker and S3 for AI Memory
+80|52499219|W3|7|Video|Day 4 - Building Cost-Effective Vector Storage with S3 and Lambda Ingestion
+81|52499259|W3|8|Video|Day 4 - Setting Up Secure AI Ingestion Pipelines with Terraform and AWS
+82|52499267|W3|6|Video|Day 4 - Testing Your AWS Lambda Vector Ingest Pipeline End-to-End
+83|52499281|W3|5|Video|Day 5 - Building AI Research Agents with MCP Servers and Data Pipelines
+84|52499343|W3|8|Video|Day 5 - Building AI Research Agents with Bedrock and OpenAI SDK on AWS
+85|52499373|W3|10|Video|Day 5 - Deploying AI Research Agents with Docker, ECR, and App Runner
+86|52499527|W3|8|Video|Day 5 - Testing End-to-End AI Agent Workflows from Research to Vector Storage
+87|52499535|W3|9|Video|Day 5 - Automating AI Agent Workflows with AWS EventBridge Scheduling
+88|52499551|W3|9|Video|Day 5 - Week 3 Wrap-Up: Assignment Options & Production AI Next Steps
+89|52583333|W4|7|Video|Day 1 - Multi-Agent vs Single-Agent Architectures for Production AI Systems
+90|52583341|W4|9|Video|Day 1 - Building Multi-Agent Financial AI: Database Architecture & AWS Setup
+91|52583355|W4|3|Video|Day 1 - Database Architecture for Production AI: Aurora Serverless for LLM Apps
+92|52583359|W4|10|Video|Day 1 - Setting Up Aurora Serverless Database for Multi-Agent AI Systems
+93|52583361|W4|6|Video|Day 1 - Setting Up Aurora Database Infrastructure for Production AI Apps
+94|52583365|W4|6|Video|Day 1 - Setting Up Production Database Architecture for AI Agent Systems
+95|52583369|W4|9|Video|Day 2 - Building Multi-Agent Financial AI Systems with Context Engineering
+96|52583391|W4|7|Video|Day 2 - Setting Up AWS Bedrock Models and Enterprise APIs for AI Agents
+97|52583467|W4|5|Video|Day 2 - Exploring Multi-Agent Architecture: Tools and Structured Outputs
+98|52583497|W4|12|Video|Day 2 - Building Multi-Agent Financial Systems: Code Review and Architecture
+99|52583545|W4|13|Video|Day 2 - Testing Multi-Agent Systems Locally Before Lambda Deployment
+100|52583551|W4|12|Video|Day 2 - Packaging and Deploying Multi-Agent AI Systems to AWS Lambda
+101|52583559|W4|4|Video|Day 2 - End-to-End Testing of Multi-Agent Systems on AWS Lambda
+102|52583581|W4|8|Video|Day 3 - Building the Frontend for Your Production AI Agent System
+103|52583585|W4|7|Video|Day 3 - Running Full-Stack AI Apps Locally Before Production Deployment
+104|52583589|W4|10|Video|Day 3 - When AI Code Generation Works vs Fails in Production Apps
+105|52583593|W4|7|Video|Day 3 - Deploying AI-Generated APIs to Production with AWS Lambda & Terraform
+106|52583601|W4|9|Video|Day 3 - Testing Your Multi-Agent Financial AI System Live in Production
+107|52583993|W4|9|Video|Day 4 - Enterprise-Grade AI: Monitoring, Security & Observability at Scale
+108|52584015|W4|12|Video|Day 4 - Enterprise-Grade AI: Scaling, Security, and Monitoring for Production
+109|52584027|W4|12|Video|Day 4 - Monitoring AI Agents in Production with CloudWatch and Dashboards
+110|52584047|W4|13|Video|Day 4 - Monitoring AI Systems and Building Guardrails for Production Agents
+111|52584065|W4|10|Video|Day 4 - Advanced LLM Observability with Langfuse and Production Guardrails
+112|52584075|W4|11|Video|Day 4 - LLM-as-a-Judge Pattern with Langfuse Observability in Production
+113|52584521|W4|10|Video|Day 4 - Real-Time Agent Monitoring and the Security Risks of Production AI
+114|52584527|W4|9|Video|Day 4 - Securing AI Agents Against Prompt Injection in Production Systems
+115|52584529|W4|7|Video|Day 4 - Capstone Assignment: Taking Your AI Financial Agent to Market
+116|52584763|W4|7|Video|Day 5 - Enterprise AI Guardrails and Wrapping Your Production Agent System
+117|52584771|W4|10|Video|Day 5 - Agent Platforms vs Custom Deployment: When to Use Managed Solutions
+118|52584971|W4|11|Video|Day 5 - Building Production AI Agents with Amazon Bedrock AgentCore
+119|52584977|W4|7|Video|Day 5 - Setting Up AWS Bedrock Agent Core for Production AI Deployments
+120|52585111|W4|10|Video|Day 5 - Building and Deploying Your First AI Agent to AWS in Minutes
+121|52585123|W4|12|Video|Day 5 - Building Production AI Agents with Loop-Based Reasoning Systems
+122|52585129|W4|9|Video|Day 5 - Adding Code Execution Tools and Observability to AWS Bedrock Agents
+123|52585137|W4|9|Video|Day 5 - Course Wrap-Up: From Zero to Production AI Expert in 4 Weeks
+124|56469877|W4|11|Article|Bonus Lecture - Your Exclusive Links

@@ -1,0 +1,169 @@
+### [MD]
+### Deep Agents overview
+
+
+
+Build agents that can plan, use subagents, and leverage file systems for complex tasks
+
+deepagents is a standalone library for building agents that can tackle complex, multi-step tasks. Built on LangGraph and inspired by applications like Claude Code, Deep Research, and Manus, deep agents come with planning capabilities, file systems for context management, and the ability to spawn subagents.
+
+### [MD]
+
+### When to use deep agents
+Use deep agents when you need agents that can:
+
+- Handle complex, multi-step tasks that require planning and decomposition
+- Manage large amounts of context through file system tools
+- Delegate work to specialized subagents for context isolation
+- Persist memory across conversations and threads
+
+### [CODE]
+### Basic deep agent
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
+os.environ["GROQ_API_KEY"]=os.getenv("GROQ_API_KEY")
+os.environ["TAVILY_API_KEY"]=os.getenv("TAVILY_API_KEY")
+
+### [CODE]
+from typing import Literal
+
+### [CODE]
+### Tools- Internet search
+from tavily import TavilyClient
+from typing import Literal
+
+tavily_client=TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+
+def web_search(query:str,max_results:int=5,
+topic: Literal["general","sports","news","finance"]="general",
+include_raw_content:bool=False):
+    """Run a web search"""
+    return tavily_client.search(query,
+    max_results=max_results,include_raw_content=include_raw_content,topic=topic)
+
+
+
+### [CODE]
+from langchain.chat_models import init_chat_model
+
+model=init_chat_model("groq:qwen/qwen3-32b")
+model
+
+### [CODE]
+## Basic Agent
+from langchain.agents import create_agent
+
+
+simple_agent=create_agent(
+    model=model,
+    tools=[web_search]
+)
+simple_agent
+
+### [CODE]
+### Create a deep agent
+## Prompt
+
+## agent
+
+from deepagents import create_deep_agent
+
+deepagent=create_deep_agent(
+    model=model,
+    tools=[web_search],
+    system_prompt="Act as a researcher"
+)
+deepagent
+
+### [CODE]
+result = deepagent.invoke({"messages": [{"role": "user", "content": "What is deepagent?"}]})
+result
+
+### [CODE]
+result["messages"][-1].content
+
+### [CODE]
+result['files']
+
+### [MD]
+### What happened?
+
+Your deep agent automatically:
+- Planned its approach: Used the built-in write_todos tool to break down the research task
+- Conducted research: Called the internet_search tool to gather information
+- Managed context: Used file system tools (write_file, read_file) to offload large search results
+- Spawned subagents (if needed): Delegated complex subtasks to specialized subagents
+- Synthesized a report: Compiled findings into a coherent response
+
+### [MD]
+### Customizing Deep Agents
+
+### [CODE]
+## #Model
+from langchain.chat_models import init_chat_model
+from deepagents import create_deep_agent
+
+model = init_chat_model(model="gpt-5")
+agent = create_deep_agent(model=model)
+agent
+
+### [CODE]
+result = agent.invoke({"messages": [{"role": "user", "content": "What is deepagent?"}]})
+result
+
+### [MD]
+### System Prompt
+Deep agents come with a built-in system prompt inspired by Claude Code’s system prompt. The default system prompt contains detailed instructions for using the built-in planning tool, file system tools, and subagents.
+Each deep agent tailored to a use case should include a custom system prompt specific to that use case.
+
+### [CODE]
+from deepagents import create_deep_agent
+
+research_instructions = """\
+You are an expert researcher. Your job is to conduct \
+thorough research, and then write a polished report. \
+"""
+
+agent = create_deep_agent(
+    model=model,
+    system_prompt=research_instructions,
+)
+result = agent.invoke({"messages": [{"role": "user", "content": "What is deepagent?"}]})
+result
+
+### [CODE]
+agent
+
+### [CODE]
+### Tools
+import os
+from typing import Literal
+from tavily import TavilyClient
+from deepagents import create_deep_agent
+
+tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
+
+def internet_search(
+    query: str,
+    max_results: int = 5,
+    topic: Literal["general", "news", "finance"] = "general",
+    include_raw_content: bool = False,
+):
+    """Run a web search"""
+    return tavily_client.search(
+        query,
+        max_results=max_results,
+        include_raw_content=include_raw_content,
+        topic=topic,
+    )
+
+agent = create_deep_agent(
+    model=model,
+    tools=[internet_search]
+)
+result = agent.invoke({"messages": [{"role": "user", "content": "What is deepagent in Agentic AI?"}]})
+result

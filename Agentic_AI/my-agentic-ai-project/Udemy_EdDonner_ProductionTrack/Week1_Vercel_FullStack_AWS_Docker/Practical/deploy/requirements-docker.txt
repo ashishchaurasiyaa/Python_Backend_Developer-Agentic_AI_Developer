@@ -1,0 +1,11 @@
+# requirements-docker.txt — Lab 6 ki CONTAINER dependencies (sirf runtime).
+# Yeh deliberately CHHOTA hai — image mein sirf jo lab ko chahiye, woh hi:
+#   fastapi       -> web framework (routes, validation, /docs)
+#   uvicorn       -> ASGI server jo FastAPI app ko serve karta hai (port 8000)
+#   openai        -> get_client() OpenAI-compatible client (Groq base_url ke saath)
+#   python-dotenv -> local .env load (prod mein App Runner env vars use hote hain)
+# Versions pin nahi kiye (course-simple); production CI mein exact pin/lock karo.
+fastapi
+uvicorn
+openai
+python-dotenv

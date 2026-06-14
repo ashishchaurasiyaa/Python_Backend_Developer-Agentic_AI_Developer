@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Deep Review — Ashish Chaurasiya · Python Backend + AI (June 2026)</title>
+<style>
+  :root{
+    --bg:#0a0f0e; --bg2:#101a18; --card:#13201d; --card2:#1a2a26;
+    --border:#24403a; --text:#e8f2ef; --muted:#9bb5ae; --dim:#5f7d75;
+    --green:#22c55e; --green-bg:rgba(34,197,94,.12);
+    --amber:#f59e0b; --amber-bg:rgba(245,158,11,.12);
+    --red:#ef4444; --red-bg:rgba(239,68,68,.12);
+    --blue:#3b82f6; --blue-bg:rgba(59,130,246,.12);
+    --teal:#14b8a6; --teal-bg:rgba(20,184,166,.14);
+    --purple:#a78bfa; --purple-bg:rgba(167,139,250,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans-serif;line-height:1.6}
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,15,14,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;padding:10px 24px}
+  nav a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;padding:7px 13px;border-radius:8px;white-space:nowrap;transition:.2s}
+  nav a:hover{color:var(--text);background:var(--card2)}
+  nav .logo{color:var(--teal);font-weight:800;font-size:14px;margin-right:8px}
+
+  header{padding:54px 0 38px;background:radial-gradient(1100px 420px at 50% -100px,rgba(20,184,166,.16),transparent),radial-gradient(700px 320px at 85% 0,rgba(245,158,11,.08),transparent)}
+  .crumb{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);background:var(--teal-bg);border:1px solid rgba(20,184,166,.35);padding:5px 14px;border-radius:99px;margin-bottom:18px}
+  h1{font-size:clamp(27px,4.3vw,42px);font-weight:800;line-height:1.15;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(90deg,#14b8a6,#3b82f6,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:15.5px;margin-top:14px;max-width:800px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:32px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+  .stat .n{font-size:27px;font-weight:800}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .stat.g .n{color:var(--green)} .stat.a .n{color:var(--amber)} .stat.r .n{color:var(--red)} .stat.b .n{color:var(--blue)} .stat.t .n{color:var(--teal)} .stat.p .n{color:var(--purple)}
+
+  section{padding:46px 0;border-top:1px solid var(--border)}
+  h2{font-size:25px;font-weight:800;margin-bottom:6px}
+  h3.sect{font-size:18px;font-weight:800;margin:30px 0 14px}
+  .lead{color:var(--muted);margin-bottom:26px;max-width:840px;font-size:15px}
+
+  .verdict{display:grid;grid-template-columns:250px 1fr;gap:30px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px}
+  @media(max-width:760px){.verdict{grid-template-columns:1fr}}
+  .gauge{width:200px;height:200px;border-radius:50%;margin:0 auto;position:relative;
+    background:conic-gradient(var(--amber) 0 58%, var(--border) 58% 100%)}
+  .gauge::after{content:"";position:absolute;inset:24px;border-radius:50%;background:var(--card)}
+  .gauge .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;text-align:center}
+  .gauge .center b{font-size:30px}
+  .gauge .center span{font-size:10.5px;color:var(--muted);max-width:110px}
+  .vnote{margin-top:14px;padding:12px 16px;border-radius:10px;background:var(--teal-bg);border:1px solid rgba(20,184,166,.35);font-size:13.5px}
+  .vrow{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:14px}
+  .vrow .ic{flex-shrink:0;width:22px;text-align:center}
+
+  .bigcard{background:linear-gradient(135deg,rgba(20,184,166,.10),rgba(59,130,246,.07));border:1.5px solid var(--teal);border-radius:18px;padding:26px 28px;margin-bottom:30px}
+  .bigcard h3{font-size:19px;font-weight:800;margin-bottom:10px;color:var(--teal)}
+  .bigcard p{font-size:14.5px;color:var(--text)}
+
+  .badge{font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .badge.crit{color:#fca5a5;background:var(--red-bg)} .badge.maj{color:#fcd34d;background:var(--amber-bg)} .badge.min{color:#86efac;background:var(--green-bg)}
+  .badge.dim{color:var(--muted);background:var(--card2)}
+
+  details.f{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;border-left:4px solid var(--border)}
+  details.f.crit{border-left-color:var(--red)} details.f.maj{border-left-color:var(--amber)}
+  details.f>summary{cursor:pointer;list-style:none;padding:16px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;user-select:none}
+  details.f>summary::-webkit-details-marker{display:none}
+  details.f>summary .num{font-size:12px;font-weight:800;color:var(--dim);min-width:24px}
+  details.f>summary b{font-size:15px;flex:1;min-width:200px}
+  .f-body{padding:2px 20px 20px;display:grid;gap:12px}
+  .fb{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:14px 16px;font-size:13.5px;color:var(--muted)}
+  .fb h4{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:7px}
+  .fb h4.prob{color:var(--red)} .fb h4.fix{color:var(--teal)} .fb h4.note{color:var(--blue)}
+  .fb b{color:var(--text)}
+  .fb code, td code, .ba code{background:var(--card2);border:1px solid var(--border);padding:1px 6px;border-radius:5px;font-size:12px;color:#5eead4;font-family:'SF Mono',Menlo,Consolas,monospace}
+
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+  @media(max-width:780px){.ba{grid-template-columns:1fr}}
+  .ba .col{border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.55}
+  .ba .before{background:var(--red-bg);border:1px solid rgba(239,68,68,.3);color:#e8c2c2}
+  .ba .after{background:var(--green-bg);border:1px solid rgba(34,197,94,.3);color:#c8ecd2}
+  .ba h5{font-size:10.5px;font-weight:800;letter-spacing:1.2px;margin-bottom:7px}
+  .ba .before h5{color:#fca5a5}.ba .after h5{color:#86efac}
+  .ba .ttl{grid-column:1/-1;font-size:14px;font-weight:700;color:var(--text);margin-bottom:-4px}
+
+  .struct{display:grid;grid-template-columns:1fr 56px 1fr;gap:0;align-items:start;margin-top:8px}
+  @media(max-width:820px){.struct{grid-template-columns:1fr}.struct .mid{display:none}}
+  .scol{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+  .scol h4{font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:12px;text-transform:uppercase}
+  .scol.bad h4{color:#fca5a5}.scol.good h4{color:#86efac}
+  .sline{font-size:12.5px;padding:7px 11px;border-radius:8px;margin-bottom:6px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);display:flex;gap:8px;align-items:center}
+  .sline.warn{border-color:rgba(239,68,68,.4);background:var(--red-bg);color:#e8b9b9}
+  .sline.ok{border-color:rgba(34,197,94,.35);background:var(--green-bg);color:#bfe8cb}
+  .sline.new{border-color:rgba(20,184,166,.5);background:var(--teal-bg);color:#9ae8dc;border-style:dashed}
+  .sline .pg{margin-left:auto;font-size:10px;color:var(--dim);white-space:nowrap}
+  .mid{display:flex;align-items:center;justify-content:center;height:100%;min-height:300px;font-size:26px;color:var(--teal)}
+
+  .paste{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;font-size:13px;line-height:1.6;color:#cfe8e2;font-family:'SF Mono',Menlo,Consolas,monospace;white-space:pre-wrap;margin-bottom:16px}
+  .paste .ph{color:var(--amber);font-weight:700}
+  .paste .cm{color:var(--dim)}
+  .pastehead{display:flex;align-items:center;gap:10px;margin:20px 0 8px}
+  .pastehead b{font-size:14.5px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  .mini{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px 17px}
+  .mini b{font-size:13.5px;display:block;margin-bottom:4px}
+  .mini p{font-size:12.5px;color:var(--muted)}
+  .mini .q{color:#fcd34d;font-style:italic}
+
+  .check{display:flex;gap:11px;align-items:flex-start;padding:10px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card);font-size:13.5px;color:var(--muted)}
+  .check input{margin-top:4px;accent-color:var(--teal)}
+  .check b{color:var(--text)}
+
+  .plan{position:relative;margin-left:14px;padding-left:30px}
+  .plan::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--red),var(--amber),var(--teal))}
+  .step{position:relative;margin-bottom:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:17px 20px}
+  .step::before{content:"";position:absolute;left:-36px;top:21px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--red)}
+  .step:nth-child(2)::before{border-color:var(--amber)}
+  .step:nth-child(3)::before{border-color:var(--teal)}
+  .step:nth-child(4)::before{border-color:var(--blue)}
+  .step .s-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .step b{font-size:15px}
+  .step p{font-size:13.5px;color:var(--muted)}
+  .badge.time{color:#5eead4;background:var(--teal-bg)}
+
+  .strengths{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:13px}
+  .str{background:var(--card);border:1px solid rgba(34,197,94,.25);border-radius:12px;padding:15px 17px;font-size:13px;color:var(--muted)}
+  .str b{color:#86efac;display:block;margin-bottom:4px;font-size:13.5px}
+
+  footer{padding:38px 0 56px;border-top:1px solid var(--border);color:var(--dim);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <span class="logo">📄 RESUME REVIEW</span>
+  <a href="#verdict">Verdict</a>
+  <a href="#onechange">⚡ The One Change</a>
+  <a href="#critical">🔴 Critical</a>
+  <a href="#major">🟡 Major</a>
+  <a href="#paste">📋 Ready-to-Paste</a>
+  <a href="#minor">✅ Polish Checklist</a>
+  <a href="#drill">🎤 Interview Drill</a>
+  <a href="#plan">🎯 Action Plan</a>
+</div></nav>
+
+<header><div class="wrap">
+  <span class="crumb">Multi-Agent Deep Review · 11 Agents · Adversarially Verified · June 2026</span>
+  <h1>Resume Review — <span class="grad">Ashish Kumar Chaurasiya</span><br>Python Backend (4+ yrs) → Backend + AI Target</h1>
+  <p class="sub">5 independent reviewer agents (recruiter-scan, content/impact, ATS keywords, consistency/red-flags, AI-positioning) ne resume ko alag-alag lens se review kiya, phir 5 adversarial verifiers ne har finding ko resume text ke against re-check karke galat/exaggerated findings ko kill kiya, aur ek completeness critic ne missed cheezein pakdi. <b>Sirf verified findings neeche hain.</b></p>
+  <div class="stats">
+    <div class="stat t"><div class="n">11</div><div class="l">Agents (5 review + 5 verify + 1 critic)</div></div>
+    <div class="stat r"><div class="n">9</div><div class="l">CRITICAL themes (apply se pehle fix)</div></div>
+    <div class="stat a"><div class="n">~16</div><div class="l">MAJOR findings (consolidated)</div></div>
+    <div class="stat g"><div class="n">~22</div><div class="l">MINOR polish items</div></div>
+    <div class="stat b"><div class="n">10</div><div class="l">Genuine strengths confirmed</div></div>
+    <div class="stat p"><div class="n">1</div><div class="l">Structural move = ~10 fixes ek saath</div></div>
+  </div>
+</div></header>
+
+<!-- ================= VERDICT ================= -->
+<section id="verdict"><div class="wrap">
+  <h2>📊 Final Verdict</h2>
+  <div class="verdict">
+    <div class="gauge"><div class="center"><b>~58%</b><span>INTERVIEW-READY (abhi)<br>→ ~90% achievable in 3–4 weeks</span></div></div>
+    <div>
+      <div class="vrow"><span class="ic">💎</span><span><b>Raw material genuinely strong hai:</b> PHP→Django migration leadership, Rs 100 Cr+ platforms, SAP HANA/GST/payments integration surface, production vocabulary (idempotency, HMAC, TTL caching, state machines) jo drill survive karti hai. Quantification habit 4-yr level pe rare hai.</span></div>
+      <div class="vrow"><span class="ic">⚠️</span><span><b>Presentation usse bech nahi rahi:</b> Page-1 ERP/Odoo developer jaisa padhta hai, strongest metrics page-2 pe dafan hain, aur poora resume ek hi kaam ko do baar ginata hai (SAP connector 5x, Odoo migration 3x).</span></div>
+      <div class="vrow"><span class="ic">🚨</span><span><b>3 landmines jo interview me phat sakti hain:</b> FastAPI headline me hai par evidence zero · "RAG, Vector Databases" keyword-stuffing padhta hai · "50,000+ daily transactions" arithmetic me collapse hota hai (~18M/yr ek 4-month safari side-project pe).</span></div>
+      <div class="vnote">💡 <b>Bottom line:</b> Yeh rewrite ka kaam nahi, <b>restructure + honesty-pass</b> ka kaam hai. Ek structural change (neeche) + ek RAG portfolio project = 3–4 hafte me yeh resume Razorpay/CRED-tier screening ke liye ready ho jata hai. Tera content fake nahi hai — bas galat jagah, galat order, aur 3-4 indefensible numbers ke saath rakha hai.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= THE ONE CHANGE ================= -->
+<section id="onechange"><div class="wrap">
+  <h2>⚡ The One Change — agar sirf ek cheez kar sakte ho</h2>
+  <p class="lead">Completeness critic ka top finding: <b>yeh ek structural move ~10 critical/major findings ek saath fix kar deta hai</b> — duplication, ERP-first read, moonlighting ambiguity, internship placement, page-2 fresher arc, sab.</p>
+
+  <div class="bigcard">
+    <h3>Key Projects section ko khatam karo → Work Experience ke andar sub-project blocks banao</h3>
+    <p>Youngman Beta, CRM Platform, YES Platform — yeh teeno <b>employer ka hi kaam hai</b>, alag "Key Projects" me dobara likhne se ek hi kaam do baar gina ja raha hai. Inhe Y Equipment Services entry ke andar <b>bolded sub-headers</b> banao (har ek me 2–3 deduplicated bullets). Niroskos ko alag <b>"Independent / Freelance Project"</b> header do (honest label = moonlighting ambiguity khatam). Internships ko ek-ek line me niche bhejo. Page 2 ka ant Education pe ho — certificates ya 12th pe kabhi nahi.</p>
+  </div>
+
+  <div class="struct">
+    <div class="scol bad">
+      <h4>❌ Abhi (problem structure)</h4>
+      <div class="sline">Header — 4 lines, LinkedIn akeli line pe, GitHub nahi<span class="pg">PG 1</span></div>
+      <div class="sline">Summary — 6-line dense wall (~85 words)<span class="pg">PG 1</span></div>
+      <div class="sline">Skills — 10 rows (PHP/Laravel/Odoo/Web3 noise)<span class="pg">PG 1</span></div>
+      <div class="sline warn">Work Exp — 8 bullets, pehla = "Began as a PHP Laravel developer"<span class="pg">PG 1</span></div>
+      <div class="sline warn">Internships — page break ke upar, fresher signal<span class="pg">PG 1→2</span></div>
+      <div class="sline warn">Key Projects ×4 — Work Exp ka duplicate (SAP 5x, Odoo 3x, 60% 2x)<span class="pg">PG 2</span></div>
+      <div class="sline warn">Niroskos — unlabeled, full-time job se overlap (Oct 2025–Feb 2026)<span class="pg">PG 2</span></div>
+      <div class="sline">Education — B.Tech + 12th (2015!)<span class="pg">PG 2</span></div>
+      <div class="sline warn">Certifications ×4 — training-institute, "(Basics to Advanced)"<span class="pg">PG 2</span></div>
+      <div class="sline warn">Awards — Employee of the Month, bonuses (duplicate + weak ending)<span class="pg">PG 2 END</span></div>
+    </div>
+    <div class="mid">→</div>
+    <div class="scol good">
+      <h4>✅ Target structure</h4>
+      <div class="sline ok">Header — 2 lines: title + ek contact line (LinkedIn + <b>GitHub</b>, "open to relocation")</div>
+      <div class="sline ok">Summary — 3 lines (~45 words), Rs 100 Cr+ (~US$12M) front-loaded</div>
+      <div class="sline ok">Skills — 7 sharp rows (Python-first, Testing line added, Odoo→Integrations)</div>
+      <div class="sline ok">Work Exp — Y Equipment Services (1-line company descriptor) ke andar:</div>
+      <div class="sline ok">&nbsp;&nbsp;▸ Youngman Beta — PHP→Python Microservices Migration (3 bullets)</div>
+      <div class="sline ok">&nbsp;&nbsp;▸ CRM Platform — Odoo 17 Multi-Company Re-architecture (2–3 bullets)</div>
+      <div class="sline ok">&nbsp;&nbsp;▸ YES Platform — Certification &amp; Asset Tracking (1–2 bullets)</div>
+      <div class="sline ok">Independent / Freelance Project — Niroskos Safaris (labeled, 3 bullets)</div>
+      <div class="sline new">⊕ AI Portfolio Project — DocQA RAG API (banne ke baad — GitHub link ke saath)</div>
+      <div class="sline ok">Education — 1 line (AKTU expanded) · Internships — 1-1 line · END</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= CRITICAL ================= -->
+<section id="critical"><div class="wrap">
+  <h2>🔴 Critical Findings — apply karne se pehle fix karo</h2>
+  <p class="lead">Yeh 9 cheezein interviews cost karti hain — ya recruiter-pass ya interview-collapse. Har card me problem + verified fix.</p>
+
+  <details class="f crit" open>
+    <summary><span class="num">#1</span><b>Page-1 "ERP/Odoo developer" padhta hai, "Python backend engineer" nahi</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Header bolta hai "Python Backend Developer", par body me Odoo ~7x, SAP HANA ~8x, invoice/invoicing ~10x. Page-1 ke saare numbers revenue/invoice-volume hain; latency/throughput/uptime metrics (sub-200ms, 99.9% uptime, 50,000+ daily) sab page-2 pe hain jahan recruiter pahunchta hi nahi. Razorpay/Zomato/CRED-tier recruiter ka 6-second read: "internal ERP customization dev" → instant pass.</div>
+      <div class="fb"><h4 class="fix">Fix</h4>Bullets me engineering outcome ko subject banao, Odoo/SAP ko stack-line me demote karo. Example: <i>"Led the Odoo 15 to Odoo 17 multi-company migration..."</i> → <b>"Re-architected a multi-tenant ERP platform (57+ modules) with cross-company data isolation and shared master data, executing a major-version platform migration end-to-end."</b> Weakest invoice-domain bullet (12+ cron automations) cut karo, aur page-2 ke real metrics (99% success @ 10,000+ invoices, sub-200ms) page-1 pe lao. Naye numbers mat banao — existing ko relocate karo.</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#2</span><b>Pehla bullet "Began as a PHP Laravel developer" se khulta hai</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Recruiter 6-second scan me title + first bullet padhta hai. Tere single job ke highest-eyeball spot ke pehle 5 words tujhe PHP dev categorize kar dete hain; asli payoff ("led the migration") second clause me dafan hai. PHP origin summary me already covered hai — yahan repeat karna worst position pe wrong label hai.</div>
+      <div class="fb"><h4 class="fix">Fix (ready-to-paste)</h4><b>"Led the end-to-end migration of a monolithic PHP Laravel ERP (Operations, Invoicing, CRM) to Python Django microservices, owning architecture and phased rollout across four major platform evolutions."</b> — PHP-to-Python arc bachta hai (genuine strength), par Python ownership verb ban jata hai.</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#3</span><b>FastAPI headline + summary + skills me hai — evidence ZERO bullets me</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Verified: FastAPI exactly 3 jagah aata hai — sab claims (headline, summary "using Django, DRF, and FastAPI", skills). Har project ka stack Django/DRF/Odoo/Laravel hai. India me 4–6yr Python roles ka most-probed framework FastAPI hai — "Tell me about your FastAPI work" guaranteed early question hai, aur resume ne khud apne liye trap set kiya hai. Co-keywords (Pydantic, SQLAlchemy, asyncio, OpenAPI) bhi sab absent.</div>
+      <div class="fb"><h4 class="fix">Fix</h4>Best move: <b>2–4 hafte me ek real FastAPI project ship karo</b> (planned RAG DocQA API natural fit hai — ek repo se FastAPI + RAG + vector DB teeno gaps fix). Tab tak ke liye: summary ko "...using Django and DRF" karo aur FastAPI ko sirf skills me rakho. Headline me evidence-less FastAPI leke resume mat bhejo.</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#4</span><b>"RAG, Vector Databases" skills me — keyword stuffing; poori AI positioning 5 shabdon pe tiki hai</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Skills line: "Search &amp; AI: Typesense, Elasticsearch, OpenAI GPT-4, RAG, Vector Databases". Inme se sirf Typesense + GPT-4 captions ka evidence hai. RAG/Vector DBs/Elasticsearch kahin bullet me nahi. ATS keywords match karega → AI-screening interview me route karega → "walk me through a RAG system you built" ka koi anchor page pe nahi. LLM/LangChain/embeddings/pgvector/agent — sab tokens zero occurrences. Backend+AI hybrid JDs ka keyword screen outright fail.</div>
+      <div class="fb"><h4 class="fix">Fix (2-stage, sequencing critical)</h4><b>Aaj:</b> line ko trim karo → "Search &amp; AI: Typesense, OpenAI API integration" (sirf evidenced cheezein). <b>RAG project ship hone ke baad:</b> dedicated line — "AI / LLM Engineering: LLM APIs (OpenAI, Claude), RAG (pgvector, hybrid retrieval), LangGraph, embeddings, prompt design, LLM evals" — har term Projects entry se backed. <b>Rule: kabhi bhi skills keyword bina supporting bullet ke mat rakho.</b></div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#5</span><b>"50,000+ daily transactions" — arithmetic me collapse hota hai, baaki numbers ko bhi poison karta hai</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Verified verbatim: "...refund approval workflows handling 50,000+ daily transactions" — ~18M payments/year ek 4-month (Oct 2025–Feb 2026) safari side-project pe. Payments-company recruiter (exact target audience) instantly pakdega: "gateway bill kitna tha?" Ek number collapse hua → legitimate metrics (Rs 100 Cr+, 10,000+ invoices/month, 99%) bhi discount ho jate hain.</div>
+      <div class="fb"><h4 class="fix">Fix</h4>Jo sach hai wahi likho. Agar events/requests the: <b>"processing 50,000+ daily booking and payment events"</b>. Agar load-test tha: "load-tested to 50,000 requests/day" (sirf agar sach me hua). Agar real volume modest hai: number hatao — <b>"Implemented multi-rail payments (M-Pesa, cards, bank transfer) with maker-checker refund approval workflows"</b> — 4 payment rails + refund workflow bina indefensible number ke bhi impressive hai. Ethereum/Web3 ko bullet se piche karo ya hatao.</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#6</span><b>Niroskos unlabeled hai — concealed moonlighting jaisa padhta hai</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>"Oct 2025 – Feb 2026" full-time job ke andar hai, safari platform ka equipment-services employer se koi plausible connection nahi, aur koi freelance/contract label nahi. Indian product companies me (post Wipro/Infosys moonlighting firings) yeh integrity red-flag hai — aur isi project pe tera ONLY AI evidence + biggest number hai, toh ambiguity unhe bhi discount karti hai.</div>
+      <div class="fb"><h4 class="fix">Fix</h4>Heading me honest label: <b>"Niroskos Safaris — Multi-Tenant Travel Platform (Freelance Project)"</b> (ya jo bhi sach hai). 2-sentence interview answer ready rakho: employer awareness/permission + outside work hours. Project technically strong hai — sirf labeled hona chahiye. Bonus: live URL add karo (niroskossafaris.com type) — cheapest credibility.</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#7</span><b>Ek hi kaam do baar gina — SAP connector 5×, Odoo migration 3×, 60% 2×, LOC 2×</b><span class="badge crit">CRITICAL</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Saari duplications verified: SAP connector summary + work bullet + Youngman + CRM ×2 me. Youngman Beta (Mar 2023–Present) aur CRM (2023–Present) tera day-job hi hai — Key Projects = Work Experience ka restatement. 2 pages isi repetition se bane hain; 4 saal ka kaam 2 stories jaisa dikhta hai, aur FastAPI/AI evidence ke liye zero space bachti hai.</div>
+      <div class="fb"><h4 class="fix">Fix</h4><b>Strict no-repeat rule:</b> har achievement ek hi jagah. "The One Change" structure adopt karo — SAP/Odoo/Exotel/cron/60% sirf Work Experience sub-blocks me; Key Projects sirf genuinely distinct cheezon ke liye (Niroskos labeled + naye AI portfolio projects). Isse page-2 ka ~1/3 free hota hai differentiator ke liye.</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#8</span><b>Testing keywords ZERO — "test" substring tak 0 baar aata hai</b><span class="badge crit">CRITICAL (ATS)</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>Token-search verified: pytest, unittest, TDD, "test" — poore document me zero. Har 4–6yr Python JD me unit testing/pytest hota hai; ATS filter + recruiter dono screen karte hain. Senior level pe total absence = "kya yeh tests likhta hi nahi?"</div>
+      <div class="fb"><h4 class="fix">Fix</h4>Skills me line add karo: <b>"Testing &amp; Quality: pytest, unittest, Django TestCase, Postman, code review"</b> (sirf jo genuinely use kiya hai). Aur ek existing bullet me bake karo: 60% query bullet me "...validated by a pytest regression suite on revenue-critical invoicing flows" — sirf agar defend kar sakte ho (4 saal production invoicing ke baad almost certainly haan; agar nahi, toh pehle woh tests likho, phir claim karo).</div>
+    </div>
+  </details>
+
+  <details class="f crit">
+    <summary><span class="num">#9</span><b>"Microservices" claim drill survive nahi karega agar concrete nahi ho</b><span class="badge crit">CRITICAL (interview)</span></summary>
+    <div class="f-body">
+      <div class="fb"><h4 class="prob">Problem</h4>3 jagah "microservices" (summary ×2, bullet, Youngman) — aur Youngman bullet microservices ko "async processing via Celery and RabbitMQ" se equate karta hai. Odoo by-construction monolith hai; Celery workers microservices nahi hain. System-design round ka first drill: kitni services? data ownership? communication? independent deploys? Agar honest answer "Django apps + Odoo modules + Celery workers" hai, claim collapse hota hai aur system-design credibility saath le jata hai.</div>
+      <div class="fb"><h4 class="fix">Fix</h4>Agar genuinely independent services hain: concrete bano — <b>"decomposed into [N] Django services (REST + RabbitMQ events, independently deployed)"</b>. Agar actually modular-monolith + Odoo hai: teeno jagah <b>"service-oriented Django platform"</b> ya "decomposed a monolithic PHP ERP into Django services and Odoo 17" likho + crisp service-boundary story ready rakho. Failed drill se sasta honesty hai.</div>
+    </div>
+  </details>
+</div></section>
+
+<!-- ================= MAJOR ================= -->
+<section id="major"><div class="wrap">
+  <h2>🟡 Major Findings — meaningfully weaken karte hain</h2>
+  <p class="lead">Consolidated (5 dimensions se verified). Har ek 2-min fix ya ek decision hai.</p>
+
+  <details class="f maj">
+    <summary><span class="num">10</span><b>"(4,858+ lines)" LOC vanity metric — do baar, flagship achievement pe</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Dono jagah se LOC hatao. Replacement (sab elements resume pe already exist — kuch invent nahi): <b>"Designed a bi-directional SAP HANA REST connector with idempotent writes, retry logic, and token caching (5-min TTL), achieving 99% sync success across 10,000+ invoices/month."</b> LOC effort napta hai, value nahi — aur "4,858+" ki odd precision senior reviewers ke liye junior anti-signal hai.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">11</span><b>Flat "Senior" title day-1 se + "Began as PHP dev" contradiction</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Agar real promotion hua tha: ek company header ke andar do dated entries — "Software Engineer (Mar 2022 – [promo date])" / "Senior Software Engineer ([date] – Present)". Visible promotion = retention + growth signal, "Senior" credible ho jata hai. Agar title sach me day-1 se Senior tha: waise hi rakho, fabricate mat karo — bas question expect karo.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">12</span><b>GitHub link nahi — AI positioning ka evidence rehne ki jagah hi nahi</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Pehle 1–2 repos presentable banao (RAG project + cleanest backend work, README + architecture diagram ke saath), TAB header me github.com/&lt;username&gt; add karo. Empty/abandoned profile no-link se worse hai. Har portfolio project entry ke under repo link bhi.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">13</span><b>Kafka + Kubernetes absent — ATS slice miss; par artifact-first add karo</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Order matters: pehle portfolio project K8s pe deploy karo (minikube/kind chalega) + ek Kafka event pipeline chalao, PHIR "Apache Kafka" Messaging me aur "Kubernetes" Cloud &amp; DevOps me add karo — har ek named project se backed. Aaj bare keywords add karna ATS-miss ko interview-liability me convert karna hai. (Tera curriculum dono deep cover karta hai — artifact banana 2-3 din ka kaam hai.)</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">14</span><b>"System design"/HLD/LLD keywords zero — jabki bullets prove karte hain (FREE fix)</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Architecture line rename: <b>"Architecture &amp; Design: System Design (HLD/LLD), Microservices, REST APIs, event-driven architecture, Webhooks, rate limiting, idempotency"</b> + summary me "Strong in system design, database design..." Har added term existing bullets se already evidenced — pure free, honest keyword surface. Recruiter boolean searches literally "system design" dhundhti hain.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">15</span><b>PHP/Laravel current identity ki tarah placed — migration backstory ki tarah nahi</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>4 load-bearing jagah se nikalo: (1) Languages → "Python (primary), SQL, JavaScript" — PHP drop; (2) Backend Frameworks se Laravel drop; (3) pehla bullet rewrite (finding #2); (4) YES Platform stack-line se "PHP, Laravel" drop (bullet text me "(PHP Laravel on AWS)" history ke roop me reh sakta hai). PHP sirf migration narrative ke andar zinda rahe — wahi uska sahi ghar hai.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">16</span><b>Odoo pigeonhole — "Odoo developer" India me alag, lower-paid niche hai</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Remove nahi, reframe (real revenue-backed kaam hai): (1) Odoo ko Backend Frameworks se nikal ke Integrations line me: "ERP &amp; Integrations: Odoo 15/17, SAP HANA, MasterIndia (GST/PAN), Razorpay, PayU, Exotel, Twilio"; (2) CRM project retitle: <b>"ERP CRM Platform — Multi-Company Lead-to-Revenue Pipeline (Python/PostgreSQL, Odoo 15→17)"</b>; (3) bullets me transferable terms aage rakho (multi-company re-architecture, data isolation, EDI) — woh backend engineering padhte hain, Odoo configuration nahi.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">17</span><b>"99.9% uptime / sub-200ms" — measurement ke bina SLO claim = interviewer bait</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Ya measurement attach karo (sirf agar monitoring data sach me hai): "QR verification API (p95 &lt;200ms via CloudWatch)" — ya dono numbers hatao. WeasyPrint + S3 presigned URLs design detail credible part hai. Related: observability keywords (CloudWatch/Sentry/logging) poore resume me zero hain — AWS list me CloudWatch add karo agar use kiya hai (almost certainly haan EC2/RDS production pe).</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">18</span><b>Migration me system-design substance nahi — senior rounds isi ko probe karte hain</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Youngman first bullet upgrade (placeholders REAL facts se bharo, jo sach nahi woh clause cut): <b>"Decomposed a monolithic Laravel ERP into [N] Django services (invoicing, operations, integrations) communicating via REST + RabbitMQ events; ran an incremental strangler-fig cutover with [zero/X hrs] downtime, migrating [Y GB / Z years] of transactional data."</b> + team scope kahin add karo: "as the lead of a [N]-developer migration effort" — N=2 bhi 4yr pe leadership signal hai.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">19</span><b>Page-2 ka 40% unbroken fresher-signal run hai — aur wahi closing impression hai</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Page 2 opens with 2021 intern bullets ("login authentication", "COVID prediction") aur ends with 12th (2015) → 4 training certs → "Multiple Performance Bonuses". Recency bias = final impression fresher ki hai. Fix: WebGanges internship cut, i3infosoft 1 line, 12th delete, certifications section delete (chaaro — WebGanges/i3infosoft certs internship companies se hi hain = paid-training pattern expose; "(Basics to Advanced)" senior title ko khud undermine karta hai), Awards section delete (Employee of the Year ek jagah mention kaafi). Page 2 strongest content se khule, Education pe khatam ho.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">20</span><b>Unknown employer + project names jinki ownership clear nahi</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>Employer ke neeche 1-line italic descriptor: "Y Equipment Services — [industry]; engineering team owning ERP, CRM, and payments platforms processing Rs 100 Cr+ (~US$12M) annual revenue." Project headers me ownership obvious karo — "Youngman Beta (company ERP)". YES = Y Equipment Services kahin spelled out nahi hai — karo.</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">21</span><b>Laundry-list bullets: CRM 9-item run-on, "9 core modules" me 7 listed, Exotel bina outcome</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix</h4>(a) CRM bullet → <b>"Re-architected the ERP from single-company Odoo 15 to multi-company Odoo 17: cross-company data isolation with shared PAN/contact masters, EDI e-invoicing, GST/PAN compliance — onboarded [N] companies onto one platform."</b> (b) Niroskos: "9 core modules" count drop (list me 7 hain — detail-reviewer pakdega) → <b>"Architected the booking domain around a Draft-to-Confirm state machine with itinerary builder and dynamic pricing engine."</b> (c) Exotel bullet me outcome add: "...to reach [N] customers/day" (real figure).</div></div>
+  </details>
+
+  <details class="f maj">
+    <summary><span class="num">22</span><b>Summary me AI ka zero mention — par abhi add karna stuffing badhayega (sequencing!)</b><span class="badge maj">MAJOR</span></summary>
+    <div class="f-body"><div class="fb"><h4 class="fix">Fix — Evidence-first sequencing rule</h4><b>Project bullet → skills line → summary sentence → header keyword. Kabhi ulta nahi.</b> RAG project ship hone KE BAAD summary me last line: "Now shipping production LLM features: RAG pipelines (pgvector, LangGraph) with retrieval-quality evals, served behind rate-limited, cost-tracked FastAPI APIs." — deliberately production-engineering credibility reuse karta hai. Header tab update: "...Django · FastAPI · AWS · LLM/RAG".</div></div>
+  </details>
+</div></section>
+
+<!-- ================= READY TO PASTE ================= -->
+<section id="paste"><div class="wrap">
+  <h2>📋 Ready-to-Paste Rewrites</h2>
+  <p class="lead"><span class="ph" style="color:var(--amber);font-weight:700">[Orange placeholders]</span> = REAL numbers se bharo — jo clause sach nahi, use cut karo. Kuch bhi invent mat karo; har rewrite resume pe already-existing facts se bana hai.</p>
+
+  <div class="pastehead"><b>1 · New Professional Summary (3 lines, ~45 words)</b><span class="badge dim">6-line wall replace karo</span></div>
+  <div class="paste">Python Backend Engineer (4+ yrs) — Django, DRF, FastAPI. Led a PHP-to-Python
+microservices migration for ERP platforms processing Rs 100 Cr+ (~US$12M) annual
+revenue; built SAP HANA, payment-gateway, and telephony integrations. Strong in
+system design, PostgreSQL optimization, Celery/RabbitMQ async processing, and AWS.
+<span class="cm">// AI sentence — SIRF RAG project ship hone ke baad add karo:</span>
+Now shipping production LLM features: RAG pipelines (pgvector, LangGraph) with
+retrieval-quality evals, served behind rate-limited, cost-tracked FastAPI APIs.</div>
+
+  <div class="pastehead"><b>2 · New Skills Section (7 rows)</b><span class="badge dim">[brackets] = artifact banne ke baad hi</span></div>
+  <div class="paste">Languages:              Python (primary), SQL, JavaScript
+Backend:                Django, DRF, FastAPI, Flask, Celery, <span class="ph">[Pydantic, SQLAlchemy, asyncio]</span>
+Architecture &amp; Design:  System Design (HLD/LLD), Microservices, REST APIs,
+                        event-driven architecture, Webhooks, rate limiting, idempotency
+Databases &amp; Caching:    PostgreSQL, MySQL, Redis (caching, indexing, query optimization), <span class="ph">[pgvector]</span>
+Messaging:              RabbitMQ, AWS SQS/SNS, <span class="ph">[Apache Kafka]</span>
+AI / LLM Engineering:   <span class="ph">[LLM APIs (OpenAI, Claude), RAG, LangGraph, embeddings, LLM evals]</span>
+Cloud &amp; DevOps:         AWS (EC2, S3, RDS, IAM, Secrets Manager, CloudWatch), Docker,
+                        <span class="ph">[Kubernetes]</span>, Nginx, Gunicorn, GitHub Actions (CI/CD)
+Testing &amp; Quality:      pytest, unittest, Django TestCase, Postman, code review
+Security:               JWT, OAuth2, RBAC, CSRF protection
+Search:                 Typesense<span class="cm"> (Elasticsearch sirf agar real story hai)</span>
+ERP &amp; Integrations:     Odoo 15/17, SAP HANA, MasterIndia (GST/PAN), Razorpay, PayU, Exotel, Twilio
+<span class="cm">// REMOVED: PHP, Laravel, Web3/Crypto, PyCharm/VS Code, "Git Branching Strategy", "JavaScript (Core)"</span></div>
+
+  <div class="pastehead"><b>3 · Key Bullet Rewrites (before → after)</b></div>
+  <div class="ba">
+    <div class="ttl">Opening bullet (sabse important)</div>
+    <div class="col before"><h5>❌ BEFORE</h5>Began as a PHP Laravel developer on a monolithic ERP (Operations, Invoicing, CRM) for one year, then led the migration to Python Django microservices and an Odoo 17 ERP.</div>
+    <div class="col after"><h5>✅ AFTER</h5>Led the end-to-end migration of a monolithic PHP Laravel ERP (Operations, Invoicing, CRM) to Python Django microservices, owning architecture and phased rollout across four major platform evolutions.</div>
+  </div>
+  <div class="ba">
+    <div class="ttl">SAP connector (LOC hatao, reliability lead kare)</div>
+    <div class="col before"><h5>❌ BEFORE</h5>Designed a bi-directional SAP HANA REST API connector (4,858+ lines) handling customer sync, invoice push, journal entry creation, and payment reconciliation for 10,000+ invoices per month.</div>
+    <div class="col after"><h5>✅ AFTER</h5>Designed a bi-directional SAP HANA REST connector with idempotent writes, retry logic, and token caching (5-min TTL), achieving 99%+ first-pass sync success across 10,000+ invoices/month — automated retry and reconciliation closing the remainder.</div>
+  </div>
+  <div class="ba">
+    <div class="ttl">Cron automations (senior framing)</div>
+    <div class="col before"><h5>❌ BEFORE</h5>Implemented 12+ cron automations including monthly invoice generation, customer auto-blocking by PAN aging thresholds, AR auto-assignment, and Beta/SAP data sync.</div>
+    <div class="col after"><h5>✅ AFTER</h5>Automated the month-end billing cycle end-to-end — invoice generation, AR auto-assignment, PAN-aging credit blocks, and SAP data sync — eliminating <span style="color:var(--amber);font-weight:700">[X hours]</span> of manual finance work per month.</div>
+  </div>
+  <div class="ba">
+    <div class="ttl">Query optimization (anchor add karo, duplicate hatao)</div>
+    <div class="col before"><h5>❌ BEFORE</h5>Reduced Django ORM query execution time by 60% through indexing optimization and legacy module migration. <i>(2 jagah)</i></div>
+    <div class="col after"><h5>✅ AFTER</h5>Cut query latency 60% (from <span style="color:var(--amber);font-weight:700">[X]s to [Y]s</span>) on the invoicing module via composite indexes and N+1 query elimination in Django ORM, validated by a pytest regression suite. <i>(sirf 1 jagah)</i></div>
+  </div>
+  <div class="ba">
+    <div class="ttl">Mentorship (Senior title ka evidence — abhi unquantified)</div>
+    <div class="col before"><h5>❌ BEFORE</h5>Mentored junior developers and conducted code reviews; awarded Employee of the Year and Employee of the Month.</div>
+    <div class="col after"><h5>✅ AFTER</h5>Mentored <span style="color:var(--amber);font-weight:700">[N]</span> junior developers and owned code review for the backend team of <span style="color:var(--amber);font-weight:700">[M]</span>; established PR review standards adopted across all four platforms; awarded Employee of the Year.</div>
+  </div>
+  <div class="ba">
+    <div class="ttl">Niroskos AI bullet (5 words → engineering substance)</div>
+    <div class="col before"><h5>❌ BEFORE</h5>Built Typesense full-text search with signal-based cache invalidation, OpenAI GPT-4 AI captions, and a JWT-protected back-office API.</div>
+    <div class="col after"><h5>✅ AFTER (2 bullets)</h5>① Built Typesense full-text search with signal-based cache invalidation and a JWT-protected back-office API.<br>② Integrated the OpenAI API to auto-generate listing captions — async generation via Celery, per-content-type prompt templates, Redis caching of outputs, and rate-limit-aware retries. <i>(sirf woh claims jo implementation me sach hain)</i></div>
+  </div>
+
+  <div class="pastehead"><b>4 · New AI Portfolio Project Entry (banne ke baad add karo — yeh template hai)</b><span class="badge dim">FastAPI + RAG + GitHub teeno gaps ek saath</span></div>
+  <div class="paste">DocQA — Production-Grade RAG Document Q&amp;A API (Personal / Portfolio)     github.com/<span class="ph">[handle]</span>/docqa · 2026
+Python, FastAPI, LangGraph, PostgreSQL + pgvector, OpenAI API, Redis, Celery, Docker, AWS
+
+• Built an end-to-end RAG service: async document ingestion (PDF/HTML parsing, semantic
+  chunking, OpenAI embeddings into pgvector) and a streaming FastAPI answer endpoint
+  with source citations.
+• Implemented hybrid retrieval (pgvector cosine + keyword search) with re-ranking, and a
+  LangGraph routing graph with guardrails for out-of-scope questions.
+• Built an evaluation harness over a <span class="ph">[N]</span>-question golden dataset measuring retrieval
+  hit-rate and answer faithfulness; tuning chunking/retrieval raised accuracy <span class="ph">[X]% → [Y]%</span>.
+• Production hardening: Celery ingestion workers, Redis caching, per-request token-cost
+  logging, rate-limit retries with exponential backoff; deployed via Docker on AWS.
+<span class="cm">// Evals bullet hi differentiator hai — is level pe measurement koi nahi dikhata.
+// "Played with LangChain" ko "engineered an AI system" me yahi convert karta hai.</span></div>
+</div></section>
+
+<!-- ================= MINOR CHECKLIST ================= -->
+<section id="minor"><div class="wrap">
+  <h2>✅ Polish Checklist (minor — sab verified)</h2>
+  <p class="lead">Har item 1–2 minute ka hai. Print karke tick karte jao.</p>
+  <div class="grid2">
+    <div>
+      <label class="check"><input type="checkbox"><span><b>"4 yrs 2 mos" label hatao</b> — June 2026 me 4y3m hai; duration labels kabhi stale na hon, date ranges kaafi hain (internships ke "6 mos"/"5 mos" bhi)</span></label>
+      <label class="check"><input type="checkbox"><span><b>Date format normalize</b> — sab "Mon YYYY – Mon YYYY"; bare "2023 – Present"/"2024" hatao (real months tere paas hain)</span></label>
+      <label class="check"><input type="checkbox"><span><b>12th (2015) entry delete</b> — 2015–17 gap question bhi invite karta hai</span></label>
+      <label class="check"><input type="checkbox"><span><b>Education 1 line:</b> "B.Tech CSE — Dr. A.P.J. Abdul Kalam Technical University (AKTU) | Apollo Institute of Technology, Kanpur | 2017–2021"</span></label>
+      <label class="check"><input type="checkbox"><span><b>Certifications section poora delete</b> — 4 training-institute certs; 2 internship-companies se hi hain (paid-training pattern). Future: sirf AWS-type cert</span></label>
+      <label class="check"><input type="checkbox"><span><b>Awards section delete</b> — "Employee of the Year" mentorship bullet me ek baar; "Employee of the Month" + bonuses cut</span></label>
+      <label class="check"><input type="checkbox"><span><b>WebGanges internship cut</b>, i3infosoft 1 line: "ML models (scikit-learn) on 1M+ scraped records"</span></label>
+      <label class="check"><input type="checkbox"><span><b>Header 4→2 lines</b> — "Noida, India (open to relocation) | +91-... | email | LinkedIn | GitHub"; "Uttar Pradesh" drop</span></label>
+      <label class="check"><input type="checkbox"><span><b>Headline reorder:</b> "Senior Python Backend Engineer | Django · DRF · AWS" (FastAPI evidence ke baad wapas)</span></label>
+      <label class="check"><input type="checkbox"><span><b>Filename:</b> Resume.pdf → <code>Ashish_Chaurasiya_Python_Backend_4yrs.pdf</code></span></label>
+      <label class="check"><input type="checkbox"><span><b>Naukri/LinkedIn pe locations set karo</b> — Bangalore/Hyderabad/Pune/Gurgaon/Remote, warna Noida-only hard-filter ho jaoge</span></label>
+    </div>
+    <div>
+      <label class="check"><input type="checkbox"><span><b>Rs → dual notation ek baar:</b> "Rs 100 Cr+ (~US$12M)", "Rs 50 Cr+ (~US$6M)" — GCC/global panels crore nahi samajhte; style consistent karo</span></label>
+      <label class="check"><input type="checkbox"><span><b>"Web3/Crypto" skills se delete;</b> Niroskos bullet me crypto ko last position pe: "(cards, M-Pesa, bank transfer, crypto)"</span></label>
+      <label class="check"><input type="checkbox"><span><b>"OpenAI GPT-4" → "OpenAI API"</b> — mid-2026 me GPT-4 dated padhta hai; recruiters "OpenAI"/"LLM" search karte hain</span></label>
+      <label class="check"><input type="checkbox"><span><b>"SEO-optimized APIs" phrasing fix</b> — APIs SEO-optimized nahi hote, pages hote hain: "SEO-optimized server-rendered public pages backed by public and back-office APIs"</span></label>
+      <label class="check"><input type="checkbox"><span><b>"SQL" Languages me add</b> (token-match ke liye); "JavaScript (Core)" → "JavaScript"</span></label>
+      <label class="check"><input type="checkbox"><span><b>"four major platform evolutions" → "the company's ERP, invoicing, and CRM platforms"</b> — warna count Niroskos se cross-reference hota hai</span></label>
+      <label class="check"><input type="checkbox"><span><b>YES Platform PHP bullet</b> — stack detail de-emphasize karo ya cut; 2024 me naya PHP build migration narrative se clash karta hai (interview answer ready rakho)</span></label>
+      <label class="check"><input type="checkbox"><span><b>Live URLs add karo</b> — kam se kam Niroskos ke liye (niroskossafaris.com type); internal products ko "internal platform" likho</span></label>
+      <label class="check"><input type="checkbox"><span><b>Stakeholder bullet add karo:</b> "Worked directly with finance and operations heads to translate GST e-invoicing and AR-aging policy into system behavior" — senior loops yeh explicitly probe karte hain</span></label>
+      <label class="check"><input type="checkbox"><span><b>Razorpay/PayU:</b> agar real kaam hai toh 1 bullet do, warna skills se hatao</span></label>
+      <label class="check"><input type="checkbox"><span><b>Headline middle-dots → pipes</b> (legacy ATS insurance): "Django | DRF | AWS"</span></label>
+      <label class="check"><input type="checkbox"><span><b>CTC/notice resume pe NAHI</b> (sahi hai) — par recruiter-call se pehle: notice period confirm, "negotiable to 30 days" stance, ECTC band fix, Naukri fields me bharo</span></label>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= INTERVIEW DRILL ================= -->
+<section id="drill"><div class="wrap">
+  <h2>🎤 Interview Drill — yeh resume YEH questions trigger karega</h2>
+  <p class="lead">Har number jo page pe hai, uska follow-up ready rakho. Yeh answers likh ke practice karo:</p>
+  <div class="grid2">
+    <div class="mini"><b>Microservices drill</b><p class="q">"Kitni services thi? Data ownership? Communication? Independent deploys?"</p><p>Service-boundary story crisp rakho — ya claim ko "service-oriented" me soften karo (finding #9).</p></div>
+    <div class="mini"><b>Rs 100 Crore attribution</b><p class="q">"Yeh figure kahan se aaya? 50 Cr invoicing 100 Cr ke andar kaise nest hota hai?"</p><p>1-line answer: annual invoiced value flowing through systems tune banaye.</p></div>
+    <div class="mini"><b>99% SAP success</b><p class="q">"1% = ~100 failed invoices/month — unka kya hota tha?"</p><p>Retry + reconciliation path ka story — financial postings me 99% bina recovery acceptable nahi hota.</p></div>
+    <div class="mini"><b>FastAPI</b><p class="q">"FastAPI ka kaam batao."</p><p>Jab tak project nahi bana: honest answer — "production Django/DRF, FastAPI personal projects + deep study." Isliye headline se abhi hatana hai.</p></div>
+    <div class="mini"><b>Niroskos</b><p class="q">"Full-time job ke saath yeh kaise kiya? Employer ko pata tha?"</p><p>2-sentence ready: arrangement + outside-hours + (agar tha) permission.</p></div>
+    <div class="mini"><b>99.9% uptime / sub-200ms</b><p class="q">"Kaise measure kiya? Kis window pe? p95 ya average?"</p><p>CloudWatch/monitoring story — ya number resume se hatao (finding #17).</p></div>
+    <div class="mini"><b>Promotion story</b><p class="q">"Senior kab bane? Kaise?"</p><p>Agar promotion hua: dates + scope change. Flat title hai: ownership growth narrate karo.</p></div>
+    <div class="mini"><b>50,000 daily transactions</b><p class="q">"Gateway bill kitna tha? Settlement kaise hota tha?"</p><p>Yeh question aana hi nahi chahiye — number ko pehle hi true unit me fix karo (finding #5).</p></div>
+  </div>
+</div></section>
+
+<!-- ================= STRENGTHS ================= -->
+<section><div class="wrap">
+  <h2>💪 Confirmed Strengths — yeh already kaam kar raha hai</h2>
+  <p class="lead">Adversarial verification ke baad bhi yeh survive kiya — protect karo, dilute mat karo:</p>
+  <div class="strengths">
+    <div class="str"><b>Migration leadership = genuine senior material</b>PHP monolith → Django microservices + Odoo 15→17 re-architecture ek hi employer pe — 4-yr candidate ke liye exactly woh artifact jo system-design interviewers chahte hain.</div>
+    <div class="str"><b>Production vocabulary jo drill survive karti hai</b>"idempotent operations", "HMAC webhook validation", "in-memory token caching (5-min TTL)", "Draft-to-Confirm state machine", "rate-limited to 200 req/min" — tutorials se fake nahi hota.</div>
+    <div class="str"><b>Quantification habit — is level pe rare</b>Har bullet me number hai. Implausible figures fix hone ke baad yahi habit 4–6yr screening me sabse zyada reward hoti hai.</div>
+    <div class="str"><b>India B2B integration surface — high-value, rare</b>Bi-directional SAP HANA, GST/PAN via MasterIndia, EDI e-invoicing, Exotel telephony, payment reconciliation — typical CRUD-API resumes ke against genuine differentiator.</div>
+    <div class="str"><b>ATS-safe skeleton</b>Single column, standard headings, no tables/graphics, per-project stack lines — pdftotext perfect reading order me parse karta hai (independently re-verified).</div>
+    <div class="str"><b>Core backend keywords already strong</b>Django, DRF, PostgreSQL, Redis, Celery, RabbitMQ, Docker, JWT/OAuth2/RBAC, named AWS services — multi-section repetition ATS relevance scoring boost karti hai.</div>
+    <div class="str"><b>Modern India formatting discipline</b>No photo, no DOB, no declaration line, no CTC — competing Indian resumes ke bade hisse se aage.</div>
+    <div class="str"><b>Niroskos = under-leveraged architecture evidence</b>Multi-tenant subdomain routing, i18n, pricing engine, explicit state machine — label hone ke baad yeh system-design-round ka answer hai, liability nahi.</div>
+    <div class="str"><b>AI story thin hai, fabricated nahi</b>Ek real production LLM touchpoint exist karta hai (GPT-4 captions live platform pe) — matlab fix reframing + 1 project hai, rebuild nahi.</div>
+    <div class="str"><b>Backend muscle = AI credibility ka bridge</b>Rate limits, retries, caching, idempotency — production LLM integration ko exactly yahi chahiye. Tera backend→AI pitch honest aur short hai.</div>
+  </div>
+</div></section>
+
+<!-- ================= ACTION PLAN ================= -->
+<section id="plan"><div class="wrap">
+  <h2>🎯 Action Plan — sequenced</h2>
+  <p class="lead">Sequencing rule yaad rakho: <b>Evidence first → skills line → summary sentence → header keyword. Kabhi ulta nahi.</b></p>
+  <div class="plan">
+    <div class="step"><div class="s-head"><b>Phase 1 · Structure + honesty pass</b><span class="badge crit">AAJ–KAL</span><span class="badge time">⏱ 1 din</span></div><p>"The One Change" restructure karo (Key Projects → sub-blocks, Niroskos labeled). Phir: pehla bullet rewrite, LOC ×2 delete, 50K number fix, dedupe pass, AI skills line trim to evidenced, FastAPI headline se out, certs/12th/awards delete, polish checklist ke 1-minute items. <b>Iske baad hi resume kisi ko bhejna.</b></p></div>
+    <div class="step"><div class="s-head"><b>Phase 2 · Evidence build</b><span class="badge maj">WEEK 1–3</span><span class="badge time">⏱ 2–3 hafte</span></div><p>DocQA RAG project banao (FastAPI + LangGraph + pgvector + <b>evals harness</b>) — yeh ek repo FastAPI gap + RAG stuffing + GitHub absence teeno fix karta hai. K8s pe deploy + ek Kafka event pipeline → woh keywords unlock. Tera 10-week plan ka Week 8 project slot yahi hai — resume ke liye prepone kar do. GitHub profile presentable banao (README + architecture diagram).</p></div>
+    <div class="step"><div class="s-head"><b>Phase 3 · Claims unlock</b><span class="badge time">WEEK 3–4 · ⏱ 1 din</span></div><p>Ab evidence hai: AI/LLM Engineering skills line add, summary me AI sentence, header me "LLM/RAG", GitHub link header me, DocQA entry Projects me (template upar). Placeholders REAL measured numbers se bharo. Optional: multi-agent PR reviewer second entry.</p></div>
+    <div class="step"><div class="s-head"><b>Phase 4 · Drill prep + launch</b><span class="badge time">WEEK 4 · ⏱ 2–3 din</span></div><p>Interview Drill section ke 8 answers likh ke bol ke practice karo. Notice period + ECTC band decide karo, Naukri/LinkedIn fields + locations set karo. Ab apply karo — resume ~90% interview-ready hai, aur har number drill survive karega.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Generated June 2026 · 11-agent adversarially-verified review (5 dimensions × review+verify + completeness critic) · 459K tokens of analysis<br>
+  Companion reports: <b>Backend_Developer/Backend_Gap_Analysis_Complete.html</b> · <b>Agentic_AI/Agentic_AI_Gap_Analysis_Complete.html</b>
+</div></footer>
+
+</body>
+</html>

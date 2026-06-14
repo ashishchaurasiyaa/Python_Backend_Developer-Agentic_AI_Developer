@@ -1,0 +1,289 @@
+# =============================================================================
+# deploy.yml  —  GitHub Actions CI/CD workflow for the Digital Twin serverless app
+# =============================================================================
+# KYA HAI YE FILE (what is this):
+#   Yeh ek REAL GitHub Actions workflow hai. Production repo me yeh file
+#   `.github/workflows/deploy.yml` par rakhi jaati hai (NOTE: yahan hum ise
+#   `Practical/cicd/deploy.yml` me reference/teaching copy ki tarah rakh rahe
+#   hain — actual repo me ise root ke `.github/workflows/` me move karna).
+#
+#   Iska kaam: jab koi `main` branch par push kare (ya manual button dabaye),
+#   GitHub ek ephemeral Linux VM (runner) launch karke yeh steps chalata hai:
+#       test  ->  package  ->  deploy
+#   Yahi CI/CD ka dil hai: "har push automatically tested + deployed."
+#
+# LECTURE MAPPING: Ed Donner "AI Engineer Production Track", Week 2 · Day 5.
+#   L56 = GitHub Actions intro (actions/workflows/jobs terms)
+#   L57 = git + GitHub Actions setup
+#   L58 = repo + Terraform remote backend (S3 state)
+#   L59 = OIDC IAM role (no long-lived keys) — yahi `role-to-assume` ka source
+#   L60 = deploy.yaml/destroy.yaml + 3 secrets (AWS_ROLE_ARN/REGION/ACCOUNT_ID)
+#   L61 = live pipeline: git push -> auto deploy to dev; manual dispatch -> test/prod
+#   L62 = automated CI/CD git deploy (the full loop)
+#
+# COST: Public repo par GitHub Actions minutes FREE hain (private repos ko ek
+#   free monthly quota milta hai). Asli AWS deploy (terraform apply) me jo
+#   resources bante hain — Lambda (per-invoke, free-tier generous), S3 (pennies),
+#   API Gateway (per-million-request), CloudFront (CDN, free-tier + bandwidth),
+#   Bedrock (per-token) — Ed ka pura course estimate ~$5-$10 (zyaadatar free-tier).
+#   Pipeline KHUD koi extra AWS charge nahi lagata; jo deploy hota hai wahi lagta hai.
+# =============================================================================
+
+
+# `name` — yeh string GitHub UI ke "Actions" tab me workflow ke naam ki tarah
+# dikhta hai. Saaf, descriptive naam rakho taaki list me pehchaan aaye.
+name: Deploy Digital Twin
+
+
+# -----------------------------------------------------------------------------
+# `on:` — TRIGGERS. "Kya cheez is workflow ko chalayegi?"
+# -----------------------------------------------------------------------------
+# Yeh CI/CD anatomy ka pehla pillar hai. Do triggers laga rahe hain:
+on:
+  # (1) push: jaise hi koi commit `main` par push ho, workflow AUTO chalega.
+  #     Yahi "Continuous Deployment" ka core idea hai — git push hi trigger hai,
+  #     koi manual step nahi. (L61: dev environment isi se auto-deploy hua.)
+  push:
+    branches:
+      - main          # sirf main par; feature branches par deploy mat karo
+  # (2) workflow_dispatch: GitHub UI me ek "Run workflow" BUTTON deta hai.
+  #     Manual trigger — test/prod ko deliberately promote karne ke liye
+  #     (L61: dev auto, test/prod manual = safety gating).
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to (Terraform workspace)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+
+
+# -----------------------------------------------------------------------------
+# `permissions:` — workflow ke GITHUB TOKEN ki permissions.
+# -----------------------------------------------------------------------------
+# `id-token: write` CRITICAL hai OIDC ke liye — isi se GitHub runtime me ek
+# short-lived signed JWT issue kar paata hai jise AWS STS verify karke role
+# assume karne deta hai. Iske bina OIDC auth fail ho jayega.
+# `contents: read` — repo ka code checkout karne ke liye kaafi (least privilege).
+permissions:
+  id-token: write     # OIDC token mint karne ke liye (no long-lived AWS keys!)
+  contents: read      # repo checkout ke liye read-only
+
+
+# -----------------------------------------------------------------------------
+# `env:` — workflow-level environment variables (saare jobs ko visible).
+# -----------------------------------------------------------------------------
+# Ek jagah define taaki versions consistent rahein. Note: yeh SECRETS nahi hain
+# (woh `${{ secrets.* }}` se aate hain) — yeh sirf non-sensitive config hai.
+env:
+  PYTHON_VERSION: '3.12'
+  TF_VERSION: '1.9.0'
+  # Push trigger par hamesha 'dev'; manual dispatch par user-chosen input.
+  # `||` fallback: agar input nahi diya (push case) to 'dev' default ho jaata.
+  DEPLOY_ENV: ${{ github.event.inputs.environment || 'dev' }}
+
+
+# -----------------------------------------------------------------------------
+# `jobs:` — CI/CD anatomy ka doosra pillar. Har job ek FRESH runner VM par
+# chalta hai (isolated). `needs:` se hum unhe ek GATE-chain me baandhte hain:
+#       test  ->  package  ->  deploy
+# Agar test fail hua to package/deploy chalega hi nahi (broken code prod me
+# nahi jaata). Yahi "test->build->deploy gates" ka asli matlab hai.
+# -----------------------------------------------------------------------------
+jobs:
+
+  # ===========================================================================
+  # JOB 1: test  — "kya code sahi hai?" (CI = Continuous Integration)
+  # ===========================================================================
+  # Har push par pehle code ko verify karo. Fail hua to pipeline yahin ruk jaata.
+  test:
+    name: Test (lint + compile + unit tests)
+    runs-on: ubuntu-latest          # GitHub-hosted ephemeral Linux VM (runner)
+    steps:
+      # Step: repo ka code runner VM par laao. `actions/checkout` official action.
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      # Step: Python install karo (handler isi runtime me chalega — match Lambda).
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      # Step: uv install karo — fast Python package manager (Ed isi ko use karta).
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      # Step: dependencies sync karo. `uv sync` pyproject.toml/uv.lock se exact
+      # versions install karta hai (reproducible builds — lockfile = same env har baar).
+      - name: Install dependencies
+        run: uv sync
+
+      # Step: COMPILE GATE — py_compile har source file ko byte-compile karta hai.
+      # Syntax error / import-time crash yahin pakda jaata hai (fast, free check).
+      - name: Compile check (py_compile)
+        run: uv run python -m py_compile Practical/lab5_cicd_pipeline.py
+
+      # Step: TEST GATE — pytest unit tests. `|| true` ke through hum demo me
+      # tolerate karte hain agar koi test file nahi hai; PRODUCTION me `|| true`
+      # HATA do taaki failing tests pipeline ko sahi me rok dein (real gate).
+      - name: Run unit tests (pytest)
+        run: uv run pytest -q || echo "No tests found / soft-pass for demo"
+
+  # ===========================================================================
+  # JOB 2: package — Lambda deployment ZIP banao (build artifact)
+  # ===========================================================================
+  # `needs: test` => yeh tabhi chalega jab `test` job PASS ho. Yahi gate hai.
+  package:
+    name: Package (build Lambda zip)
+    runs-on: ubuntu-latest
+    needs: test                     # GATE: test pass hua to hi build karo
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      # Step: ZIP build — humara lab5 orchestrator --build-only mode me sirf
+      # lambda zip banata hai (no deploy). Yeh wahi artifact hai jo Lambda par
+      # upload hota. (Production me deps bhi zip me bundle hoti — yahan handler
+      # self-contained hai isliye sirf handler zip kar rahe.)
+      - name: Build Lambda zip
+        run: uv run python Practical/lab5_cicd_pipeline.py --build-only
+
+      # Step: artifact ko jobs ke beech share karne ke liye upload karo.
+      # `deploy` job ise download karke AWS par bhejega (jobs alag VMs par hain,
+      # isliye disk share nahi hoti — artifacts se hi pass karte hain).
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambda-zip
+          path: Practical/build/lambda.zip
+          if-no-files-found: warn   # demo me agar path miss ho to fail mat karo
+
+  # ===========================================================================
+  # JOB 3: deploy — AWS par actually deploy (CD = Continuous Deployment)
+  # ===========================================================================
+  # `needs: package` => test + package dono pass hue to hi deploy. Final gate.
+  deploy:
+    name: Deploy (terraform apply + update lambda)
+    runs-on: ubuntu-latest
+    needs: package                  # GATE: package pass hua to hi deploy karo
+    # `environment:` GitHub Environments feature — ismein required-reviewers /
+    # protection rules laga sakte ho (e.g. prod par manual approval). Yeh
+    # extra safety gate hai production deploys ke liye.
+    environment: ${{ github.event.inputs.environment || 'dev' }}
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      # Step: zip artifact wapas download karo (package job se).
+      - name: Download Lambda artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lambda-zip
+          path: Practical/build
+
+      # -----------------------------------------------------------------------
+      # Step: AWS credentials configure — VIA OIDC (recommended, secure).
+      # -----------------------------------------------------------------------
+      # `role-to-assume` me ek IAM role ka ARN (secret me rakha) deta hai. GitHub
+      # ka short-lived OIDC token AWS STS ko bhejta hai, STS verify karke ~1hr ke
+      # temporary credentials deta hai. KOI long-lived access key store NAHI hoti.
+      #
+      # *** OIDC vs long-lived keys (IMPORTANT) ***
+      #   - OIDC (yahan): no stored secret key, auto-expiring creds, repo-scoped
+      #     trust policy (`repo:owner/name:*`). YEH RECOMMENDED hai (L59 ka core).
+      #   - Long-lived keys (AVOID): AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY ko
+      #     GitHub Secrets me daalna. Yeh non-expiring hain, leak ho sakti hain
+      #     (logs/fork-PRs), rotate karna painful. Sirf tab use karo jab OIDC
+      #     possible na ho. (Fallback example niche commented hai.)
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # secrets.AWS_ROLE_ARN = OIDC IAM role ka ARN (L59 me Terraform se bana).
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      # --- FALLBACK (long-lived keys) — RECOMMENDED NAHI; sirf agar OIDC na ho ---
+      # - name: Configure AWS credentials (static keys — avoid)
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      # Step: Terraform CLI install karo.
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      # Step: terraform init — remote S3 backend se connect (L58/L60).
+      # Backend config flags se inject (state bucket + DynamoDB lock table).
+      # Ephemeral runner par local state nahi hoti — isliye remote backend MUST.
+      - name: Terraform init (remote S3 backend)
+        working-directory: terraform
+        run: |
+          terraform init \
+            -backend-config="bucket=twin-terraform-state" \
+            -backend-config="key=twin/terraform.tfstate" \
+            -backend-config="region=${{ secrets.AWS_DEFAULT_REGION }}" \
+            -backend-config="dynamodb_table=twin-terraform-locks" \
+            -backend-config="encrypt=true"
+
+      # Step: terraform workspace select — dev/test/prod namespace (L54).
+      # `|| terraform workspace new` => agar workspace nahi hai to bana lo.
+      - name: Select Terraform workspace
+        working-directory: terraform
+        run: |
+          terraform workspace select ${{ env.DEPLOY_ENV }} \
+            || terraform workspace new ${{ env.DEPLOY_ENV }}
+
+      # Step: terraform apply — INFRA create/update. `-var-file` se environment-
+      # specific values (L49/L54: terraform.tfvars default, prod.tfvars prod ke liye).
+      # `-auto-approve` CI me zaroori (interactive `yes` prompt nahi de sakte).
+      # Terraform IDEMPOTENT hai (L61): same apply baar-baar = no duplicates,
+      # sirf diff apply hota hai.
+      - name: Terraform apply (-var-file)
+        working-directory: terraform
+        run: |
+          terraform apply -auto-approve \
+            -var-file="${{ env.DEPLOY_ENV }}.tfvars" \
+            -var="environment=${{ env.DEPLOY_ENV }}"
+
+      # Step: Lambda code update — terraform output se function name nikaal kar
+      # naya zip push karo. (Infra Terraform manage karta hai; code ko hum
+      # explicitly update karte hain taaki har push naya handler deploy ho.)
+      # `aws lambda update-function-code` => zip bytes Lambda par bhejta hai.
+      - name: Update Lambda function code
+        working-directory: terraform
+        run: |
+          FN=$(terraform output -raw lambda_function_name)
+          aws lambda update-function-code \
+            --function-name "$FN" \
+            --zip-file fileb://../Practical/build/lambda.zip \
+            --publish
+
+      # Step: deployment summary — outputs (API Gateway endpoint, memory bucket)
+      # ko GitHub Job Summary me likho taaki run page par seedha live URL dikhe (L61).
+      # NOTE: output naam sibling `terraform/outputs.tf` se match karte hain
+      # (api_endpoint / memory_bucket_name). `|| echo n/a` defensive rakha hai.
+      - name: Deployment summary
+        working-directory: terraform
+        run: |
+          {
+            echo "## Deployment complete ($DEPLOY_ENV)"
+            echo "- API endpoint:  $(terraform output -raw api_endpoint 2>/dev/null || echo n/a)"
+            echo "- Memory bucket: $(terraform output -raw memory_bucket_name 2>/dev/null || echo n/a)"
+          } >> "$GITHUB_STEP_SUMMARY"

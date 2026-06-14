@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/design_patterns/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Backend_Developer/Phase2_Testing/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Phase2_Testing/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/my-agentic-ai-project/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (PythonRevision)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

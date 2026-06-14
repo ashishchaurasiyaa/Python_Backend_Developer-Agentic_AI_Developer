@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM + Agentic AI Mastery Path</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d14;
+  --surface: #13131e;
+  --card: #1a1a28;
+  --border: rgba(255,255,255,0.07);
+  --s1: #4a6cf7; --s1bg: rgba(74,108,247,0.1); --s1border: rgba(74,108,247,0.25);
+  --s2: #10b981; --s2bg: rgba(16,185,129,0.1); --s2border: rgba(16,185,129,0.25);
+  --s3: #f59e0b; --s3bg: rgba(245,158,11,0.1); --s3border: rgba(245,158,11,0.25);
+  --s4: #ef4444; --s4bg: rgba(239,68,68,0.1);  --s4border: rgba(239,68,68,0.25);
+  --s5: #a855f7; --s5bg: rgba(168,85,247,0.1); --s5border: rgba(168,85,247,0.25);
+  --s6: #22c55e; --s6bg: rgba(34,197,94,0.1);  --s6border: rgba(34,197,94,0.25);
+  --text: #e2e2f0; --muted: #6b6b8a; --accent: #6ee7f7;
+  --code-bg: #0a0a12;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(74,108,247,0.08), transparent),
+              radial-gradient(ellipse 60% 40% at 80% 80%, rgba(168,85,247,0.05), transparent);
+}
+
+/* LAYOUT */
+.app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+/* LEFT PANEL — roadmap */
+.left {
+  width: 380px; flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding: 28px 20px;
+  overflow-y: auto;
+  height: 100vh;
+  position: sticky; top: 0;
+  background: rgba(13,13,20,0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* RIGHT PANEL — detail */
+.right {
+  flex: 1; padding: 36px 40px;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* HEADER */
+.header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.header h1 { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.header p { font-size: 10px; color: var(--muted); margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+
+/* STAGE */
+.stage { margin-bottom: 6px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.stage-hdr {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; cursor: pointer;
+  transition: background 0.2s;
+}
+.stage-hdr:hover { background: rgba(255,255,255,0.03); }
+.stage-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 3px;
+  flex-shrink: 0; letter-spacing: 1px;
+}
+.stage-info { flex: 1; }
+.stage-info h3 { font-size: 13px; font-weight: 700; }
+.stage-info p { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.stage-arrow { font-size: 11px; color: var(--muted); transition: transform 0.3s; }
+.stage.open .stage-arrow { transform: rotate(180deg); }
+
+/* stage colors */
+.s1 { background: var(--s1bg); } .s1 .stage-badge { background: rgba(74,108,247,0.25); color: #8aaaf9; }
+.s1 .stage-info h3 { color: #8aaaf9; }
+.s2 { background: var(--s2bg); } .s2 .stage-badge { background: rgba(16,185,129,0.25); color: #6ee9c0; }
+.s2 .stage-info h3 { color: #6ee9c0; }
+.s3 { background: var(--s3bg); } .s3 .stage-badge { background: rgba(245,158,11,0.25); color: #fcd17a; }
+.s3 .stage-info h3 { color: #fcd17a; }
+.s4 { background: var(--s4bg); } .s4 .stage-badge { background: rgba(239,68,68,0.25); color: #f98080; }
+.s4 .stage-info h3 { color: #f98080; }
+.s5 { background: var(--s5bg); } .s5 .stage-badge { background: rgba(168,85,247,0.25); color: #d08ef9; }
+.s5 .stage-info h3 { color: #d08ef9; }
+.s6 { background: var(--s6bg); } .s6 .stage-badge { background: rgba(34,197,94,0.25); color: #7ef09a; }
+.s6 .stage-info h3 { color: #7ef09a; }
+
+/* MODULES inside stage */
+.stage-body { display: none; padding: 0 10px 10px; }
+.stage.open .stage-body { display: block; }
+
+.module { margin-top: 8px; }
+.module-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; color: var(--muted);
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 0 4px 5px;
+}
+
+/* TOPIC PILL */
+.topic-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 6px;
+  cursor: pointer; margin-bottom: 3px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.topic-pill:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+.topic-pill.active { border-color: currentColor; }
+.topic-pill .t-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  width: 20px; height: 20px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.topic-pill .t-name { font-size: 12px; font-weight: 600; }
+.topic-pill .t-diff {
+  margin-left: auto; display: flex; gap: 2px;
+}
+.topic-pill .t-diff span {
+  width: 14px; height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,0.08);
+}
+.topic-pill .t-diff span.on { background: currentColor; opacity: 0.5; }
+
+/* stage-specific pill colors */
+.s1 .topic-pill { color: #8aaaf9; }
+.s1 .topic-pill .t-num { background: rgba(74,108,247,0.25); }
+.s2 .topic-pill { color: #6ee9c0; }
+.s2 .topic-pill .t-num { background: rgba(16,185,129,0.25); }
+.s3 .topic-pill { color: #fcd17a; }
+.s3 .topic-pill .t-num { background: rgba(245,158,11,0.25); }
+.s4 .topic-pill { color: #f98080; }
+.s4 .topic-pill .t-num { background: rgba(239,68,68,0.25); }
+.s5 .topic-pill { color: #d08ef9; }
+.s5 .topic-pill .t-num { background: rgba(168,85,247,0.25); }
+.s6 .topic-pill { color: #7ef09a; }
+.s6 .topic-pill .t-num { background: rgba(34,197,94,0.25); }
+
+.connector { text-align: center; padding: 6px 0; color: var(--muted); font-size: 16px; }
+
+/* RIGHT PANEL */
+.welcome {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100%; text-align: center; color: var(--muted);
+}
+.welcome .icon { font-size: 48px; margin-bottom: 16px; }
+.welcome h2 { font-size: 20px; color: var(--text); margin-bottom: 8px; }
+.welcome p { font-size: 14px; line-height: 1.7; max-width: 400px; }
+
+/* DETAIL VIEW */
+.detail { display: none; animation: fadeIn 0.3s ease; }
+.detail.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.detail-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 2px;
+  padding: 4px 12px; border-radius: 3px;
+  display: inline-block; margin-bottom: 14px;
+}
+.detail h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.detail .tagline {
+  font-size: 14px; color: var(--muted);
+  line-height: 1.6; margin-bottom: 28px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+
+/* CONCEPT BLOCK */
+.concept {
+  margin-bottom: 32px;
+}
+.concept-title {
+  font-size: 16px; font-weight: 700;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.concept-title::before {
+  content: ''; display: block;
+  width: 4px; height: 18px; border-radius: 2px;
+  flex-shrink: 0;
+}
+.concept p {
+  font-size: 14px; color: #b0b0cc; line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+/* CODE BLOCK */
+.code-wrap {
+  background: var(--code-bg);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; overflow: hidden;
+  margin: 14px 0;
+}
+.code-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted); letter-spacing: 1px;
+}
+.copy-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  background: none; border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 4px; cursor: pointer;
+  transition: all 0.2s;
+}
+.copy-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+pre {
+  padding: 16px; overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px; line-height: 1.7; color: #c8c8e8;
+}
+pre .kw { color: #c792ea; }
+pre .fn { color: #82aaff; }
+pre .str { color: #c3e88d; }
+pre .cm { color: #546e7a; font-style: italic; }
+pre .num { color: #f78c6c; }
+pre .cls { color: #ffcb6b; }
+
+/* TABLE */
+.detail table {
+  width: 100%; border-collapse: collapse;
+  margin: 14px 0; font-size: 13px;
+}
+.detail th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+  color: var(--muted); text-align: left;
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+}
+.detail td {
+  padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: #b0b0cc;
+}
+.detail tr:last-child td { border-bottom: none; }
+
+/* NAV BUTTONS */
+.nav-btns {
+  display: flex; gap: 10px; margin-top: 36px;
+  padding-top: 24px; border-top: 1px solid var(--border);
+}
+.nav-btn {
+  flex: 1; padding: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer; color: var(--muted);
+  font-family: 'Outfit', sans-serif; font-size: 13px;
+  transition: all 0.2s; text-align: center;
+}
+.nav-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-btn strong { display: block; color: var(--text); font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+
+/* HIGHLIGHT BOX */
+.tip-box {
+  background: rgba(110,231,247,0.05);
+  border: 1px solid rgba(110,231,247,0.15);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px; padding: 14px 16px;
+  font-size: 13px; color: #a8e8f0; line-height: 1.7;
+  margin: 14px 0;
+}
+.tip-box strong { color: var(--accent); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- LEFT PANEL -->
+<div class="left">
+  <div class="header">
+    <h1>LLM + Agentic AI<br>Mastery Path</h1>
+    <p>LLMs → RAG → Fine-Tuning → Agents → MCP</p>
+  </div>
+
+  <!-- STAGE 1 -->
+  <div class="stage s1 open" id="st1">
+    <div class="stage-hdr" onclick="toggleStage('st1')">
+      <span class="stage-badge">S-01</span>
+      <div class="stage-info"><h3>LLM Foundations</h3><p>How LLMs actually work</p></div>
+      <span class="stage-arrow">▾</span>
+    </div>
+    <div class="stage-body">
+      <div class="module">
+        <div class="module-label">Module 1 — LLM Internals</div>
+        <div class="topic-pill s1" onclick="showTopic('tokenization')"><span class="t-num">1</span><span class="t-name">Tokenization</span><span class="t-diff"><span class="on"></span><span></span><span></span><span></span></span></div>
+        <div class="topic-pill s1" onclick="showTopic('embeddings')"><span class="t-num">2</span><span class="t-name">Embeddings</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+        <div class="topic-pill s1" onclick="showTopic('context_window')"><span class="t-num">3</span><span class="t-name">Context Window</span><span class="t-diff"><span class="on"></span><span></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 2 — Architecture</div>
+        <div class="topic-pill s1" onclick="showTopic('transformers')"><span class="t-num">4</span><span class="t-name">Transformers</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+        <div class="topic-pill s1" onclick="showTopic('attention')"><span class="t-num">5</span><span class="t-name">Attention Mechanism</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 3 — Top Models</div>
+        <div class="topic-pill s1" onclick="showTopic('top_models')"><span class="t-num">6</span><span class="t-name">GPT-4o · Claude · Gemini</span><span class="t-diff"><span class="on"></span><span></span><span></span><span></span></span></div>
+        <div class="topic-pill s1" onclick="showTopic('opensource_models')"><span class="t-num">7</span><span class="t-name">LLaMA · DeepSeek · Qwen</span><span class="t-diff"><span class="on"></span><span></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 4 — API Mastery</div>
+        <div class="topic-pill s1" onclick="showTopic('api_basics')"><span class="t-num">8</span><span class="t-name">OpenAI · Claude · Gemini APIs</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+        <div class="topic-pill s1" onclick="showTopic('function_calling')"><span class="t-num">9</span><span class="t-name">Function Calling</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 2 -->
+  <div class="stage s2" id="st2">
+    <div class="stage-hdr" onclick="toggleStage('st2')">
+      <span class="stage-badge">S-02</span>
+      <div class="stage-info"><h3>Prompt Engineering + RAG</h3><p>Make LLMs smarter without retraining</p></div>
+      <span class="stage-arrow">▾</span>
+    </div>
+    <div class="stage-body">
+      <div class="module">
+        <div class="module-label">Module 1 — Prompt Engineering</div>
+        <div class="topic-pill s2" onclick="showTopic('zeroshot')"><span class="t-num">1</span><span class="t-name">Zero-shot & Few-shot</span><span class="t-diff"><span class="on"></span><span></span><span></span><span></span></span></div>
+        <div class="topic-pill s2" onclick="showTopic('cot')"><span class="t-num">2</span><span class="t-name">Chain-of-Thought · ReAct</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 2 — RAG Systems</div>
+        <div class="topic-pill s2" onclick="showTopic('vector_dbs')"><span class="t-num">3</span><span class="t-name">Vector DBs · Pinecone · FAISS</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+        <div class="topic-pill s2" onclick="showTopic('rag_pipeline')"><span class="t-num">4</span><span class="t-name">RAG Pipeline</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 3 — Knowledge Retrieval</div>
+        <div class="topic-pill s2" onclick="showTopic('chunking')"><span class="t-num">5</span><span class="t-name">Chunking · Indexing</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+        <div class="topic-pill s2" onclick="showTopic('hybrid_search')"><span class="t-num">6</span><span class="t-name">Hybrid Search · Reranking</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 3 -->
+  <div class="stage s3" id="st3">
+    <div class="stage-hdr" onclick="toggleStage('st3')">
+      <span class="stage-badge">S-03</span>
+      <div class="stage-info"><h3>Fine-Tuning Open-Source LLMs</h3><p>Make models domain-specific</p></div>
+      <span class="stage-arrow">▾</span>
+    </div>
+    <div class="stage-body">
+      <div class="module">
+        <div class="module-label">Module 1 — LoRA / QLoRA</div>
+        <div class="topic-pill s3" onclick="showTopic('lora')"><span class="t-num">1</span><span class="t-name">LoRA · QLoRA</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+        <div class="topic-pill s3" onclick="showTopic('sfttrainer')"><span class="t-num">2</span><span class="t-name">SFTTrainer · TRL</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 2 — Hugging Face</div>
+        <div class="topic-pill s3" onclick="showTopic('hf_hub')"><span class="t-num">3</span><span class="t-name">Model Hub · Datasets</span><span class="t-diff"><span class="on"></span><span></span><span></span><span></span></span></div>
+        <div class="topic-pill s3" onclick="showTopic('hf_pipeline')"><span class="t-num">4</span><span class="t-name">AutoTokenizer · Pipelines</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 3 — Evaluation</div>
+        <div class="topic-pill s3" onclick="showTopic('eval_metrics')"><span class="t-num">5</span><span class="t-name">Accuracy · F1 · BLEU</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 4 -->
+  <div class="stage s4" id="st4">
+    <div class="stage-hdr" onclick="toggleStage('st4')">
+      <span class="stage-badge">S-04</span>
+      <div class="stage-info"><h3>Agentic AI Frameworks</h3><p>Build autonomous agents — main event!</p></div>
+      <span class="stage-arrow">▾</span>
+    </div>
+    <div class="stage-body">
+      <div class="module">
+        <div class="module-label">Module 1 — LangGraph</div>
+        <div class="topic-pill s4" onclick="showTopic('langgraph')"><span class="t-num">1</span><span class="t-name">State Machines · Graph Workflows</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 2 — CrewAI</div>
+        <div class="topic-pill s4" onclick="showTopic('crewai')"><span class="t-num">2</span><span class="t-name">Multi-Agent Teams</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 3 — OpenAI Agents SDK</div>
+        <div class="topic-pill s4" onclick="showTopic('openai_agents')"><span class="t-num">3</span><span class="t-name">Agents · Handoffs · Guardrails</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 4 — AutoGen</div>
+        <div class="topic-pill s4" onclick="showTopic('autogen')"><span class="t-num">4</span><span class="t-name">Multi-Model · Human-in-Loop</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 5 -->
+  <div class="stage s5" id="st5">
+    <div class="stage-hdr" onclick="toggleStage('st5')">
+      <span class="stage-badge">S-05</span>
+      <div class="stage-info"><h3>MCP + Production Deployment</h3><p>Ship real production systems</p></div>
+      <span class="stage-arrow">▾</span>
+    </div>
+    <div class="stage-body">
+      <div class="module">
+        <div class="module-label">Module 1 — MCP Protocol</div>
+        <div class="topic-pill s5" onclick="showTopic('mcp')"><span class="t-num">1</span><span class="t-name">Tool Servers · 44+ Tools</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 2 — Deployment</div>
+        <div class="topic-pill s5" onclick="showTopic('fastapi_deploy')"><span class="t-num">2</span><span class="t-name">FastAPI · Docker · AWS</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+      <div class="module">
+        <div class="module-label">Module 3 — Monitoring</div>
+        <div class="topic-pill s5" onclick="showTopic('monitoring')"><span class="t-num">3</span><span class="t-name">LangSmith · Observability</span><span class="t-diff"><span class="on"></span><span class="on"></span><span></span><span></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 6 -->
+  <div class="stage s6" id="st6">
+    <div class="stage-hdr" onclick="toggleStage('st6')">
+      <span class="stage-badge">S-06</span>
+      <div class="stage-info"><h3>Capstone Projects</h3><p>Portfolio — 8 real-world projects</p></div>
+      <span class="stage-arrow">▾</span>
+    </div>
+    <div class="stage-body">
+      <div class="module">
+        <div class="topic-pill s6" onclick="showTopic('projects')"><span class="t-num">★</span><span class="t-name">All 8 Projects Breakdown</span><span class="t-diff"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /left -->
+
+<!-- RIGHT PANEL -->
+<div class="right" id="rightPanel">
+
+  <div class="welcome" id="welcomeScreen">
+    <div class="icon">🗺️</div>
+    <h2>Select any topic to learn</h2>
+    <p>Left panel se koi bhi topic click karo — full explanation, concepts aur working code examples mil jayenge!</p>
+  </div>
+
+  <!-- ===================== TOPIC: TOKENIZATION ===================== -->
+  <div class="detail" id="detail-tokenization">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 1 · Topic 1</span>
+    <h1 style="color:#8aaaf9;">Tokenization</h1>
+    <p class="tagline">Text ko machine-readable units mein convert karna. Yeh LLM ka sabse pehla step hai — bina tokenization ke kuch nahi hota.</p>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Word-Level Tokenization</div>
+      <p>Sabse simple method — text ko spaces pe split karo. Problem: "running" aur "run" alag tokens hain. Vocabulary bahut badi ho jaati hai (500k+ words).</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Simple word-level tokenization</span>
+text = <span class="str">"Hello! I am learning LLM tokenization."</span>
+
+<span class="cm"># Method 1: spaces pe split</span>
+tokens = text.split()
+<span class="fn">print</span>(tokens)
+<span class="cm"># ['Hello!', 'I', 'am', 'learning', 'LLM', 'tokenization.']</span>
+
+<span class="cm"># Method 2: regex se punctuation bhi alag karo</span>
+<span class="kw">import</span> re
+tokens_clean = re.findall(<span class="str">r"\b\w+\b|[^\w\s]"</span>, text)
+<span class="fn">print</span>(tokens_clean)
+<span class="cm"># ['Hello', '!', 'I', 'am', 'learning', 'LLM', 'tokenization', '.']</span>
+<span class="fn">print</span>(<span class="str">f"Token count: <span class="num">{len(tokens_clean)}</span>"</span>)</pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Subword Tokenization — BPE</div>
+      <p>Byte Pair Encoding — modern LLMs ka default method. "tokenization" → ["token", "ization"]. Unknown words bhi handle ho jaate hain. Vocabulary 30k–100k tokens mein fit ho jaati hai.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># pip install tokenizers</span>
+<span class="kw">from</span> tokenizers <span class="kw">import</span> <span class="cls">Tokenizer</span>
+<span class="kw">from</span> tokenizers.models <span class="kw">import</span> <span class="cls">BPE</span>
+<span class="kw">from</span> tokenizers.trainers <span class="kw">import</span> <span class="cls">BpeTrainer</span>
+<span class="kw">from</span> tokenizers.pre_tokenizers <span class="kw">import</span> <span class="cls">Whitespace</span>
+
+tokenizer = <span class="cls">Tokenizer</span>(<span class="cls">BPE</span>(unk_token=<span class="str">"[UNK]"</span>))
+tokenizer.pre_tokenizer = <span class="cls">Whitespace</span>()
+
+trainer = <span class="cls">BpeTrainer</span>(
+    vocab_size=<span class="num">1000</span>,
+    special_tokens=[<span class="str">"[UNK]"</span>, <span class="str">"[CLS]"</span>, <span class="str">"[SEP]"</span>]
+)
+
+corpus = [
+    <span class="str">"I am learning tokenization today"</span>,
+    <span class="str">"tokenization is important for LLMs"</span>,
+    <span class="str">"BPE merges the most frequent pairs"</span>,
+]
+
+tokenizer.train_from_iterator(corpus, trainer)
+output = tokenizer.encode(<span class="str">"learning tokenization"</span>)
+<span class="fn">print</span>(output.tokens)  <span class="cm"># ['learning', 'token', 'ization']</span>
+<span class="fn">print</span>(output.ids)     <span class="cm"># [47, 23, 89]</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Tiktoken — GPT-4 ka Actual Tokenizer</div>
+      <p>OpenAI ka production tokenizer. GPT-3.5 aur GPT-4 dono "cl100k_base" encoding use karte hain. API cost estimate karne ke liye zaroori hai!</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># pip install tiktoken</span>
+<span class="kw">import</span> tiktoken
+
+enc = tiktoken.get_encoding(<span class="str">"cl100k_base"</span>)  <span class="cm"># GPT-4 encoder</span>
+
+text = <span class="str">"Hello! I am learning LLM tokenization."</span>
+
+<span class="cm"># Encode: text → token IDs</span>
+token_ids = enc.encode(text)
+<span class="fn">print</span>(<span class="str">"Token IDs:"</span>, token_ids)
+<span class="fn">print</span>(<span class="str">"Token count:"</span>, <span class="fn">len</span>(token_ids))  <span class="cm"># 9 tokens</span>
+
+<span class="cm"># Decode: token IDs → text wapas</span>
+<span class="fn">print</span>(<span class="str">"Decoded:"</span>, enc.decode(token_ids))
+
+<span class="cm"># Har token alag alag dekho</span>
+<span class="kw">for</span> tid <span class="kw">in</span> token_ids:
+    tok = enc.decode_single_token_bytes(tid).decode(<span class="str">'utf-8'</span>, errors=<span class="str">'replace'</span>)
+    <span class="fn">print</span>(<span class="str">f"ID <span class="num">{tid:6d}</span> → <span class="num">{repr(tok)}</span>"</span>)
+
+<span class="cm"># Cost estimate karo API call se pehle</span>
+<span class="kw">def</span> <span class="fn">estimate_cost</span>(text, price_per_1k=<span class="num">0.03</span>):
+    tokens = <span class="fn">len</span>(enc.encode(text))
+    cost = (tokens / <span class="num">1000</span>) * price_per_1k * <span class="num">84</span>  <span class="cm"># INR</span>
+    <span class="fn">print</span>(<span class="str">f"Tokens: <span class="num">{tokens}</span> | Cost: ₹<span class="num">{cost:.4f}</span>"</span>)
+
+<span class="fn">estimate_cost</span>(<span class="str">"Write a blog post about machine learning"</span>)</pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Special Tokens: [CLS], [SEP], [EOS]</div>
+      <p>LLMs sirf words nahi, special control tokens bhi use karte hain. Yeh tokens model ko batate hain ki sentence kahan start/end hoti hai.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> transformers <span class="kw">import</span> <span class="cls">BertTokenizer</span>
+
+tok = <span class="cls">BertTokenizer</span>.from_pretrained(<span class="str">'bert-base-uncased'</span>)
+
+sentence = <span class="str">"I love Python programming"</span>
+tokens = tok.tokenize(sentence)
+<span class="fn">print</span>(<span class="str">"Tokens:"</span>, tokens)
+<span class="cm"># ['i', 'love', 'python', 'programming']</span>
+
+<span class="cm"># Special tokens ke saath encode karo</span>
+encoded = tok.encode(sentence, add_special_tokens=<span class="kw">True</span>)
+<span class="fn">print</span>(<span class="str">"With special tokens:"</span>, tok.convert_ids_to_tokens(encoded))
+<span class="cm"># ['[CLS]', 'i', 'love', 'python', 'programming', '[SEP]']</span>
+<span class="cm"># [CLS] = Classification token (sentence start)</span>
+<span class="cm"># [SEP] = Separator (sentence end)</span>
+<span class="cm"># [PAD] = Padding (batches ko same length banana)</span>
+<span class="cm"># [MASK] = BERT training mein masked token</span>
+<span class="cm"># [UNK] = Unknown word jo vocab mein nahi</span></pre>
+      </div>
+    </div>
+
+    <div class="tip-box"><strong>💡 Backend Developer ke liye Tip:</strong> API calls mein token count zaroori hai — zyada tokens = zyada cost! Production mein hamesha <code>tiktoken</code> se pehle count karo. OpenAI GPT-4 = $0.03/1K input tokens.</div>
+
+    <table>
+      <tr><th>Method</th><th>Vocab Size</th><th>"tokenization" split</th><th>Best For</th></tr>
+      <tr><td>Word-level</td><td>500k+</td><td>1 token</td><td>Simple NLP</td></tr>
+      <tr><td>Character-level</td><td>~256</td><td>13 tokens</td><td>No OOV</td></tr>
+      <tr><td>BPE (GPT)</td><td>50k–100k</td><td>3 tokens</td><td>Modern LLMs ✅</td></tr>
+      <tr><td>WordPiece (BERT)</td><td>30k</td><td>3 tokens</td><td>Classification</td></tr>
+    </table>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('embeddings')"><strong>→ Next: Embeddings</strong>Token IDs ko vectors mein convert karna</button>
+    </div>
+  </div>
+
+  <!-- ===================== TOPIC: EMBEDDINGS ===================== -->
+  <div class="detail" id="detail-embeddings">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 1 · Topic 2</span>
+    <h1 style="color:#8aaaf9;">Embeddings</h1>
+    <p class="tagline">Token IDs ko high-dimensional vectors mein convert karna. Yahan semantic meaning encode hoti hai — "king - man + woman = queen" wala concept!</p>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Token Embeddings (Lookup Table)</div>
+      <p>Har token ID ka ek fixed vector hota hai ek badi lookup table mein. GPT-2 mein yeh table 50,257 × 768 = 38.6 million parameters ki hoti hai!</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+vocab_size = <span class="num">50257</span>    <span class="cm"># GPT-2 vocabulary</span>
+embed_dim  = <span class="num">768</span>      <span class="cm"># har token = 768 numbers</span>
+
+<span class="cm"># Yeh andar se sirf ek badi matrix hai</span>
+embedding_table = nn.<span class="cls">Embedding</span>(vocab_size, embed_dim)
+
+<span class="cm"># "Hello I am" ke token IDs</span>
+token_ids = torch.tensor([<span class="num">9906</span>, <span class="num">358</span>, <span class="num">1097</span>])
+
+vectors = embedding_table(token_ids)
+<span class="fn">print</span>(<span class="str">f"Input tokens:  <span class="num">{token_ids.tolist()}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"Output shape:  <span class="num">{vectors.shape}</span>"</span>)  <span class="cm"># [3, 768]</span>
+<span class="fn">print</span>(<span class="str">f"First 5 vals:  <span class="num">{vectors[0][:5].tolist()}</span>"</span>)
+<span class="cm"># [0.23, -0.45, 0.89, 0.12, 0.67]</span>
+
+<span class="cm"># Table size = vocab × dim = 50257 × 768 = 38.6M params!</span>
+params = vocab_size * embed_dim
+<span class="fn">print</span>(<span class="str">f"Embedding table params: <span class="num">{params:,}</span>"</span>)</pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Positional Embeddings</div>
+      <p>"Dog bites man" aur "Man bites dog" — same tokens, alag meaning! Model ko position bhi chahiye. Token embedding + Positional embedding = final input.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">import</span> torch, math
+
+<span class="kw">def</span> <span class="fn">positional_encoding</span>(seq_len, d_model):
+    pe = torch.zeros(seq_len, d_model)
+    pos = torch.arange(<span class="num">0</span>, seq_len).unsqueeze(<span class="num">1</span>).float()
+    div = torch.exp(torch.arange(<span class="num">0</span>, d_model, <span class="num">2</span>).float() *
+                    (-math.log(<span class="num">10000.0</span>) / d_model))
+    pe[:, <span class="num">0</span>::<span class="num">2</span>] = torch.sin(pos * div)
+    pe[:, <span class="num">1</span>::<span class="num">2</span>] = torch.cos(pos * div)
+    <span class="kw">return</span> pe
+
+<span class="cm"># "I love Python" = 3 tokens</span>
+token_emb = torch.randn(<span class="num">3</span>, <span class="num">768</span>)       <span class="cm"># lookup table se</span>
+pos_emb   = <span class="fn">positional_encoding</span>(<span class="num">3</span>, <span class="num">768</span>) <span class="cm"># position se</span>
+
+<span class="cm"># Dono add karo — final transformer input!</span>
+final_input = token_emb + pos_emb
+<span class="fn">print</span>(final_input.shape)  <span class="cm"># torch.Size([3, 768])</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Word2Vec vs Contextual Embeddings</div>
+      <p>Word2Vec: "bank" ka ek hi vector — river bank ho ya money bank. BERT/GPT: context ke hisaab se alag vector. Yahi modern LLMs ka superpower hai!</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Word2Vec — Static (purana)</span>
+<span class="kw">from</span> gensim.models <span class="kw">import</span> <span class="cls">Word2Vec</span>
+
+corpus = [
+    [<span class="str">"king"</span>, <span class="str">"is"</span>, <span class="str">"male"</span>, <span class="str">"royalty"</span>],
+    [<span class="str">"queen"</span>, <span class="str">"is"</span>, <span class="str">"female"</span>, <span class="str">"royalty"</span>],
+    [<span class="str">"man"</span>, <span class="str">"is"</span>, <span class="str">"male"</span>],
+    [<span class="str">"woman"</span>, <span class="str">"is"</span>, <span class="str">"female"</span>],
+]
+model = <span class="cls">Word2Vec</span>(corpus, vector_size=<span class="num">100</span>, window=<span class="num">5</span>, min_count=<span class="num">1</span>)
+
+<span class="cm"># Famous analogy: king - man + woman = queen</span>
+result = model.wv[<span class="str">"king"</span>] - model.wv[<span class="str">"man"</span>] + model.wv[<span class="str">"woman"</span>]
+<span class="fn">print</span>(model.wv.similar_by_vector(result, topn=<span class="num">1</span>))
+<span class="cm"># [('queen', 0.94)]  ✅</span>
+
+<span class="cm"># "bank" ka ek hi vector in Word2Vec — WRONG</span>
+<span class="cm"># river bank aur money bank same vector milega ❌</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON — Contextual (BERT)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> transformers <span class="kw">import</span> <span class="cls">BertTokenizer</span>, <span class="cls">BertModel</span>
+<span class="kw">import</span> torch
+
+tokenizer = <span class="cls">BertTokenizer</span>.from_pretrained(<span class="str">'bert-base-uncased'</span>)
+model     = <span class="cls">BertModel</span>.from_pretrained(<span class="str">'bert-base-uncased'</span>)
+
+<span class="kw">def</span> <span class="fn">get_embedding</span>(sentence):
+    inputs = tokenizer(sentence, return_tensors=<span class="str">'pt'</span>)
+    <span class="kw">with</span> torch.no_grad():
+        out = model(**inputs)
+    <span class="kw">return</span> out.last_hidden_state[<span class="num">0</span>].mean(dim=<span class="num">0</span>)
+
+e1 = <span class="fn">get_embedding</span>(<span class="str">"I went to the river bank"</span>)
+e2 = <span class="fn">get_embedding</span>(<span class="str">"I deposited money at the bank"</span>)
+
+sim = torch.nn.functional.cosine_similarity(e1.unsqueeze(<span class="num">0</span>), e2.unsqueeze(<span class="num">0</span>))
+<span class="fn">print</span>(<span class="str">f"Same word 'bank', diff context sim: <span class="num">{sim.item():.3f}</span>"</span>)
+<span class="cm"># ~0.61 — alag vectors! ✅</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Semantic Similarity — RAG ka Core</div>
+      <p>Sentence embeddings real production mein use hote hain — RAG, semantic search, recommendations. Yahi Stage 2 ka foundation hai!</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># pip install sentence-transformers</span>
+<span class="kw">from</span> sentence_transformers <span class="kw">import</span> <span class="cls">SentenceTransformer</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+model = <span class="cls">SentenceTransformer</span>(<span class="str">'all-MiniLM-L6-v2'</span>)  <span class="cm"># 384 dims</span>
+
+docs = [
+    <span class="str">"Python backend development with FastAPI"</span>,
+    <span class="str">"Building REST APIs using Django"</span>,
+    <span class="str">"Database optimization in PostgreSQL"</span>,
+    <span class="str">"I love eating pizza on weekends"</span>,
+]
+
+doc_embs = model.encode(docs)
+query = <span class="str">"How to build APIs in Python"</span>
+q_emb = model.encode(query)
+
+<span class="cm"># Cosine similarity</span>
+<span class="kw">def</span> <span class="fn">cos_sim</span>(a, b):
+    <span class="kw">return</span> np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+scores = [(<span class="fn">cos_sim</span>(q_emb, d), docs[i]) <span class="kw">for</span> i, d <span class="kw">in</span> <span class="fn">enumerate</span>(doc_embs)]
+<span class="kw">for</span> score, doc <span class="kw">in</span> <span class="fn">sorted</span>(scores, reverse=<span class="kw">True</span>):
+    <span class="fn">print</span>(<span class="str">f"<span class="num">{score:.3f}</span>  — <span class="num">{doc}</span>"</span>)
+<span class="cm"># 0.891  — Python backend development with FastAPI ✅</span>
+<span class="cm"># 0.874  — Building REST APIs using Django ✅</span>
+<span class="cm"># 0.623  — Database optimization in PostgreSQL</span>
+<span class="cm"># 0.089  — I love eating pizza on weekends ❌</span></pre>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>Type</th><th>Model</th><th>Dims</th><th>Best For</th></tr>
+      <tr><td>Static</td><td>Word2Vec, GloVe</td><td>100–300</td><td>Simple NLP</td></tr>
+      <tr><td>Token (internal)</td><td>GPT-4 internals</td><td>768–12288</td><td>Inside transformer</td></tr>
+      <tr><td>Sentence</td><td>MiniLM, BGE</td><td>384–1024</td><td>RAG, search ✅</td></tr>
+      <tr><td>API</td><td>text-embedding-3</td><td>1536–3072</td><td>Production apps</td></tr>
+    </table>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('tokenization')"><strong>← Prev: Tokenization</strong></button>
+      <button class="nav-btn" onclick="showTopic('context_window')"><strong>→ Next: Context Window</strong>KV Cache · Lost in middle</button>
+    </div>
+  </div>
+
+  <!-- ===================== TOPIC: CONTEXT WINDOW ===================== -->
+  <div class="detail" id="detail-context_window">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 1 · Topic 3</span>
+    <h1 style="color:#8aaaf9;">Context Window</h1>
+    <p class="tagline">Model ek time mein kitna text dekh sakta hai. GPT-4 ka 128K, Claude ka 200K, Gemini ka 1M tokens context window hai.</p>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Context Window Limits</div>
+      <p>Ek LLM ek baar mein sirf limited tokens dekh sakta hai. Yeh uski "short-term memory" hai. Iske bahar ka content model nahi dekh sakta.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+<span class="kw">import</span> tiktoken
+
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+
+<span class="cm"># Model context limits</span>
+limits = {
+    <span class="str">"gpt-3.5-turbo"</span>:    <span class="num">16_385</span>,
+    <span class="str">"gpt-4"</span>:            <span class="num">128_000</span>,
+    <span class="str">"claude-3-sonnet"</span>:  <span class="num">200_000</span>,
+    <span class="str">"gemini-1.5-pro"</span>:  <span class="num">1_000_000</span>,
+}
+
+<span class="kw">def</span> <span class="fn">check_fits_in_context</span>(text, model=<span class="str">"gpt-4"</span>):
+    enc = tiktoken.encoding_for_model(model)
+    tokens = <span class="fn">len</span>(enc.encode(text))
+    limit = limits.get(model, <span class="num">128_000</span>)
+    fits = tokens <= limit
+    <span class="fn">print</span>(<span class="str">f"Tokens: <span class="num">{tokens:,}</span> / <span class="num">{limit:,}</span> — Fits: <span class="num">{fits}</span>"</span>)
+    <span class="kw">return</span> fits
+
+<span class="cm"># Example: 100-page PDF check karo</span>
+big_text = <span class="str">"sample text... "</span> * <span class="num">5000</span>
+<span class="fn">check_fits_in_context</span>(big_text, <span class="str">"gpt-4"</span>)</pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>KV Cache — Speed Optimization</div>
+      <p>Har token ke liye Key aur Value matrices compute hoti hain. KV Cache inhe save karta hai taki dobara compute na karna pade. Inference bahut fast ho jaata hai!</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># KV Cache concept demonstration</span>
+<span class="cm"># Real implementation Hugging Face ke andar hoti hai</span>
+<span class="kw">from</span> transformers <span class="kw">import</span> <span class="cls">AutoTokenizer</span>, <span class="cls">AutoModelForCausalLM</span>
+<span class="kw">import</span> torch, time
+
+model_name = <span class="str">"gpt2"</span>
+tokenizer = <span class="cls">AutoTokenizer</span>.from_pretrained(model_name)
+model = <span class="cls">AutoModelForCausalLM</span>.from_pretrained(model_name)
+
+prompt = <span class="str">"The future of AI in backend development is"</span>
+inputs = tokenizer(prompt, return_tensors=<span class="str">"pt"</span>)
+
+<span class="cm"># Without KV Cache (use_cache=False) — SLOW</span>
+t1 = time.time()
+out1 = model.generate(**inputs, max_new_tokens=<span class="num">20</span>, use_cache=<span class="kw">False</span>)
+<span class="fn">print</span>(<span class="str">f"Without cache: <span class="num">{time.time()-t1:.2f}</span>s"</span>)
+
+<span class="cm"># With KV Cache (use_cache=True) — FAST</span>
+t2 = time.time()
+out2 = model.generate(**inputs, max_new_tokens=<span class="num">20</span>, use_cache=<span class="kw">True</span>)
+<span class="fn">print</span>(<span class="str">f"With cache:    <span class="num">{time.time()-t2:.2f}</span>s"</span>)
+<span class="cm"># With cache kaafi faster hoga! ✅</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Lost in the Middle Problem</div>
+      <p>Bada context dene pe bhi model beech ka content bhool jaata hai! Start aur end well-attend hote hain, middle neglect hota hai. Production mein important context pehle ya aakhir mein rakhna chahiye.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Lost in middle problem — practical example</span>
+<span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+
+<span class="cm"># BAD: Important info beech mein — model miss kar sakta hai</span>
+bad_prompt = <span class="str">"""
+Document 1: Python is used for web development...
+[100 lines of irrelevant text]
+Document 5: THE ANSWER IS HERE — FastAPI version is 0.104.1
+[100 more lines of irrelevant text]
+Document 10: Machine learning basics...
+
+Question: What is the FastAPI version?
+"""</span>
+
+<span class="cm"># GOOD: Important info start ya end mein</span>
+good_prompt = <span class="str">"""
+MOST RELEVANT: FastAPI version is 0.104.1
+
+Supporting context:
+Document 1: Python is used for web development...
+[other documents...]
+
+Question: What is the FastAPI version?
+"""</span>
+
+<span class="cm"># Long context strategies:</span>
+<span class="cm"># 1. Reranking: sabse relevant chunks pehle ya aakhir mein</span>
+<span class="cm"># 2. Chunking: chhote chhote pieces mein todna</span>
+<span class="cm"># 3. Map-reduce: pehle summarize, phir combine karo</span>
+<span class="fn">print</span>(<span class="str">"Always put critical info at START or END of context!"</span>)</pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Long Context Strategies</div>
+      <p>Jab document context se bada ho, toh yeh 3 strategies use karo:</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Strategy 1: Chunking + Retrieval (RAG approach)</span>
+<span class="kw">def</span> <span class="fn">chunk_text</span>(text, chunk_size=<span class="num">500</span>, overlap=<span class="num">50</span>):
+    words = text.split()
+    chunks = []
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>, <span class="fn">len</span>(words), chunk_size - overlap):
+        chunk = <span class="str">" "</span>.join(words[i:i + chunk_size])
+        chunks.append(chunk)
+    <span class="kw">return</span> chunks
+
+<span class="cm"># Strategy 2: Map-Reduce — summarize phir combine</span>
+<span class="kw">def</span> <span class="fn">map_reduce_summarize</span>(long_doc, client):
+    chunks = <span class="fn">chunk_text</span>(long_doc, chunk_size=<span class="num">1000</span>)
+
+    <span class="cm"># MAP: har chunk ko alag summarize karo</span>
+    summaries = []
+    <span class="kw">for</span> chunk <span class="kw">in</span> chunks:
+        resp = client.chat.completions.create(
+            model=<span class="str">"gpt-4"</span>,
+            messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>,
+                       <span class="str">"content"</span>: <span class="str">f"Summarize in 2 lines:\n<span class="num">{chunk}</span>"</span>}]
+        )
+        summaries.append(resp.choices[<span class="num">0</span>].message.content)
+
+    <span class="cm"># REDUCE: sab summaries combine karo</span>
+    combined = <span class="str">"\n"</span>.join(summaries)
+    final = client.chat.completions.create(
+        model=<span class="str">"gpt-4"</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>,
+                   <span class="str">"content"</span>: <span class="str">f"Final summary:\n<span class="num">{combined}</span>"</span>}]
+    )
+    <span class="kw">return</span> final.choices[<span class="num">0</span>].message.content</pre>
+      </div>
+    </div>
+
+    <div class="tip-box"><strong>💡 Production Rule:</strong> Context window = RAM ki tarah. Zyada text = zyada cost + slow response. Hamesha sirf relevant chunks send karo. RAG isi problem ka solution hai!</div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('embeddings')"><strong>← Prev: Embeddings</strong></button>
+      <button class="nav-btn" onclick="showTopic('transformers')"><strong>→ Next: Transformers</strong>Architecture deep dive</button>
+    </div>
+  </div>
+
+  <!-- ===================== TOPIC: TRANSFORMERS ===================== -->
+  <div class="detail" id="detail-transformers">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 2 · Topic 4</span>
+    <h1 style="color:#8aaaf9;">Transformer Architecture</h1>
+    <p class="tagline">2017 mein "Attention is All You Need" paper ne sab badal diya. Aaj har modern LLM — GPT, Claude, Gemini, LLaMA — transformer pe chhalta hai.</p>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>3 Main Components</div>
+      <p>Transformer ke teen parts hain: (1) Embedding Layer — text ko vectors banata hai, (2) Transformer Blocks — attention + MLP, (3) Output Layer — next token predict karta hai.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON — Minimal Transformer</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+<span class="kw">class</span> <span class="cls">MiniTransformer</span>(nn.<span class="cls">Module</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, vocab_size=<span class="num">1000</span>, d_model=<span class="num">256</span>,
+                 nhead=<span class="num">4</span>, num_layers=<span class="num">2</span>):
+        <span class="fn">super</span>().__init__()
+
+        <span class="cm"># Step 1: Token Embedding</span>
+        self.embedding = nn.<span class="cls">Embedding</span>(vocab_size, d_model)
+
+        <span class="cm"># Step 2: Transformer Blocks (attention + MLP inside)</span>
+        encoder_layer = nn.<span class="cls">TransformerEncoderLayer</span>(
+            d_model=d_model, nhead=nhead,
+            dim_feedforward=d_model*<span class="num">4</span>, batch_first=<span class="kw">True</span>
+        )
+        self.transformer = nn.<span class="cls">TransformerEncoder</span>(encoder_layer, num_layers)
+
+        <span class="cm"># Step 3: Output — vocab pe probability</span>
+        self.output = nn.<span class="cls">Linear</span>(d_model, vocab_size)
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, token_ids):
+        x = self.embedding(token_ids)   <span class="cm"># IDs → vectors</span>
+        x = self.transformer(x)         <span class="cm"># attention process</span>
+        x = self.output(x)              <span class="cm"># → vocab probabilities</span>
+        <span class="kw">return</span> x
+
+model = <span class="cls">MiniTransformer</span>()
+tokens = torch.randint(<span class="num">0</span>, <span class="num">1000</span>, (<span class="num">1</span>, <span class="num">10</span>))  <span class="cm"># batch=1, seq=10</span>
+logits = model(tokens)
+<span class="fn">print</span>(logits.shape)  <span class="cm"># [1, 10, 1000] — har position pe vocab probs</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Feed-Forward / MLP Layer</div>
+      <p>Attention ke baad har token independently ek MLP se guzarta hai. Yahan "factual knowledge" store hoti hai — capital of France = Paris type information.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">class</span> <span class="cls">FeedForward</span>(nn.<span class="cls">Module</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, d_model=<span class="num">768</span>, expansion=<span class="num">4</span>):
+        <span class="fn">super</span>().__init__()
+        <span class="cm"># GPT mein d_model*4 = 4x expansion hai</span>
+        self.net = nn.<span class="cls">Sequential</span>(
+            nn.<span class="cls">Linear</span>(d_model, d_model * expansion),
+            nn.<span class="cls">GELU</span>(),           <span class="cm"># activation function</span>
+            nn.<span class="cls">Linear</span>(d_model * expansion, d_model),
+            nn.<span class="cls">Dropout</span>(<span class="num">0.1</span>),
+        )
+        self.norm = nn.<span class="cls">LayerNorm</span>(d_model)
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        <span class="cm"># Residual connection: x + FFN(x)</span>
+        <span class="kw">return</span> self.norm(x + self.net(x))
+
+ff = <span class="cls">FeedForward</span>()
+x = torch.randn(<span class="num">1</span>, <span class="num">5</span>, <span class="num">768</span>)  <span class="cm"># batch=1, seq=5, dim=768</span>
+out = ff(x)
+<span class="fn">print</span>(out.shape)  <span class="cm"># [1, 5, 768] — same shape maintain</span></pre>
+      </div>
+    </div>
+
+    <div class="tip-box"><strong>💡 GPT-4 Scale:</strong> GPT-4 mein ~96 transformer layers hain, d_model ~12288, aur ~1.7 trillion parameters estimate kiya jaata hai. Har layer ek complex operation karta hai!</div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('context_window')"><strong>← Prev: Context Window</strong></button>
+      <button class="nav-btn" onclick="showTopic('attention')"><strong>→ Next: Attention Mechanism</strong>Q, K, V matrices</button>
+    </div>
+  </div>
+
+  <!-- ===================== TOPIC: ATTENTION ===================== -->
+  <div class="detail" id="detail-attention">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 2 · Topic 5</span>
+    <h1 style="color:#8aaaf9;">Attention Mechanism</h1>
+    <p class="tagline">LLM ka core innovation. Har token decide karta hai ki sequence mein kaunse doosre tokens pe "dhyan" dena hai. "Attention is All You Need!"</p>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Q, K, V Matrices — Intuition</div>
+      <p><strong>Q (Query)</strong> = "Main kya dhundh raha hoon?"<br><strong>K (Key)</strong> = "Mere paas kya information hai?"<br><strong>V (Value)</strong> = "Agar relevant hai toh yeh lo."</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON — Self-Attention from Scratch</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+<span class="kw">import</span> math
+
+<span class="kw">class</span> <span class="cls">SelfAttention</span>(nn.<span class="cls">Module</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, d_model=<span class="num">256</span>):
+        <span class="fn">super</span>().__init__()
+        self.d_model = d_model
+
+        <span class="cm"># Ek hi input se 3 alag projections</span>
+        self.W_q = nn.<span class="cls">Linear</span>(d_model, d_model)  <span class="cm"># Query</span>
+        self.W_k = nn.<span class="cls">Linear</span>(d_model, d_model)  <span class="cm"># Key</span>
+        self.W_v = nn.<span class="cls">Linear</span>(d_model, d_model)  <span class="cm"># Value</span>
+        self.out  = nn.<span class="cls">Linear</span>(d_model, d_model)
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        <span class="cm"># x shape: [batch, seq_len, d_model]</span>
+        Q = self.W_q(x)  <span class="cm"># Query matrix</span>
+        K = self.W_k(x)  <span class="cm"># Key matrix</span>
+        V = self.W_v(x)  <span class="cm"># Value matrix</span>
+
+        <span class="cm"># Attention scores: Q × K^T / sqrt(d_model)</span>
+        scores = torch.matmul(Q, K.transpose(-<span class="num">2</span>, -<span class="num">1</span>))
+        scores = scores / math.sqrt(self.d_model)
+
+        <span class="cm"># Softmax → probabilities (0 to 1, sum=1)</span>
+        attn_weights = torch.softmax(scores, dim=-<span class="num">1</span>)
+
+        <span class="cm"># Weighted sum of Values</span>
+        output = torch.matmul(attn_weights, V)
+        <span class="kw">return</span> self.out(output), attn_weights
+
+attn = <span class="cls">SelfAttention</span>(d_model=<span class="num">256</span>)
+x = torch.randn(<span class="num">1</span>, <span class="num">5</span>, <span class="num">256</span>)  <span class="cm"># 5 tokens</span>
+out, weights = attn(x)
+<span class="fn">print</span>(<span class="str">f"Output: <span class="num">{out.shape}</span>"</span>)      <span class="cm"># [1, 5, 256]</span>
+<span class="fn">print</span>(<span class="str">f"Weights: <span class="num">{weights.shape}</span>"</span>)  <span class="cm"># [1, 5, 5] — har token kisi pe kitna dhyan</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Multi-Head Attention</div>
+      <p>Sirf ek attention head nahi — multiple parallel heads! Har head alag cheez pe dhyan deta hai. Ek head grammar, doosra entities, teesra relationships track kar sakta hai.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">class</span> <span class="cls">MultiHeadAttention</span>(nn.<span class="cls">Module</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, d_model=<span class="num">256</span>, n_heads=<span class="num">8</span>):
+        <span class="fn">super</span>().__init__()
+        self.n_heads = n_heads
+        self.head_dim = d_model // n_heads  <span class="cm"># 256/8 = 32</span>
+
+        self.W_q = nn.<span class="cls">Linear</span>(d_model, d_model)
+        self.W_k = nn.<span class="cls">Linear</span>(d_model, d_model)
+        self.W_v = nn.<span class="cls">Linear</span>(d_model, d_model)
+        self.out  = nn.<span class="cls">Linear</span>(d_model, d_model)
+
+    <span class="kw">def</span> <span class="fn">split_heads</span>(self, x, batch):
+        x = x.view(batch, -<span class="num">1</span>, self.n_heads, self.head_dim)
+        <span class="kw">return</span> x.transpose(<span class="num">1</span>, <span class="num">2</span>)  <span class="cm"># [batch, heads, seq, head_dim]</span>
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        batch = x.size(<span class="num">0</span>)
+        Q = self.<span class="fn">split_heads</span>(self.W_q(x), batch)
+        K = self.<span class="fn">split_heads</span>(self.W_k(x), batch)
+        V = self.<span class="fn">split_heads</span>(self.W_v(x), batch)
+
+        scores = torch.matmul(Q, K.transpose(-<span class="num">2</span>,-<span class="num">1</span>)) / math.sqrt(self.head_dim)
+        weights = torch.softmax(scores, dim=-<span class="num">1</span>)
+        out = torch.matmul(weights, V)
+
+        <span class="cm"># Sab heads ko wapas merge karo</span>
+        out = out.transpose(<span class="num">1</span>, <span class="num">2</span>).contiguous().view(batch, -<span class="num">1</span>, self.n_heads * self.head_dim)
+        <span class="kw">return</span> self.out(out)
+
+mha = <span class="cls">MultiHeadAttention</span>(d_model=<span class="num">256</span>, n_heads=<span class="num">8</span>)
+x = torch.randn(<span class="num">1</span>, <span class="num">5</span>, <span class="num">256</span>)
+<span class="fn">print</span>(mha(x).shape)  <span class="cm"># [1, 5, 256]</span></pre>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('transformers')"><strong>← Prev: Transformers</strong></button>
+      <button class="nav-btn" onclick="showTopic('top_models')"><strong>→ Next: Top Models</strong>GPT-4o · Claude · Gemini</button>
+    </div>
+  </div>
+
+  <!-- ===================== TOPIC: TOP MODELS ===================== -->
+  <div class="detail" id="detail-top_models">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 3 · Topic 6</span>
+    <h1 style="color:#8aaaf9;">GPT-4o · Claude · Gemini</h1>
+    <p class="tagline">Frontier closed-source models ka comparison — capabilities, pricing, context window, aur kab kaunsa use karna chahiye.</p>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>GPT-4o — OpenAI</div>
+      <p>Multimodal model — text, image, audio sab ek saath. "o" = omni. GPT-4 Turbo se sasta aur fast. Best for: coding, reasoning, tool use.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+
+<span class="cm"># Text completion</span>
+resp = client.chat.completions.create(
+    model=<span class="str">"gpt-4o"</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"You are a Python expert."</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>,   <span class="str">"content"</span>: <span class="str">"Explain FastAPI in 3 lines."</span>}
+    ],
+    temperature=<span class="num">0.7</span>,
+    max_tokens=<span class="num">500</span>
+)
+<span class="fn">print</span>(resp.choices[<span class="num">0</span>].message.content)
+<span class="fn">print</span>(<span class="str">f"Tokens used: <span class="num">{resp.usage.total_tokens}</span>"</span>)
+
+<span class="cm"># Models comparison (2025)</span>
+models = {
+    <span class="str">"gpt-4o"</span>:       {<span class="str">"ctx"</span>: <span class="str">"128K"</span>, <span class="str">"in"</span>: <span class="str">"$5/1M"</span>,   <span class="str">"out"</span>: <span class="str">"$15/1M"</span>},
+    <span class="str">"gpt-4o-mini"</span>:  {<span class="str">"ctx"</span>: <span class="str">"128K"</span>, <span class="str">"in"</span>: <span class="str">"$0.15/1M"</span>, <span class="str">"out"</span>: <span class="str">"$0.6/1M"</span>},
+    <span class="str">"o1"</span>:           {<span class="str">"ctx"</span>: <span class="str">"200K"</span>, <span class="str">"in"</span>: <span class="str">"$15/1M"</span>,  <span class="str">"out"</span>: <span class="str">"$60/1M"</span>},
+}</pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Claude — Anthropic</div>
+      <p>200K context window — sabse bada among mainstream models. Long documents, code analysis ke liye best. Safety-focused.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">import</span> anthropic
+client = anthropic.<span class="cls">Anthropic</span>(api_key=<span class="str">"your-key"</span>)
+
+msg = client.messages.create(
+    model=<span class="str">"claude-3-5-sonnet-20241022"</span>,
+    max_tokens=<span class="num">1024</span>,
+    system=<span class="str">"You are a backend developer expert."</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Best practices for API design?"</span>}]
+)
+<span class="fn">print</span>(msg.content[<span class="num">0</span>].text)
+
+<span class="cm"># Claude models comparison</span>
+<span class="cm"># claude-3-5-sonnet — Best balance (MOST POPULAR)</span>
+<span class="cm"># claude-3-5-haiku  — Fast + cheap</span>
+<span class="cm"># claude-3-opus     — Most capable, most expensive</span></pre>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Gemini — Google</div>
+      <p>Gemini 1.5 Pro = 1 MILLION token context! Puri codebase ya book ek prompt mein. Multimodal — text, image, video, audio.</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">import</span> google.generativeai <span class="kw">as</span> genai
+genai.configure(api_key=<span class="str">"your-key"</span>)
+
+model = genai.<span class="cls">GenerativeModel</span>(<span class="str">"gemini-1.5-pro"</span>)
+response = model.generate_content(<span class="str">"Explain microservices in Python"</span>)
+<span class="fn">print</span>(response.text)
+
+<span class="cm"># Gemini models</span>
+<span class="cm"># gemini-1.5-pro   — 1M context, most capable</span>
+<span class="cm"># gemini-1.5-flash — Fast + cheap, 1M context</span>
+<span class="cm"># gemini-2.0-flash — Latest, very fast</span></pre>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>Model</th><th>Context</th><th>Best For</th><th>Cost</th></tr>
+      <tr><td>GPT-4o</td><td>128K</td><td>Coding, agents, tools</td><td>$$</td></tr>
+      <tr><td>GPT-4o-mini</td><td>128K</td><td>Fast + cheap tasks</td><td>$</td></tr>
+      <tr><td>Claude 3.5 Sonnet</td><td>200K</td><td>Long docs, analysis</td><td>$$</td></tr>
+      <tr><td>Gemini 1.5 Pro</td><td>1M</td><td>Full codebase analysis</td><td>$$</td></tr>
+      <tr><td>o1 / o3</td><td>200K</td><td>Complex reasoning</td><td>$$$$</td></tr>
+    </table>
+
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('attention')"><strong>← Prev: Attention</strong></button>
+      <button class="nav-btn" onclick="showTopic('opensource_models')"><strong>→ Next: Open-Source Models</strong>LLaMA · DeepSeek · Qwen</button>
+    </div>
+  </div>
+
+  <!-- ===================== REMAINING TOPICS — PLACEHOLDER STYLE ===================== -->
+  <div class="detail" id="detail-opensource_models">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 3 · Topic 7</span>
+    <h1 style="color:#8aaaf9;">LLaMA · DeepSeek · Qwen</h1>
+    <p class="tagline">Open-source models jo aap apne server pe run kar sakte ho — zero API cost, full control, fine-tune bhi kar sakte ho!</p>
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>LLaMA 3 — Meta</div>
+      <p>Meta ka open-weight model. 8B, 70B, 405B variants. Commercial use allowed. Hugging Face pe free download.</p>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> transformers <span class="kw">import</span> <span class="cls">AutoTokenizer</span>, <span class="cls">AutoModelForCausalLM</span>
+<span class="kw">import</span> torch
+
+model_id = <span class="str">"meta-llama/Meta-Llama-3-8B-Instruct"</span>
+tokenizer = <span class="cls">AutoTokenizer</span>.from_pretrained(model_id)
+model = <span class="cls">AutoModelForCausalLM</span>.from_pretrained(
+    model_id, torch_dtype=torch.bfloat16, device_map=<span class="str">"auto"</span>
+)
+
+messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Write a FastAPI hello world"</span>}]
+input_ids = tokenizer.apply_chat_template(messages, return_tensors=<span class="str">"pt"</span>)
+output = model.generate(input_ids, max_new_tokens=<span class="num">200</span>)
+<span class="fn">print</span>(tokenizer.decode(output[<span class="num">0</span>], skip_special_tokens=<span class="kw">True</span>))</pre>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>DeepSeek R1 — China ka o1!</div>
+      <p>January 2025 mein release. 671B params, OpenAI o1 jitni performance, lekin 95% kam cost. Reasoning tasks ke liye phenomenal.</p>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>  <span class="cm"># DeepSeek is OpenAI-compatible!</span>
+client = <span class="cls">OpenAI</span>(
+    api_key=<span class="str">"your-deepseek-key"</span>,
+    base_url=<span class="str">"https://api.deepseek.com"</span>
+)
+resp = client.chat.completions.create(
+    model=<span class="str">"deepseek-reasoner"</span>,  <span class="cm"># R1 model</span>
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Solve: 2x+5=15"</span>}]
+)
+<span class="fn">print</span>(resp.choices[<span class="num">0</span>].message.content)
+<span class="cm"># DeepSeek R1: ~$0.55/1M tokens vs OpenAI o1: $15/1M tokens!</span></pre>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('top_models')"><strong>← Prev: Closed Models</strong></button>
+      <button class="nav-btn" onclick="showTopic('api_basics')"><strong>→ Next: API Mastery</strong></button>
+    </div>
+  </div>
+
+  <div class="detail" id="detail-api_basics">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 4 · Topic 8</span>
+    <h1 style="color:#8aaaf9;">API Mastery — OpenAI · Claude · Gemini</h1>
+    <p class="tagline">System prompts, streaming, error handling — production-grade API usage. Backend developer ke liye yeh sab familiar lagega!</p>
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>System Prompts + Streaming</div>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+
+<span class="cm"># System prompt = model ko role do</span>
+system = <span class="str">"""You are a senior Python backend engineer.
+Always provide code examples. Be concise."""</span>
+
+<span class="cm"># Streaming response — real-time output</span>
+<span class="kw">with</span> client.chat.completions.stream(
+    model=<span class="str">"gpt-4o"</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: system},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>,   <span class="str">"content"</span>: <span class="str">"How to handle DB connections in FastAPI?"</span>}
+    ]
+) <span class="kw">as</span> stream:
+    <span class="kw">for</span> chunk <span class="kw">in</span> stream:
+        <span class="kw">if</span> chunk.choices[<span class="num">0</span>].delta.content:
+            <span class="fn">print</span>(chunk.choices[<span class="num">0</span>].delta.content, end=<span class="str">""</span>, flush=<span class="kw">True</span>)
+
+<span class="cm"># Error handling — production zaroori</span>
+<span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">RateLimitError</span>, <span class="cls">APIError</span>
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">safe_completion</span>(messages, retries=<span class="num">3</span>):
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(retries):
+        <span class="kw">try</span>:
+            <span class="kw">return</span> client.chat.completions.create(
+                model=<span class="str">"gpt-4o"</span>, messages=messages
+            )
+        <span class="kw">except</span> <span class="cls">RateLimitError</span>:
+            time.sleep(<span class="num">2</span> ** i)  <span class="cm"># exponential backoff</span>
+        <span class="kw">except</span> <span class="cls">APIError</span> <span class="kw">as</span> e:
+            <span class="fn">print</span>(<span class="str">f"API Error: <span class="num">{e}</span>"</span>); <span class="kw">break</span></pre>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('opensource_models')"><strong>← Prev: Open-Source Models</strong></button>
+      <button class="nav-btn" onclick="showTopic('function_calling')"><strong>→ Next: Function Calling</strong></button>
+    </div>
+  </div>
+
+  <div class="detail" id="detail-function_calling">
+    <span class="detail-badge" style="background:rgba(74,108,247,0.2);color:#8aaaf9;">Stage 1 · Module 4 · Topic 9</span>
+    <h1 style="color:#8aaaf9;">Function Calling</h1>
+    <p class="tagline">LLM ko tools dena — weather check karo, DB query karo, API call karo. Yeh agentic AI ka foundation hai! Backend developer ke liye bahut familiar concept.</p>
+    <div class="concept">
+      <div class="concept-title" style="color:#8aaaf9;"><span style="background:#4a6cf7;"></span>Function Calling — Full Example</div>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+<span class="kw">import</span> json
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+
+<span class="cm"># Step 1: Tool define karo (JSON Schema)</span>
+tools = [{
+    <span class="str">"type"</span>: <span class="str">"function"</span>,
+    <span class="str">"function"</span>: {
+        <span class="str">"name"</span>: <span class="str">"get_weather"</span>,
+        <span class="str">"description"</span>: <span class="str">"Get current weather for a city"</span>,
+        <span class="str">"parameters"</span>: {
+            <span class="str">"type"</span>: <span class="str">"object"</span>,
+            <span class="str">"properties"</span>: {
+                <span class="str">"city"</span>:  {<span class="str">"type"</span>: <span class="str">"string"</span>, <span class="str">"description"</span>: <span class="str">"City name"</span>},
+                <span class="str">"units"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>, <span class="str">"enum"</span>: [<span class="str">"celsius"</span>, <span class="str">"fahrenheit"</span>]},
+            },
+            <span class="str">"required"</span>: [<span class="str">"city"</span>]
+        }
+    }
+}]
+
+<span class="cm"># Step 2: Model se poocho</span>
+messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Mumbai ka weather kya hai?"</span>}]
+resp = client.chat.completions.create(model=<span class="str">"gpt-4o"</span>, tools=tools, messages=messages)
+
+<span class="cm"># Step 3: Model ne tool call kiya?</span>
+<span class="kw">if</span> resp.choices[<span class="num">0</span>].finish_reason == <span class="str">"tool_calls"</span>:
+    tool_call = resp.choices[<span class="num">0</span>].message.tool_calls[<span class="num">0</span>]
+    args = json.loads(tool_call.function.arguments)
+    <span class="fn">print</span>(<span class="str">f"Tool: <span class="num">{tool_call.function.name}</span>, Args: <span class="num">{args}</span>"</span>)
+    <span class="cm"># Tool: get_weather, Args: {'city': 'Mumbai', 'units': 'celsius'}</span>
+
+    <span class="cm"># Step 4: Actual function call karo</span>
+    weather_result = {<span class="str">"city"</span>: <span class="str">"Mumbai"</span>, <span class="str">"temp"</span>: <span class="num">32</span>, <span class="str">"condition"</span>: <span class="str">"Humid"</span>}
+
+    <span class="cm"># Step 5: Result wapas model ko do</span>
+    messages += [
+        resp.choices[<span class="num">0</span>].message,
+        {<span class="str">"role"</span>: <span class="str">"tool"</span>, <span class="str">"tool_call_id"</span>: tool_call.id,
+         <span class="str">"content"</span>: json.dumps(weather_result)}
+    ]
+    final = client.chat.completions.create(model=<span class="str">"gpt-4o"</span>, messages=messages)
+    <span class="fn">print</span>(final.choices[<span class="num">0</span>].message.content)
+    <span class="cm"># "Mumbai mein abhi 32°C hai aur humidity bahut zyada hai."</span></pre>
+      </div>
+    </div>
+    <div class="tip-box"><strong>💡 Backend Dev Advantage:</strong> Function calling = REST API call karne jaisa hai! Aapko REST APIs banana aata hai — yahan sirf LLM decide karta hai kaunsi function call karni hai aur aap execute karte ho.</div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('api_basics')"><strong>← Prev: API Mastery</strong></button>
+      <button class="nav-btn" onclick="showTopic('zeroshot')" style="background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);"><strong>→ Stage 2: Prompt Engineering</strong>Zero-shot · Few-shot · CoT</button>
+    </div>
+  </div>
+
+  <!-- STAGE 2+ topics abbreviated -->
+  <div class="detail" id="detail-zeroshot">
+    <span class="detail-badge" style="background:rgba(16,185,129,0.2);color:#6ee9c0;">Stage 2 · Module 1 · Topic 1</span>
+    <h1 style="color:#6ee9c0;">Zero-shot & Few-shot Prompting</h1>
+    <p class="tagline">Model ko examples diye bina (zero-shot) ya kuch examples dekar (few-shot) guide karna — bina kisi training ke!</p>
+    <div class="concept">
+      <div class="concept-title" style="color:#6ee9c0;"><span style="background:#10b981;"></span>Zero-shot vs Few-shot</div>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+
+<span class="cm"># ZERO-SHOT — koi example nahi, direct task</span>
+zero_shot = <span class="str">"""Classify this text as POSITIVE, NEGATIVE, or NEUTRAL.
+Text: "The API response time is really slow today."
+Classification:"""</span>
+
+<span class="cm"># FEW-SHOT — examples dekar guide karo</span>
+few_shot = <span class="str">"""Classify sentiment. Examples:
+Text: "Great performance!" → POSITIVE
+Text: "App crashed again." → NEGATIVE
+Text: "System updated."    → NEUTRAL
+
+Text: "The API response time is really slow today."
+Classification:"""</span>
+
+<span class="cm"># Few-shot kaafi better results deta hai!</span>
+<span class="kw">for</span> prompt, name <span class="kw">in</span> [(zero_shot, <span class="str">"Zero-shot"</span>), (few_shot, <span class="str">"Few-shot"</span>)]:
+    resp = client.chat.completions.create(
+        model=<span class="str">"gpt-4o"</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: prompt}],
+        max_tokens=<span class="num">10</span>
+    )
+    <span class="fn">print</span>(<span class="str">f"<span class="num">{name}</span>: <span class="num">{resp.choices[0].message.content.strip()}</span>"</span>)</pre>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('function_calling')"><strong>← Stage 1: Function Calling</strong></button>
+      <button class="nav-btn" onclick="showTopic('cot')"><strong>→ Next: Chain-of-Thought</strong></button>
+    </div>
+  </div>
+
+  <div class="detail" id="detail-cot">
+    <span class="detail-badge" style="background:rgba(16,185,129,0.2);color:#6ee9c0;">Stage 2 · Module 1 · Topic 2</span>
+    <h1 style="color:#6ee9c0;">Chain-of-Thought & ReAct</h1>
+    <p class="tagline">Model ko "sochne" ke liye bol do step-by-step. CoT se reasoning improve, ReAct se tools use karna — Agentic AI ka building block!</p>
+    <div class="concept">
+      <div class="concept-title" style="color:#6ee9c0;"><span style="background:#10b981;"></span>Chain-of-Thought Prompting</div>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Standard prompt — often wrong on complex tasks</span>
+standard = <span class="str">"If a train travels 120km in 2 hours, how long for 300km?"</span>
+
+<span class="cm"># CoT prompt — "think step by step"</span>
+cot = <span class="str">"""If a train travels 120km in 2 hours, how long for 300km?
+Think step by step:"""</span>
+
+<span class="cm"># Zero-shot CoT — magic phrase!</span>
+zero_cot = <span class="str">"""If a train travels 120km in 2 hours, how long for 300km?
+Let's think step by step."""</span>
+
+<span class="cm"># ReAct Pattern — Reason + Act</span>
+react_prompt = <span class="str">"""Answer the question using this format:
+Thought: [reasoning about what to do]
+Action: [tool_name(parameters)]
+Observation: [tool result]
+... (repeat as needed)
+Answer: [final answer]
+
+Question: What is the current weather in Mumbai and should I carry umbrella?"""</span>
+
+resp = client.chat.completions.create(
+    model=<span class="str">"gpt-4o"</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: react_prompt}]
+)
+<span class="fn">print</span>(resp.choices[<span class="num">0</span>].message.content)
+<span class="cm"># Thought: I need to check Mumbai weather</span>
+<span class="cm"># Action: get_weather(city="Mumbai")</span>
+<span class="cm"># ...</span></pre>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('zeroshot')"><strong>← Prev: Zero/Few-shot</strong></button>
+      <button class="nav-btn" onclick="showTopic('vector_dbs')"><strong>→ Next: Vector DBs</strong></button>
+    </div>
+  </div>
+
+  <!-- Remaining stubs for vector_dbs, rag_pipeline, chunking, hybrid_search, lora etc -->
+  <div class="detail" id="detail-vector_dbs"><span class="detail-badge" style="background:rgba(16,185,129,0.2);color:#6ee9c0;">Stage 2 · Module 2</span><h1 style="color:#6ee9c0;">Vector DBs · Pinecone · FAISS</h1><p class="tagline">Embeddings store karne aur fast similarity search karne ke liye specialized databases.</p><div class="concept"><div class="concept-title" style="color:#6ee9c0;"><span style="background:#10b981;"></span>ChromaDB — Local Vector DB</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="cm"># pip install chromadb sentence-transformers</span>
+<span class="kw">import</span> chromadb
+<span class="kw">from</span> sentence_transformers <span class="kw">import</span> <span class="cls">SentenceTransformer</span>
+
+client = chromadb.<span class="cls">Client</span>()
+collection = client.create_collection(<span class="str">"my_docs"</span>)
+model = <span class="cls">SentenceTransformer</span>(<span class="str">'all-MiniLM-L6-v2'</span>)
+
+docs = [<span class="str">"FastAPI is a modern Python web framework"</span>,
+        <span class="str">"PostgreSQL is a relational database"</span>,
+        <span class="str">"Docker containerizes applications"</span>]
+
+embeddings = model.encode(docs).tolist()
+collection.add(documents=docs, embeddings=embeddings,
+               ids=[<span class="str">"d1"</span>,<span class="str">"d2"</span>,<span class="str">"d3"</span>])
+
+<span class="cm"># Query karo</span>
+q_emb = model.encode([<span class="str">"Python web API"</span>]).tolist()
+results = collection.query(query_embeddings=q_emb, n_results=<span class="num">2</span>)
+<span class="fn">print</span>(results[<span class="str">'documents'</span>])
+<span class="cm"># [['FastAPI is a modern Python web framework', ...]]</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('cot')"><strong>← Prev: CoT/ReAct</strong></button><button class="nav-btn" onclick="showTopic('rag_pipeline')"><strong>→ Next: RAG Pipeline</strong></button></div></div>
+
+  <div class="detail" id="detail-rag_pipeline"><span class="detail-badge" style="background:rgba(16,185,129,0.2);color:#6ee9c0;">Stage 2 · Module 2</span><h1 style="color:#6ee9c0;">RAG Pipeline — Full Implementation</h1><p class="tagline">Retrieval Augmented Generation — LLM ko external knowledge do without fine-tuning. Documents → Embed → Store → Retrieve → Generate!</p><div class="concept"><div class="concept-title" style="color:#6ee9c0;"><span style="background:#10b981;"></span>Complete RAG System</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+<span class="kw">import</span> chromadb
+<span class="kw">from</span> sentence_transformers <span class="kw">import</span> <span class="cls">SentenceTransformer</span>
+
+client = <span class="cls">OpenAI</span>(api_key=<span class="str">"your-key"</span>)
+emb_model = <span class="cls">SentenceTransformer</span>(<span class="str">'all-MiniLM-L6-v2'</span>)
+db = chromadb.<span class="cls">Client</span>()
+collection = db.create_collection(<span class="str">"knowledge_base"</span>)
+
+<span class="cm"># STEP 1: Index documents</span>
+docs = [
+    <span class="str">"FastAPI supports async/await natively for high performance"</span>,
+    <span class="str">"Use Pydantic models for request/response validation in FastAPI"</span>,
+    <span class="str">"SQLAlchemy is the most popular ORM for Python databases"</span>,
+]
+collection.add(documents=docs,
+               embeddings=emb_model.encode(docs).tolist(),
+               ids=[<span class="str">f"doc<span class="num">{i}</span>"</span> <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(docs))])
+
+<span class="cm"># STEP 2: RAG query function</span>
+<span class="kw">def</span> <span class="fn">rag_query</span>(question, n_results=<span class="num">2</span>):
+    <span class="cm"># Retrieve relevant docs</span>
+    q_emb = emb_model.encode([question]).tolist()
+    results = collection.query(query_embeddings=q_emb, n_results=n_results)
+    context = <span class="str">"\n"</span>.join(results[<span class="str">'documents'</span>][<span class="num">0</span>])
+
+    <span class="cm"># Generate answer with context</span>
+    resp = client.chat.completions.create(
+        model=<span class="str">"gpt-4o"</span>,
+        messages=[{
+            <span class="str">"role"</span>: <span class="str">"user"</span>,
+            <span class="str">"content"</span>: <span class="str">f"Context:\n<span class="num">{context}</span>\n\nQuestion: <span class="num">{question}</span>"</span>
+        }]
+    )
+    <span class="kw">return</span> resp.choices[<span class="num">0</span>].message.content
+
+<span class="fn">print</span>(<span class="fn">rag_query</span>(<span class="str">"How to validate requests in FastAPI?"</span>))</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('vector_dbs')"><strong>← Prev: Vector DBs</strong></button><button class="nav-btn" onclick="showTopic('chunking')"><strong>→ Next: Chunking</strong></button></div></div>
+
+  <div class="detail" id="detail-chunking"><span class="detail-badge" style="background:rgba(16,185,129,0.2);color:#6ee9c0;">Stage 2 · Module 3</span><h1 style="color:#6ee9c0;">Chunking & Indexing</h1><p class="tagline">Documents ko chhote pieces mein todna — RAG ki quality isi pe depend karti hai! Galat chunking = bad retrieval = bad answers.</p><div class="concept"><div class="concept-title" style="color:#6ee9c0;"><span style="background:#10b981;"></span>Chunking Strategies</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> langchain.text_splitter <span class="kw">import</span> <span class="cls">RecursiveCharacterTextSplitter</span>
+
+<span class="cm"># Fixed size chunking</span>
+splitter = <span class="cls">RecursiveCharacterTextSplitter</span>(
+    chunk_size=<span class="num">500</span>,      <span class="cm"># max chars per chunk</span>
+    chunk_overlap=<span class="num">50</span>,    <span class="cm"># overlap for context continuity</span>
+    separators=[<span class="str">"\n\n"</span>, <span class="str">"\n"</span>, <span class="str">" "</span>, <span class="str">""</span>]  <span class="cm"># priority split order</span>
+)
+
+long_doc = <span class="str">"FastAPI is a modern Python framework..." * 100</span>
+chunks = splitter.split_text(long_doc)
+<span class="fn">print</span>(<span class="str">f"Chunks created: <span class="num">{len(chunks)}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"Chunk sizes: <span class="num">{[len(c) for c in chunks[:5]]}</span>"</span>)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('rag_pipeline')"><strong>← Prev: RAG Pipeline</strong></button><button class="nav-btn" onclick="showTopic('hybrid_search')"><strong>→ Next: Hybrid Search</strong></button></div></div>
+
+  <div class="detail" id="detail-hybrid_search"><span class="detail-badge" style="background:rgba(16,185,129,0.2);color:#6ee9c0;">Stage 2 · Module 3</span><h1 style="color:#6ee9c0;">Hybrid Search & Reranking</h1><p class="tagline">Semantic search + keyword search = hybrid. Reranking se best results top pe. Production RAG ka must-have!</p><div class="concept"><div class="concept-title" style="color:#6ee9c0;"><span style="background:#10b981;"></span>BM25 + Semantic = Hybrid</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="cm"># pip install rank_bm25 sentence-transformers</span>
+<span class="kw">from</span> rank_bm25 <span class="kw">import</span> <span class="cls">BM25Okapi</span>
+<span class="kw">from</span> sentence_transformers <span class="kw">import</span> <span class="cls">SentenceTransformer</span>, <span class="cls">CrossEncoder</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+docs = [<span class="str">"FastAPI async endpoints"</span>, <span class="str">"PostgreSQL indexing"</span>,
+        <span class="str">"Docker deployment guide"</span>, <span class="str">"FastAPI database connections"</span>]
+
+<span class="cm"># BM25 — keyword based</span>
+bm25 = <span class="cls">BM25Okapi</span>([d.split() <span class="kw">for</span> d <span class="kw">in</span> docs])
+
+<span class="cm"># Semantic — embedding based</span>
+sem_model = <span class="cls">SentenceTransformer</span>(<span class="str">'all-MiniLM-L6-v2'</span>)
+doc_embs = sem_model.encode(docs)
+
+query = <span class="str">"FastAPI database"</span>
+bm25_scores = np.array(bm25.get_scores(query.split()))
+q_emb = sem_model.encode(query)
+sem_scores = np.array([np.dot(q_emb, d) / (np.linalg.norm(q_emb)*np.linalg.norm(d)) <span class="kw">for</span> d <span class="kw">in</span> doc_embs])
+
+<span class="cm"># Combine: 0.5 * BM25 + 0.5 * Semantic</span>
+hybrid = <span class="num">0.5</span>*(bm25_scores/bm25_scores.max()) + <span class="num">0.5</span>*sem_scores
+ranked = <span class="fn">sorted</span>(<span class="fn">zip</span>(docs, hybrid), key=<span class="kw">lambda</span> x: x[<span class="num">1</span>], reverse=<span class="kw">True</span>)
+<span class="kw">for</span> doc, score <span class="kw">in</span> ranked:
+    <span class="fn">print</span>(<span class="str">f"<span class="num">{score:.3f}</span> — <span class="num">{doc}</span>"</span>)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('chunking')"><strong>← Prev: Chunking</strong></button><button class="nav-btn" onclick="showTopic('lora')" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);"><strong>→ Stage 3: Fine-Tuning</strong></button></div></div>
+
+  <!-- Stage 3 topics -->
+  <div class="detail" id="detail-lora"><span class="detail-badge" style="background:rgba(245,158,11,0.2);color:#fcd17a;">Stage 3 · Module 1</span><h1 style="color:#fcd17a;">LoRA & QLoRA — Parameter-Efficient Fine-Tuning</h1><p class="tagline">Pura model train karna bahut expensive hai. LoRA sirf small adapter matrices train karta hai — 100x kam VRAM mein fine-tune karo!</p><div class="concept"><div class="concept-title" style="color:#fcd17a;"><span style="background:#f59e0b;"></span>QLoRA Fine-Tuning</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="cm"># pip install transformers peft trl bitsandbytes</span>
+<span class="kw">from</span> transformers <span class="kw">import</span> <span class="cls">AutoModelForCausalLM</span>, <span class="cls">AutoTokenizer</span>, <span class="cls">BitsAndBytesConfig</span>
+<span class="kw">from</span> peft <span class="kw">import</span> <span class="cls">LoraConfig</span>, <span class="fn">get_peft_model</span>
+<span class="kw">import</span> torch
+
+<span class="cm"># 4-bit quantization — QLoRA</span>
+bnb_config = <span class="cls">BitsAndBytesConfig</span>(
+    load_in_4bit=<span class="kw">True</span>,
+    bnb_4bit_quant_type=<span class="str">"nf4"</span>,
+    bnb_4bit_compute_dtype=torch.bfloat16,
+)
+
+model = <span class="cls">AutoModelForCausalLM</span>.from_pretrained(
+    <span class="str">"meta-llama/Meta-Llama-3-8B"</span>,
+    quantization_config=bnb_config, device_map=<span class="str">"auto"</span>
+)
+
+<span class="cm"># LoRA adapter config</span>
+lora_config = <span class="cls">LoraConfig</span>(
+    r=<span class="num">16</span>,              <span class="cm"># rank — smaller = fewer params</span>
+    lora_alpha=<span class="num">32</span>,     <span class="cm"># scaling factor</span>
+    target_modules=[<span class="str">"q_proj"</span>, <span class="str">"v_proj"</span>],  <span class="cm"># which layers</span>
+    lora_dropout=<span class="num">0.05</span>,
+    task_type=<span class="str">"CAUSAL_LM"</span>
+)
+
+peft_model = <span class="fn">get_peft_model</span>(model, lora_config)
+peft_model.print_trainable_parameters()
+<span class="cm"># trainable params: 3,407,872 || all params: 8,033,669,120</span>
+<span class="cm"># trainable%: 0.04%  ← sirf 0.04% params train karte hain!</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('hybrid_search')"><strong>← Stage 2</strong></button><button class="nav-btn" onclick="showTopic('sfttrainer')"><strong>→ Next: SFTTrainer</strong></button></div></div>
+
+  <!-- Stage 4 topics -->
+  <div class="detail" id="detail-sfttrainer"><span class="detail-badge" style="background:rgba(245,158,11,0.2);color:#fcd17a;">Stage 3 · Module 1</span><h1 style="color:#fcd17a;">SFTTrainer · TRL</h1><p class="tagline">Hugging Face TRL library se supervised fine-tuning ek few lines mein. Training loop, logging, saving — sab automatically handle hota hai!</p><div class="concept"><div class="concept-title" style="color:#fcd17a;"><span style="background:#f59e0b;"></span>SFTTrainer Example</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> trl <span class="kw">import</span> <span class="cls">SFTTrainer</span>, <span class="cls">SFTConfig</span>
+<span class="kw">from</span> datasets <span class="kw">import</span> <span class="fn">load_dataset</span>
+
+dataset = <span class="fn">load_dataset</span>(<span class="str">"json"</span>, data_files=<span class="str">"my_data.jsonl"</span>)[<span class="str">"train"</span>]
+<span class="cm"># Format: [{"text": "### User: ... ### Assistant: ..."}, ...]</span>
+
+training_args = <span class="cls">SFTConfig</span>(
+    output_dir=<span class="str">"./fine-tuned-model"</span>,
+    num_train_epochs=<span class="num">3</span>,
+    per_device_train_batch_size=<span class="num">4</span>,
+    learning_rate=<span class="num">2e-4</span>,
+    max_seq_length=<span class="num">2048</span>,
+    logging_steps=<span class="num">10</span>,
+    save_steps=<span class="num">100</span>,
+)
+
+trainer = <span class="cls">SFTTrainer</span>(
+    model=peft_model,       <span class="cm"># LoRA model from previous topic</span>
+    args=training_args,
+    train_dataset=dataset,
+    tokenizer=tokenizer,
+)
+
+trainer.train()
+trainer.save_model()  <span class="cm"># adapter weights save karo</span>
+<span class="fn">print</span>(<span class="str">"Fine-tuning complete! 🎉"</span>)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('lora')"><strong>← Prev: LoRA</strong></button><button class="nav-btn" onclick="showTopic('hf_hub')"><strong>→ Next: Hugging Face Hub</strong></button></div></div>
+
+  <div class="detail" id="detail-hf_hub"><span class="detail-badge" style="background:rgba(245,158,11,0.2);color:#fcd17a;">Stage 3 · Module 2</span><h1 style="color:#fcd17a;">Hugging Face — Model Hub & Datasets</h1><p class="tagline">World ka largest open-source AI model repository. 500k+ models, 100k+ datasets — sab free!</p><div class="concept"><div class="concept-title" style="color:#fcd17a;"><span style="background:#f59e0b;"></span>Hub se Model Load aur Push karo</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> huggingface_hub <span class="kw">import</span> <span class="fn">login</span>, <span class="cls">HfApi</span>
+<span class="kw">from</span> datasets <span class="kw">import</span> <span class="cls">Dataset</span>, <span class="fn">load_dataset</span>
+
+<span class="fn">login</span>(token=<span class="str">"your-hf-token"</span>)  <span class="cm"># huggingface.co/settings/tokens</span>
+
+<span class="cm"># Dataset banao aur push karo</span>
+data = {<span class="str">"instruction"</span>: [<span class="str">"Write hello world in Python"</span>],
+        <span class="str">"output"</span>: [<span class="str">'print("Hello World")'</span>]}
+ds = <span class="cls">Dataset</span>.from_dict(data)
+ds.push_to_hub(<span class="str">"your-username/my-dataset"</span>)
+
+<span class="cm"># Popular datasets load karo</span>
+alpaca = <span class="fn">load_dataset</span>(<span class="str">"tatsu-lab/alpaca"</span>)        <span class="cm"># instruction tuning</span>
+code_ds = <span class="fn">load_dataset</span>(<span class="str">"iamtarun/python_code_instructions_18k_alpaca"</span>)
+
+<span class="cm"># Fine-tuned model Hub pe push karo</span>
+trainer.push_to_hub(<span class="str">"your-username/llama3-finetuned"</span>)
+<span class="fn">print</span>(<span class="str">"Model live at: huggingface.co/your-username/llama3-finetuned"</span>)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('sfttrainer')"><strong>← Prev: SFTTrainer</strong></button><button class="nav-btn" onclick="showTopic('hf_pipeline')"><strong>→ Next: Pipelines</strong></button></div></div>
+
+  <div class="detail" id="detail-hf_pipeline"><span class="detail-badge" style="background:rgba(245,158,11,0.2);color:#fcd17a;">Stage 3 · Module 2</span><h1 style="color:#fcd17a;">AutoTokenizer & Pipelines</h1><p class="tagline">Hugging Face Pipelines — 2 lines mein production-ready inference! Text generation, classification, translation sab.</p><div class="concept"><div class="concept-title" style="color:#fcd17a;"><span style="background:#f59e0b;"></span>Pipeline Examples</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> transformers <span class="kw">import</span> <span class="fn">pipeline</span>, <span class="cls">AutoTokenizer</span>, <span class="cls">AutoModel</span>
+
+<span class="cm"># Text generation</span>
+gen = <span class="fn">pipeline</span>(<span class="str">"text-generation"</span>, model=<span class="str">"gpt2"</span>)
+<span class="fn">print</span>(gen(<span class="str">"FastAPI is"</span>, max_new_tokens=<span class="num">30</span>)[<span class="num">0</span>][<span class="str">'generated_text'</span>])
+
+<span class="cm"># Sentiment analysis</span>
+clf = <span class="fn">pipeline</span>(<span class="str">"sentiment-analysis"</span>)
+<span class="fn">print</span>(clf(<span class="str">"This API is incredibly fast!"</span>))
+<span class="cm"># [{'label': 'POSITIVE', 'score': 0.9998}]</span>
+
+<span class="cm"># AutoTokenizer — model-specific tokenizer</span>
+tokenizer = <span class="cls">AutoTokenizer</span>.from_pretrained(<span class="str">"bert-base-uncased"</span>)
+inputs = tokenizer(<span class="str">"Hello backend developers!"</span>,
+                   return_tensors=<span class="str">"pt"</span>, padding=<span class="kw">True</span>, truncation=<span class="kw">True</span>)
+<span class="fn">print</span>(inputs.keys())  <span class="cm"># input_ids, attention_mask, token_type_ids</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('hf_hub')"><strong>← Prev: HF Hub</strong></button><button class="nav-btn" onclick="showTopic('eval_metrics')"><strong>→ Next: Evaluation</strong></button></div></div>
+
+  <div class="detail" id="detail-eval_metrics"><span class="detail-badge" style="background:rgba(245,158,11,0.2);color:#fcd17a;">Stage 3 · Module 3</span><h1 style="color:#fcd17a;">Evaluation — Accuracy · F1 · BLEU</h1><p class="tagline">Fine-tuned model kitna achha hai? Metrics se measure karo. Accuracy, F1 classification ke liye. BLEU/ROUGE text generation ke liye.</p><div class="concept"><div class="concept-title" style="color:#fcd17a;"><span style="background:#f59e0b;"></span>Key Metrics with Code</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score, f1_score, classification_report
+<span class="kw">import</span> evaluate
+
+<span class="cm"># Classification metrics</span>
+y_true = [<span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>]
+y_pred = [<span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>]
+<span class="fn">print</span>(<span class="str">f"Accuracy: <span class="num">{accuracy_score(y_true, y_pred):.2f}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"F1:       <span class="num">{f1_score(y_true, y_pred):.2f}</span>"</span>)
+
+<span class="cm"># BLEU — text generation quality</span>
+bleu = evaluate.load(<span class="str">"bleu"</span>)
+result = bleu.compute(
+    predictions=[<span class="str">"the cat sat on the mat"</span>],
+    references=[[<span class="str">"the cat is sitting on the mat"</span>]]
+)
+<span class="fn">print</span>(<span class="str">f"BLEU score: <span class="num">{result['bleu']:.3f}</span>"</span>)
+
+<span class="cm"># Perplexity — how "surprised" is model</span>
+<span class="cm"># Lower = better. GPT-4 ~5-10 on standard benchmarks</span>
+perplexity = evaluate.load(<span class="str">"perplexity"</span>, module_type=<span class="str">"metric"</span>)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('hf_pipeline')"><strong>← Prev: Pipelines</strong></button><button class="nav-btn" onclick="showTopic('langgraph')" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);"><strong>→ Stage 4: Agentic AI!</strong>LangGraph · CrewAI · AutoGen</button></div></div>
+
+  <!-- Stage 4 -->
+  <div class="detail" id="detail-langgraph"><span class="detail-badge" style="background:rgba(239,68,68,0.2);color:#f98080;">Stage 4 · Module 1</span><h1 style="color:#f98080;">LangGraph — State Machines & Graph Workflows</h1><p class="tagline">Complex multi-step agents build karo state machines se. Conditional routing, loops, parallel execution — sab possible!</p><div class="concept"><div class="concept-title" style="color:#f98080;"><span style="background:#ef4444;"></span>Basic LangGraph Agent</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> langgraph.graph <span class="kw">import</span> <span class="cls">StateGraph</span>, <span class="cls">END</span>
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="cls">TypedDict</span>, <span class="cls">Annotated</span>
+<span class="kw">import</span> operator
+
+<span class="kw">class</span> <span class="cls">AgentState</span>(<span class="cls">TypedDict</span>):
+    messages: <span class="cls">Annotated</span>[<span class="fn">list</span>, operator.add]
+    next_step: str
+
+<span class="kw">def</span> <span class="fn">llm_node</span>(state):
+    <span class="cm"># LLM call — decide kya karna hai</span>
+    response = <span class="str">"I need to search for this information"</span>
+    <span class="kw">return</span> {<span class="str">"messages"</span>: [response], <span class="str">"next_step"</span>: <span class="str">"search"</span>}
+
+<span class="kw">def</span> <span class="fn">search_node</span>(state):
+    <span class="cm"># Tool use — web search karo</span>
+    result = <span class="str">"Found: FastAPI 0.104.1 released"</span>
+    <span class="kw">return</span> {<span class="str">"messages"</span>: [result], <span class="str">"next_step"</span>: <span class="str">"end"</span>}
+
+<span class="kw">def</span> <span class="fn">router</span>(state):
+    <span class="kw">return</span> state[<span class="str">"next_step"</span>]  <span class="cm"># "search" ya "end"</span>
+
+<span class="cm"># Graph build karo</span>
+graph = <span class="cls">StateGraph</span>(<span class="cls">AgentState</span>)
+graph.add_node(<span class="str">"llm"</span>, llm_node)
+graph.add_node(<span class="str">"search"</span>, search_node)
+graph.set_entry_point(<span class="str">"llm"</span>)
+graph.add_conditional_edges(<span class="str">"llm"</span>, router, {<span class="str">"search"</span>: <span class="str">"search"</span>, <span class="str">"end"</span>: <span class="cls">END</span>})
+graph.add_edge(<span class="str">"search"</span>, <span class="cls">END</span>)
+
+app = graph.compile()
+result = app.invoke({<span class="str">"messages"</span>: [<span class="str">"What is FastAPI latest version?"</span>], <span class="str">"next_step"</span>: <span class="str">""</span>})
+<span class="fn">print</span>(result[<span class="str">"messages"</span>])</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('eval_metrics')"><strong>← Stage 3</strong></button><button class="nav-btn" onclick="showTopic('crewai')"><strong>→ Next: CrewAI</strong></button></div></div>
+
+  <div class="detail" id="detail-crewai"><span class="detail-badge" style="background:rgba(239,68,68,0.2);color:#f98080;">Stage 4 · Module 2</span><h1 style="color:#f98080;">CrewAI — Multi-Agent Teams</h1><p class="tagline">Multiple agents ek saath kaam karte hain — ek researcher, ek writer, ek reviewer. Real team ki tarah!</p><div class="concept"><div class="concept-title" style="color:#f98080;"><span style="background:#ef4444;"></span>CrewAI Team Example</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> crewai <span class="kw">import</span> <span class="cls">Agent</span>, <span class="cls">Task</span>, <span class="cls">Crew</span>
+
+researcher = <span class="cls">Agent</span>(
+    role=<span class="str">"Backend Research Specialist"</span>,
+    goal=<span class="str">"Research the latest Python backend frameworks"</span>,
+    backstory=<span class="str">"Expert in Python with 10 years experience"</span>,
+    verbose=<span class="kw">True</span>
+)
+
+writer = <span class="cls">Agent</span>(
+    role=<span class="str">"Technical Writer"</span>,
+    goal=<span class="str">"Write clear documentation based on research"</span>,
+    backstory=<span class="str">"Technical writer who specializes in APIs"</span>,
+    verbose=<span class="kw">True</span>
+)
+
+research_task = <span class="cls">Task</span>(
+    description=<span class="str">"Research FastAPI vs Django REST framework pros/cons"</span>,
+    expected_output=<span class="str">"Detailed comparison with benchmarks"</span>,
+    agent=researcher
+)
+write_task = <span class="cls">Task</span>(
+    description=<span class="str">"Write a blog post based on the research findings"</span>,
+    expected_output=<span class="str">"500-word blog post with code examples"</span>,
+    agent=writer
+)
+
+crew = <span class="cls">Crew</span>(agents=[researcher, writer], tasks=[research_task, write_task])
+result = crew.kickoff()
+<span class="fn">print</span>(result)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('langgraph')"><strong>← Prev: LangGraph</strong></button><button class="nav-btn" onclick="showTopic('openai_agents')"><strong>→ Next: OpenAI Agents</strong></button></div></div>
+
+  <div class="detail" id="detail-openai_agents"><span class="detail-badge" style="background:rgba(239,68,68,0.2);color:#f98080;">Stage 4 · Module 3</span><h1 style="color:#f98080;">OpenAI Agents SDK</h1><p class="tagline">OpenAI ka native framework — Agents, Handoffs, Guardrails. Production-ready, simple syntax.</p><div class="concept"><div class="concept-title" style="color:#f98080;"><span style="background:#ef4444;"></span>Agents + Handoffs</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> agents <span class="kw">import</span> <span class="cls">Agent</span>, <span class="fn">handoff</span>, <span class="cls">Runner</span>
+<span class="kw">from</span> agents.tools <span class="kw">import</span> WebSearch
+
+<span class="cm"># Specialized agents</span>
+billing_agent = <span class="cls">Agent</span>(
+    name=<span class="str">"Billing Agent"</span>,
+    instructions=<span class="str">"Handle all billing and payment questions."</span>,
+)
+tech_agent = <span class="cls">Agent</span>(
+    name=<span class="str">"Tech Support Agent"</span>,
+    instructions=<span class="str">"Handle technical issues and API problems."</span>,
+    tools=[<span class="cls">WebSearch</span>()]
+)
+
+<span class="cm"># Triage agent — correct specialist pe route karo</span>
+triage_agent = <span class="cls">Agent</span>(
+    name=<span class="str">"Triage Agent"</span>,
+    instructions=<span class="str">"Route user to correct department."</span>,
+    handoffs=[
+        <span class="fn">handoff</span>(billing_agent, <span class="str">"billing or payment issues"</span>),
+        <span class="fn">handoff</span>(tech_agent,    <span class="str">"technical or API issues"</span>),
+    ]
+)
+
+result = Runner.run_sync(triage_agent, <span class="str">"My API key is not working"</span>)
+<span class="fn">print</span>(result.final_output)
+<span class="cm"># Automatically routed to tech_agent!</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('crewai')"><strong>← Prev: CrewAI</strong></button><button class="nav-btn" onclick="showTopic('autogen')"><strong>→ Next: AutoGen</strong></button></div></div>
+
+  <div class="detail" id="detail-autogen"><span class="detail-badge" style="background:rgba(239,68,68,0.2);color:#f98080;">Stage 4 · Module 4</span><h1 style="color:#f98080;">AutoGen — Multi-Model Collaboration</h1><p class="tagline">Microsoft ka framework. Multiple models ek conversation mein — human-in-loop possible. Complex problem solving!</p><div class="concept"><div class="concept-title" style="color:#f98080;"><span style="background:#ef4444;"></span>AutoGen Conversation</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">import</span> autogen
+
+config = [{<span class="str">"model"</span>: <span class="str">"gpt-4o"</span>, <span class="str">"api_key"</span>: <span class="str">"your-key"</span>}]
+
+assistant = autogen.<span class="cls">AssistantAgent</span>(
+    name=<span class="str">"Assistant"</span>,
+    llm_config={<span class="str">"config_list"</span>: config},
+    system_message=<span class="str">"You are a Python expert. Write and fix code."</span>
+)
+
+user_proxy = autogen.<span class="cls">UserProxyAgent</span>(
+    name=<span class="str">"User"</span>,
+    human_input_mode=<span class="str">"NEVER"</span>,   <span class="cm"># fully automated</span>
+    code_execution_config={<span class="str">"work_dir"</span>: <span class="str">"coding"</span>, <span class="str">"use_docker"</span>: <span class="kw">False</span>},
+    max_consecutive_auto_reply=<span class="num">5</span>
+)
+
+<span class="cm"># Start conversation — auto iterates until done!</span>
+user_proxy.initiate_chat(
+    assistant,
+    message=<span class="str">"Write a FastAPI app with CRUD operations for a todo list"</span>
+)
+<span class="cm"># Assistant writes code, user_proxy executes it</span>
+<span class="cm"># If error → assistant fixes it → runs again → until success!</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('openai_agents')"><strong>← Prev: OpenAI Agents</strong></button><button class="nav-btn" onclick="showTopic('mcp')" style="background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.3);"><strong>→ Stage 5: MCP + Deployment!</strong></button></div></div>
+
+  <!-- Stage 5 -->
+  <div class="detail" id="detail-mcp"><span class="detail-badge" style="background:rgba(168,85,247,0.2);color:#d08ef9;">Stage 5 · Module 1</span><h1 style="color:#d08ef9;">Model Context Protocol (MCP)</h1><p class="tagline">Anthropic ka open standard — AI ko tools, databases, APIs se connect karo. 44+ built-in tools. Ek bar setup, sab LLMs ke saath kaam karo!</p><div class="concept"><div class="concept-title" style="color:#d08ef9;"><span style="background:#a855f7;"></span>Custom MCP Server</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> mcp.server.fastmcp <span class="kw">import</span> <span class="cls">FastMCP</span>
+
+mcp = <span class="cls">FastMCP</span>(<span class="str">"My Backend Tools"</span>)
+
+<span class="cm"># Database tool expose karo</span>
+<span class="kw">@mcp.tool()</span>
+<span class="kw">async def</span> <span class="fn">get_user</span>(user_id: int) -> dict:
+    <span class="str">"""Get user from database by ID"""</span>
+    <span class="cm"># Real DB query yahan hogi</span>
+    <span class="kw">return</span> {<span class="str">"id"</span>: user_id, <span class="str">"name"</span>: <span class="str">"Rahul"</span>, <span class="str">"email"</span>: <span class="str">"rahul@example.com"</span>}
+
+<span class="cm"># API tool expose karo</span>
+<span class="kw">@mcp.tool()</span>
+<span class="kw">async def</span> <span class="fn">send_email</span>(to: str, subject: str, body: str) -> str:
+    <span class="str">"""Send email to a user"""</span>
+    <span class="cm"># Real email logic yahan</span>
+    <span class="kw">return</span> <span class="str">f"Email sent to <span class="num">{to}</span>"</span>
+
+<span class="cm"># Resource expose karo (read-only data)</span>
+<span class="kw">@mcp.resource(</span><span class="str">"database://users"</span><span class="kw">)</span>
+<span class="kw">async def</span> <span class="fn">list_users</span>() -> str:
+    <span class="kw">return</span> <span class="str">"User 1: Rahul, User 2: Priya, User 3: Amit"</span>
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    mcp.run()  <span class="cm"># server start karo!</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('autogen')"><strong>← Stage 4</strong></button><button class="nav-btn" onclick="showTopic('fastapi_deploy')"><strong>→ Next: Deployment</strong></button></div></div>
+
+  <div class="detail" id="detail-fastapi_deploy"><span class="detail-badge" style="background:rgba(168,85,247,0.2);color:#d08ef9;">Stage 5 · Module 2</span><h1 style="color:#d08ef9;">FastAPI · Docker · AWS Deployment</h1><p class="tagline">LLM app ko production pe deploy karo. FastAPI wrapper → Docker container → AWS/Vercel pe live!</p><div class="concept"><div class="concept-title" style="color:#d08ef9;"><span style="background:#a855f7;"></span>FastAPI + Docker</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON — main.py</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">from</span> fastapi <span class="kw">import</span> <span class="cls">FastAPI</span>
+<span class="kw">from</span> pydantic <span class="kw">import</span> <span class="cls">BaseModel</span>
+<span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+
+app = <span class="cls">FastAPI</span>()
+client = <span class="cls">OpenAI</span>()
+
+<span class="kw">class</span> <span class="cls">ChatRequest</span>(<span class="cls">BaseModel</span>):
+    message: str
+    system: str = <span class="str">"You are a helpful assistant"</span>
+
+<span class="kw">@app.post(</span><span class="str">"/chat"</span><span class="kw">)</span>
+<span class="kw">async def</span> <span class="fn">chat</span>(req: <span class="cls">ChatRequest</span>):
+    resp = client.chat.completions.create(
+        model=<span class="str">"gpt-4o"</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: req.system},
+                  {<span class="str">"role"</span>: <span class="str">"user"</span>,   <span class="str">"content"</span>: req.message}]
+    )
+    <span class="kw">return</span> {<span class="str">"response"</span>: resp.choices[<span class="num">0</span>].message.content}
+
+<span class="cm"># Dockerfile</span>
+<span class="cm"># FROM python:3.11-slim</span>
+<span class="cm"># WORKDIR /app</span>
+<span class="cm"># COPY requirements.txt . && pip install -r requirements.txt</span>
+<span class="cm"># COPY . .</span>
+<span class="cm"># CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]</span>
+<span class="cm">#</span>
+<span class="cm"># docker build -t llm-api .</span>
+<span class="cm"># docker run -p 8000:8000 -e OPENAI_API_KEY=xxx llm-api</span></pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('mcp')"><strong>← Prev: MCP</strong></button><button class="nav-btn" onclick="showTopic('monitoring')"><strong>→ Next: Monitoring</strong></button></div></div>
+
+  <div class="detail" id="detail-monitoring"><span class="detail-badge" style="background:rgba(168,85,247,0.2);color:#d08ef9;">Stage 5 · Module 3</span><h1 style="color:#d08ef9;">LangSmith · Monitoring · Cost Control</h1><p class="tagline">Production mein kya ho raha hai? LangSmith se trace karo, cost track karo, latency optimize karo.</p><div class="concept"><div class="concept-title" style="color:#d08ef9;"><span style="background:#a855f7;"></span>LangSmith Tracing</div><div class="code-wrap"><div class="code-hdr"><span class="code-lang">PYTHON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="kw">import</span> os
+os.environ[<span class="str">"LANGCHAIN_TRACING_V2"</span>] = <span class="str">"true"</span>
+os.environ[<span class="str">"LANGCHAIN_API_KEY"</span>]    = <span class="str">"your-langsmith-key"</span>
+os.environ[<span class="str">"LANGCHAIN_PROJECT"</span>]    = <span class="str">"my-llm-app"</span>
+
+<span class="cm"># Ab sab LangChain/LangGraph calls automatically trace honge!</span>
+<span class="cm"># smith.langchain.com pe dashboard mein dekho</span>
+
+<span class="cm"># Cost tracking manual</span>
+<span class="kw">from</span> openai <span class="kw">import</span> <span class="cls">OpenAI</span>
+client = <span class="cls">OpenAI</span>()
+
+<span class="kw">class</span> <span class="cls">CostTracker</span>:
+    total_tokens = <span class="num">0</span>
+    total_cost_usd = <span class="num">0.0</span>
+
+    <span class="kw">def</span> <span class="fn">track</span>(self, usage, model=<span class="str">"gpt-4o"</span>):
+        prices = {<span class="str">"gpt-4o"</span>: (<span class="num">5</span>, <span class="num">15</span>)}  <span class="cm"># per 1M tokens in/out</span>
+        inp, out = prices.get(model, (<span class="num">5</span>, <span class="num">15</span>))
+        cost = (usage.prompt_tokens * inp + usage.completion_tokens * out) / <span class="num">1_000_000</span>
+        self.total_tokens += usage.total_tokens
+        self.total_cost_usd += cost
+        <span class="fn">print</span>(<span class="str">f"This call: ${cost:.4f} | Total: ${self.total_cost_usd:.4f}"</span>)
+
+tracker = <span class="cls">CostTracker</span>()
+resp = client.chat.completions.create(model=<span class="str">"gpt-4o"</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Hello!"</span>}])
+tracker.track(resp.usage)</pre></div></div></div><div class="nav-btns"><button class="nav-btn" onclick="showTopic('fastapi_deploy')"><strong>← Prev: Deployment</strong></button><button class="nav-btn" onclick="showTopic('projects')" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);"><strong>→ Stage 6: Capstone Projects! 🚀</strong></button></div></div>
+
+  <!-- Stage 6 -->
+  <div class="detail" id="detail-projects">
+    <span class="detail-badge" style="background:rgba(34,197,94,0.2);color:#7ef09a;">Stage 6 · Capstone Portfolio</span>
+    <h1 style="color:#7ef09a;">8 Real-World Projects 🚀</h1>
+    <p class="tagline">Aapka 4 saal ka backend experience yahan kaam aayega! APIs, DBs, deployment — sab use hoga. Portfolio ready!</p>
+    <div class="concept">
+      <div class="concept-title" style="color:#7ef09a;"><span style="background:#22c55e;"></span>Project 1 — Trading Floor Agent</div>
+      <p>4 specialized agents (researcher, analyst, trader, risk manager) + 44 tools. Real-time stock data, news, portfolio management.</p>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">STACK</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="cm"># Stack: OpenAI Agents SDK + MCP + FastAPI + PostgreSQL</span>
+<span class="cm"># Agents: ResearchAgent → AnalysisAgent → TraderAgent → RiskAgent</span>
+<span class="cm"># Tools: stock_price(), news_search(), portfolio_check(), execute_trade()</span>
+<span class="cm"># Backend advantage: FastAPI server + DB schema + deployment</span></pre></div></div>
+    </div>
+    <div class="concept">
+      <div class="concept-title" style="color:#7ef09a;"><span style="background:#22c55e;"></span>Project 2 — RAG Knowledge Worker</div>
+      <p>PDF/documents upload karo, natural language mein questions karo. ChromaDB + embeddings + GPT-4o.</p>
+      <div class="code-wrap"><div class="code-hdr"><span class="code-lang">STACK</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><span class="cm"># Stack: FastAPI + ChromaDB + OpenAI Embeddings + Streamlit UI</span>
+<span class="cm"># Features: PDF ingestion, chunking, hybrid search, streaming answers</span></pre></div></div>
+    </div>
+    <div class="concept">
+      <div class="concept-title" style="color:#7ef09a;"><span style="background:#22c55e;"></span>Project 3 — Code Converter (60,000x Speedup)</div>
+      <p>Python code ko C++ mein convert karo. LLM + automated testing + benchmarking. Performance improvement measure karo.</p>
+    </div>
+    <div class="concept">
+      <div class="concept-title" style="color:#7ef09a;"><span style="background:#22c55e;"></span>Project 4 — Multi-Agent Deal Hunter</div>
+      <p>Autonomous agent jo deals dhundta hai, compare karta hai, aur recommendations deta hai. CrewAI + web scraping tools.</p>
+    </div>
+    <div class="tip-box"><strong>🎯 Aapka Advantage:</strong> 4 saal backend experience = FastAPI APIs banana, PostgreSQL/Redis use karna, Docker deployment — yeh sab projects mein directly use hoga. Beginners se 2x fast complete karoge!</div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showTopic('monitoring')"><strong>← Stage 5: Monitoring</strong></button>
+      <button class="nav-btn" onclick="showTopic('tokenization')"><strong>↺ Start Over: Stage 1</strong></button>
+    </div>
+  </div>
+
+</div><!-- /right -->
+</div><!-- /app -->
+
+<script>
+function toggleStage(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function showTopic(id) {
+  // Hide welcome
+  document.getElementById('welcomeScreen').style.display = 'none';
+
+  // Hide all details
+  document.querySelectorAll('.detail').forEach(d => d.classList.remove('active'));
+
+  // Show selected
+  const target = document.getElementById('detail-' + id);
+  if (target) {
+    target.classList.add('active');
+    document.getElementById('rightPanel').scrollTop = 0;
+  }
+
+  // Update active pill
+  document.querySelectorAll('.topic-pill').forEach(p => p.classList.remove('active'));
+  const allPills = document.querySelectorAll('.topic-pill');
+  allPills.forEach(p => {
+    if (p.getAttribute('onclick') === `showTopic('${id}')`) {
+      p.classList.add('active');
+      // Open parent stage
+      const stage = p.closest('.stage');
+      if (stage) stage.classList.add('open');
+    }
+  });
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+// Open stage 1 by default and show tokenization
+document.getElementById('st1').classList.add('open');
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+### [MD]
+### Langchain Version V1
+
+### Agents
+
+### [CODE]
+import langchain
+langchain.__version__
+
+### [CODE]
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
+
+### [CODE]
+from langchain.agents import create_agent
+
+def get_weather(city:str)-> str:
+    """Get the weather for a city."""
+    return f"The weather in {city} is sunny."
+
+agent=create_agent(
+    model="gpt-5",
+    tools=[get_weather],
+    system_prompt="You are a helpful assistant."
+)
+agent
+
+### [CODE]
+### run the agent
+response=agent.invoke({"messages":[{"role":"user","content":"What is the weather like in New York?"}]})
+
+### [CODE]
+response["messages"]
+
+### [CODE]
+agent.invoke({"messages":"What is the weather in New Yourk"})

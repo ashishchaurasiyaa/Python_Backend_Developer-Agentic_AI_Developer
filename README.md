@@ -23,12 +23,11 @@ PythonRevision/
 │   ├── 03_Interview_AnyYear/     (DSA [28 topics + patterns index], Interview Prep, Projects)
 │   └── README.md                 (backend index)
 │
-├── Agentic_AI/                 ← Modern AI engineering (Level 1 → 8)
-│   ├── Level1..8/                (LLM → Prompt → APIs → Tools → RAG → Agents → Frameworks → LLMOps)
-│   ├── Modern_Topics/  Projects/  Interview_Prep/
-│   └── MASTER_INDEX.md · 00_LEARNING_ROADMAP.md · AGENTIC_AI_CURRICULUM.md
-│
-└── my-agentic-ai-project/      ← hands-on practice project
+└── Agentic_AI/                 ← Modern AI engineering (Level 1 → 8)
+    ├── Level1..8/                (LLM → Prompt → APIs → Tools → RAG → Agents → Frameworks → LLMOps)
+    ├── Modern_Topics/  Projects/  Interview_Prep/
+    ├── my-agentic-ai-project/    ← hands-on practice project (uv: pyproject + generativeai/)
+    └── MASTER_INDEX.md · 00_LEARNING_ROADMAP.md · AGENTIC_AI_CURRICULUM.md
 ```
 
 ---

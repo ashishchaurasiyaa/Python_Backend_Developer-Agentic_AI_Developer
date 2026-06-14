@@ -1,0 +1,823 @@
+### [MD]
+# 📑 PageIndex — Vectorless RAG Crash Course
+### Reasoning-based RAG with No Vector DB, No Chunking
+**By [@krishnaik06](https://youtube.com/@krishnaik06) | [krishnaik.in/liveclasses](https://krishnaik.in/liveclasses)**
+
+---
+
+## 🧠 What You'll Learn
+
+| # | Topic |
+|---|-------|
+| 1 | Why Vector RAG fails on professional documents |
+| 2 | How PageIndex builds a tree index from a PDF |
+| 3 | LLM Tree Search — reasoning over structure |
+| 4 | Full end-to-end Vectorless RAG pipeline |
+| 5 | Expert-guided retrieval (domain knowledge injection) |
+| 6 | Chat API — zero LLM setup |
+| 7 | Self-hosted open-source option |
+
+---
+
+## 🔑 Key Concept
+
+> **Traditional RAG** → chunk → embed → cosine similarity → retrieve  
+> **PageIndex RAG** → build tree → LLM reasons over tree → retrieve exact sections
+
+**The problem with vector RAG:**  
+`Similarity ≠ Relevance`  
+A chunk about "market conditions" may score higher than the actual answer section just because it shares more words with your query.
+
+
+### [MD]
+---
+## 📦 Section 1: Install & Setup
+
+**What we do here:**
+- Install PageIndex SDK + OpenAI
+- Load API keys from `.env`
+- Initialize both clients
+
+> 🔑 Get your **PageIndex API key** from: https://dash.pageindex.ai/api-keys  
+> 🔑 Get your **OpenAI API key** from: https://platform.openai.com
+
+
+### [CODE]
+# Install required packages
+!pip install -U pageindex openai python-dotenv
+
+### [CODE]
+# ── Create a .env file (run this once) ──────────────────────────────────────
+# Uncomment and fill in your keys, then run this cell ONCE
+
+# env_content = """
+# PAGEINDEX_API_KEY=your_pageindex_key_here
+# OPENAI_API_KEY=your_openai_key_here
+# """
+# with open(".env", "w") as f:
+#     f.write(env_content.strip())
+# print("✅ .env file created")
+
+### [CODE]
+import os, json, time
+from dotenv import load_dotenv
+
+load_dotenv()
+
+PAGEINDEX_API_KEY = "6c2739b0ebba162168b47f0e2e"
+OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY")
+
+print("PageIndex key loaded:", "✅" if PAGEINDEX_API_KEY else "❌ Missing!")
+print("OpenAI key loaded:   ", "✅" if OPENAI_API_KEY    else "❌ Missing!")
+
+### [CODE]
+from pageindex import PageIndexClient
+from openai import OpenAI
+
+pi_client     = PageIndexClient(api_key=PAGEINDEX_API_KEY)
+openai_client = OpenAI(api_key=OPENAI_API_KEY)
+
+print("✅ PageIndex client ready")
+print("✅ OpenAI client ready")
+
+### [MD]
+---
+## 🌲 Section 2: Upload & Index a PDF
+
+**What happens here:**
+1. Upload your PDF to the PageIndex cloud
+2. PageIndex uses an LLM to read the document structure
+3. Builds a hierarchical **tree index** (like a smart Table of Contents)
+4. Returns a `doc_id` for all future operations
+
+**Why NO chunking?**  
+Instead of cutting the document into arbitrary 500-token pieces, PageIndex respects the document's natural section boundaries — chapters, sub-sections, paragraphs — as the author intended.
+
+
+### [CODE]
+# ── Upload your PDF ─────────────────────────────────────────────────────────
+# Replace with the path to your PDF file
+# Great candidates: Annual reports, research papers, legal docs, textbooks
+
+PDF_PATH = "./sample_document.pdf"   # ← change this
+
+print(f"📤 Uploading: {PDF_PATH}")
+result = pi_client.submit_document(PDF_PATH)
+doc_id = result["doc_id"]
+
+print(f"✅ Uploaded!")
+print(f"📋 Document ID: {doc_id}")
+print("   (Save this ID — you'll use it throughout the notebook)")
+
+### [CODE]
+# ── Poll until processing is complete ───────────────────────────────────────
+# PageIndex builds the tree asynchronously.
+# For a 50-page PDF this typically takes 30–90 seconds.
+
+print("⏳ Building tree index...")
+print("   (This runs once per document — the index is cached for reuse)")
+
+while True:
+    status_result = pi_client.get_document(doc_id)
+    status = status_result.get("status")
+    print(f"   Status: {status}")
+    
+    if status == "completed":
+        print("\n✅ Tree index ready!")
+        break
+    elif status == "failed":
+        print("\n❌ Processing failed. Check your PDF format.")
+        break
+    
+    time.sleep(5)
+
+### [MD]
+---
+## 🔍 Section 3: Inspect the Tree Structure
+
+**What the tree looks like:**
+
+```
+Document
+├── Introduction (pages 1-3)
+│   └── Background (pages 1-2)
+├── Financial Stability (pages 21-31)
+│   ├── Monitoring Vulnerabilities (pages 22-28)
+│   └── International Cooperation (pages 28-31)
+└── Conclusion (pages 45-47)
+```
+
+Each node has:
+- `node_id` — unique ID used during retrieval
+- `title` — section heading
+- `page_index` — page number in original PDF
+- `text` — section summary (when `node_summary=True`)
+- `nodes` — child sections (nested)
+
+**This structure is what the LLM reasons over during retrieval.**
+
+
+### [CODE]
+# ── Fetch the full tree ─────────────────────────────────────────────────────
+tree_result  = pi_client.get_tree(doc_id, node_summary=True)
+pageindex_tree = tree_result.get("result", [])
+
+print(f"📊 Top-level sections: {len(pageindex_tree)}")
+print("\n🌲 Raw tree (first node):")
+print(json.dumps(pageindex_tree[0] if pageindex_tree else {}, indent=2))
+
+### [CODE]
+# ── Pretty-print the full tree ───────────────────────────────────────────────
+def print_tree(nodes, indent=0):
+    """Recursively print tree titles for a visual overview."""
+    for node in nodes:
+        prefix = "  " * indent + ("└─ " if indent > 0 else "")
+        page   = node.get("page_index", "?")
+        print(f"{prefix}[{node['node_id']}] {node['title']}  (p.{page})")
+        if node.get("nodes"):
+            print_tree(node["nodes"], indent + 1)
+
+print("📚 Full Document Structure:\n")
+print_tree(pageindex_tree)
+
+### [CODE]
+# ── Count total nodes ────────────────────────────────────────────────────────
+def count_nodes(nodes):
+    total = len(nodes)
+    for n in nodes:
+        if n.get("nodes"):
+            total += count_nodes(n["nodes"])
+    return total
+
+total = count_nodes(pageindex_tree)
+print(f"🔢 Total nodes in tree: {total}")
+print("   Each node = one retrievable section of the document")
+
+### [MD]
+---
+## 🧠 Section 4: LLM Tree Search — The Core of PageIndex
+
+**This is where PageIndex fundamentally differs from vector RAG.**
+
+### Vector RAG retrieval:
+```
+query → embed → cosine_similarity(query_vec, all_chunk_vecs) → top-k chunks
+```
+*Problem: finds what's similar, not what's relevant*
+
+### PageIndex retrieval:
+```
+query + tree → LLM reasons → "node 0007 and 0008 contain the answer"
+```
+*Advantage: LLM understands document structure, context, and intent*
+
+**The LLM acts like a human expert scanning a Table of Contents.**
+
+
+### [CODE]
+# ── LLM Tree Search Function ─────────────────────────────────────────────────
+
+def llm_tree_search(query: str, tree: list, model: str = "gpt-4o") -> dict:
+    """
+    Core PageIndex retrieval:
+    Sends the query + document tree to an LLM.
+    LLM reasons over the structure and returns relevant node_ids.
+    
+    Returns: dict with 'thinking' (reasoning) and 'node_list' (node IDs)
+    """
+    
+    # Compress tree to save tokens — only send titles + short summaries
+    def compress(nodes):
+        out = []
+        for n in nodes:
+            entry = {
+                "node_id": n["node_id"],
+                "title":   n["title"],
+                "page":    n.get("page_index", "?"),
+                "summary": n.get("text", "")[:150]  # first 150 chars
+            }
+            if n.get("nodes"):
+                entry["children"] = compress(n["nodes"])
+            out.append(entry)
+        return out
+    
+    compressed_tree = compress(tree)
+    
+    prompt = f"""You are given a query and a document's tree structure (like a Table of Contents).
+Your task: identify which node IDs most likely contain the answer to the query.
+Think step-by-step about which sections are relevant.
+
+Query: {query}
+
+Document Tree:
+{json.dumps(compressed_tree, indent=2)}
+
+Reply ONLY in this exact JSON format:
+{{
+  "thinking": "<your step-by-step reasoning>",
+  "node_list": ["node_id1", "node_id2"]
+}}"""
+
+    response = openai_client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"}
+    )
+    
+    return json.loads(response.choices[0].message.content)
+
+### [CODE]
+# ── Test with a sample query ─────────────────────────────────────────────────
+query = "What is the syllabus covered in Modern LLM finetuning?"
+
+print(f"🔍 Query: {query}\n")
+result = llm_tree_search(query, pageindex_tree)
+
+print("🧠 LLM Reasoning:")
+print(result.get("thinking", "N/A"))
+print()
+print("🎯 Selected Node IDs:", result.get("node_list", []))
+
+### [MD]
+---
+## ⚙️ Section 5: Full End-to-End RAG Pipeline
+
+**3 steps:**
+1. **Tree Search** → LLM picks relevant `node_ids`
+2. **Retrieve** → Fetch the actual section content from those nodes  
+3. **Generate** → LLM writes a grounded answer with page citations
+
+**What makes this better than vector RAG:**
+- Retrieved content has titles + page numbers (traceable)
+- LLM can cite exactly *which section* the answer comes from
+- No hallucination from irrelevant chunks
+
+
+### [CODE]
+# ── Helper: Find nodes by ID ─────────────────────────────────────────────────
+
+def find_nodes_by_ids(tree: list, target_ids: list) -> list:
+    """Recursively walk the tree and collect nodes matching target_ids."""
+    found = []
+    for node in tree:
+        if node["node_id"] in target_ids:
+            found.append(node)
+        if node.get("nodes"):
+            found.extend(find_nodes_by_ids(node["nodes"], target_ids))
+    return found
+
+### [CODE]
+# ── Generate answer from retrieved nodes ─────────────────────────────────────
+
+def generate_answer(query: str, nodes: list, model: str = "gpt-4o") -> str:
+    """
+    Takes retrieved nodes as context and generates a grounded answer.
+    Instructs the LLM to cite section titles and page numbers.
+    """
+    if not nodes:
+        return "⚠️ No relevant sections found in the document."
+    
+    # Build context string from retrieved nodes
+    context_parts = []
+    for node in nodes:
+        context_parts.append(
+            f"[Section: '{node['title']}' | Page {node.get('page_index', '?')}]\n"
+            f"{node.get('text', 'Content not available.')}"
+        )
+    context = "\n\n---\n\n".join(context_parts)
+    
+    prompt = f"""You are an expert document analyst.
+Answer the question using ONLY the provided context.
+For every claim you make, cite the section title and page number in parentheses.
+Be concise and precise.
+
+Question: {query}
+
+Context:
+{context}
+
+Answer:"""
+    
+    response = openai_client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    
+    return response.choices[0].message.content
+
+### [CODE]
+# ── The complete Vectorless RAG function ─────────────────────────────────────
+
+def vectorless_rag(query: str, tree: list, verbose: bool = True) -> str:
+    """
+    Full end-to-end PageIndex RAG pipeline:
+    
+    Step 1: LLM Tree Search  → finds relevant node_ids
+    Step 2: Node Retrieval   → fetches section content
+    Step 3: Answer Generation → produces cited answer
+    """
+    if verbose:
+        print(f"{'='*55}")
+        print(f"🔍 Query: {query}")
+        print(f"{'='*55}")
+    
+    # Step 1: Tree Search
+    search_result  = llm_tree_search(query, tree)
+    node_ids       = search_result.get("node_list", [])
+    
+    if verbose:
+        print(f"\n🧠 Reasoning: {search_result.get('thinking', '')[:200]}...")
+        print(f"🎯 Retrieved node IDs: {node_ids}")
+    
+    # Step 2: Retrieve nodes
+    nodes = find_nodes_by_ids(tree, node_ids)
+    
+    if verbose:
+        print(f"📄 Sections found: {[n['title'] for n in nodes]}")
+    
+    # Step 3: Generate answer
+    answer = generate_answer(query, nodes)
+    
+    if verbose:
+        print(f"\n📝 Answer:\n{answer}")
+    
+    return answer
+
+### [CODE]
+# ── Run the full pipeline ────────────────────────────────────────────────────
+answer = vectorless_rag(
+    query="What are the syllabus covered in modern llm finetuning?",
+    tree=pageindex_tree
+)
+
+### [CODE]
+# ── Test with multiple queries ───────────────────────────────────────────────
+test_queries = [
+    "What are the syllabus covered in modern llm finetuning?",
+    "What are the syllabus covered in RAG?",
+    "Summarize the syllabus of Tokenization Deep Dive?",
+]
+
+for q in test_queries:
+    print()
+    ans = vectorless_rag(q, pageindex_tree, verbose=False)
+    print(f"Q: {q}")
+    print(f"A: {ans[:300]}...")
+    print("-" * 55)
+
+### [MD]
+---
+## 🎓 Section 6: Expert-Guided Retrieval
+
+**The killer feature no one talks about.**
+
+With vector RAG, injecting domain expertise requires **fine-tuning the embedding model** — expensive and time-consuming.
+
+With PageIndex, you just **add rules to the prompt**:
+
+```
+"If the query mentions EBITDA → prioritize the MD&A section"
+"If the query is about risks  → check Part I, Item 1A"
+```
+
+This makes PageIndex instantly adaptable to any domain — finance, legal, medical, technical — without any model training.
+
+
+### [CODE]
+# ── Define domain expert rules ───────────────────────────────────────────────
+# These are routing rules that tell the LLM WHERE to look for specific queries.
+# Think of it as encoding a senior analyst's institutional knowledge.
+
+
+### [CODE]
+
+FINANCIAL_EXPERT_RULES = """
+Expert routing rules for financial documents (10-K, annual reports):
+- EBITDA, profitability queries    → MD&A section (Management Discussion & Analysis)
+- Liquidity, cash flow queries     → Cash Flow Statement + liquidity footnotes
+- Risk factor queries              → Part I, Item 1A (Risk Factors)  
+- Revenue breakdown queries        → Segment reporting or Item 7
+- Forward-looking / strategy       → CEO letter, Outlook, Strategy section
+- Debt, credit, leverage queries   → Balance Sheet + debt footnotes
+- Regulatory / compliance queries  → Legal Proceedings or regulatory filings
+"""
+
+print("✅ Expert rules defined")
+print("   These get injected into the retrieval prompt at query time.")
+
+### [CODE]
+# ── Expert Routing Rules — Advanced Route of Learning AI ─────────────────────
+# Krish Naik Academy | 21 Modules | 38 Sections | 481 Topics
+FINANCIAL_EXPERT_RULES = """
+Route queries to the correct module using these rules:
+ 
+M1  Neural Network Refresher   → backprop, activations, optimizers, PyTorch basics
+M2  Hardware                   → GPU, TPU, Apple Silicon, compute infrastructure
+M3  Transformers 101           → attention, self-attention, encoder-decoder, MHA
+M4  Tokenization               → BPE, WordPiece, SentencePiece, Byte Latent Transformers
+M5  Finetuning Architectures   → hands-on BERT/GPT/T5 finetuning, Hugging Face
+M6  KV Cache & Attention       → KV cache, Flash Attention, MQA, GQA, RoPE, vLLM
+M7  Scaling Laws               → Kaplan, Chinchilla, compute-optimal training
+M8  Mixture of Experts         → MoE, sparse computation, Mixture of Depths
+M9  Modern LLM Finetuning      → LoRA, QLoRA, SFT, DPO, PPO, RLHF, GRPO, ORPO,
+                                  quantization, TRL, Unsloth, synthetic data,
+                                  reasoning models, evaluation, deployment
+M10 SLM                        → small language models, pruning, when SLM vs LLM
+M11 Knowledge Distillation     → student-teacher, soft labels, DistilBERT, DeepSeek-R1
+M12 Hybrid Architectures       → Mamba, RWKV, SSMs, Jamba, Nemotron, beyond Transformers
+M13 Vision Foundations         → ViT, patch embeddings, CLIP, SigLIP, DINOv2
+M14 Visual Language Models     → VLM architecture, aligner, multimodal reasoning
+M15 Stable Diffusion & DiT     → DDPM, latent diffusion, FLUX.1, ControlNet, DreamBooth
+M16 Embedding Models           → dense, sparse, binary, Matryoshka, MRL, fine-tuning
+M17 RAG                        → chunking, BM25, ColBERT, hybrid RAG, rerankers,
+                                  self/corrective/adaptive/agentic RAG, Graph RAG,
+                                  multi-modal RAG, ColPali, RAG security
+M18 Context Engineering        → prompt vs context engineering, memory architecture,
+                                  context compression, KV cache, agent context lifecycle
+M19 DSPy                       → signatures, modules, MIPROv2, self-optimizing RAG
+M20 Agents                     → ReAct, MCP, LangGraph, CrewAI, browser agents,
+                                  A2A, guardrails, observability, evaluation
+M21 RL                         → PPO, GRPO, DAPO, GSPO, CISPO, reward models,
+                                  RLHF vs RLVR, policy gradient, DeepSeek-R1 training
+ 
+Cross-cutting rules:
+- "learning path / where to start"     → M1 → M2 → M3 in order
+- "production / deployment / serving"  → M9 (quantization) + M20 (agents)
+- "fine-tuning vs RAG"                 → M9 + M17 + M18
+- "multimodal / vision + language"     → M13 + M14 + M17 (multi-modal RAG)
+- "reasoning models / test-time RL"    → M9 (reasoning) + M21 (GRPO/DAPO)
+"""
+
+### [CODE]
+# ── Expert-guided tree search ────────────────────────────────────────────────
+
+def llm_tree_search_with_expert(
+    query: str,
+    tree: list,
+    expert_rules: str,
+    model: str = "gpt-4o"
+) -> dict:
+    """
+    Same as llm_tree_search() but with domain expert rules injected.
+    The LLM uses these rules to guide its reasoning.
+    """
+    
+    def compress(nodes):
+        out = []
+        for n in nodes:
+            entry = {"node_id": n["node_id"], "title": n["title"],
+                     "page": n.get("page_index", "?"),
+                     "summary": n.get("text", "")[:150]}
+            if n.get("nodes"):
+                entry["children"] = compress(n["nodes"])
+            out.append(entry)
+        return out
+
+    prompt = f"""You are a domain expert analyzing a document.
+Find all node IDs that most likely contain the answer to the query.
+Use the expert routing rules below to guide your reasoning.
+
+Query: {query}
+
+Document Tree:
+{json.dumps(compress(tree), indent=2)}
+
+Expert Routing Rules (follow these carefully):
+{expert_rules}
+
+Reply ONLY in this JSON format:
+{{
+  "thinking": "<your reasoning, referencing the expert rules>",
+  "node_list": ["node_id1", "node_id2"]
+}}"""
+
+    response = openai_client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"}
+    )
+    return json.loads(response.choices[0].message.content)
+
+### [CODE]
+# ── Test expert-guided retrieval ─────────────────────────────────────────────
+query = "Details of the modern llm finetuning?"
+
+print(f"🔍 Query: {query}\n")
+
+# Without expert rules
+print("── Without Expert Rules ──")
+basic   = llm_tree_search(query, pageindex_tree)
+print("Nodes:", basic.get("node_list"))
+
+print()
+
+# With expert rules
+print("── With Expert Rules ──")
+guided  = llm_tree_search_with_expert(query, pageindex_tree, FINANCIAL_EXPERT_RULES)
+print("Nodes:", guided.get("node_list"))
+print("Reasoning:", guided.get("thinking", "")[:300])
+
+### [CODE]
+# ── Full expert-guided RAG ───────────────────────────────────────────────────
+
+def expert_rag(query: str, tree: list, rules: str) -> str:
+    """Expert-guided end-to-end RAG pipeline."""
+    result  = llm_tree_search_with_expert(query, tree, rules)
+    nodes   = find_nodes_by_ids(tree, result.get("node_list", []))
+    return generate_answer(query, nodes)
+
+# Run it
+answer = expert_rag(
+    query="Details of the syllabus of modern llm finetuning",
+    tree=pageindex_tree,
+    rules=FINANCIAL_EXPERT_RULES
+)
+print(answer)
+
+### [MD]
+---
+## 💬 Section 7: Chat API — Zero LLM Setup
+
+**When to use this:**
+- You don't want to manage OpenAI API calls yourself
+- You want a quick Q&A interface over your document
+- You're building a chat product and want PageIndex to handle everything
+
+PageIndex provides its own LLM — you just pass a question and `doc_id`.
+
+
+### [CODE]
+# ── Single question with Chat API ────────────────────────────────────────────
+# No OpenAI key needed — PageIndex runs the LLM internally
+
+question = "What are the key findings in this document?"
+
+response = pi_client.chat_completions(
+    messages=[{"role": "user", "content": question}],
+    doc_id=doc_id
+)
+
+answer = response["choices"][0]["message"]["content"]
+print("💬 Chat API Answer:")
+print(answer)
+
+### [CODE]
+# ── Multi-turn conversation ───────────────────────────────────────────────────
+# Keep the full message history for context across turns
+
+conversation_history = []
+
+def chat_with_doc(user_message: str, doc_id: str) -> str:
+    """Chat with a document, maintaining conversation history."""
+    global conversation_history
+    
+    conversation_history.append({"role": "user", "content": user_message})
+    
+    response = pi_client.chat_completions(
+        messages=conversation_history,
+        doc_id=doc_id
+    )
+    
+    assistant_reply = response["choices"][0]["message"]["content"]
+    conversation_history.append({"role": "assistant", "content": assistant_reply})
+    
+    return assistant_reply
+
+
+# Simulate a 3-turn conversation
+questions = [
+    "What were the main revenue sources last year?",
+    "How does that compare to the year before?",
+    "What factors drove that change?"
+]
+
+for q in questions:
+    print(f"\n👤 User: {q}")
+    reply = chat_with_doc(q, doc_id)
+    print(f"🤖 Assistant: {reply[:400]}...")
+    print("-" * 55)
+
+### [MD]
+---
+## 🛠️ Section 8: Self-Hosted Open Source Option
+
+**Use this when:**
+- You don't want to send documents to any cloud
+- You need full data privacy / on-prem deployment
+- You want to inspect or customize the tree-building logic
+
+The open-source repo at https://github.com/VectifyAI/PageIndex lets you run the entire pipeline locally using your own OpenAI key.
+
+**What the CLI does:**
+1. Reads your PDF
+2. Detects existing Table of Contents (if any)
+3. Uses GPT-4o to build the hierarchical tree
+4. Saves a `document_name_pageindex.json` alongside your PDF
+
+
+### [CODE]
+# ── Clone the open-source repo ───────────────────────────────────────────────
+!git clone https://github.com/VectifyAI/PageIndex.git
+%cd PageIndex
+!pip install -r requirements.txt
+
+### [CODE]
+# ── Create .env for self-hosted mode ─────────────────────────────────────────
+# The local runner uses CHATGPT_API_KEY (not OPENAI_API_KEY)
+
+import os
+openai_key = os.getenv("OPENAI_API_KEY", "your_key_here")
+
+with open(".env", "w") as f:
+    f.write(f"CHATGPT_API_KEY={openai_key}\n")
+
+print("✅ .env created for self-hosted mode")
+
+### [CODE]
+# ── Run PageIndex locally on a PDF ───────────────────────────────────────────
+# Optional parameters you can customize:
+#   --model                  OpenAI model (default: gpt-4o-2024-11-20)
+#   --toc-check-pages        Pages to scan for existing TOC (default: 20)
+#   --max-pages-per-node     Max pages per tree node (default: 10)
+#   --if-add-node-summary    Include summaries in output (yes/no)
+
+PDF_PATH = "/path/to/your/document.pdf"   # ← change this
+
+!python run_pageindex.py \
+    --pdf_path {PDF_PATH} \
+    --model gpt-4o-2024-11-20 \
+    --toc-check-pages 20 \
+    --max-pages-per-node 10 \
+    --if-add-node-summary yes
+
+### [CODE]
+# ── Load locally generated tree ──────────────────────────────────────────────
+# Output is saved as: <your_pdf_name>_pageindex.json
+
+import json
+
+TREE_JSON_PATH = "/path/to/your/document_pageindex.json"  # ← change this
+
+with open(TREE_JSON_PATH, "r") as f:
+    local_tree = json.load(f)
+
+print(f"🌲 Local tree loaded: {count_nodes(local_tree)} total nodes")
+print_tree(local_tree)
+
+### [CODE]
+# ── Run the same RAG pipeline on the local tree ──────────────────────────────
+# Everything from Sections 4–6 works identically with local trees
+
+query  = "Summarize the executive summary section."
+answer = vectorless_rag(query, local_tree)
+
+### [MD]
+---
+## 📊 Section 9: Vector RAG vs PageIndex — Side-by-Side
+
+### Architecture Comparison
+
+| Aspect | Traditional Vector RAG | PageIndex (Vectorless RAG) |
+|--------|------------------------|---------------------------|
+| **Document prep** | Chunk into fixed pieces | Build hierarchical tree |
+| **Indexing** | Embed each chunk | LLM reads structure |
+| **Storage** | Vector database | JSON file |
+| **Query processing** | Embed query → ANN search | LLM reasons over tree |
+| **What's retrieved** | Flat anonymous chunks | Named sections + page refs |
+| **Explainability** | ❌ Opaque similarity score | ✅ Traceable reasoning |
+| **Domain expertise** | ❌ Needs embedding fine-tune | ✅ Add rules to prompt |
+| **Infrastructure** | Pinecone / FAISS / ChromaDB | No vector DB needed |
+| **Best for** | Short, diverse documents | Long, structured documents |
+| **FinanceBench accuracy** | ~80% | **98.7%** |
+
+### When to use which
+
+**Use Vector RAG when:**
+- Documents are short and varied (FAQs, product descriptions)
+- Semantic paraphrase matching is important  
+- You need sub-second retrieval on millions of documents
+
+**Use PageIndex when:**
+- Documents are long and professionally structured (reports, manuals, legal docs)
+- You need traceable, cited answers
+- Domain expertise should guide retrieval
+- You want to avoid vector DB infrastructure
+
+
+### [CODE]
+# ── Quick comparison demo ────────────────────────────────────────────────────
+# Show how the same query retrieves differently
+
+print("=" * 55)
+print("VECTOR RAG approach (conceptual):")
+print("=" * 55)
+print("""
+query_vec = embed_model.encode("What are EBITDA risks?")
+chunks    = vector_db.similarity_search(query_vec, k=5)
+
+# Returns: 5 text fragments ranked by cosine distance
+# Problem: may return "market risk" chunks, not EBITDA section
+# No page numbers, no section context
+""")
+
+print("=" * 55)
+print("PAGEINDEX approach (actual):")
+print("=" * 55)
+print("""
+result = llm_tree_search("What are EBITDA risks?", tree)
+
+# Returns: node IDs like ["0007", "0012"]
+# LLM reasoning: "EBITDA is discussed in MD&A section (node 0007)
+#                 and footnotes in Financial Statements (node 0012)"
+# Full traceability — section title + page number
+""")
+
+### [MD]
+---
+## 🧹 Section 10: Cleanup
+
+Delete documents from the PageIndex cloud when you're done  
+to keep your storage clean.
+
+
+### [CODE]
+# ── Delete document from cloud ───────────────────────────────────────────────
+# WARNING: This permanently deletes the tree index.
+# Comment this out if you want to reuse the doc_id later.
+
+# pi_client.delete_document(doc_id)
+# print(f"🗑️ Deleted document: {doc_id}")
+print("ℹ️ Deletion commented out — uncomment when you're done with this doc_id")
+
+### [MD]
+---
+## ✅ Summary
+
+You've now built a complete **Vectorless RAG** system with PageIndex.
+
+### What you built:
+
+1. **`llm_tree_search()`** — LLM reasons over document tree to find relevant nodes
+2. **`find_nodes_by_ids()`** — Retrieve actual section content from tree
+3. **`generate_answer()`** — LLM produces cited, grounded answers
+4. **`vectorless_rag()`** — Full pipeline combining all 3 steps
+5. **`expert_rag()`** — Domain-guided retrieval without any fine-tuning
+6. **Chat API** — Zero-setup document Q&A
+
+### Key takeaways:
+
+- `Similarity ≠ Relevance` — the fundamental flaw of vector search
+- Tree-based reasoning gives you **traceable**, **accurate**, **explainable** retrieval
+- Domain expertise injection is just **prompt engineering** — no model training needed
+- 98.7% on FinanceBench vs ~80% for vector RAG
+
+---
+
+### 🔗 Resources
+- GitHub: https://github.com/VectifyAI/PageIndex
+- Docs: https://docs.pageindex.ai
+- Chat Platform: https://chat.pageindex.ai
+- Blog: https://pageindex.ai/blog/pageindex-intro
+
+---
+*Crash course by [@krishnaik06](https://youtube.com/@krishnaik06) | [krishnaik.in/liveclasses](https://krishnaik.in/liveclasses)*

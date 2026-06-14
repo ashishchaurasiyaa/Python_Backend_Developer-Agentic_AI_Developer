@@ -1,0 +1,196 @@
+### [MD]
+
+### Structured output
+Models can be requested to provide their response in a format matching a given schema. This is useful for ensuring the output can be easily parsed and used in subsequent processing. LangChain supports multiple schema types and methods for enforcing structured output.
+
+### [MD]
+### Pydantic
+Pydantic models provide the richest feature set with field validation, descriptions, and nested structures.
+
+### [CODE]
+import os
+from langchain.chat_models import init_chat_model
+os.environ["GROQ_API_KEY"]=os.getenv("GROQ_API_KEY")
+model=init_chat_model("groq:qwen/qwen3-32b")
+model
+
+### [CODE]
+from pydantic import BaseModel,Field
+
+class Movie(BaseModel):
+    title:str=Field(description="The title of the movie")
+    year:int=Field(description="This year the movie was released")
+    director:str=Field(description="The director of the movie")
+    rating:float=Field(description="The movies rating out of 10")
+
+### [CODE]
+model_with_structure=model.with_structured_output(Movie)
+model_with_structure
+
+### [CODE]
+model.invoke("Provide details about the moview Inception")
+
+### [CODE]
+response=model_with_structure.invoke("Provide details about the moview Inception")
+response
+
+### [MD]
+### MEssage output alongside parsed structure
+
+### [CODE]
+from pydantic import BaseModel, Field
+
+class Movie(BaseModel):
+    """A movie with details."""
+    title: str = Field(..., description="The title of the movie")
+    year: int = Field(..., description="The year the movie was released")
+    director: str = Field(..., description="The director of the movie")
+    rating: float = Field(..., description="The movie's rating out of 10")
+
+model_with_structure = model.with_structured_output(Movie, include_raw=True)  
+
+response = model_with_structure.invoke("Provide details about the movie Inception")
+response
+
+### [MD]
+### Nested Structure
+
+### [CODE]
+from pydantic import BaseModel, Field
+
+class Actor(BaseModel):
+    name: str
+    role: str
+
+class MovieDetails(BaseModel):
+    title: str
+    year: int
+    cast: list[Actor]
+    genres: list[str]
+    budget: float | None = Field(None, description="Budget in millions USD")
+
+model_with_structure = model.with_structured_output(MovieDetails)
+
+response = model_with_structure.invoke("Provide details about the movie Inception")
+response
+
+### [MD]
+### TypedDict
+TypedDict provides a simpler alternative using Python’s built-in typing, ideal when you don’t need runtime validation.
+
+### [CODE]
+from typing_extensions import TypedDict,Annotated
+
+class MovieDict(TypedDict):
+    """A movie with details."""
+    title: Annotated[str, ..., "The title of the movie"]
+    year: Annotated[int, ..., "The year the movie was released"]
+    director: Annotated[str, ..., "The director of the movie"]
+    rating: Annotated[float, ..., "The movie's rating out of 10"]
+
+
+model_withtypedict=model.with_structured_output(MovieDict)
+response=model_withtypedict.invoke("Please provide the details of the movie avengers")
+response
+
+### [CODE]
+class Actor(TypedDict):
+    name: str
+    role: str
+
+class MovieDetails(TypedDict):
+    title: str
+    year: int
+    cast: list[Actor]
+    genres: list[str]
+    budget: float | None = Field(None, description="Budget in millions USD")
+
+model_with_structure = model.with_structured_output(MovieDetails)
+
+response = model_with_structure.invoke("Provide details about the movie Avengers")
+response
+
+### [CODE]
+model.profile
+
+### [MD]
+### DataClasses
+A data class is a class typically containing mainly data, although there aren’t really any restrictions. You create it using the @dataclass decorator
+
+### [CODE]
+import os
+os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
+
+### [CODE]
+from pydantic import BaseModel, Field
+from langchain.agents import create_agent
+
+
+class ContactInfo(BaseModel):
+    """Contact information for a person."""
+    name: str = Field(description="The name of the person")
+    email: str = Field(description="The email address of the person")
+    phone: str = Field(description="The phone number of the person")
+
+agent = create_agent(
+    model="gpt-5",
+    response_format=ContactInfo  # Auto-selects ProviderStrategy
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+})
+
+result
+
+### [CODE]
+result["structured_response"]
+
+### [CODE]
+## Typedict
+from typing_extensions import TypedDict
+from langchain.agents import create_agent
+
+
+class ContactInfo(TypedDict):
+    """Contact information for a person."""
+    name: str # The name of the person
+    email: str # The email address of the person
+    phone: str # The phone number of the person
+
+agent = create_agent(
+    model="gpt-5",
+    response_format=ContactInfo  # Auto-selects ProviderStrategy
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+})
+
+result["structured_response"]
+# {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}
+
+### [CODE]
+## Dataclass
+
+from dataclasses import dataclass
+from langchain.agents import create_agent
+
+@dataclass
+class ContactInfo:
+    """Contact information for a person."""
+    name: str # The name of the person
+    email: str # The email address of the person
+    phone: str # The phone number of the person
+
+
+agent = create_agent(
+    model="gpt-5",
+    response_format=ContactInfo  # Auto-selects ProviderStrategy
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+})
+
+result["structured_response"]

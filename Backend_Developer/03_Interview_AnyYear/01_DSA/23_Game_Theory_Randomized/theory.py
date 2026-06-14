@@ -108,10 +108,48 @@ def minimax(state, depth: int, is_maximizer: bool, alpha: float, beta: float) ->
                 break   # alpha cutoff (maximizer won't allow this)
         return min_eval
 
-# Placeholder implementations
-def is_terminal(state): return True
-def evaluate(state): return 0
-def get_children(state): return []
+# ── Minimal Nim game for the minimax demo above ──────────────────────────────
+# State: tuple (stones_remaining, maximizer_to_move).
+#   stones_remaining — non-negative int.
+#   maximizer_to_move — bool, True when it is the maximizer's turn.
+# Each turn the current player takes 1, 2, or 3 stones.
+# The player who takes the LAST stone WINS.
+# A position with 0 stones is terminal: the player who just moved took the
+# last stone and won.  So 0 stones means the player to move has LOST.
+# evaluate() returns a score from the global maximizer's perspective:
+#   +1  maximizer won, -1  minimizer won.
+
+def is_terminal(state) -> bool:
+    """No stones left: the player to move has no moves → terminal."""
+    stones, _ = state
+    return stones == 0
+
+def evaluate(state) -> float:
+    """
+    Called only on terminal states (stones == 0).
+    The player to move has lost because the opponent took the last stone.
+    If it is the maximizer's turn to move, the maximizer loses → return -1.
+    If it is the minimizer's turn to move, the minimizer loses → return +1.
+    """
+    _, maximizer_to_move = state
+    return -1.0 if maximizer_to_move else +1.0
+
+def get_children(state) -> list:
+    """Take 1, 2, or 3 stones; propagate whose turn comes next."""
+    stones, maximizer_to_move = state
+    return [(stones - take, not maximizer_to_move)
+            for take in range(1, min(4, stones + 1))]
+
+# ── Demo: who wins from each starting position (1-7 stones)? ─────────────────
+print("\n--- Minimax Nim demo (take 1-3 stones, last to take wins) ---")
+for _stones in range(1, 8):
+    _start = (_stones, True)   # maximizer moves first
+    _result = minimax(_start, depth=_stones, is_maximizer=True,
+                      alpha=float('-inf'), beta=float('inf'))
+    _winner = "First player (maximizer)" if _result > 0 else "Second player (minimizer)"
+    _xor    = "First"  if _stones % 4 != 0 else "Second"
+    print(f"  {_stones} stone(s): minimax={_result:+.0f} → {_winner} wins"
+          f"  (Nim theory: {_xor} player wins)")
 
 
 # ════════════════════════════════════════════════════════════

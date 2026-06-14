@@ -135,12 +135,12 @@ LevelN_Topic/
 | 3.2 | Anthropic Claude API | 📦 [_existing_claude](Level3_LLM_APIs_SDKs/02_claude_api_complete.md) | 📦 [practical](Level3_LLM_APIs_SDKs/02_claude_api_complete_practical.py) |
 | 3.3 | Google Gemini API | 📦 [_existing_ai_apis](Level3_LLM_APIs_SDKs/03_ai_apis.md) | 📦 [practical](Level3_LLM_APIs_SDKs/03_ai_apis_practical.py) |
 | 3.4 | LiteLLM Multi-Provider | 📦 [_existing_litellm](Level3_LLM_APIs_SDKs/04_litellm_complete.md) | 📦 [practical](Level3_LLM_APIs_SDKs/04_litellm_complete_practical.py) |
-| 3.5 | Streaming Responses | ⬜ 05_streaming.md | ⬜ TODO |
-| 3.6 | Async & Parallel | ⬜ 06_async_parallel.md | ⬜ TODO |
-| 3.7 | **Error Handling & Retries** | [✅ 07_error_handling_retries.md](Level3_LLM_APIs_SDKs/07_error_handling_retries.md) | (covered in theory) |
+| 3.5 | Streaming Responses | [✅ 05_streaming_responses.md](Level3_LLM_APIs_SDKs/05_streaming_responses.md) | [✅ practical](Level3_LLM_APIs_SDKs/05_streaming_responses_practical.py) |
+| 3.6 | Async & Parallel | [✅ 06_async_parallel.md](Level3_LLM_APIs_SDKs/06_async_parallel.md) | [✅ practical](Level3_LLM_APIs_SDKs/06_async_parallel_practical.py) |
+| 3.7 | **Error Handling & Retries** | [✅ 07_error_handling_retries.md](Level3_LLM_APIs_SDKs/07_error_handling_retries.md) | [✅ practical](Level3_LLM_APIs_SDKs/07_error_handling_retries_practical.py) |
 | 3.8 | Instructor (Structured) | 📦 [_existing_instructor](Level3_LLM_APIs_SDKs/08_instructor_library.md) | 📦 [practical](Level3_LLM_APIs_SDKs/08_instructor_library_practical.py) |
-| 3.9 | Sampling Parameters | (covered in Deep_Architecture/07) | — |
-| 3.10 | **Cost Tracking & Optimization** | [✅ 10_cost_optimization.md](Level3_LLM_APIs_SDKs/10_cost_optimization.md) | (covered in theory) |
+| 3.9 | Sampling Parameters | [✅ 09_sampling_parameters.md](Level3_LLM_APIs_SDKs/09_sampling_parameters.md) | [✅ practical](Level3_LLM_APIs_SDKs/09_sampling_parameters_practical.py) |
+| 3.10 | **Cost Tracking & Optimization** | [✅ 10_cost_optimization.md](Level3_LLM_APIs_SDKs/10_cost_optimization.md) | [✅ practical](Level3_LLM_APIs_SDKs/10_cost_optimization_practical.py) |
 
 **Mastery check:** Streaming chatbot, OpenAI↔Claude swap, structured JSON via Instructor, token tracking.
 
@@ -175,12 +175,12 @@ LevelN_Topic/
 | 5.1 | RAG Complete | 📦 [_existing_rag](Level5_RAG_Vector_Databases/01_rag_complete.md) | 📦 [practical](Level5_RAG_Vector_Databases/01_rag_complete_practical.py) |
 | 5.2 | RAG Advanced | 📦 [_existing_rag](Level5_RAG_Vector_Databases/02_rag_advanced.md) | 📦 [practical](Level5_RAG_Vector_Databases/02_rag_advanced_practical.py) |
 | 5.3 | Vector Databases | 📦 [_existing_vector_dbs](Level5_RAG_Vector_Databases/03_vector_databases.md) | 📦 [practical](Level5_RAG_Vector_Databases/03_vector_databases_practical.py) |
-| 5.4 | **Chunking Strategies** ⭐ | [✅ 04_chunking_strategies.md](Level5_RAG_Vector_Databases/04_chunking_strategies.md) | (theory + examples) |
-| 5.5 | Embedding Models | ⬜ 05_embedding_models.md | — |
-| 5.6 | **Hybrid Search (BM25 + Vector)** ⭐ | [✅ 06_hybrid_search.md](Level5_RAG_Vector_Databases/06_hybrid_search.md) | (theory + code) |
-| 5.7 | **Reranking** ⭐ | [✅ 07_reranking.md](Level5_RAG_Vector_Databases/07_reranking.md) | (theory + code) |
-| 5.8 | Query Transformation (HyDE) | ⬜ 08_query_transformation.md | — |
-| 5.9 | **RAGAS Evaluation** ⭐ | [✅ 09_ragas_evaluation.md](Level5_RAG_Vector_Databases/09_ragas_evaluation.md) | (theory + code) |
+| 5.4 | **Chunking Strategies** ⭐ | [✅ 04_chunking_strategies.md](Level5_RAG_Vector_Databases/04_chunking_strategies.md) | [✅ practical](Level5_RAG_Vector_Databases/04_chunking_strategies_practical.py) |
+| 5.5 | Embedding Models | [✅ 05_embedding_models.md](Level5_RAG_Vector_Databases/05_embedding_models.md) | [✅ practical](Level5_RAG_Vector_Databases/05_embedding_models_practical.py) |
+| 5.6 | **Hybrid Search (BM25 + Vector)** ⭐ | [✅ 06_hybrid_search.md](Level5_RAG_Vector_Databases/06_hybrid_search.md) | [✅ practical](Level5_RAG_Vector_Databases/06_hybrid_search_practical.py) |
+| 5.7 | **Reranking** ⭐ | [✅ 07_reranking.md](Level5_RAG_Vector_Databases/07_reranking.md) | [✅ practical](Level5_RAG_Vector_Databases/07_reranking_practical.py) |
+| 5.8 | Query Transformation (HyDE) | [✅ 08_query_transformation.md](Level5_RAG_Vector_Databases/08_query_transformation.md) | [✅ practical](Level5_RAG_Vector_Databases/08_query_transformation_practical.py) |
+| 5.9 | **RAGAS Evaluation** ⭐ | [✅ 09_ragas_evaluation.md](Level5_RAG_Vector_Databases/09_ragas_evaluation.md) | [✅ practical](Level5_RAG_Vector_Databases/09_ragas_evaluation_practical.py) |
 
 **Mastery check:** RAG over 1000 docs with hybrid search, reranking, RAGAS metrics > 0.85.
 
@@ -196,12 +196,12 @@ LevelN_Topic/
 | 6.2 | Tool Use Advanced | 📦 [_existing_patterns](Level6_Agent_Patterns/02_tool_use_advanced.md) | 📦 [practical](Level6_Agent_Patterns/02_tool_use_advanced_practical.py) |
 | 6.3 | Agent Memory | 📦 [_existing_memory](Level6_Agent_Patterns/03_agent_memory.md) | 📦 [practical](Level6_Agent_Patterns/03_agent_memory_practical.py) |
 | 6.4 | **ReAct Pattern (from scratch)** ⭐ | [✅ 04_react_pattern.md](Level6_Agent_Patterns/04_react_pattern.md) | [✅ practical](Level6_Agent_Patterns/04_react_pattern_practical.py) |
-| 6.5 | **Plan & Execute** | [✅ 05_plan_and_execute.md](Level6_Agent_Patterns/05_plan_and_execute.md) | (theory + code) |
-| 6.6 | Reflection Pattern | ⬜ 06_reflection.md | — |
+| 6.5 | **Plan & Execute** | [✅ 05_plan_and_execute.md](Level6_Agent_Patterns/05_plan_and_execute.md) | [✅ practical](Level6_Agent_Patterns/05_plan_and_execute_practical.py) |
+| 6.6 | Reflection Pattern | [✅ 06_reflection_pattern.md](Level6_Agent_Patterns/06_reflection_pattern.md) | [✅ practical](Level6_Agent_Patterns/06_reflection_pattern_practical.py) |
 | 6.7 | **Multi-Agent (Supervisor)** ⭐ | [✅ 07_multi_agent_supervisor.md](Level6_Agent_Patterns/07_multi_agent_supervisor.md) | [✅ practical](Level6_Agent_Patterns/07_multi_agent_supervisor_practical.py) |
-| 6.8 | Routing & Classification | ⬜ 08_routing.md | — |
-| 6.9 | Human-in-the-Loop | ⬜ 09_human_in_loop.md | — |
-| 6.10 | **Agent Evaluation** ⭐ | [✅ 10_agent_evaluation.md](Level6_Agent_Patterns/10_agent_evaluation.md) | (theory + code) |
+| 6.8 | Routing & Classification | [✅ 08_routing.md](Level6_Agent_Patterns/08_routing.md) | [✅ practical](Level6_Agent_Patterns/08_routing_practical.py) |
+| 6.9 | Human-in-the-Loop | [✅ 09_human_in_loop.md](Level6_Agent_Patterns/09_human_in_loop.md) | [✅ practical](Level6_Agent_Patterns/09_human_in_loop_practical.py) |
+| 6.10 | **Agent Evaluation** ⭐ | [✅ 10_agent_evaluation.md](Level6_Agent_Patterns/10_agent_evaluation.md) | [✅ practical](Level6_Agent_Patterns/10_agent_evaluation_practical.py) |
 
 ---
 
@@ -217,8 +217,8 @@ LevelN_Topic/
 | 7.4 | MCP (Model Context Protocol) ⭐ | 📦 [_existing_MCP](Level7_Frameworks/04_mcp_complete.md) | 📦 [practical](Level7_Frameworks/04_mcp_complete_practical.py) |
 | 7.5 | CrewAI | 📦 [_existing_CrewAI](Level7_Frameworks/05_crewai_complete.md) | 📦 [practical](Level7_Frameworks/05_crewai_complete_practical.py) |
 | 7.6 | DSPy | 📦 [_existing_DSPy](Level7_Frameworks/06_dspy_complete.md) | 📦 [practical](Level7_Frameworks/06_dspy_complete_practical.py) |
-| 7.7 | LlamaIndex | ⬜ 07_llamaindex.md | ⬜ 07_llamaindex_practical.py |
-| 7.8 | Pydantic AI | ⬜ 08_pydantic_ai.md | ⬜ 08_pydantic_ai_practical.py |
+| 7.7 | LlamaIndex | [✅ 07_llamaindex.md](Level7_Frameworks/07_llamaindex.md) | [✅ practical](Level7_Frameworks/07_llamaindex_practical.py) |
+| 7.8 | Pydantic AI | [✅ 08_pydantic_ai.md](Level7_Frameworks/08_pydantic_ai.md) | [✅ practical](Level7_Frameworks/08_pydantic_ai_practical.py) |
 
 ⭐ = Must-master
 
@@ -237,9 +237,9 @@ LevelN_Topic/
 | 8.5 | GraphRAG | 📦 [_existing_graphrag](Level8_Production_LLMOps/05_graphrag.md) | 📦 [practical](Level8_Production_LLMOps/05_graphrag_practical.py) |
 | 8.6 | LLM Fine-tuning | 📦 [_existing_finetuning](Level8_Production_LLMOps/06_llm_finetuning.md) | 📦 [practical](Level8_Production_LLMOps/06_llm_finetuning_practical.py) |
 | 8.7 | Specialized AI (OCR, Speech) | 📦 [_existing_specialized](Level8_Production_LLMOps/07_specialized_ai.md) | 📦 [practical](Level8_Production_LLMOps/07_specialized_ai_practical.py) |
-| 8.8 | **Observability (LangSmith/Langfuse)** ⭐ | [✅ 08_observability.md](Level8_Production_LLMOps/08_observability.md) | (theory + code) |
-| 8.9 | **Guardrails & Safety** ⭐ | [✅ 09_guardrails.md](Level8_Production_LLMOps/09_guardrails.md) | (theory + code) |
-| 8.10 | Cost Optimization (covered in Level 3.10) | (see Level3/10_cost_optimization.md) | — |
+| 8.8 | **Observability (LangSmith/Langfuse)** ⭐ | [✅ 08_observability.md](Level8_Production_LLMOps/08_observability.md) | [✅ practical](Level8_Production_LLMOps/08_observability_practical.py) |
+| 8.9 | **Guardrails & Safety** ⭐ | [✅ 09_guardrails.md](Level8_Production_LLMOps/09_guardrails.md) | [✅ practical](Level8_Production_LLMOps/09_guardrails_practical.py) |
+| 8.10 | **Cost Optimization (Advanced)** | [✅ 10_cost_optimization_advanced.md](Level8_Production_LLMOps/10_cost_optimization_advanced.md) | [✅ practical](Level8_Production_LLMOps/10_cost_optimization_advanced_practical.py) |
 
 ---
 

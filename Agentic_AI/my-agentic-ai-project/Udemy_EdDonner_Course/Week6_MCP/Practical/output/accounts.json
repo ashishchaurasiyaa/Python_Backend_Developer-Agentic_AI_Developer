@@ -1,0 +1,36 @@
+{
+  "ashish": {
+    "name": "Ashish",
+    "balance": 8500.0,
+    "holdings": {
+      "AAPL": 5,
+      "TSLA": 3
+    },
+    "total_deposits": 10000.0
+  },
+  "warren": {
+    "name": "Warren",
+    "balance": 4000.0,
+    "holdings": {
+      "AAPL": 40
+    },
+    "total_deposits": 10000.0
+  },
+  "cathie": {
+    "name": "Cathie",
+    "balance": 4500.0,
+    "holdings": {
+      "AAPL": 30,
+      "TSLA": 4
+    },
+    "total_deposits": 10000.0
+  },
+  "ray": {
+    "name": "Ray",
+    "balance": 9860.0,
+    "holdings": {
+      "GOOGL": 1
+    },
+    "total_deposits": 10000.0
+  }
+}

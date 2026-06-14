@@ -1,0 +1,14 @@
+# Vercel deploy dependencies (Ed Donner Week1 Day1 instant deploy).
+# NOTE: Vercel ka @vercel/python build `requirements.txt` naam ki file padhta
+# hai. Deploy karte waqt yeh file copy/rename karo:
+#     cp requirements-vercel.txt requirements.txt
+# (Yahan "-vercel" suffix sirf isliye taaki repo me yeh artifact clearly
+#  pehchaana jaaye aur galti se local tooling isse na uthaaye.)
+#
+# fastapi = framework khud (request handling, routing, JSON).
+# uvicorn = ASGI server. Locally hum `uvicorn instant:app` chalate hain;
+#           Vercel par platform serving handle karta hai, par dependency
+#           declared rakhna safe + portable hai (Docker/AWS me wahi file kaam aati).
+# Pinned-ish (>=) ranges: reproducible enough, par patch updates allowed.
+fastapi>=0.111,<1.0
+uvicorn>=0.30,<1.0

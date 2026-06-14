@@ -5,35 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/my-agentic-ai-project/generativeai/langchain/tools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PythonRevision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonRevision.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Lecture2_GIL_Notes_English.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Lecture3_Threading_DeepDive_English.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Lecture4_Multiprocessing_DeepDive_English.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase1_Python_Daily/Day13/Python_Concurrency_Interview_Notes.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase2_RabbitMQ/Introduction_RabbitMQ.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase2_RabbitMQ/Rabbit Mq Interview Notes (complete From Official Tutorials).pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/Phase2_RabbitMQ/RabbitMQ+at+Udemy.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/API+Gateway+-+Interview+Questions+&amp;+Detailed+Answers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/CDN+System+Design+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Client-Server+Model_+Interview+Questions+and+Answers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/DNS+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/HTTP+Interview+Questions.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+&amp;+Answers+on+Load+Balancing.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+&amp;+Answers+on+REST+&amp;+RESTful+API+Design+Principles.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+&amp;+Answers_+Forward+Proxy+vs+Reverse+Proxy.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions++-+Software+Architecture+Patterns+&amp;+Styles.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+-+Event+driven+architecture.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+-+IP+addresses.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+Questions+-+Real+time+communication.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+questions+-+Beyond+REST.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Interview+questions+-+TCP+and+UDP.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Mastering+System+Design+-+Section+2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Microservices+Architecture+-+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Multi-Tier+Architecture+-+Interview+Questions+&amp;+Answers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Slides+-+Section+11+-+blueprint.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Slides+-+Section+12+-+URL+Shortener.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/Slides+-+Section+3.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/PythonBackend_SystemDesign/Resources/slides+-+Section+4+-+Mastering+System+Design.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1297" />
+    <option name="cachedIndexableFilesCount" value="1495" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -88,6 +62,65 @@
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.4292842043603982" />
+      <entry key="MS500" value="1.9215410631382548" />
+      <entry key="S2" value="3.323354419586352" />
+      <entry key="S5" value="5.167926355841592" />
+      <entry key="S10" value="6.333940558214868" />
+      <entry key="S30" value="7.37638902794795" />
+      <entry key="S60" value="7.678713897802812" />
+      <entry key="M2" value="7.836908898914652" />
+      <entry key="M5" value="7.934165750207678" />
+      <entry key="M10" value="7.966982370646621" />
+      <entry key="M15" value="7.9779658478878455" />
+      <entry key="M30" value="7.98897170807159" />
+      <entry key="H1" value="7.9944830470132695" />
+      <entry key="H2" value="7.997240821368818" />
+      <entry key="H4" value="7.998620235102159" />
+      <entry key="D1" value="7.999770014793212" />
+      <entry key="W1" value="7.9999671443730875" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.3475025082060488" />
+      <entry key="MS500" value="1.893829248639765" />
+      <entry key="S2" value="3.3104882817213963" />
+      <entry key="S5" value="5.159320180663951" />
+      <entry key="S10" value="6.328487926844432" />
+      <entry key="S30" value="7.374221340339099" />
+      <entry key="S60" value="7.677578748459283" />
+      <entry key="M2" value="7.836327858826825" />
+      <entry key="M5" value="7.933930017266423" />
+      <entry key="M10" value="7.966863944110914" />
+      <entry key="M15" value="7.977886771862968" />
+      <entry key="M30" value="7.988932107422554" />
+      <entry key="H1" value="7.994463231004042" />
+      <entry key="H2" value="7.997230909439828" />
+      <entry key="H4" value="7.99861527815617" />
+      <entry key="D1" value="7.9997691884991955" />
+      <entry key="W1" value="7.999967026327746" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -328,8 +361,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.23567.174" />
-        <option value="bundled-python-sdk-024ed6589d45-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.23567.174" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.24374.152" />
+        <option value="bundled-python-sdk-c59985aa861c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.24374.152" />
       </set>
     </attachedChunks>
   </component>
@@ -409,6 +442,10 @@
       <workItem from="1779709102446" duration="89000" />
       <workItem from="1779722441924" duration="764000" />
       <workItem from="1779761659210" duration="11084000" />
+      <workItem from="1779890286152" duration="3620000" />
+      <workItem from="1780097136672" duration="6980000" />
+      <workItem from="1780877137508" duration="52000" />
+      <workItem from="1780877985656" duration="71000" />
     </task>
     <servers />
   </component>

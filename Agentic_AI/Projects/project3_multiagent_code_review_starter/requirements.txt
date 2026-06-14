@@ -1,0 +1,37 @@
+# Core framework
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+
+# LangGraph + LangChain
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-anthropic>=0.3.0
+
+# Anthropic SDK
+anthropic>=0.40.0
+
+# Structured output
+instructor>=1.5.0
+pydantic>=2.9.0
+
+# MCP
+fastmcp>=0.9.0
+
+# GitHub integration
+httpx>=0.28.0
+
+# Database (for LangGraph checkpointing)
+sqlalchemy[asyncio]>=2.0.0
+asyncpg>=0.30.0
+
+# Task queue
+celery[redis]>=5.3.0
+redis[asyncio]>=5.0.0
+
+# Code linting (optional local style check)
+# ruff>=0.7.0
+
+# Dev / testing
+pytest>=8.0.0
+pytest-asyncio>=0.24.0

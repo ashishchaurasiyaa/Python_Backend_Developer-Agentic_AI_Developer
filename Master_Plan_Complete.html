@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Plan — Backend + Agentic AI + Resume → Interview Ready (June 2026)</title>
+<style>
+  :root{
+    --bg:#100d08; --bg2:#181308; --card:#1d1810; --card2:#262017;
+    --border:#3d3322; --text:#f2ede2; --muted:#bcaf97; --dim:#857659;
+    --green:#22c55e; --green-bg:rgba(34,197,94,.12);
+    --amber:#f59e0b; --amber-bg:rgba(245,158,11,.14);
+    --red:#ef4444; --red-bg:rgba(239,68,68,.12);
+    --blue:#3b82f6; --blue-bg:rgba(59,130,246,.12);
+    --teal:#14b8a6; --teal-bg:rgba(20,184,166,.12);
+    --purple:#a78bfa; --purple-bg:rgba(167,139,250,.12);
+    --gold:#fbbf24; --gold-bg:rgba(251,191,36,.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans-serif;line-height:1.6}
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(16,13,8,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;padding:10px 24px}
+  nav a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;padding:7px 13px;border-radius:8px;white-space:nowrap;transition:.2s}
+  nav a:hover{color:var(--text);background:var(--card2)}
+  nav .logo{color:var(--gold);font-weight:800;font-size:14px;margin-right:8px}
+
+  header{padding:54px 0 40px;background:radial-gradient(1100px 420px at 50% -100px,rgba(251,191,36,.13),transparent),radial-gradient(700px 320px at 85% 0,rgba(20,184,166,.08),transparent)}
+  .crumb{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);border:1px solid rgba(251,191,36,.35);padding:5px 14px;border-radius:99px;margin-bottom:18px}
+  h1{font-size:clamp(27px,4.3vw,42px);font-weight:800;line-height:1.15;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(90deg,#fbbf24,#14b8a6,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:15.5px;margin-top:14px;max-width:820px}
+
+  section{padding:46px 0;border-top:1px solid var(--border)}
+  h2{font-size:25px;font-weight:800;margin-bottom:6px}
+  .lead{color:var(--muted);margin-bottom:26px;max-width:860px;font-size:15px}
+
+  /* 3 report cards */
+  .reports{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:28px}
+  .rep{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;position:relative;overflow:hidden}
+  .rep::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .rep.b::before{background:var(--blue)} .rep.a::before{background:var(--purple)} .rep.r::before{background:var(--teal)}
+  .rep .icon{font-size:26px;margin-bottom:8px}
+  .rep h3{font-size:16.5px;font-weight:800;margin-bottom:4px}
+  .rep .score{font-size:32px;font-weight:800;margin:8px 0 2px}
+  .rep.b .score{color:var(--blue)} .rep.a .score{color:var(--purple)} .rep.r .score{color:var(--teal)}
+  .rep .sl{font-size:11.5px;color:var(--dim);margin-bottom:10px}
+  .rep p{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .rep .file{font-size:11.5px;color:var(--gold);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'SF Mono',Menlo,Consolas,monospace;word-break:break-all}
+  .bar{height:8px;border-radius:99px;background:var(--card2);overflow:hidden;margin:6px 0 4px}
+  .bar i{display:block;height:100%;border-radius:99px}
+
+  /* keystone */
+  .keystone{background:linear-gradient(135deg,rgba(251,191,36,.10),rgba(20,184,166,.08));border:1.5px solid var(--gold);border-radius:18px;padding:26px 28px;margin-bottom:26px}
+  .keystone h3{font-size:20px;font-weight:800;color:var(--gold);margin-bottom:8px}
+  .keystone p{font-size:14.5px;color:var(--text)}
+
+  .synergy{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
+  @media(max-width:860px){.synergy{grid-template-columns:1fr}}
+  .syn{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+  .syn h4{font-size:13px;font-weight:800;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .syn.b h4{color:#93c5fd}.syn.a h4{color:#c4b5fd}.syn.r h4{color:#5eead4}
+  .syn .chip{display:block;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);margin-bottom:7px}
+  .syn .chip b{color:var(--text)}
+  .centerband{display:flex;justify-content:center;margin:18px 0 4px}
+  .centernode{background:var(--gold-bg);border:1.5px dashed var(--gold);border-radius:14px;padding:14px 26px;text-align:center}
+  .centernode b{font-size:16px;color:var(--gold)}
+  .centernode span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+  .arrows{text-align:center;color:var(--gold);font-size:20px;letter-spacing:30px;margin-left:30px}
+
+  /* timeline table */
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:14px;overflow:hidden}
+  th{text-align:left;padding:12px 14px;background:var(--card2);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top}
+  td:first-child{color:var(--text);font-weight:700;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  tr.hl td{background:rgba(251,191,36,.06)}
+  td .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;padding:2px 8px;border-radius:5px;margin:1px 2px 1px 0}
+  .tag.dsa{color:#fca5a5;background:var(--red-bg)} .tag.sd{color:#93c5fd;background:var(--blue-bg)}
+  .tag.be{color:#86efac;background:var(--green-bg)} .tag.ai{color:#c4b5fd;background:var(--purple-bg)}
+  .tag.res{color:#5eead4;background:var(--teal-bg)} .tag.gold{color:#fbbf24;background:var(--gold-bg)}
+
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:13px}
+  .rule{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--muted)}
+  .rule b{color:var(--gold);display:block;margin-bottom:5px;font-size:14px}
+
+  .skipbox{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-top:18px}
+  .skipbox h4{font-size:14px;font-weight:800;color:var(--red);margin-bottom:10px}
+  .skipbox li{font-size:13px;color:var(--muted);margin:0 0 6px 18px}
+
+  footer{padding:38px 0 56px;border-top:1px solid var(--border);color:var(--dim);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <span class="logo">🏆 MASTER PLAN</span>
+  <a href="#reports">3 Audits</a>
+  <a href="#keystone">⚡ Keystone Project</a>
+  <a href="#timeline">📅 Unified 10-Week Plan</a>
+  <a href="#rules">Rules</a>
+  <a href="#skip">Skip List</a>
+</div></nav>
+
+<header><div class="wrap">
+  <span class="crumb">3 Audits → 1 Plan · June 12, 2026 · Target: Interview-ready by mid-August</span>
+  <h1>Master Plan — <span class="grad">Backend × Agentic AI × Resume</span><br>Teeno ko ek roadmap me joda</h1>
+  <p class="sub">Teeno deep-audits ho chuke hain (backend curriculum, AI curriculum, resume — total <b>22 agents + 1,450+ files scanned</b>). Yeh page unka <b>integration layer</b> hai: kaunsa kaam kaunse gap ko bharta hai, kis order me, aur kaise <b>ek keystone project teeno reports ke ~12 gaps ek saath fix karta hai</b>. Detail ke liye teeno reports neeche linked hain — daily execution ke liye yeh ek page kaafi hai.</p>
+</div></header>
+
+<!-- ================= 3 REPORTS ================= -->
+<section id="reports"><div class="wrap">
+  <h2>📦 Teeno Audits — ek nazar me</h2>
+  <div class="reports">
+    <div class="rep b">
+      <div class="icon">⬢</div>
+      <h3>Backend Curriculum (0→5yr)</h3>
+      <div class="score">~90%</div><div class="sl">COVERAGE vs INDUSTRY ROADMAP</div>
+      <div class="bar"><i style="width:90%;background:var(--blue)"></i></div>
+      <p>1,260+ files. World-class core (System Design 58+40, FastAPI/Django, Security, DevOps). Gaps: <b>Cassandra, DynamoDB, Consensus (Raft), AWS serverless, OpenTelemetry, integration testing</b> + 8 medium.</p>
+      <div class="file">Backend_Developer/Backend_Gap_Analysis_Complete.html</div>
+    </div>
+    <div class="rep a">
+      <div class="icon">🤖</div>
+      <h3>Agentic AI Curriculum (L1→L8)</h3>
+      <div class="score">~85%</div><div class="sl">COVERAGE vs 2026 AI-ENGINEER STANDARD</div>
+      <div class="bar"><i style="width:85%;background:var(--purple)"></i></div>
+      <p>185+ artifacts. Transformer internals → LangGraph → LLMOps strong. Gaps: <b>Evals/LLM-as-Judge, AI Security, Privacy/PII, Context Engineering, latency</b> + 16 missing practicals.</p>
+      <div class="file">Agentic_AI/Agentic_AI_Gap_Analysis_Complete.html</div>
+    </div>
+    <div class="rep r">
+      <div class="icon">📄</div>
+      <h3>Resume (4+ yrs, Backend+AI target)</h3>
+      <div class="score">~58%</div><div class="sl">INTERVIEW-READY → 90% in 3–4 weeks</div>
+      <div class="bar"><i style="width:58%;background:var(--teal)"></i></div>
+      <p>Raw material strong, presentation nahi. <b>The One Change</b> (restructure) + honesty-pass + <b>1 portfolio project</b> = ready. 9 critical findings, sab fixes ready-to-paste.</p>
+      <div class="file">Resume_Review_Complete.html</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= KEYSTONE ================= -->
+<section id="keystone"><div class="wrap">
+  <h2>⚡ The Keystone — ek project, teeno reports ke gaps</h2>
+  <p class="lead">Teeno audits ka sabse bada combined insight: <b>DocQA RAG project</b> (FastAPI + LangGraph + pgvector + evals, K8s pe deployed, Kafka events, OTel instrumented) — yeh ek repo teeno reports ke ~12 findings ek saath address karta hai. Isliye yeh Week 8 se prepone hokar <b>Week 3–6 ka centerpiece</b> hai.</p>
+
+  <div class="keystone">
+    <h3>🗝️ DocQA — Production-Grade RAG Document Q&amp;A API</h3>
+    <p><b>Stack:</b> Python · FastAPI · LangGraph · PostgreSQL+pgvector · OpenAI API · Redis · Celery · Kafka (ingestion events) · Docker · Kubernetes (kind/minikube) · OpenTelemetry · pytest+testcontainers — <b>full template Resume report ke "Ready-to-Paste #4" me hai.</b> Evals harness wala bullet hi differentiator hai — is level pe measurement koi nahi dikhata.</p>
+  </div>
+
+  <div class="centerband"><div class="centernode"><b>⬇ ek DocQA project in sabko unlock karta hai ⬇</b><span>har chip = ek verified finding jo yeh project fix karta hai</span></div></div>
+
+  <div class="synergy">
+    <div class="syn r">
+      <h4>📄 RESUME fixes (5)</h4>
+      <span class="chip"><b>FastAPI gap</b> — headline claim ko evidence milta hai (critical #3)</span>
+      <span class="chip"><b>"RAG, Vector DBs" stuffing</b> → backed skills line (critical #4)</span>
+      <span class="chip"><b>GitHub link</b> — evidence ko rehne ki jagah (major #12)</span>
+      <span class="chip"><b>AI summary/header unlock</b> — sequencing rule satisfy (major #22)</span>
+      <span class="chip"><b>pytest story</b> — testing keywords defensible (critical #8)</span>
+    </div>
+    <div class="syn a">
+      <h4>🤖 AGENTIC AI gap-fills (4)</h4>
+      <span class="chip"><b>Evals &amp; LLM-as-Judge</b> — #1 gap, project pe hands-on (golden dataset + faithfulness)</span>
+      <span class="chip"><b>Latency optimization</b> — prompt caching + streaming + model routing live</span>
+      <span class="chip"><b>Missing practicals</b> — L3 streaming/async/retries + L5 RAGAS isi me likhe jaate hain</span>
+      <span class="chip"><b>AI Security</b> — apne hi project pe injection red-team + guardrails (Week 7)</span>
+    </div>
+    <div class="syn b">
+      <h4>⬢ BACKEND gap-fills (3)</h4>
+      <span class="chip"><b>Kubernetes artifact</b> — deploy karo, keyword unlock (ATS gap)</span>
+      <span class="chip"><b>Kafka artifact</b> — ingestion events pipeline, keyword unlock</span>
+      <span class="chip"><b>OpenTelemetry + testcontainers</b> — dono HIGH gaps isi repo me instrument/test hote hain</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= UNIFIED TIMELINE ================= -->
+<section id="timeline"><div class="wrap">
+  <h2>📅 Unified 10-Week Plan (June 12 → ~Aug 22)</h2>
+  <p class="lead">Tera <b>00_START_HERE.md</b> ka 10-week skeleton hi base hai (DSA daily, 5h/day) — usme teeno reports ke action items inject kiye hain. <span style="color:var(--gold);font-weight:700">Gold rows</span> = is hafte ka special milestone.</p>
+
+  <table>
+    <tr><th>Kab</th><th>DSA (daily 1.5–2h)</th><th>Main Focus (2–2.5h)</th><th>Gap-fills + Resume (1–1.5h)</th></tr>
+    <tr class="hl">
+      <td>AAJ–KAL<br>(Day 1–2)</td>
+      <td><span class="tag dsa">DSA</span> Patterns 1–2 start (Two Pointers) + self-test 2 mediums</td>
+      <td><span class="tag res">RESUME</span> <b>Phase 1 — structure + honesty pass (1 din):</b> The One Change restructure, pehla bullet rewrite, LOC×2 delete, 50K fix, Niroskos label, AI skills trim, certs/12th/awards delete, polish checklist</td>
+      <td><span class="tag res">RESUME</span> Naukri/LinkedIn: locations (Blr/Hyd/Pune/Ggn/Remote), notice+ECTC decide. <b>Iske baad honest version apply-ready hai</b></td>
+    </tr>
+    <tr>
+      <td>Week 1–2<br>(Jun 15–27)</td>
+      <td><span class="tag dsa">DSA</span> Patterns 1–9 · ~4 problems/day</td>
+      <td><span class="tag be">BACKEND</span> Python-advanced revision (GIL/async/memory) + core stack (FastAPI, DB, Redis, caching, testing) — per 00_START_HERE</td>
+      <td><span class="tag be">GAP</span> Consensus Raft/etcd (2–3 din — SD ka direct boost) · <span class="tag ai">GAP</span> Roz 1 missing practical: L3 streaming/async/retries</td>
+    </tr>
+    <tr class="hl">
+      <td>Week 3–4<br>(Jun 29–Jul 11)</td>
+      <td><span class="tag dsa">DSA</span> Patterns 10–18 (Trees, Graphs, Heaps)</td>
+      <td><span class="tag sd">SYS DESIGN</span> HLD_Theory 01–58 spine (roz 2) + LLD SOLID/patterns (roz 1)</td>
+      <td><span class="tag gold">🗝️ DocQA START</span> FastAPI + pgvector + LangGraph core (ingestion → retrieval → streaming answers) · <span class="tag be">GAP</span> Cassandra + DynamoDB modules (storage answers)</td>
+    </tr>
+    <tr>
+      <td>Week 5<br>(Jul 13–18)</td>
+      <td><span class="tag dsa">DSA</span> Patterns 19–26 (DP, Binary Search)</td>
+      <td><span class="tag sd">SYS DESIGN</span> HLD theory finish + LLD patterns continue</td>
+      <td><span class="tag gold">🗝️ DocQA</span> Evals harness (golden dataset, faithfulness) + OTel instrumentation + pytest/testcontainers suite</td>
+    </tr>
+    <tr class="hl">
+      <td>Week 6<br>(Jul 20–25)</td>
+      <td><span class="tag dsa">DSA</span> Revision + weak patterns</td>
+      <td><span class="tag sd">SYS DESIGN</span> HLD problems start — roz 1 bolke (URL shortener, Twitter, WhatsApp...)</td>
+      <td><span class="tag gold">🗝️ DocQA SHIP</span> K8s deploy + Kafka pipeline + prompt caching/latency tuning → GitHub polish → <span class="tag res">RESUME</span> <b>Phase 3: AI claims unlock</b> (skills line, summary sentence, header, DocQA entry, GitHub link)</td>
+    </tr>
+    <tr>
+      <td>Week 7<br>(Jul 27–Aug 1)</td>
+      <td><span class="tag dsa">DSA</span> Patterns 27–33 (Trie, Union-Find)</td>
+      <td><span class="tag sd">SYS DESIGN</span> HLD problems (10+ total) + LLD problems 5+</td>
+      <td><span class="tag ai">GAP</span> AI Security + Privacy week: OWASP LLM Top 10, apne DocQA pe injection red-team, Presidio PII — <b>tera backend-security background = 2x speed, strongest differentiator combo</b></td>
+    </tr>
+    <tr>
+      <td>Week 8<br>(Aug 3–8)</td>
+      <td><span class="tag dsa">DSA</span> Timed mocks start</td>
+      <td><span class="tag ai">AI</span> LangGraph advanced revision + MCP + Agents SDK awareness (L7 + gap #7)</td>
+      <td><span class="tag ai">GAP</span> Context engineering + distributed/durable agents (Temporal link — backend×AI killer answer) · Optional: multi-agent PR reviewer (2nd project)</td>
+    </tr>
+    <tr class="hl">
+      <td>Week 9–10<br>(Aug 10–22)</td>
+      <td><span class="tag dsa">DSA</span> Daily timed mock (2 problems)</td>
+      <td><span class="tag sd">MOCKS</span> Roz 1 system design out-loud/record + behavioral STAR stories</td>
+      <td><span class="tag res">RESUME</span> Interview Drill ke 8 answers practice (microservices drill, Rs 100Cr attribution, Niroskos...) + negotiation padho → <b>APPLY AT SCALE 🚀</b></td>
+    </tr>
+  </table>
+</div></section>
+
+<!-- ================= RULES ================= -->
+<section id="rules"><div class="wrap">
+  <h2>📏 4 Rules — teeno reports se distilled</h2>
+  <div class="rules">
+    <div class="rule"><b>1 · Evidence-first sequencing</b>Project bullet → skills line → summary sentence → header keyword. Kabhi ulta nahi. Kafka/K8s/RAG/FastAPI — koi bhi keyword resume pe tab tak nahi jab tak artifact na ho. (Resume review ka har dimension yahi bola.)</div>
+    <div class="rule"><b>2 · Ek kaam, ek jagah</b>Resume pe har achievement ka ek ghar (no-repeat rule). Study me bhi: jo topic project me hands-on ho raha hai (evals, OTel, K8s), use alag se padhne ka slot mat banao — project hi padhai hai.</div>
+    <div class="rule"><b>3 · Backend × AI intersection hi tera moat hai</b>Durable agents (Temporal), AI security (OWASP background), latency (caching background), production LLM APIs (rate-limit/retry muscle) — yeh combos zyaadatar candidates ke paas nahi. Pitch hamesha "backend engineer who ships production AI", kabhi "AI enthusiast" nahi.</div>
+    <div class="rule"><b>4 · Honesty &gt; impressiveness</b>50K transactions, 99.9% uptime, microservices, 9-modules-me-7 — har indefensible number ek failed drill hai jo sach wale numbers ko bhi poison karta hai. Placeholder = real figure ya cut.</div>
+  </div>
+</div></section>
+
+<!-- ================= SKIP ================= -->
+<section id="skip"><div class="wrap">
+  <h2>🚫 Skip List — 10 hafte me YEH MAT karna</h2>
+  <p class="lead">Teeno reports ke low-priority items + 00_START_HERE ke skip rules — rabbit-holes se bachao:</p>
+  <div class="skipbox">
+    <h4>Default SKIP (sirf JD me ho toh touch karo):</h4>
+    <ul>
+      <li><b>Backend mediums:</b> Flask, Airflow/Spark-Flink, K8s-operators deep, WebRTC, API gateway tools, gRPC-async — JD-driven only</li>
+      <li><b>Backend lows (11):</b> regex/timezone/billing/Go/frontend/scraping/Jenkins... — ek consolidated cheat-sheet file, 0.5 din max</li>
+      <li><b>AI mediums:</b> vLLM self-hosting, vision RAG, voice hands-on, fine-tuning data eng — JD-driven; Agents SDK sirf awareness (Week 8 me 1 din)</li>
+      <li><b>AI lows (6):</b> benchmarks/AI-UX/responsible-AI/multilingual — interview se 1 din pehle skim</li>
+      <li><b>Resume pe naya section/redesign</b> — Phase 1 ke baad resume ko baar-baar mat chhedo; sirf Phase 3 unlock ek baar</li>
+      <li><b>Niche backend</b> (gRPC/RabbitMQ/Elasticsearch/GraphQL deep revision) — already padha hai, sirf JD-trigger pe revise</li>
+      <li><b>Dusra AI framework rabbit-hole</b> (CrewAI/AutoGen/DSPy deep) — LangGraph kaafi hai, baaki awareness</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Master Plan · June 12, 2026 · Integrates: Backend_Gap_Analysis_Complete.html (~90%) · Agentic_AI_Gap_Analysis_Complete.html (~85%) · Resume_Review_Complete.html (~58%→90%)<br>
+  22 agents · 1,450+ files scanned · har finding adversarially verified · <b style="color:var(--gold)">Ab analysis khatam — execution shuru. Roz 5 ghante, DSA kabhi mat chhodo. 💪</b>
+</div></footer>
+
+</body>
+</html>

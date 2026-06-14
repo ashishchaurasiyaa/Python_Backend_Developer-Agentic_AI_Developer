@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priority Map — com / M_I / I · Poori Directory (June 2026)</title>
+<style>
+  :root{
+    --bg:#0b0e14; --bg2:#121724; --card:#161d2e; --card2:#1d2638;
+    --border:#283552; --text:#e7ecf5; --muted:#97a5bf; --dim:#5f6e8c;
+    --red:#ef4444; --red-bg:rgba(239,68,68,.13);
+    --orange:#fb923c; --orange-bg:rgba(251,146,60,.13);
+    --yellow:#facc15; --yellow-bg:rgba(250,204,21,.10);
+    --green:#22c55e; --green-bg:rgba(34,197,94,.12);
+    --blue:#3b82f6; --blue-bg:rgba(59,130,246,.12);
+    --cyan:#22d3ee; --cyan-bg:rgba(34,211,238,.12);
+    --purple:#a78bfa; --purple-bg:rgba(167,139,250,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans-serif;line-height:1.6}
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(11,14,20,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;padding:10px 24px}
+  nav a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap}
+  nav a:hover{color:var(--text);background:var(--card2)}
+  nav .logo{color:var(--orange);font-weight:800;font-size:14px;margin-right:8px}
+
+  header{padding:50px 0 36px;background:radial-gradient(1100px 420px at 50% -100px,rgba(251,146,60,.13),transparent)}
+  .crumb{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);background:var(--orange-bg);border:1px solid rgba(251,146,60,.35);padding:5px 14px;border-radius:99px;margin-bottom:16px}
+  h1{font-size:clamp(26px,4.2vw,40px);font-weight:800;line-height:1.15;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(90deg,#ef4444,#fb923c,#facc15);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:15px;margin-top:12px;max-width:820px}
+
+  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:28px}
+  .tier{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;border-top:3px solid}
+  .tier.c{border-top-color:var(--red)} .tier.m{border-top-color:var(--orange)} .tier.i{border-top-color:var(--yellow)}
+  .tier .tb{font-size:13px;font-weight:800;letter-spacing:1px;display:inline-block;padding:4px 12px;border-radius:7px;margin-bottom:10px}
+  .tier.c .tb{color:#fca5a5;background:var(--red-bg)} .tier.m .tb{color:#fdba74;background:var(--orange-bg)} .tier.i .tb{color:#fde047;background:var(--yellow-bg)}
+  .tier .n{font-size:26px;font-weight:800;margin-bottom:2px}
+  .tier.c .n{color:var(--red)} .tier.m .n{color:var(--orange)} .tier.i .n{color:var(--yellow)}
+  .tier p{font-size:13px;color:var(--muted)}
+  .tier .tm{margin-top:8px;font-size:12px;font-weight:700;color:var(--text)}
+
+  .toolbar{position:sticky;top:46px;z-index:90;background:rgba(11,14,20,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:10px 0}
+  .toolbar .wrap{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  .fbtn{cursor:pointer;font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:99px;border:1px solid var(--border);background:var(--card);color:var(--muted)}
+  .fbtn.active{color:var(--text);border-color:var(--orange);background:var(--orange-bg)}
+  #search{flex:1;min-width:170px;background:var(--card);border:1px solid var(--border);border-radius:99px;padding:8px 16px;color:var(--text);font-size:13px;outline:none}
+  #search:focus{border-color:var(--orange)}
+
+  section{padding:36px 0 22px;border-top:1px solid var(--border)}
+  h2{font-size:21px;font-weight:800;margin-bottom:4px}
+  .lead{color:var(--muted);margin-bottom:18px;font-size:14px}
+
+  .row{display:grid;grid-template-columns:92px 270px 1fr;gap:14px;align-items:start;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;border-left:4px solid var(--border)}
+  @media(max-width:860px){.row{grid-template-columns:80px 1fr}.row .why{grid-column:1/-1}}
+  .row[data-t="com"]{border-left-color:var(--red)}
+  .row[data-t="mi"]{border-left-color:var(--orange)}
+  .row[data-t="i"]{border-left-color:var(--yellow);opacity:.92}
+  .pb{font-size:11px;font-weight:800;letter-spacing:.6px;padding:5px 0;border-radius:7px;text-align:center;white-space:nowrap}
+  .pb.com{color:#fca5a5;background:var(--red-bg)} .pb.mi{color:#fdba74;background:var(--orange-bg)} .pb.i{color:#fde047;background:var(--yellow-bg)}
+  .mod b{font-size:14px;display:block}
+  .mod code{font-size:10.5px;color:var(--dim);font-family:'SF Mono',Menlo,Consolas,monospace;word-break:break-all}
+  .why{font-size:13px;color:var(--muted)}
+  .why .focus{display:block;margin-top:4px;font-size:12px;color:var(--cyan)}
+  .why .skip{display:block;margin-top:2px;font-size:12px;color:var(--dim)}
+  .why b{color:var(--text)}
+  .hidden{display:none!important}
+
+  .note{background:var(--card);border:1px solid rgba(34,211,238,.3);border-radius:12px;padding:16px 18px;font-size:13.5px;color:var(--muted);margin-top:14px}
+  .note b{color:var(--cyan)}
+  footer{padding:34px 0 52px;border-top:1px solid var(--border);color:var(--dim);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <span class="logo">🎯 PRIORITY MAP</span>
+  <a href="#junior">Junior 00</a>
+  <a href="#mid">Mid 01</a>
+  <a href="#senior">Senior 02</a>
+  <a href="#interview">Interview 03</a>
+  <a href="#ai">Agentic AI</a>
+  <a href="#root">Root Files</a>
+</div></nav>
+
+<header><div class="wrap">
+  <span class="crumb">Poori Directory · 54 Modules Tagged · Resume-Driven Logic · June 2026</span>
+  <h1>Priority Map — <span class="grad">com · M_I · I</span></h1>
+  <p class="sub">Har module ko 3 tiers me taga gaya — logic wahi jo tune bola: <b>jo resume pe hai aur jo tune use kiya hai, woh pehle.</b> Tier + kyun + module ke andar kya focus/skip karna hai. Filters se apna aaj ka kaam nikalo.</p>
+  <div class="tiers">
+    <div class="tier c"><span class="tb">🔴 com — COMPULSORY</span><div class="n">23 modules</div><p>Resume pe likha hai YA tune use kiya hai YA har interview me pakka aata hai. <b>Skip allowed nahi.</b> Yahi fail/pass decide karta hai.</p><div class="tm">⏱ ~70% time · Week 1–6 · roz</div></div>
+    <div class="tier m"><span class="tb">🟠 M_I — MOST IMPORTANT</span><div class="n">17 modules</div><p>Differentiator + senior-level signal. Resume-adjacent (S3 presigned, testing story, microservices drill) + AI track (DocQA ke liye).</p><div class="tm">⏱ ~25% time · Week 3–8</div></div>
+    <div class="tier i"><span class="tb">🟡 I — IMPORTANT</span><div class="n">13 modules</div><p>JD-driven / selective / skim. <b>Sirf tab</b> jab target JD me ho ya W8+ me time bache. Default: mat chhuo.</p><div class="tm">⏱ ~5% time · JD-trigger only</div></div>
+  </div>
+</div></header>
+
+<div class="toolbar"><div class="wrap">
+  <button class="fbtn active" data-f="all">Sab (53)</button>
+  <button class="fbtn" data-f="com">🔴 com (23)</button>
+  <button class="fbtn" data-f="mi">🟠 M_I (17)</button>
+  <button class="fbtn" data-f="i">🟡 I (13)</button>
+  <input id="search" type="text" placeholder="🔍 Module search... (e.g. celery, fastapi, rag)">
+</div></div>
+
+<!-- ============ JUNIOR ============ -->
+<section id="junior"><div class="wrap">
+  <h2>📗 Backend_Developer / 00_Year0-2_Junior</h2>
+  <p class="lead">12 modules — tera core stack yahin hai, isliye com-heavy.</p>
+
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>01_Foundations</b><code>00_Year0-2_Junior/01_Foundations</code></div><div class="why">4yr exp pe Linux/git/networking aata hai — sirf gap-check.<span class="skip">⏭️ Skim 1 baar, OS concepts file pe nazar (CS fundamentals one-liners interview me aa sakte hain).</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>02_Python_Daily (Day 1–52)</b><code>00_Year0-2_Junior/02_Python_Daily</code></div><div class="why"><b>Python = resume ka primary language</b> — har interview ka pehla round.<span class="focus">✅ Focus: Day 8–10 (OOP/dunder/decorators), 13–17 (threading/async/file IO), 18 (theory), 40+ (SQLAlchemy/Celery intro) + interview-QA HTML refs.</span><span class="skip">⏭️ Day 1–7 basics skip (aata hai).</span></div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>03_Python_Tooling</b><code>00_Year0-2_Junior/03_Python_Tooling</code></div><div class="why">uv/ruff/mypy — 1 skim kaafi; interview me rarely drilled.</div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>04_Database_SQL (PostgreSQL)</b><code>00_Year0-2_Junior/04_Database_SQL</code></div><div class="why"><b>Resume pe PostgreSQL + "indexing, query optimization"</b> — DB round 4-6yr pe standard. 60% query claim ka defense yahin se.<span class="focus">✅ Focus: indexing, performance tuning, isolation levels, window functions/CTEs, connection pooling.</span><span class="skip">⏭️ Vector/geospatial/timeseries/CDC files = I (JD-trigger).</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>05_MySQL</b><code>00_Year0-2_Junior/05_MySQL</code></div><div class="why">Resume skills + YES Platform me hai — par secondary depth chahiye.<span class="focus">✅ Focus: joins/indexes/transactions + InnoDB basics. Postgres vs MySQL one-liner ready rakho.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>06_FastAPI</b><code>00_Year0-2_Junior/06_FastAPI</code></div><div class="why"><b>Resume headline pe claimed + DocQA project isi pe banega</b> — abhi trap hai, project ke baad strength.<span class="focus">✅ Focus: routing/DI/Pydantic v2, async patterns, testing, auth — DocQA build karte hue padho (W3–6).</span><span class="skip">⏭️ Multi-tenant/gRPC-hybrid/voice files = I.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>07_Django_DRF</b><code>00_Year0-2_Junior/07_Django_DRF</code></div><div class="why"><b>Tera 3+ saal ka daily stack — sabse deep drilling yahin hogi.</b><span class="focus">✅ Focus: ORM deep (select_related/N+1/F-Q), migrations, transactions, signals, DRF serializers/viewsets/permissions, caching framework, queryset internals.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>08_Redis</b><code>00_Year0-2_Junior/08_Redis</code></div><div class="why"><b>Resume pe (token caching 5-min TTL, cache invalidation)</b> + caching questions har interview me.<span class="focus">✅ Focus: data types use-cases, TTL/eviction, pipelines, persistence basics.</span><span class="skip">⏭️ Cluster/sentinel/lua = M_I-border, ek pass.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>09_Caching</b><code>00_Year0-2_Junior/09_Caching</code></div><div class="why"><b>Resume ki "signal-based cache invalidation" + TTL claims ka ghar.</b><span class="focus">✅ Focus: cache-aside, stampede, eviction policies, invalidation patterns, multi-level.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>10_Testing</b><code>00_Year0-2_Junior/10_Testing</code></div><div class="why">Resume me testing ZERO hai (critical gap) — "tum test kaise karte ho" filter question hai.<span class="focus">✅ Focus: pytest fixtures/parametrize + Django TestCase story banao; DocQA me testcontainers use karo.</span><span class="skip">⏭️ Mutation/property-based = I.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>11_File_Handling</b><code>00_Year0-2_Junior/11_File_Handling</code></div><div class="why"><b>S3 presigned URLs + WeasyPrint/PDF resume pe hain</b> — drill aayega.<span class="focus">✅ Focus: presigned URL mechanics/expiry/security, streaming uploads, PDF generation at scale.</span></div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>12_Email_Notifications</b><code>00_Year0-2_Junior/12_Email_Notifications</code></div><div class="why">Resume pe nahi — notification system design kabhi-kabhi SD round me. 1 skim.</div></div>
+</div></section>
+
+<!-- ============ MID ============ -->
+<section id="mid"><div class="wrap">
+  <h2>📘 Backend_Developer / 01_Year3-4_Mid</h2>
+  <p class="lead">14 modules — yahan com/M_I/I ka sabse bada mix hai. JD-driven items pe dhyan.</p>
+
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>01_Python_Advanced</b><code>01_Year3-4_Mid/01_Python_Advanced</code></div><div class="why"><b>GIL/async/memory/metaclasses — 4yr-level Python round ka core.</b><span class="focus">✅ Focus: memory_gil, async_concurrency, metaclasses_descriptors, race/deadlock debugging, profiling.</span><span class="skip">⏭️ PyO3/C-extensions, sphinx, CLI frameworks = I.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>02_API_Design</b><code>01_Year3-4_Mid/02_API_Design</code></div><div class="why"><b>Resume pe "REST API design, Webhooks, idempotent operations, rate limiting"</b> — sab drilled honge.<span class="focus">✅ Focus: REST best practices, versioning, rate limiting deep, webhook design, conditional requests, REST vs gRPC vs GraphQL comparison.</span><span class="skip">⏭️ HATEOAS/HTTP3/AsyncAPI = I.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>03_Security</b><code>01_Year3-4_Mid/03_Security</code></div><div class="why"><b>JWT, OAuth2, RBAC, CSRF, HMAC — sab resume pe.</b> Security round + bullets ka defense.<span class="focus">✅ Focus: JWT vulnerabilities, OAuth2 flows, rate limiting/throttling, session mgmt, OWASP basics, secrets.</span><span class="skip">⏭️ DPDP/SAML/OPA/pentest = I (JD/senior-trigger).</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>04_DevOps</b><code>01_Year3-4_Mid/04_DevOps</code></div><div class="why"><b>Docker/Nginx/Gunicorn/GitHub Actions/AWS — poora resume ka deployment story.</b><span class="focus">✅ Focus: docker, nginx, github_actions, aws_ec2_s3_rds, django/fastapi production deployment, deployment interview QA.</span><span class="skip">⏭️ K8s/Terraform/GitOps/chaos/eBPF/multi-region = I (DocQA deploy ke time K8s file M_I ban jati hai).</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>05_Microservices</b><code>01_Year3-4_Mid/05_Microservices</code></div><div class="why"><b>Resume "microservices" claim karta hai — drill survival yahin se.</b><span class="focus">✅ Focus: patterns, communication, outbox/saga basics, DDD intro, distributed data — migration story ke vocabulary ke liye.</span><span class="skip">⏭️ Service mesh/cell-based/Temporal = I.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>06_gRPC</b><code>01_Year3-4_Mid/06_gRPC</code></div><div class="why"><b>✔️ User-confirmed: tune isme kaam kiya hai</b> — resume pe ADD karo evidence bullet ke saath, phir drill pakka aayega.<span class="focus">✅ Focus: python basics, protobuf contracts (backward compatibility!), 4 RPC types, deadlines/timeouts, error handling/retries, gRPC vs REST decision.</span><span class="skip">⏭️ gRPC-web/gateway/AWS-deploy files = I.</span></div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>07_Kafka</b><code>01_Year3-4_Mid/07_Kafka</code></div><div class="why">Resume pe nahi. DocQA me event pipeline banaoge tab fundamentals + producers/consumers files M_I ban jayengi — tab tak skip.</div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>08_RabbitMQ</b><code>01_Year3-4_Mid/08_RabbitMQ</code></div><div class="why"><b>Resume pe ("async processing via Celery and RabbitMQ").</b><span class="focus">✅ Focus: AMQP model/exchanges, durability, confirms, DLX, prefetch, RabbitMQ vs SQS vs Redis-broker decision.</span><span class="skip">⏭️ Federation/shovel = I.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>09_Celery</b><code>01_Year3-4_Mid/09_Celery</code></div><div class="why"><b>Resume ka core — invoice generation idempotency = guaranteed drill.</b><span class="focus">✅ Focus: architecture, retries/idempotency, acks_late, routing, beat vs cron, worker failure scenarios, monitoring.</span></div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>10_MongoDB</b><code>01_Year3-4_Mid/10_MongoDB</code></div><div class="why">Resume pe nahi. JD-trigger only.</div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>11_Elasticsearch</b><code>01_Year3-4_Mid/11_Elasticsearch</code></div><div class="why"><b>✔️ User-confirmed: resume pe hai AUR tune kaam kiya hai</b> — purana "remove" verdict CANCEL; ab evidence bullet add karo aur deep prep karo.<span class="focus">✅ Focus: inverted index, text vs keyword mapping, query DSL (bool/filter context), analyzers, relevance/BM25, ES vs Typesense vs Postgres FTS decision, DB→ES sync consistency.</span><span class="skip">⏭️ ILM/cluster-ops/circuit-breakers = I.</span></div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>12_GraphQL</b><code>01_Year3-4_Mid/12_GraphQL</code></div><div class="why">Resume pe nahi. JD-trigger only.</div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>13_WebSocket_SSE</b><code>01_Year3-4_Mid/13_WebSocket_SSE</code></div><div class="why"><b>✔️ User-confirmed: tune isme kaam kiya hai</b> — resume pe ADD karo, phir drill pakka.<span class="focus">✅ Focus: WS handshake/lifecycle, WS vs SSE vs polling decision, Redis pub/sub scaling, auth over WS, Channels + FastAPI WS dono. Bonus: DocQA streaming = SSE, same module.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>14_Engineering_Practices</b><code>01_Year3-4_Mid/14_Engineering_Practices</code></div><div class="why">Resume pe "Code Review" + mentoring bullet — <b>"PR me kya dekhte ho" standard question.</b> Incident/post-mortem = behavioral stories.<span class="focus">✅ Focus: code review skills, incident response — W8-9 behavioral prep ke saath.</span></div></div>
+</div></section>
+
+<!-- ============ SENIOR ============ -->
+<section id="senior"><div class="wrap">
+  <h2>📙 Backend_Developer / 02_Year5+_Senior</h2>
+  <p class="lead">System Design = com core; baaki selective.</p>
+
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>01_System_Design / HLD_Theory (01–58)</b><code>02_Year5+_Senior/01_System_Design/HLD_Theory</code></div><div class="why"><b>Mid/senior interview ka core — spine hai.</b> W3–5 me roz 2 concepts (Master Plan).<span class="skip">✂️ Duplicate spines (Udemy_MasteringSystemDesign, SystemDesign_Theory, HTML_Sheets) June 2026 cleanup me DELETE ho chuke — ab yahi single spine hai.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>01_System_Design / HLD_Problems (40)</b><code>02_Year5+_Senior/01_System_Design/HLD_Problems</code></div><div class="why"><b>10+ problems bolke practice = W6–7 ka core.</b><span class="focus">✅ Pehle: URL Shortener, Rate Limiter, Twitter, WhatsApp, Uber, YouTube, Notification, Payment System (tera domain!), Task Queue.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>01_System_Design / LLD_Theory (SOLID + 21 patterns)</b><code>02_Year5+_Senior/01_System_Design/LLD_Theory</code></div><div class="why"><b>Product companies me LLD round standard hai.</b><span class="focus">✅ Focus: SOLID + Factory, Strategy, Observer, Singleton, Decorator, State (tera state-machine bullet!), Repository/DI.</span><span class="skip">⏭️ Interpreter/Flyweight/Visitor = I.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>01_System_Design / LLD_Problems (21)</b><code>02_Year5+_Senior/01_System_Design/LLD_Problems</code></div><div class="why">Selective 5–8 kaafi.<span class="focus">✅ Pehle: Parking Lot, Rate Limiter, LRU Cache, Booking System (tera domain), Payment System, Splitwise.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>01_System_Design / Design_Patterns_Code</b><code>02_Year5+_Senior/01_System_Design/Design_Patterns_Code</code></div><div class="why">LLD_Theory padhne ke baad code khud likho — yeh implementations reference hain.</div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>02_Architecture_Patterns (10 sections)</b><code>02_Year5+_Senior/02_Architecture_Patterns</code></div><div class="why">Senior-behavioral vocabulary — W8+ skim. Section 3 (Distributed) + 9 (Decision Making) sabse useful.</div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>03_Senior_Leadership</b><code>02_Year5+_Senior/03_Senior_Leadership</code></div><div class="why">W9–10 behavioral ke liye skim — mentorship/code-review story polish (resume bullet ka backing).</div></div>
+</div></section>
+
+<!-- ============ INTERVIEW ============ -->
+<section id="interview"><div class="wrap">
+  <h2>📕 Backend_Developer / 03_Interview_AnyYear</h2>
+  <p class="lead">Sabse zyada com-density yahin — yeh folder hi interview hai.</p>
+
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>01_DSA (28 topics + patterns index)</b><code>03_Interview_AnyYear/01_DSA</code></div><div class="why"><b>Sabse bada filter — ROZ, poore 10 hafte, kabhi mat chhodo.</b><span class="focus">✅ com: topics 01–20 (Arrays→Matrix) + 00_Coding_Patterns_Index.</span><span class="skip">⏭️ Topics 21–28 (String_DP, Segment Tree, Digit/Bitmask DP, Suffix, Game Theory, Sparse Table) = I — sirf top-tier (FAANG-level) target ho toh.</span></div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>02_Interview_Prep (8 files)</b><code>03_Interview_AnyYear/02_Interview_Prep</code></div><div class="why"><b>50 SD Qs, Python tricky, SQL Qs, debugging scenarios, behavioral STAR, resume, negotiation — sab compulsory.</b> W8–10 me daily + Resume_Interview_Prep_Complete.html ke saath jodi banao.</div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>03_Projects</b><code>03_Interview_AnyYear/03_Projects</code></div><div class="why">Project ideas/specs — DocQA pehle (Agentic_AI/Projects se), backend projects baad me agar time.</div></div>
+</div></section>
+
+<!-- ============ AGENTIC AI ============ -->
+<section id="ai"><div class="wrap">
+  <h2>🤖 Agentic_AI</h2>
+  <p class="lead">Backend+AI differentiator track — DocQA project (W3–6) jo levels use karta hai wahi pehle.</p>
+
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level1_LLM_Foundations</b><code>Agentic_AI/Level1_LLM_Foundations</code></div><div class="why">Resume pe GPT-4 hai — "LLM kya samajhte ho" aayega (tokens, temperature, hallucination, embeddings).<span class="focus">✅ Focus: 01/02/05/07 core files.</span><span class="skip">⏭️ Deep_Architecture (Q/K/V math) + _existing_ref = I — interview me rarely.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level2_Prompt_Engineering</b><code>Agentic_AI/Level2_Prompt_Engineering</code></div><div class="why">DocQA prompts + captions-bullet defense (prompt templates resume drill me hai).<span class="focus">✅ Focus: system prompts, structured outputs, templates, anti-patterns.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level3_LLM_APIs_SDKs</b><code>Agentic_AI/Level3_LLM_APIs_SDKs</code></div><div class="why">DocQA build dependency — streaming/async/retries (tera backend muscle, missing practicals bhi yahin likhne hain).<span class="focus">✅ Focus: OpenAI API, streaming, error handling/retries, cost optimization, Instructor.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level4_Tool_Use_Function_Calling</b><code>Agentic_AI/Level4_Tool_Use_Function_Calling</code></div><div class="why">Agent fundamentals + tool-calling loop — AI-hybrid roles ka core concept round.</div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>Level5_RAG_Vector_Databases</b><code>Agentic_AI/Level5_RAG_Vector_Databases</code></div><div class="why"><b>DocQA = keystone project — resume ke 3 critical gaps (FastAPI/RAG/GitHub) isi se fix hote hain.</b> "Walk me through a RAG system" ka anchor.<span class="focus">✅ Focus: rag_complete, chunking, vector DBs, hybrid search, reranking, RAGAS evaluation.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level6_Agent_Patterns</b><code>Agentic_AI/Level6_Agent_Patterns</code></div><div class="why">ReAct/memory/multi-agent — hybrid JD interviews + optional 2nd project (PR reviewer).<span class="skip">⏭️ HITL/routing deep = baad me.</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level7_Frameworks</b><code>Agentic_AI/Level7_Frameworks</code></div><div class="why">DocQA me LangGraph use hoga.<span class="focus">✅ Focus: LangGraph complete + advanced, MCP.</span><span class="skip">⏭️ CrewAI/DSPy = I (awareness one-liners kaafi).</span></div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Level8_Production_LLMOps</b><code>Agentic_AI/Level8_Production_LLMOps</code></div><div class="why">DocQA ke production-hardening bullets yahin se (evals, observability, guardrails, cost).<span class="focus">✅ Focus: 01/03 (testing), 08/09/10.</span><span class="skip">⏭️ GraphRAG/fine-tuning/enterprise = I.</span></div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>Modern_Topics</b><code>Agentic_AI/Modern_Topics</code></div><div class="why">Voice/computer-use/local-serving — awareness skim, interview se 1 din pehle.</div></div>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>Projects (4 specs)</b><code>Agentic_AI/Projects</code></div><div class="why"><b>02_rag_document_qa = DocQA ka spec — W3 me yahin se shuru.</b> Portfolio project = resume fix #1, GitHub evidence, AI claims unlock.</div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>Interview_Prep (AI)</b><code>Agentic_AI/Interview_Prep</code></div><div class="why">AI system design + coding patterns — W8–10 me backend Interview_Prep ke saath.</div></div>
+  <div class="row" data-t="mi"><span class="pb mi">🟠 M_I</span><div class="mod"><b>my-agentic-ai-project</b><code>Agentic_AI/my-agentic-ai-project</code></div><div class="why">Active practice repo (LangChain/RAG practicals) — DocQA ka warm-up yahin hai. Udemy_EdDonner = I (course pace se).<span class="skip">⚠️ .env git me commit mat karna (00_START_HERE warning).</span></div></div>
+</div></section>
+
+<!-- ============ ROOT ============ -->
+<section id="root"><div class="wrap">
+  <h2>📄 Root Files</h2>
+  <div class="row" data-t="com"><span class="pb com">🔴 com</span><div class="mod"><b>00_START_HERE.md</b><code>00_START_HERE.md</code></div><div class="why"><b>Tera single source of truth — 10-week plan.</b> Master_Plan_Complete.html iske saath padho (gap-injections wahan hain).</div></div>
+  <div class="row" data-t="i"><span class="pb i">🟡 I</span><div class="mod"><b>README.md · UDEMY_COURSES_RECOMMENDATION.md · Python_Agentic_AI_Roadmap.pdf</b><code>root</code></div><div class="why">Meta/reference — padhne ki zaroorat nahi, navigation ke liye hain.</div></div>
+
+  <div class="note">💡 <b>Kaise use karo:</b> (1) Roz subah <b>com filter</b> lagao — wahi aaj ka kaam hai (~70% time). (2) Module kholne se pehle uska <span style="color:var(--cyan)">✅ Focus</span> dekho — pura module padhna zaroori nahi, focus-files hi kaafi hain. (3) <b>🟡 I = default SKIP</b> — sirf JD me dikhe toh kholo. (4) Yeh map <b>Resume_Interview_Prep_Complete.html</b> (kya puchha jayega) aur <b>Master_Plan_Complete.html</b> (kab karna hai) ka teesra piece hai — <b>kya padhna hai</b>.</div>
+</div></section>
+
+<footer><div class="wrap">
+  Priority Map · June 2026 (updated: gRPC/WebSocket/Elasticsearch ✔️ → com; duplicate SD folders deleted) · 53 modules: 🔴 23 com · 🟠 17 M_I · 🟡 13 I · Logic: resume-driven (jo use kiya woh pehle)<br>
+  Companions: Resume_Interview_Prep_Complete.html · Master_Plan_Complete.html · 00_START_HERE.md
+</div></footer>
+
+<script>
+  const btns=document.querySelectorAll('.fbtn');
+  const rows=document.querySelectorAll('.row');
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    btns.forEach(x=>x.classList.remove('active'));b.classList.add('active');
+    const f=b.dataset.f;
+    rows.forEach(r=>r.classList.toggle('hidden', f!=='all' && r.dataset.t!==f));
+  }));
+  const search=document.getElementById('search');
+  search.addEventListener('input',()=>{
+    const q=search.value.trim().toLowerCase();
+    rows.forEach(r=>r.classList.toggle('hidden', q!=='' && !r.textContent.toLowerCase().includes(q)));
+  });
+</script>
+</body>
+</html>
