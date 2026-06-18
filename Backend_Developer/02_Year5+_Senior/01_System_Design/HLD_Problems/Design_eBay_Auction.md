@@ -1115,9 +1115,9 @@ async def place_bid(...):
 - [Design_Stock_Exchange.md](Design_Stock_Exchange.md) — similar order matching mechanics
 - [Design_AdServer.md](Design_AdServer.md) — real-time bidding for ads (RTB)
 - [Design_Amazon_Ecommerce.md](Design_Amazon_Ecommerce.md) — e-commerce primitives
-- [Payment_System.md](Payment_System.md) — Stripe-like payment flows
-- [Notification_System.md](Notification_System.md) — multi-channel notifications
-- [Rate_Limiter.md](Rate_Limiter.md) — bid rate limiting
+- [Payment_System.md](../LLD_Problems/Payment_System.md) — Stripe-like payment flows
+- [Notification_System.md](../LLD_Problems/Notification_System.md) — multi-channel notifications
+- [Rate_Limiter.md](../LLD_Problems/Rate_Limiter.md) — bid rate limiting
 
 ## Related Implementation Docs
 - [00_Year0-2_Junior/06_FastAPI/15_websocket_scaling_patterns.md](../../../00_Year0-2_Junior/06_FastAPI/15_websocket_scaling_patterns.md) — WebSocket scaling
