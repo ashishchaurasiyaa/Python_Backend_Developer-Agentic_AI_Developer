@@ -481,8 +481,7 @@ requires_payment_method  ──confirm──►  requires_confirmation
 - `06_security_jwt_rbac.md` — securing the checkout/payment endpoints (authN/authZ)
 - `09_sqlalchemy_advanced.md` — `with_for_update()` row locks, transaction isolation for the ledger
 - `21_rfc7807_problem_details.md` — structured error responses for failed payments
-- `../../02_Year5+_Senior/01_System_Design/HLD_Problems/Payment_System.md` — Payment System HLD (scale, sharding, exactly-once at scale)
-- `../../02_Year5+_Senior/01_System_Design/LLD_Problems/Payment_System.md` — Payment System LLD (class design, state machine modeling)
+- `../../02_Year5+_Senior/01_System_Design/LLD_Problems/Payment_System.md` — Payment System design (class design, state machine, scale/sharding, exactly-once)
 
 ## References
 
