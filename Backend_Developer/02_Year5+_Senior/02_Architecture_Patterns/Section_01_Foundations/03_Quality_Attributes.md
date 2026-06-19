@@ -925,6 +925,3 @@ Higher tiers (99.999%) need multi-region active-active, which is significantly m
 - [02_Year5+_Senior/01_System_Design/HLD_Theory/06_Availability.md](../../01_System_Design/HLD_Theory/06_Availability.md)
 - [02_Year5+_Senior/01_System_Design/HLD_Theory/08_CAP_Theorem.md](../../01_System_Design/HLD_Theory/08_CAP_Theorem.md)
 - [02_Year5+_Senior/01_System_Design/HLD_Theory/10_Horizontal_vs_Vertical_Scaling.md](../../01_System_Design/HLD_Theory/10_Horizontal_vs_Vertical_Scaling.md)
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/08_Performance.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/08_Performance.md)
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/09_Reliability.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/09_Reliability.md)
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/10_Security.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/10_Security.md)

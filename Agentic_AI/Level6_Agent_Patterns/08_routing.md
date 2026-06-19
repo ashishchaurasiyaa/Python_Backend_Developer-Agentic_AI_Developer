@@ -637,4 +637,4 @@ Hybrid is usually best.
 - [07_multi_agent_supervisor.md](07_multi_agent_supervisor.md) — supervisor IS a router
 - [10_agent_evaluation.md](10_agent_evaluation.md) — measure routing quality
 - [../Level5_RAG_Vector_Databases/08_query_transformation.md](../Level5_RAG_Vector_Databases/08_query_transformation.md) — route to collections
-- [../../Backend_Developer/Phase2_FastAPI/32_function_calling_endpoints.md](../../Backend_Developer/Phase2_FastAPI/32_function_calling_endpoints.md) — tool calling
+- [../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/32_function_calling_endpoints.md](../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/32_function_calling_endpoints.md) — tool calling

@@ -1275,7 +1275,6 @@ Section 2 mein hum dive karenge:
 ## 🎓 Related Backend_Developer Curriculum
 
 - [02_Year5+_Senior/01_System_Design/HLD_Theory/](../../01_System_Design/HLD_Theory) — All HLD theory docs
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign) — System design companion
 - [02_Year5+_Senior/01_System_Design/HLD_Problems/](../../01_System_Design/HLD_Problems) — 39 HLD problems with C4-style diagrams
 - [01_Year3-4_Mid/02_API_Design/19_asyncapi_event_driven_spec.md](../../../01_Year3-4_Mid/02_API_Design/19_asyncapi_event_driven_spec.md) — AsyncAPI specs (for documenting events)
 

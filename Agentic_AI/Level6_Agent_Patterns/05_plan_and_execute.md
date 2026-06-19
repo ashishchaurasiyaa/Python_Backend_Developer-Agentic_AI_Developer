@@ -199,4 +199,4 @@ Final: "Email sent with 5 AI news summaries"
 ✅ Best for structured multi-step tasks
 ✅ ReAct still better for exploratory tasks
 
-**Next:** [06_reflection.md](06_reflection.md) — Reflection pattern (self-critique)
+**Next:** [06_reflection.md](06_reflection_pattern.md) — Reflection pattern (self-critique)

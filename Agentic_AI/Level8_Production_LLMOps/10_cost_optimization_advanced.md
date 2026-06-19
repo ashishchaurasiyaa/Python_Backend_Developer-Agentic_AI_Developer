@@ -89,7 +89,7 @@ async def route_by_complexity(query: str) -> str:
 
 ## Strategy 2: Semantic Caching
 
-Don't re-run LLMs on similar queries. Already in [Backend_Developer/Phase2_Caching/06](../../Backend_Developer/Phase2_Caching/theory/06_semantic_caching_llm.md) and [Level3/10](../Level3_LLM_APIs_SDKs/10_cost_optimization.md). Quick recap:
+Don't re-run LLMs on similar queries. Already in [Backend_Developer/Phase2_Caching/06](../../Backend_Developer/00_Year0-2_Junior/09_Caching/theory/06_semantic_caching_llm.md) and [Level3/10](../Level3_LLM_APIs_SDKs/10_cost_optimization.md). Quick recap:
 
 ```python
 import numpy as np
@@ -660,4 +660,4 @@ Output is 2-4x more expensive than input (varies by provider). e.g., GPT-4o: $2.
 - [../Level3_LLM_APIs_SDKs/10_cost_optimization.md](../Level3_LLM_APIs_SDKs/10_cost_optimization.md) — basics
 - [../Level3_LLM_APIs_SDKs/05_streaming_responses.md](../Level3_LLM_APIs_SDKs/05_streaming_responses.md) — cancel on disconnect
 - [../Level6_Agent_Patterns/08_routing.md](../Level6_Agent_Patterns/08_routing.md) — model routing deep
-- [../../Backend_Developer/Phase2_Caching/theory/06_semantic_caching_llm.md](../../Backend_Developer/Phase2_Caching/theory/06_semantic_caching_llm.md) — semantic cache implementation
+- [../../Backend_Developer/00_Year0-2_Junior/09_Caching/theory/06_semantic_caching_llm.md](../../Backend_Developer/00_Year0-2_Junior/09_Caching/theory/06_semantic_caching_llm.md) — semantic cache implementation

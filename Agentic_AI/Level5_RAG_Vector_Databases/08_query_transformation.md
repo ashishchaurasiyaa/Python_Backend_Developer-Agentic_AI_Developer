@@ -561,4 +561,4 @@ Merges multiple ranked lists by `score(doc) = sum(1 / (k + rank_i))` where k is 
 - [06_hybrid_search.md](06_hybrid_search.md) — sparse + dense alternative
 - [07_reranking.md](07_reranking.md) — fix bad initial retrieval
 - [09_ragas_evaluation.md](09_ragas_evaluation.md) — measure improvements
-- [../../Backend_Developer/Phase2_FastAPI/34_rag_backend_architecture.md](../../Backend_Developer/Phase2_FastAPI/34_rag_backend_architecture.md) — RAG backend integration
+- [../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/34_rag_backend_architecture.md](../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/34_rag_backend_architecture.md) — RAG backend integration

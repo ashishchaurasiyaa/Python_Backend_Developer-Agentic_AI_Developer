@@ -1107,6 +1107,5 @@ The cure for most of these: **stay engaged, stay humble, collaborate with the te
 
 ## 🎓 Related Backend_Developer Curriculum
 
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md) — System design framework architects use
 - [03_Interview_AnyYear/02_Interview_Prep/](../../../03_Interview_AnyYear/02_Interview_Prep) — Senior interview preparation
 - [02_Year5+_Senior/01_System_Design/HLD_Theory/30_SLA_SLO_SLI.md](../../01_System_Design/HLD_Theory/30_SLA_SLO_SLI.md) — Quality contracts architects own

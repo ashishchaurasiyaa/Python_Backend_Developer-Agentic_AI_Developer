@@ -1234,7 +1234,6 @@ THEORY (Lecture 1):                  PRACTICAL (This file):
 
 ## 14. Related Backend_Developer Resources
 
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md) — System design framework
 - [01_Year3-4_Mid/05_Microservices/](../../../01_Year3-4_Mid/05_Microservices) — Microservices patterns
 - [01_Year3-4_Mid/04_DevOps/07_terraform.md](../../../01_Year3-4_Mid/04_DevOps/07_terraform.md) — Terraform deep dive
 - [01_Year3-4_Mid/04_DevOps/01_docker.md](../../../01_Year3-4_Mid/04_DevOps/01_docker.md) — Docker fundamentals

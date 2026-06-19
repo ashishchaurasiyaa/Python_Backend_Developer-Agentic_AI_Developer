@@ -589,4 +589,3 @@ Architecture is primarily concerned with NFRs because they shape the system stru
 - [01_Year3-4_Mid/05_Microservices/01_microservices_patterns.md](../../../01_Year3-4_Mid/05_Microservices/01_microservices_patterns.md) — Microservices vs Monolith deep dive
 - [01_Year3-4_Mid/02_API_Design/](../../../01_Year3-4_Mid/02_API_Design) — API design principles
 - [02_Year5+_Senior/01_System_Design/HLD_Theory/01_Monolithic_vs_Microservices.md](../../01_System_Design/HLD_Theory/01_Monolithic_vs_Microservices.md)
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md) — System design framework

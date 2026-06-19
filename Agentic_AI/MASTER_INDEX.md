@@ -3,8 +3,6 @@
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
 **Last updated:** 2026-05-27 (refresh)
-**Curriculum source:** [AGENTIC_AI_CURRICULUM.md](AGENTIC_AI_CURRICULUM.md) (full topic spec)
-**Roadmap:** [00_LEARNING_ROADMAP.md](00_LEARNING_ROADMAP.md) (week-by-week plan)
 **Combined roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) (single phase-wise plan)
 
 ---
@@ -41,8 +39,6 @@ For combined Backend + Agentic AI plan, see:
 ```
 Agentic_AI/
 ├── MASTER_INDEX.md              ← Tum yahaan ho
-├── 00_LEARNING_ROADMAP.md       ✅ Week-by-week plan
-├── AGENTIC_AI_CURRICULUM.md     ✅ Full topic spec (110+ docs planned)
 │
 ├── Level1_LLM_Foundations/      🟢 BASIC — Week 1
 ├── Level2_Prompt_Engineering/   🟢 BASIC — Week 2

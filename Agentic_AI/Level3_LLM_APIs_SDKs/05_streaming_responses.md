@@ -401,5 +401,5 @@ Use async with shared httpx client + connection pool. For very high concurrency,
 - [07_error_handling_retries.md](07_error_handling_retries.md) — what to do when stream fails
 - [10_cost_optimization.md](10_cost_optimization.md) — cost tracking during streams
 - [../Level1_LLM_Foundations/](../Level1_LLM_Foundations/) — tokenization basics
-- [../../Backend_Developer/Phase2_FastAPI/26_sse_deep.md](../../Backend_Developer/Phase2_FastAPI/26_sse_deep.md) — SSE infrastructure deep dive
-- [../../Backend_Developer/Phase2_FastAPI/31_llm_integration_fastapi.md](../../Backend_Developer/Phase2_FastAPI/31_llm_integration_fastapi.md) — full FastAPI integration
+- [../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/26_sse_deep.md](../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/26_sse_deep.md) — SSE infrastructure deep dive
+- [../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/31_llm_integration_fastapi.md](../../Backend_Developer/00_Year0-2_Junior/06_FastAPI/31_llm_integration_fastapi.md) — full FastAPI integration

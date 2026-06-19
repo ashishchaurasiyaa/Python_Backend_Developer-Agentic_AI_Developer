@@ -555,4 +555,4 @@ Bi-encoder: independently embeds query + each doc → fast (precompute doc embed
 - [07_reranking.md](07_reranking.md) — cross-encoder reranking
 - [08_query_transformation.md](08_query_transformation.md) — HyDE
 - [09_ragas_evaluation.md](09_ragas_evaluation.md) — evaluate retrieval quality
-- [../../Backend_Developer/Phase2_Database/28_vector_databases_comparison.md](../../Backend_Developer/Phase2_Database/28_vector_databases_comparison.md) — vector DB storage
+- [../../Backend_Developer/00_Year0-2_Junior/04_Database_SQL/28_vector_databases_comparison.md](../../Backend_Developer/00_Year0-2_Junior/04_Database_SQL/28_vector_databases_comparison.md) — vector DB storage

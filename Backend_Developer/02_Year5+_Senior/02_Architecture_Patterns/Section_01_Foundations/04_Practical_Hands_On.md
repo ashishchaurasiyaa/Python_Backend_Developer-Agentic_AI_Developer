@@ -1423,7 +1423,6 @@ Architect's Toolkit:
 
 ## 10. Related Resources
 
-- [02_Year5+_Senior/01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md](../../01_System_Design/HLD_Theory/Udemy_MasteringSystemDesign/11_Blueprint.md)
 - [01_Year3-4_Mid/04_DevOps/14_chaos_engineering.md](../../../01_Year3-4_Mid/04_DevOps/14_chaos_engineering.md)
 - [01_Year3-4_Mid/04_DevOps/16_sre_practices_sli_slo.md](../../../01_Year3-4_Mid/04_DevOps/16_sre_practices_sli_slo.md)
 - Books: "Building Evolutionary Architectures" by Neal Ford (fitness functions origin)
