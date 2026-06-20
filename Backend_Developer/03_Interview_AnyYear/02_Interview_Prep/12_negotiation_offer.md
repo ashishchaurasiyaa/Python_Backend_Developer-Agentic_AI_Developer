@@ -19,25 +19,105 @@ Recruiters expect negotiation. **Not negotiating** is a yellow flag — signals 
 
 ## SECTION 2 — KNOW YOUR NUMBERS (INDIA MARKET, 2026)
 
-### Tier-1 product company bands (Bangalore, Delhi NCR, Pune, Hyderabad)
+> **All numbers = LPA (Lakhs Per Annum), Total Comp = Base + Variable/Bonus + ESOP/RSU annualized.**
+> **Range** = 10th–90th percentile observed. **Average** = mean of band. **Median** = 50th percentile.
+> Source synthesis: levels.fyi India, AmbitionBox, Blind, Glassdoor, LinkedIn Salary, peer/colleague data (2025-26).
 
-| Role | Years | Base | Total Comp (with stock + bonus) |
-|---|---|---|---|
-| SDE-1 / Backend Engineer | 0-2 | 12-25 LPA | 15-35 LPA |
-| SDE-2 / Senior Backend | 3-5 | 25-50 LPA | 35-80 LPA |
-| SDE-3 / Staff Backend | 6-9 | 45-75 LPA | 70-150 LPA |
-| Principal / Tech Lead | 10+ | 60-100 LPA | 100-250 LPA |
+### 2.1 🟢 SERVICE / IT-Services / Consulting
 
-**Note:** These are typical bands. Top-tier (Google, MAANG, Stripe, Atlassian) can be 20-50% higher. Startups with significant equity can match base + offer 4-year vest worth 50L-2Cr at exit.
+**Companies:** TCS, Infosys, Wipro, HCL, Cognizant, Accenture, Capgemini, LTIMindtree, Mphasis, Mindtree, Tech Mahindra, IBM India.
 
-### Service/consulting/IT-services
-Roughly 50-70% of product-company numbers. TCS, Infosys, Wipro, Cognizant.
+**Comp structure:** Mostly fixed salary, small variable (5-15%), no stock. Yearly hikes 5-12%, promotion-driven jumps 20-40%.
 
-### US (for reference)
-- Mid-level: $150K-$250K total comp.
-- Senior: $250K-$450K.
-- Staff/Principal: $400K-$800K.
-- L7+ at FAANG: $800K-$2M.
+| Role | Years | Range (Total) | **Average** | **Median** | Notes |
+|---|---|---|---|---|---|
+| Software Engineer / Associate | 0-2 | 3.5–7 LPA | **5 LPA** | **4.5 LPA** | TCS Ninja ~3.5L, Digital ~7L |
+| Senior SE / Tech Lead-I | 3-5 | 7–15 LPA | **10 LPA** | **9 LPA** | Skill-based bumps possible |
+| Module Lead / Tech Lead | 6-9 | 15–28 LPA | **20 LPA** | **18 LPA** | Lateral switch can 2x |
+| Architect / Principal Consultant | 10+ | 25–50 LPA | **35 LPA** | **30 LPA** | Top architects 50-70 LPA |
+
+**Reality:** Service company freshers usually wait 6-10 years to hit 25 LPA. **Lateral switch to product company** is the fastest comp accelerator.
+
+### 2.2 🟡 MID-TIER PRODUCT / Indian Unicorns
+
+**Companies:** Zoho, Freshworks, Razorpay, Cred, Swiggy, Zomato, Flipkart, PhonePe, Paytm, ShareChat, Postman, BrowserStack, Innovaccer, Meesho, Pine Labs, Groww, Zerodha, Dream11, Games24x7, Urban Company, Lenskart, Acko, Navi.
+
+**Comp structure:** Base + variable (10-20%) + ESOP/RSU (15-30% of total). Some pay joining bonus.
+
+| Role | Years | Range (Total) | **Average** | **Median** | Notes |
+|---|---|---|---|---|---|
+| SDE-1 / Backend Engineer | 0-2 | 10–22 LPA | **16 LPA** | **15 LPA** | Razorpay/Cred top end |
+| SDE-2 / Senior Backend | 3-5 | 22–45 LPA | **32 LPA** | **28 LPA** | Sweet spot for switchers |
+| SDE-3 / Staff Backend | 6-9 | 40–70 LPA | **55 LPA** | **50 LPA** | + ESOP can add 10-20L/year |
+| Principal / EM / Tech Lead | 10+ | 60–100 LPA | **75 LPA** | **70 LPA** | Strong leverage with offers |
+
+### 2.3 🔴 TOP-TIER PRODUCT / MAANG India + Premium
+
+**Companies:** Google India, Meta India, Microsoft India, Amazon India, Apple India, Atlassian, Adobe, Salesforce, Uber, Netflix, Stripe, Confluent, Databricks, Snowflake, NVIDIA, Walmart Labs (Bangalore), Visa, Mastercard India, Booking, Expedia, Twilio.
+
+**Comp structure:** Base + 10-25% variable + RSU (35-50% of total comp, 4yr vest). Joining bonus common (5-25L).
+
+| Role | Years | Range (Total) | **Average** | **Median** | Notes |
+|---|---|---|---|---|---|
+| SDE-1 / L3 / IC3 | 0-2 | 25–45 LPA | **32 LPA** | **30 LPA** | Google L3 ~30L, Stripe L1 ~40L |
+| SDE-2 / L4 / IC4 | 3-5 | 50–90 LPA | **65 LPA** | **60 LPA** | RSU refreshers boost yearly |
+| SDE-3 / Staff / L5 | 6-9 | 90–160 LPA | **120 LPA** | **110 LPA** | Stock-heavy comp |
+| Senior Staff / Principal / L6+ | 10+ | 150–300+ LPA | **200 LPA** | **180 LPA** | L7+ can hit 3-5 Cr |
+
+**Reality:** RSU at MAANG is real money but vests over 4 years. Cliff (1 year) + monthly/quarterly vest after. **First year comp is often base-heavy because RSU just started vesting.**
+
+### 2.4 🚀 STARTUPS (Series A → late-stage)
+
+**Companies:** Early-stage (Seed-Series B): Hyrdrozen, ML startups, fintech, AI-first companies, YC India. Late-stage (Series C+): Atlan, Khatabook, Whatfix, Postman (was Series D), etc.
+
+**Comp structure:** Lower base than mid-tier product, but **ESOPs are the real bet**. Vesting 4yr / 1yr cliff. Strike price + exit value = lottery ticket.
+
+| Role | Years | Cash (Total) | ESOP % | If exit @ $1B (USD) | If exit @ $5B |
+|---|---|---|---|---|---|
+| Founding Engineer | 0-3 | 12–25 LPA | 0.5–2% | 4–16 Cr | 20–80 Cr |
+| SE-2 (Series A) | 3-5 | 20–40 LPA | 0.1–0.5% | 80L–4 Cr | 4–20 Cr |
+| Senior (Series B-C) | 5-8 | 35–60 LPA | 0.05–0.2% | 40L–1.6 Cr | 2–8 Cr |
+| Staff/Lead (Series C+) | 8+ | 50–90 LPA | 0.02–0.1% | 16–80 L | 80L–4 Cr |
+
+**Rule of thumb:** ESOP value = 0% if startup fails (most do). **Don't accept below-market cash banking on ESOP unless founders/traction are exceptional.**
+
+### 2.5 🌍 US/Global (for reference — direct/remote roles)
+
+| Level | Total Comp (USD) | Equivalent ₹ |
+|---|---|---|
+| Mid (L4) | $150K-$250K | ~1.25-2 Cr |
+| Senior (L5) | $250K-$450K | ~2-3.75 Cr |
+| Staff/Principal (L6-L7) | $400K-$800K | ~3.3-6.6 Cr |
+| L7+ FAANG / Senior Staff | $800K-$2M | ~6.6-16+ Cr |
+
+**India-based remote at US co:** typically 30-50% of US comp (e.g. $80-150K = 65-125 LPA INR).
+
+---
+
+### 2.6 📊 QUICK COMPARISON — same engineer, different companies
+
+For a **4yr exp Python backend engineer** (your profile):
+
+| Where | Total Comp | What's driving it |
+|---|---|---|
+| TCS / Infosys / Wipro (service) | **8-14 LPA** | Fixed salary, no stock |
+| Cognizant / Accenture | **10-18 LPA** | Slightly better than tier-3 service |
+| Razorpay / Swiggy / Flipkart (mid product) | **30-55 LPA** | Base + variable + ESOP |
+| Atlassian / Adobe / Salesforce India | **50-85 LPA** | Strong RSU |
+| Google / Microsoft / Stripe India | **65-110 LPA** | Heavy RSU |
+| Funded Series-B startup | **25-45 LPA + 0.1-0.4% ESOP** | Bet on equity |
+| US remote (mid-level) | **70-130 LPA** | $ converted |
+
+**Takeaway:** A 4yr backend dev switching from service → product can realistically **2-3x comp**. Switching service → MAANG = **4-6x**. Yahi reason hai is repo ka — interview crack karke yeh jump banao.
+
+---
+
+### Note on Tier-2 cities + WFH
+
+- **Bangalore / Delhi NCR / Hyderabad / Pune** = full-band numbers above.
+- **Chennai / Mumbai / Kolkata / Ahmedabad / Noida** = typically same band (most tier-1 cos pay same).
+- **Tier-2 cities (Indore, Coimbatore, Kochi, Chandigarh)** = 70-85% of above (location adjustment).
+- **Permanent WFH offers** = same band usually, but some service cos cut 10-15%.
 
 ---
 

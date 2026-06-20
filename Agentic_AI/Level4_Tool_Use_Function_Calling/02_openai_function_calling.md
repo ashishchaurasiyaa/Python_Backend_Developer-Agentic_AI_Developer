@@ -50,8 +50,9 @@ response = client.chat.completions.create(
 - `boolean` — true/false
 - `array` — list (with `items`)
 - `object` — nested object
-- `enum` — restricted choices
-- `null` — nullable
+
+> NOTE: `enum` aur `null` alag "type" NAHI hain. `enum` ek **constraint** hai jo kisi typed field pe lagti
+> hai (e.g. `"type":"string", "enum":[...]`); nullable ke liye **type union** use hota hai: `"type":["string","null"]`.
 
 ### Enum example:
 ```python
@@ -249,7 +250,7 @@ def python_func_to_schema(func) -> dict:
     }
 ```
 
-**Better:** Use libraries like `openai-function-tokens` or define with Pydantic:
+**Better:** Pydantic se define karo (`model_json_schema()`), ya `instructor` / OpenAI ka `pydantic_function_tool` use karo:
 
 ```python
 from pydantic import BaseModel, Field

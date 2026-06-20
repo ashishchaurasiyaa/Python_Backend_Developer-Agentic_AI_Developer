@@ -48,7 +48,7 @@ This takes 50-200ms typically (depends on geography).
 api.openai.com → Cloudflare DNS → Anycast → closest edge → OpenAI data center
 ```
 
-OpenAI uses **Cloudflare** for DDoS protection + global routing.
+OpenAI likely uses a CDN/edge provider (e.g. Cloudflare) for DDoS protection + global routing — exact provider officially confirmed nahi hai, illustrative samjho.
 
 ---
 
@@ -177,7 +177,7 @@ Tokenization is **CPU-side** — happens before sending to GPU.
 
 Once tokenized:
 ```
-CPU memory: tokens = [3923, 374, 13325, 30, ...]
+CPU memory: tokens = [3923, 374, 13325, 30, ...]   # illustrative IDs (actual encoder output alag hoga)
 
 CPU → GPU transfer (via PCIe):
   tokens_tensor.to(device='cuda:0')

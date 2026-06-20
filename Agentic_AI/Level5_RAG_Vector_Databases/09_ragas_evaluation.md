@@ -45,7 +45,7 @@ Relevant? YES
 ```
 
 ### C. Context Precision
-**Q:** Are retrieved docs relevant?
+**Q:** Are retrieved docs relevant — AND are the relevant ones ranked HIGH?
 
 ```
 Q: "Python's history"
@@ -54,8 +54,13 @@ Retrieved:
   doc2: "JavaScript is fast" → NOT relevant ✗
   doc3: "Python's design principles" → relevant ✓
 
-Precision = 2/3 = 0.67
+Simple intuition: 2 relevant / 3 total = 0.67
 ```
+
+⚠️ **Gotcha (interview me poochhte hain):** RAGAS ka `context_precision` SIRF relevant/total
+nahi hai — ye **rank-aware** hai: har relevant chunk ki position pe precision@k ka mean.
+Matlab relevant docs upar (rank 1,2) hain to score zyada; neeche (rank 3+) hain to kam —
+bhale hi relevant count same ho. "2/3 = 0.67" sirf intuition ke liye; asli metric ranking ko reward karta hai.
 
 ### D. Context Recall
 **Q:** Did we retrieve ALL needed info?

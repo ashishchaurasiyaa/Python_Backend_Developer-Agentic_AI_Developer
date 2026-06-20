@@ -313,9 +313,11 @@ KV cache memory cost:
 2 (K + V) × n_layers × n_heads × head_dim × seq_len × batch_size
 ```
 
-For Llama 3 70B at 4K context: ~640 MB per request.
+For Llama 3 70B (GQA: 80 layers, 8 KV-heads, head_dim 128) at 4K context, fp16:
+`2 × 80 × 8 × 128 × 4096 × 2 bytes ≈ ~1.3 GB per request`.
 
-For a 100K context: ~16 GB per request. **This is huge** — limits concurrent users.
+For a 100K context: ~32 GB per request. **This is huge** — limits concurrent users.
+(GQA ke bina, full 64 KV-heads hote to ye 8x zyada hota — isiliye Llama GQA use karta hai.)
 
 ---
 

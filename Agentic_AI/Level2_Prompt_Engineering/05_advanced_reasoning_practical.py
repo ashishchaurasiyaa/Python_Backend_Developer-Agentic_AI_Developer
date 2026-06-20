@@ -159,9 +159,11 @@ def reflexion_loop(task: str, evaluator, max_attempts: int = 3):
     for attempt in range(1, max_attempts + 1):
         # Build prompt with accumulated lessons
         hints = "\n".join(f"- {note}" for note in lessons_learned)
+        # backslash f-string EXPRESSION ke bahar rakho — warna Python <=3.11 pe SyntaxError
+        lessons_block = ("Past lessons:\n" + hints) if lessons_learned else ""
         prompt = f"""Task: {task}
 
-{('Past lessons:\n' + hints) if lessons_learned else ''}
+{lessons_block}
 
 Provide your solution:"""
 

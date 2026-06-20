@@ -75,6 +75,8 @@ def semantic_chunks(text):
             chunks.append(" ".join(current))
             current = []
         current.append(sentences[i])
+    if current:                       # IMPORTANT: loop ke baad bacha hua chunk flush karo
+        chunks.append(" ".join(current))  # warna LAST chunk silently drop ho jata hai
     return chunks
 ```
 

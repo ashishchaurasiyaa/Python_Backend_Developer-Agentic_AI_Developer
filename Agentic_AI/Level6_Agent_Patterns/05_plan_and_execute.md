@@ -112,9 +112,9 @@ Synthesize final answer:"""
 | Aspect | ReAct | Plan & Execute |
 |---|---|---|
 | Steps | Decided one at a time | Pre-planned |
-| Total LLM calls | More (each step's thought) | Fewer (plan once, simpler exec) |
+| Total LLM calls | More (each step's thought) | Fewer *planner/big-model* calls — par frequent replanning ya per-step sub-agent ho to total zyada bhi ho sakta |
 | Adaptability | Better (reacts to surprises) | Worse (plan may need replanning) |
-| Cost | Higher (smarter model each step) | Lower (cheap executor) |
+| Cost | Higher (smarter model each step) | Usually lower (big planner + cheap executor) — guaranteed nahi |
 | Complexity | Simpler code | More complex |
 
 **Use ReAct when:** Few steps, exploratory.

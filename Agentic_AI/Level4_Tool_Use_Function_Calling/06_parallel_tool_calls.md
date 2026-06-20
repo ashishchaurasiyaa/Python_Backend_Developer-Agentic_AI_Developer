@@ -124,9 +124,11 @@ async def execute_mixed(tool_calls, sync_tools, async_tools):
         if name in async_tools:
             result = await async_tools[name](**args)
         else:
-            # Run sync tool in thread pool
+            # Run sync tool in thread pool.
+            # NOTE: run_in_executor kwargs accept NAHI karta (signature: executor, func, *args).
+            # **args seedha bhejoge to TypeError — functools.partial se kwargs bind karo:
             result = await loop.run_in_executor(
-                None, sync_tools[name], **args
+                None, functools.partial(sync_tools[name], **args)
             )
         return tc.id, result
     

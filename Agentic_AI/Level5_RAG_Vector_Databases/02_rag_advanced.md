@@ -1692,10 +1692,14 @@ Retrieved chunks:
 4. "Guido van Rossum is Python's creator" ← Not relevant ❌
 5. "Python dict stores key-value pairs" ← Relevant ✅
 
-Context Precision = 3/5 = 0.60
+Simple intuition: 3 relevant / 5 total = 0.60
 
 High precision → Less noise in context
 ```
+
+> ⚠️ RAGAS ka actual `context_precision` SIRF relevant/total nahi — wo **rank-aware** hai
+> (relevant chunks ki position pe precision@k ka mean). Relevant docs upar ranked → score zyada.
+> "3/5" sirf intuition ke liye.
 
 #### 4. Context Recall (0-1)
 
@@ -2240,7 +2244,7 @@ Self-RAG better when: selective retrieval needed, hallucination prevention criti
 **Answer:**
 1. **Faithfulness**: Answer ke claims context mein supported hain? Hallucination measure.
 2. **Answer Relevancy**: Answer ne question address kiya? Off-topic answers penalize.
-3. **Context Precision**: Retrieved chunks mein se useful ones ka ratio. Noise measure.
+3. **Context Precision**: Retrieved chunks me se useful ones — **rank-aware** (relevant chunks upar ranked hone par zyada score; plain ratio nahi). Noise measure.
 4. **Context Recall**: Ground truth ke liye zaruri saari info retrieved? Missing info measure.
 
 Perfect system: all four = 1.0. Trade-off: high recall often means lower precision (more chunks = more noise).

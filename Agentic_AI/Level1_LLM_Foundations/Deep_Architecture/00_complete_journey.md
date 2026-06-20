@@ -134,7 +134,8 @@ The formatted text → numerical tokens (using OpenAI's `tiktoken` library):
 import tiktoken
 enc = tiktoken.encoding_for_model("gpt-4o")
 tokens = enc.encode("What is Python?")
-# Output: [3923, 374, 13325, 30]
+# Output (ILLUSTRATIVE example IDs — actual o200k_base IDs alag honge):
+# [3923, 374, 13325, 30]
 # 3923 = "What"
 # 374  = " is"
 # 13325 = " Python"
@@ -147,7 +148,7 @@ But the WHOLE chat (with template) becomes ~20 tokens, not 4.
 Each token ID is **looked up** in a giant embedding matrix:
 ```
 Embedding matrix shape: [vocab_size, hidden_dim]
-                      = [100,000+, 12,288]   (for GPT-4 scale)
+                      = [100,000+, 12,288]   (ye GPT-3 175B ke numbers hain; GPT-4 internals public nahi — illustrative)
 
 Token 3923 → embedding[3923] → vector of 12,288 numbers
 ```
@@ -252,7 +253,9 @@ response.choices[0].message.content  # "Python is a language..."
 
 For **GPT-4 scale** (~1.7T parameters):
 
-| Component | Size |
+> ⚠️ NOTE: ye numbers ANALYST ESTIMATES / GPT-3-derived hain — OpenAI ne GPT-4 internals officially disclose NAHI kiye. Hidden-dim 12,288 / 96 layers / 96 heads actually **GPT-3 175B** ke specs hain; 1.7T total + 280B active sirf **leaked estimates** hain. Concept ke liye theek, interview me fact ki tarah mat quote karna.
+
+| Component | Size (estimated / illustrative) |
 |---|---|
 | Vocabulary size | ~100,000-200,000 tokens |
 | Hidden dimension | 12,288 |

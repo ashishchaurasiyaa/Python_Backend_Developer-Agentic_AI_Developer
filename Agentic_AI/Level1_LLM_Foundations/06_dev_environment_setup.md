@@ -280,7 +280,8 @@ For understanding tokens:
 import tiktoken
 
 def count(text: str, model: str = "gpt-4o-mini") -> int:
-    enc = tiktoken.encoding_for_model("gpt-4o")
+    # `model` arg ko use karo (hardcode "gpt-4o" mat karo) — warna non-4o model pe galat encoding milti hai
+    enc = tiktoken.encoding_for_model(model)
     tokens = enc.encode(text)
     print(f"Text: {text[:60]}...")
     print(f"Tokens: {len(tokens)}")

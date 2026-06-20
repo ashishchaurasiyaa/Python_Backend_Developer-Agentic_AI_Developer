@@ -87,14 +87,19 @@ async def get_current_tenant(
     cache_key = f"tenant:apikey:{hashlib.sha256(api_key.encode()).hexdigest()}"
     cached = await redis.get(cache_key)
 
+    # NOTE: Tenant ek SQLAlchemy model hai — uspe Pydantic ke model_validate_json/model_dump_json
+    # NAHI hote. Caching ke liye alag Pydantic schema (TenantSchema, from_attributes=True) use karo.
+    # Aur async stack pe db.query() (sync 1.x API) nahi — `await db.execute(select(...))` use karo.
     if cached:
-        return Tenant.model_validate_json(cached)
+        return TenantSchema.model_validate_json(cached)
 
-    tenant = await db.query(Tenant).filter(Tenant.api_key == api_key).first()
+    result = await db.execute(select(Tenant).where(Tenant.api_key == api_key))
+    tenant = result.scalar_one_or_none()
     if not tenant or not tenant.is_active:
         raise HTTPException(status_code=401, detail="Invalid or inactive API key")
 
-    await redis.setex(cache_key, 300, tenant.model_dump_json())  # 5min cache
+    schema = TenantSchema.model_validate(tenant)                 # ORM -> Pydantic
+    await redis.setex(cache_key, 300, schema.model_dump_json())  # 5min cache
     return tenant
 ```
 

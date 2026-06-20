@@ -110,7 +110,8 @@ def smart_model_router(query, complexity):
 
 ### B. Anthropic Prompt Caching (90% Discount!)
 ```python
-response = anthropic.messages.create(
+client = anthropic.Anthropic()          # pehle client banao — module pe seedha .messages nahi hota
+response = client.messages.create(
     model="claude-3-5-sonnet-20241022",
     system=[{
         "type": "text",

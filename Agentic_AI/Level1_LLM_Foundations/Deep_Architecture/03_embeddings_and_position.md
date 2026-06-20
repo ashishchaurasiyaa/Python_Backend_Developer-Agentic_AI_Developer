@@ -156,12 +156,12 @@ The original Transformer paper (2017) used **sine/cosine** functions:
 
 ```python
 def positional_encoding(pos, d_model):
-    encoding = []
-    for i in range(d_model):
-        if i % 2 == 0:
-            encoding.append(sin(pos / 10000^(i/d_model)))
-        else:
-            encoding.append(cos(pos / 10000^(i/d_model)))
+    encoding = [0.0] * d_model
+    for i in range(d_model // 2):
+        # Har PAIR (2i, 2i+1) ek hi frequency share karta hai — yahi paper (2017) ka formula hai
+        freq = 1 / (10000 ** (2 * i / d_model))
+        encoding[2 * i]     = sin(pos * freq)   # even index -> sin
+        encoding[2 * i + 1] = cos(pos * freq)   # odd  index -> cos (same freq as its pair)
     return encoding
 ```
 
@@ -217,7 +217,7 @@ This rotation happens in **2D pairs** across the vector dimensions.
 
 ### Benefits:
 1. **Relative positions** captured naturally
-2. **Extrapolates** to longer sequences than training (better than learned embeddings)
+2. **Learned embeddings se behtar** long-context behaviour (learned wali train-length se aage chalti hi nahi) — *par* vanilla RoPE bhi train-length se aage **poorly extrapolate** karta hai; isiliye **YaRN / position-interpolation** lagaya jata hai
 3. **No extra parameters** to learn
 
 ### Code intuition:
@@ -420,7 +420,7 @@ It encodes position info. **Attention** uses this to figure out relationships.
    - Self-attention treats input as a set; position encoding adds order info.
 
 3. **Q: RoPE vs learned positional embeddings?**
-   - RoPE rotates Q/K based on position; learned embeddings are added like words. RoPE extrapolates better to longer sequences.
+   - RoPE rotates Q/K based on position; learned embeddings are added like words. RoPE relatively better generalize karta hai — par lambe context ke liye usually YaRN / position-interpolation lagana padta hai (vanilla RoPE bhi train-length se aage kaafi degrade hota hai).
 
 4. **Q: Embedding dimensionality trade-offs?**
    - Bigger = more capacity but slower. Modern LLMs: 4K-12K dims.

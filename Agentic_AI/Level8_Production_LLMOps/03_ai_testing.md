@@ -450,7 +450,8 @@ async def load_test_endpoint(
         "errors": len(errors),
         "avg_latency_ms": statistics.mean(latencies) if latencies else 0,
         "p50_latency_ms": statistics.median(latencies) if latencies else 0,
-        "p95_latency_ms": sorted(latencies)[int(0.95 * len(latencies))] if latencies else 0,
+        # min(..., len-1) se boundary IndexError se bacho (jab 0.95*len == len)
+        "p95_latency_ms": sorted(latencies)[min(int(0.95 * len(latencies)), len(latencies) - 1)] if latencies else 0,
         "error_rate": len(errors) / (len(latencies) + len(errors)) if latencies else 1,
     }
 

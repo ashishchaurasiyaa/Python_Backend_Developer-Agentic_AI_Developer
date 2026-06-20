@@ -250,19 +250,21 @@ class OutputGuardrails:
     """Output validation after LLM response"""
     
     def validate(self, response: str, context: str = "") -> GuardrailResult:
-        # Hallucination detection (simple keyword check)
-        hallucination_signals = [
+        # NOTE: ye HALLUCINATION detect NAHI karta. Hallucination = confidently GALAT fact bolna.
+        # Ye to hedging/uncertainty signals hain (model khud keh raha "sure nahi"). Asli hallucination
+        # check = context ke against grounding/faithfulness verify karo (LLM-as-judge / NLI).
+        uncertainty_signals = [
             "I don't have access",
             "as of my knowledge cutoff",
             "I'm not sure but",
             "I think it might be",
         ]
         
-        for signal in hallucination_signals:
+        for signal in uncertainty_signals:
             if signal.lower() in response.lower():
                 return GuardrailResult(
-                    allowed=True,
-                    reason=f"Possible hallucination signal: '{signal}'"
+                    allowed=True,   # flag karta hai par block nahi — sirf low-confidence mark
+                    reason=f"Low-confidence/hedging signal: '{signal}'"
                 )
         
         # Length check (too short = likely failed)

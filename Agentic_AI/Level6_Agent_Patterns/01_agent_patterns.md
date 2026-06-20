@@ -507,7 +507,8 @@ AGENT MEMORY TYPES:
    - Vector DB (semantic search): ChromaDB, pgvector, Pinecone
    - Key-Value: Redis (fast, ephemeral), PostgreSQL (persistent)
    - Episodic: Conversation summaries stored in DB
-   - Procedural: "How to" knowledge — fine-tuned into model weights
+   - Procedural: "How to" knowledge — usually stored prompts / skills / workflows / tool-use rules
+     (fine-tuning-into-weights ek option hai par practice me kam — mostly prompts/skills me rehta hai)
 
 3. IMPLEMENTATION PATTERNS:
 ```

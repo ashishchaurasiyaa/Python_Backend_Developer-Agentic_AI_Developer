@@ -311,7 +311,7 @@ with ThreadPoolExecutor() as ex:
 |---|---|
 | `claude-3-5-haiku` | Cheap, simple tool calls |
 | `claude-3-5-sonnet` | **Default for most agents** |
-| `claude-3-5-opus` | Most capable, expensive |
+| Opus-tier (e.g. `claude-opus-4-x`) | Most capable, expensive — NOTE: `claude-3-5-opus` kabhi exist nahi kiya; 3.x me Opus = `claude-3-opus` |
 | `claude-3-7-sonnet` (with thinking) | Hard reasoning + tool use |
 
 For agent loops, **Sonnet** is the sweet spot — capable + reasonable cost.

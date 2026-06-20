@@ -210,10 +210,13 @@ def store_graph_data(driver: GraphDatabase.driver, data: KnowledgeGraphData):
     with driver.session() as session:
         # Create entities
         for entity in data.entities:
-            session.run("""
-                MERGE (n {name: $name})
-                SET n:$label, n.description = $description
-            """, name=entity.name, label=entity.type, description=entity.description)
+            # NOTE: Neo4j me LABEL ko $param se bind NAHI kar sakte — sirf VALUES bind hoti hain.
+            # Label query-string me hi daalna padta hai (sanitize zaroori, warna injection).
+            # Production-safe: APOC -> CALL apoc.create.addLabels(n, [$label])
+            session.run(f"""
+                MERGE (n {{name: $name}})
+                SET n:{entity.type}, n.description = $description
+            """, name=entity.name, description=entity.description)
         
         # Create relationships
         for rel in data.relationships:
@@ -302,10 +305,10 @@ vector_store = Neo4jVector.from_documents(
     embedding_node_property="embedding",
 )
 
-# Hybrid search: vector + graph traversal
+# Hybrid search: vector similarity + full-text (keyword) search
 retriever = vector_store.as_retriever(
-    search_type="hybrid",     # Uses both vector similarity AND graph connections
-    search_kwargs={"k": 5}
+    search_type="hybrid",     # Neo4jVector ka "hybrid" = dense vector + full-text index
+    search_kwargs={"k": 5}    # NOTE: ye graph TRAVERSAL nahi hai — graph hops ke liye alag Cypher chahiye
 )
 
 # ===== CUSTOM GRAPH RAG =====

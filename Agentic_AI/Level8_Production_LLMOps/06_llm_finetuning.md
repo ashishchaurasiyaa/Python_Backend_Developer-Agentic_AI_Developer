@@ -47,8 +47,11 @@ DECISION TABLE:
 │ Code generation in company style    │         │ ✓✓✓          │
 │ Real-time price/inventory queries   │ ✓✓✓     │              │
 │ Brand voice/persona                 │         │ ✓✓✓          │
-│ Reasoning improvement               │ ✗       │ ✗ (neither)  │
+│ Reasoning improvement               │ ✗       │ ~ (distill)  │
 └─────────────────────────────────────┴─────────┴──────────────┘
+
+> ⚠️ "neither" too strong: RAG se to nahi, par **fine-tuning/distillation** (reasoning traces pe
+> RFT/SFT) target distribution pe reasoning IMPROVE kar sakta hai — aaj common practice hai.
 
 REAL ANSWER IN INTERVIEWS:
 "Usually RAG first. Fine-tune only when:

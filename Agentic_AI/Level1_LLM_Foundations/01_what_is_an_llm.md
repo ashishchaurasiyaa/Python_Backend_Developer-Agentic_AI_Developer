@@ -57,7 +57,7 @@ More parameters = the model captures more nuanced patterns. But also:
 - More expensive to train ($100M+ for GPT-4).
 - More memory needed.
 
-For most apps, you use a "Large Enough" model (e.g., GPT-4o-mini at ~8B params is plenty for many tasks).
+For most apps, you use a "Large Enough" model (e.g., GPT-4o-mini — iska exact size OpenAI ne disclose nahi kiya, "~8B" sirf third-party estimate hai — is plenty for many tasks).
 
 ---
 

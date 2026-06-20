@@ -99,9 +99,11 @@ async def semantic_search(conn, query: str, limit: int = 5) -> list[dict]:
     return [dict(r) for r in rows]
 
 # DISTANCE OPERATORS:
-# <=>  cosine distance        (normalized vectors ke liye — MOST COMMON)
-# <->  L2/Euclidean distance  (raw vectors ke liye)
-# <#>  negative inner product (dot product maximize karna ho)
+# <=>  cosine distance        (direction-based; magnitude pgvector khud handle karta hai —
+#                              embeddings ke liye MOST COMMON, pehle se normalize karna ZAROORI NAHI)
+# <->  L2/Euclidean distance
+# <#>  NEGATIVE inner product (ORDER BY ascending hota hai, isliye pgvector negative deta hai —
+#                              ascending sort = asli dot product maximize. Normalized vectors pe dot == cosine)
 
 # ===== FILTERED SEARCH =====
 async def filtered_search(
@@ -414,7 +416,7 @@ INDEX ALGORITHM COMPARISON:
 │ Speed (build)   │ Slow                    │ Fast                     │
 │ Memory          │ High (graph stored)     │ Lower                    │
 │ Accuracy        │ High (>99% recall)      │ Good (~95% recall)       │
-│ Dynamic adds    │ Yes (add without rebuild)│ Requires rebuild         │
+│ Dynamic adds    │ Yes (add without rebuild)│ Add OK; rebuild advised  │
 │ Small datasets  │ Full scan better        │ Full scan better         │
 └─────────────────┴─────────────────────────┴──────────────────────────┘
 

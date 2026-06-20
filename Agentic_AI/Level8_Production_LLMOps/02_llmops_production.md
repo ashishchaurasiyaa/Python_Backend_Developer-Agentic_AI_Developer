@@ -1156,8 +1156,9 @@ def semantic_cache_lookup(query: str, threshold: float = 0.95) -> str | None:
     )
     
     if results and results[0] > 0:
-        # Score check (lower = more similar)
-        similarity = 1 - float(results[2][3])  # Convert distance to similarity
+        # NOTE: `1 - distance` SIRF COSINE distance pe valid hai (index DISTANCE_METRIC COSINE hona chahiye).
+        # L2/Euclidean index pe ye galat hai — similarity negative aa sakti hai. Metric aur conversion match karo.
+        similarity = 1 - float(results[2][3])  # cosine distance -> cosine similarity
         if similarity >= threshold:
             return results[2][1]  # Return cached response
     

@@ -99,7 +99,8 @@ calculator("sqrt(16) + 5")  # 9
 calculator("sin(pi/2)")     # 1.0
 ```
 
-### Safe approach 2: `ast.literal_eval` (for basic math)
+### Safe approach 2: `ast.parse` + safe node evaluation (for basic math)
+> NOTE: `ast.literal_eval` arithmetic (jaise `2 + 3*4`) evaluate NAHI kar sakta — wo sirf literals/containers ke liye hai. Isiliye yahan `ast.parse` + manual BinOp walk use hota hai.
 ```python
 import ast
 import operator
@@ -268,7 +269,9 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 
 def query_database(sql: str) -> dict:
     """Execute SELECT query (read-only). NEVER allow INSERT/UPDATE/DELETE."""
-    # CRITICAL: validate query is read-only
+    # WARNING: ye substring blocklist ASLI security NAHI hai — false positives (column "updated_at",
+    # table "updates") + false negatives (comments/encoding bypass) deta hai. Sirf demo ke liye.
+    # PRODUCTION: read-only DB role/connection (DB level pe enforce) ya specific parameterized tools use karo.
     sql_lower = sql.lower().strip()
     forbidden = ["insert", "update", "delete", "drop", "alter", "create"]
     if any(f in sql_lower for f in forbidden):

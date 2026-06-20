@@ -115,7 +115,7 @@ from collections import Counter
 
 def top_k_frequent(nums: list[int], k: int) -> list[int]:
     count = Counter(nums)
-    # heap of (-count, num) — negative for max-heap
+    # nlargest k keys by their count (andar size-k heap maintain karta hai) — O(n log k)
     return heapq.nlargest(k, count.keys(), key=count.get)
 
 print(top_k_frequent([1, 1, 1, 2, 2, 3], 2))  # [1, 2]
@@ -257,7 +257,7 @@ import bisect
 import time
 
 class SlidingWindowRateLimiter:
-    """Token bucket rate limiter using sorted list"""
+    """Sliding-window-log rate limiter (timestamps in a sorted list). NOTE: token bucket se ALAG algorithm hai."""
     
     def __init__(self, max_requests: int, window_seconds: int):
         self.max_requests = max_requests

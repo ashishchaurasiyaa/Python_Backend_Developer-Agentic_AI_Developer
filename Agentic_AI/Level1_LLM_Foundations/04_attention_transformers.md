@@ -160,7 +160,8 @@ Why limit?
 - Attention is O(n²) — doubling context = 4x compute
 - Memory grows with context
 
-Modern techniques (sliding window, mixture-of-experts) help but limits remain.
+Modern techniques (sliding-window / sparse attention, FlashAttention, KV-cache tricks) help but limits remain.
+(Note: **Mixture-of-Experts** sirf FFN ka compute ghatata hai — attention ka O(n²) cost wo solve NAHI karta, wo alag cheez hai.)
 
 ---
 

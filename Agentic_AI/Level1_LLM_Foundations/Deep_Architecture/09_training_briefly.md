@@ -193,7 +193,11 @@ Model learns to maximize human preference scores.
 # DPO trains model to:
 # - Increase probability of chosen response
 # - Decrease probability of rejected response
-loss = -log(σ(β * (log_p(chosen) - log_p(rejected))))
+# Har response ka log-ratio APNE policy vs REFERENCE (frozen SFT) model ke against liya jata hai:
+#   r(y) = log π_θ(y) - log π_ref(y)
+loss = -log(σ(β * ( (log_π_θ(chosen)  - log_π_ref(chosen))
+                  - (log_π_θ(rejected) - log_π_ref(rejected)) )))
+# Reference-model (π_ref) terms hi DPO ka core hain — inke bina ye sirf plain preference loss reh jata hai.
 ```
 
 Used in: Mistral, Llama 3.1, modern open-source.

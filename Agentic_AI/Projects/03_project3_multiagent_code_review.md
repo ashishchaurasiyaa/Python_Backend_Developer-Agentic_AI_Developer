@@ -124,10 +124,13 @@ async def build_review_graph(db_pool) -> any:
     graph.add_node("human_review", human_review_interrupt)
     graph.add_node("post_github", post_github_review)
 
-    # Run all 3 agents in parallel via fan-out
-    graph.set_entry_point("security")
-    graph.set_entry_point("performance")   # Parallel
-    graph.set_entry_point("style")         # Parallel
+    # Run all 3 agents in parallel via fan-out.
+    # NOTE: set_entry_point baar-baar call karne se PARALLEL nahi hota — har call pichla overwrite karta
+    # hai (last wins, yaani sirf "style" entry banega). Parallel fan-out ke liye START se teeno ko edge do:
+    from langgraph.graph import START
+    graph.add_edge(START, "security")
+    graph.add_edge(START, "performance")
+    graph.add_edge(START, "style")
 
     # All converge to synthesizer
     graph.add_edge("security", "synthesize")
@@ -231,10 +234,16 @@ async def run_style_review(state: ReviewState) -> ReviewState:
             # For demo: just Claude review
             pass
 
-    result = await claude_client.messages.create(
+    # NOTE: raw Anthropic client pe `response_model` nahi hota (wo Instructor ka feature hai), aur
+    # type("StyleResult",...)() ek INSTANCE hai — Pydantic model CLASS nahi. Sahi: proper BaseModel +
+    # instructor-wrapped client (baaki agents ki tarah).
+    class StyleResult(BaseModel):
+        issues: list[StyleIssue]
+
+    result = await instructor_claude.messages.create(
         model="claude-haiku-4-5-20251001",  # Cheapest model for style
         max_tokens=1024,
-        response_model=type("StyleResult", (), {"issues": list[StyleIssue]})(),
+        response_model=StyleResult,
         messages=[{
             "role": "user",
             "content": f"Check for PEP8 violations, missing type hints, unclear naming:\n\n{state['diff'][:4000]}"

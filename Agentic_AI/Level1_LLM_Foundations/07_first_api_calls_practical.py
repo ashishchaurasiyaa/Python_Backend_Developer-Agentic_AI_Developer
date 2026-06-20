@@ -229,7 +229,10 @@ PRICING = {
 def count_tokens(text: str, model: str = "gpt-4o-mini") -> int:
     try:
         import tiktoken
-        enc = tiktoken.encoding_for_model("gpt-4o")
+        try:
+            enc = tiktoken.encoding_for_model(model)   # `model` arg ko actually use karo
+        except KeyError:
+            enc = tiktoken.get_encoding("o200k_base")  # unknown model -> latest OpenAI base
         return len(enc.encode(text))
     except ImportError:
         return len(text) // 4  # Rough estimate

@@ -41,7 +41,9 @@ BM25 = improved TF-IDF. Scores by:
 def bm25_score(query, doc, corpus):
     score = 0
     for term in query.split():
-        tf = doc.count(term) / len(doc.split())
+        tf = doc.count(term)   # RAW term count — BM25 me length normalization niche
+                               # denominator (b * len(doc)/avg_doc_length) handle karta hai.
+                               # Yahan /len(doc.split()) karoge to double-normalize ho jayega (BM25 nahi rahega).
         df = sum(1 for d in corpus if term in d)
         idf = log((len(corpus) - df + 0.5) / (df + 0.5))
         score += idf * (tf * (k1 + 1)) / (tf + k1 * (1 - b + b * len(doc) / avg_doc_length))

@@ -145,9 +145,10 @@ lm_head = embedding.weight.T   # Transpose of embedding!
 
 **Why?** Saves ~1.2B params (for GPT-4 scale).
 
-**Used in:** GPT-2, Llama, many others.
+**Used in:** GPT-2, GPT-3, Llama, many others.
 
-**Not used in:** GPT-3 (used separate matrices).
+**Not used in:** kuch bade models jaise **PaLM** (quality ke liye input/output untied rakhte hain).
+(Correction: GPT-3 ne bhi GPT-2 ki tarah weight tying use ki thi — "separate matrices" wala claim galat hai.)
 
 ---
 

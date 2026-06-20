@@ -233,6 +233,8 @@ Or estimate while streaming:
 ```python
 import tiktoken
 
+# NOTE: tiktoken sirf OpenAI models ke liye sahi hai. Claude/Gemini/Llama ke tokens isse ginna
+# galat (~15-20% off) — Claude ke liye Anthropic ka count_tokens / response.usage use karo.
 enc = tiktoken.encoding_for_model("gpt-4o-mini")
 output_tokens = 0
 

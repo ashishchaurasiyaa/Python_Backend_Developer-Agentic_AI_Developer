@@ -322,8 +322,10 @@ async def feedback_stats(days: int = 30, db = Depends(get_db)):
             COUNT(*) as total,
             ROUND(AVG(rating::decimal)::decimal, 2) as avg_rating
         FROM user_feedback
-        WHERE created_at > NOW() - INTERVAL ':days days'
+        WHERE created_at > NOW() - make_interval(days => :days)
     """, {"days": days})
+    # NOTE: `INTERVAL ':days days'` kaam NAHI karta — quoted string literal ke andar bind param expand nahi hota.
+    # make_interval(days => :days), ya (NOW() - (:days || ' days')::interval) use karo.
     return dict(result.fetchone())
 ```
 
@@ -384,7 +386,7 @@ KEY DESIGN DECISIONS:
 1. Hybrid Search (BM25 + Vector):
    - Pure vector: misses exact keyword matches ("invoice #12345")
    - Pure BM25: misses semantic similarity
-   - Hybrid with RRF: best of both, no hyperparameter tuning
+   - Hybrid with RRF: best of both (NOTE: pure RRF me koi tuning nahi hoti — par yahan code `alpha` se weighted-RRF karta hai, to wo ek hyperparameter hai)
    - Alpha=0.5: equal weight, adjust based on domain
 
 2. Chunking Strategy:

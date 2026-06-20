@@ -552,8 +552,10 @@ graph.add_node("billing", billing_agent)
 graph.add_node("support", support_agent)
 graph.add_node("general", general_agent)
 
-graph.set_entry_point("router")  # virtual
-graph.add_conditional_edges("router", route_decision, {
+# Routing seedha START se — alag "router" node banane ki zaroorat NAHI.
+# (Galat: set_entry_point("router") + add_conditional_edges("router", ...) — "router" naam ka
+#  koi node add hi nahi kiya, to graph compile/run hi nahi hoga. "# virtual" jaisa kuch nahi hota.)
+graph.set_conditional_entry_point(route_decision, {
     "billing": "billing",
     "support": "support",
     "general": "general",

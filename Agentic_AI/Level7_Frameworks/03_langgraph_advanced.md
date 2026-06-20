@@ -685,13 +685,13 @@ result3 = graph.invoke({"messages": ["Hi, I need help"], "task": "write code"}, 
 ```python
 from langgraph.checkpoint.sqlite import SqliteSaver
 
-# File-based SQLite — disk pe persist hota hai
-memory = SqliteSaver.from_conn_string("./checkpoints.db")
+# NOTE: from_conn_string() ek CONTEXT MANAGER return karta hai — saver object nahi.
+# Isliye `with` ke andar use karo (AsyncSqliteSaver/PostgresSaver bhi aise hi):
+with SqliteSaver.from_conn_string("./checkpoints.db") as memory:   # disk pe persist
+    graph = builder.compile(checkpointer=memory)
+    # ... graph.invoke(...) isi block ke andar karo
 
-# Ya in-memory SQLite (testing ke liye, MemorySaver jaisa)
-memory_test = SqliteSaver.from_conn_string(":memory:")
-
-graph = builder.compile(checkpointer=memory)
+# (Galat: `memory = SqliteSaver.from_conn_string(...)` seedha assign karna — wo CM hai, saver nahi.)
 
 # Conversations restart ke baad bhi yaad rehti hain (file-based mein)
 config = {"configurable": {"thread_id": "persistent-user-123"}}

@@ -64,6 +64,7 @@ from tenacity import (
     retry,
     stop_after_attempt,
     wait_exponential,
+    wait_random_exponential,   # exponential backoff WITH jitter built-in
     retry_if_exception_type
 )
 from openai import RateLimitError, APITimeoutError, APIConnectionError
@@ -98,8 +99,9 @@ import random
 @retry(
     retry=retry_if_exception_type(RETRYABLE_ERRORS),
     stop=stop_after_attempt(5),
-    wait=wait_exponential(multiplier=1, min=2, max=60) +
-         wait_random_exponential(min=0, max=2),  # Add jitter
+    # wait_random_exponential = exponential backoff + jitter (ek hi strategy).
+    # NOTE: do tenacity wait strategies ko `+` se combine NAHI kar sakte (TypeError aata hai).
+    wait=wait_random_exponential(multiplier=1, max=60),
     reraise=True
 )
 def robust_llm_call(messages):

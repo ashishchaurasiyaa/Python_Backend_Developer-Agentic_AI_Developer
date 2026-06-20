@@ -175,10 +175,12 @@ build_feature_task = Task(
 
 # Hierarchical crew — manager assigns to workers
 crew = Crew(
-    agents=[project_manager, backend_dev, frontend_dev, qa_engineer],
+    # NOTE: hierarchical mode me manager ko workers `agents` list me MAT daalo — sirf workers.
+    # Manager alag se manager_agent (ya manager_llm) se aata hai; CrewAI use khud orchestrate karta hai.
+    agents=[backend_dev, frontend_dev, qa_engineer],
     tasks=[build_feature_task],
     process=Process.hierarchical,      # Manager-led
-    manager_agent=project_manager,
+    manager_agent=project_manager,     # workers list se ALAG
     verbose=True,
     memory=True,
 )

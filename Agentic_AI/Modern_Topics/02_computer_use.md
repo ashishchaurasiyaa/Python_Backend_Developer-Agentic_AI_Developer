@@ -142,13 +142,17 @@ def execute_computer_action(action: dict):
     action_type = action.get("action")
     
     if action_type == "screenshot":
-        screenshot = pyautogui.screenshot()
+        screenshot = pyautogui.screenshot()   # PIL Image
+        # NOTE: .tobytes() raw uncompressed PIXELS deta hai, PNG nahi — media_type image/png ke saath galat.
+        # Pehle PNG me encode karo (io.BytesIO buffer me):
+        buf = io.BytesIO()
+        screenshot.save(buf, format="PNG")
         return {
             "type": "image",
             "source": {
                 "type": "base64",
                 "media_type": "image/png",
-                "data": base64.b64encode(screenshot.tobytes()).decode()
+                "data": base64.b64encode(buf.getvalue()).decode()
             }
         }
     

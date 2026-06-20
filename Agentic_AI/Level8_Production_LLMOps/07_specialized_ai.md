@@ -247,6 +247,12 @@ def transcribe_audio(audio_path: str, language: str = "en") -> dict:
             {"start": s.start, "end": s.end, "text": s.text}
             for s in transcript.segments
         ],
+        # NOTE: word-level timestamps `transcript.words` me aate hain (segments me NAHI) —
+        # "word" granularity manga hai to yahan se padho:
+        "words": [
+            {"start": w.start, "end": w.end, "word": w.word}
+            for w in (transcript.words or [])
+        ],
     }
 
 # Translation (any language → English)
