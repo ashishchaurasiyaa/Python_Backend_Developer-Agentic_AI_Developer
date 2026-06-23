@@ -28,6 +28,8 @@ Har din yeh 3 block kar — har track ka "next unchecked item" utha:
 
 > 📌 Hafta-war (10-week) deep phase plan chahiye? → [00_START_HERE.md](00_START_HERE.md) (Path A = interview sprint, Path B = full mastery). Yeh file teri **daily "ab kya"** layer hai; woh **weekly map**.
 
+> 🗣️ **English speaking** alag se chal raha hai (interview ka asli gap) → roz **30 min** [english_speaking/README.md](english_speaking/README.md) (Basic → Intermediate → Advanced + Public Speaking). Tech ke saath parallel chalao.
+
 ---
 
 # 🏛️ TRACK A — BACKEND REVISION
@@ -108,7 +110,7 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 ## Phase B3 — Build + Polish 🟡
 - [ ] 🔴 **1 capstone project banao** — RAG Document Q&A *ya* Multi-Agent Code Review (LangGraph + Claude/OpenAI, GitHub pe deploy) → [Projects](Agentic_AI/Projects)
 - [ ] 🟡 **AI Interview Prep** — agent orchestration, RAG optimization, LLMOps system-design Qs → [Interview_Prep](Agentic_AI/Interview_Prep)
-- [ ] ⚪ **Modern Topics** — voice agents, multimodal, computer-use (role-specific ho to) → [Modern_Topics](Agentic_AI/Modern_Topics)
+- [ ] 🟡 **Modern Topics** — start: [AI tools landscape (master map)](Agentic_AI/Modern_Topics/00_ai_tools_landscape.md) · then [AI coding tools](Agentic_AI/Modern_Topics/07_ai_coding_tools.md) + [Playwright](Agentic_AI/Modern_Topics/06_playwright_browser_automation.md); ⚪ voice/multimodal/computer-use role-specific ho to → [Modern_Topics](Agentic_AI/Modern_Topics)
 
 ## 📦 Reference (padhna nahi — zaroorat pe jhaanko)
 - **Udemy Agentic Course** (Hinglish notes + 25 labs) — rusty topic ka fast refresh → [Udemy_EdDonner_Course](Agentic_AI/my-agentic-ai-project/Udemy_EdDonner_Course)

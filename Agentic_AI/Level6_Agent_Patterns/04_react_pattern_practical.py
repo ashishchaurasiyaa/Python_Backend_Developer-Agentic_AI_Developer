@@ -251,7 +251,7 @@ class ProductionReActAgent(BasicReActAgent):
 
     def run_safe(self, question: str) -> dict:
         if not os.getenv("OPENAI_API_KEY"):
-            return {"error": "no_api_key"}
+            return {"status": "no_api_key", "answer": "[NO_API_KEY] Set OPENAI_API_KEY to run live.", "cost": 0}
         from openai import OpenAI
         client = OpenAI()
 
