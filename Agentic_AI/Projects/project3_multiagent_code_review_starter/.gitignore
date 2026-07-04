@@ -1,0 +1,23 @@
+# === SECRETS — never commit ===
+.env
+*.local.json
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+*.log
+
+# === OS ===
+.DS_Store
+
+# === Claude Code workspace — COMMIT THIS ===
+# .claude/ is intentionally NOT ignored — it is team-shared config.
+# Only personal overrides go in .claude/settings.local.json (ignored above).

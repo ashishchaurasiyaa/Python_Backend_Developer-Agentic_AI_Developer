@@ -2,7 +2,7 @@
 
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
-**Last updated:** 2026-05-27 (refresh)
+**Last updated:** 2026-07-04 (added Classical_ML_DL_Foundations sub-series under Level 1)
 **Combined roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) (single phase-wise plan)
 
 ---
@@ -78,7 +78,25 @@ LevelN_Topic/
 | 1.6 | Dev Environment Setup | [✅ 06_dev_environment_setup.md](Level1_LLM_Foundations/06_dev_environment_setup.md) | (setup guide) |
 | 1.7 | First API Calls | [✅ 07_first_api_calls.md](Level1_LLM_Foundations/07_first_api_calls.md) | [✅ practical.py](Level1_LLM_Foundations/07_first_api_calls_practical.py) |
 | 🔬 | **Deep Architecture (Internal Working)** | [✅ Deep_Architecture/README.md](Level1_LLM_Foundations/Deep_Architecture/README.md) | [✅ visualize_internals.py](Level1_LLM_Foundations/Deep_Architecture/10_visualize_internals_practical.py) |
+| 🧠 | **Classical ML/DL Foundations (Before Transformers)** | [✅ Classical_ML_DL_Foundations/README.md](Level1_LLM_Foundations/Classical_ML_DL_Foundations/README.md) | [✅ 4 numpy-from-scratch practicals](Level1_LLM_Foundations/Classical_ML_DL_Foundations/04_gradient_descent_backprop_practical.py) |
 | — | 📦 Existing reference | [_existing_ref/](Level1_LLM_Foundations/_existing_ref/) | — |
+
+### 🧠 Classical ML/DL Foundations Sub-Series (Perceptron → MLP → CNN → RNN → Bridge to Transformer)
+
+| # | Topic | Doc | Practical |
+|---|---|---|---|
+| 1 | Linear & Logistic Regression | [01](Level1_LLM_Foundations/Classical_ML_DL_Foundations/01_ml_foundations_regression.md) | [✅ practical.py](Level1_LLM_Foundations/Classical_ML_DL_Foundations/01_ml_foundations_regression_practical.py) |
+| 2 | Perceptron & MLP (XOR problem) | [02](Level1_LLM_Foundations/Classical_ML_DL_Foundations/02_perceptron_mlp.md) | (concepts) |
+| 3 | Loss & Activation Functions | [03](Level1_LLM_Foundations/Classical_ML_DL_Foundations/03_loss_activation_functions.md) | (concepts) |
+| 4 | Gradient Descent & Backpropagation ⭐ | [04](Level1_LLM_Foundations/Classical_ML_DL_Foundations/04_gradient_descent_backprop.md) | [✅ solves XOR from scratch](Level1_LLM_Foundations/Classical_ML_DL_Foundations/04_gradient_descent_backprop_practical.py) |
+| 5 | Deep Neural Networks (overfitting, dropout, batch norm, residuals) | [05](Level1_LLM_Foundations/Classical_ML_DL_Foundations/05_deep_neural_networks_intro.md) | (concepts) |
+| 6 | CNNs for Computer Vision | [06](Level1_LLM_Foundations/Classical_ML_DL_Foundations/06_cnn_computer_vision.md) | [✅ edge detection from scratch](Level1_LLM_Foundations/Classical_ML_DL_Foundations/06_cnn_computer_vision_practical.py) |
+| 7 | RNNs & LSTMs for Sequential Data | [07](Level1_LLM_Foundations/Classical_ML_DL_Foundations/07_rnn_lstm_sequential.md) | [✅ measures gradient decay](Level1_LLM_Foundations/Classical_ML_DL_Foundations/07_rnn_lstm_sequential_practical.py) |
+| 8 | RNN Limits & Rise of Transformers ⭐ | [08](Level1_LLM_Foundations/Classical_ML_DL_Foundations/08_rnn_limits_transformer_rise.md) | (bridges to Deep_Architecture) |
+| 9 | Transfer Learning (→ LoRA/QLoRA) | [09](Level1_LLM_Foundations/Classical_ML_DL_Foundations/09_transfer_learning.md) | (concepts) |
+| 10 | GANs & Diffusion Models (DALL-E/Stable Diffusion/Midjourney) | [10](Level1_LLM_Foundations/Classical_ML_DL_Foundations/10_gans_diffusion_image_gen.md) | (concepts) |
+
+**Mastery check:** Explain backprop via chain rule. Why transformers replaced RNNs (2 specific reasons). Why LoRA works (transfer-learning theory).
 
 ### 🔬 Deep Architecture Sub-Series (Internal Working — How a Prompt Travels Through the System)
 
@@ -263,6 +281,11 @@ Cutting-edge topics beyond original PDF roadmap.
 | 3 | **Local Serving** (Ollama, vLLM) | [✅ 03_local_serving.md](Modern_Topics/03_local_serving.md) |
 | 4 | **Memory Frameworks** (Mem0, Zep) | [✅ 04_memory_frameworks.md](Modern_Topics/04_memory_frameworks.md) |
 | 5 | **Multi-modal Agents** (Vision + Audio + Text) | [✅ 05_multimodal_agents.md](Modern_Topics/05_multimodal_agents.md) |
+| 6 | **Playwright / Browser Automation** | [✅ 06_playwright_browser_automation.md](Modern_Topics/06_playwright_browser_automation.md) |
+| 7 | **AI Coding Tools** (Claude Code, Copilot, Cursor) | [✅ 07_ai_coding_tools.md](Modern_Topics/07_ai_coding_tools.md) |
+| 8 | **MCP Advanced Server Dev** (transports, auth, hardening) | [✅ 08_mcp_advanced_server_dev.md](Modern_Topics/08_mcp_advanced_server_dev.md) |
+| 9 | **AI Security Threats** (OWASP LLM Top 10, prompt injection) | [✅ 09_ai_security_threats.md](Modern_Topics/09_ai_security_threats.md) |
+| 10 | **AI Ethics & Responsible AI** (bias, fairness, governance, EU AI Act) | [✅ 10_ai_ethics_responsible_ai.md](Modern_Topics/10_ai_ethics_responsible_ai.md) |
 
 ---
 

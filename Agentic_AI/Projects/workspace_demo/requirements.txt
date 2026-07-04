@@ -1,0 +1,9 @@
+# Web framework + server
+fastapi>=0.115
+uvicorn[standard]>=0.32
+
+# Claude API (official Anthropic SDK)
+anthropic>=0.40
+
+# Loads .env into the environment
+python-dotenv>=1.0

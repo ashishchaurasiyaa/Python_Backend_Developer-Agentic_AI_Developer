@@ -1,0 +1,13 @@
+{
+  "$comment": "Project-scoped MCP servers. Committed to git so the whole team gets the same tools. Claude Code reads this on startup; run /mcp to see connection status. Personal-only servers go in ~/.claude.json instead.",
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    }
+  }
+}

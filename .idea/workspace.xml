@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/my-agentic-ai-project/generativeai/langchain/tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/PythonRevision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonRevision.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/AI_Workflow_Presentation.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/AI_Workflow_Presentation.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/AI_Workspace_Presentation.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/AI_Workspace_Presentation.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/DEMO_CHEATSHEET.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/LIVE_WORKSPACE_DEMO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/QA_PREP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/SPEAKER_NOTES.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Presentation_Friday/demo_workspace.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/STUDY_PLAN.md" beforeDir="false" afterPath="$PROJECT_DIR$/STUDY_PLAN.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +27,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1495" />
+    <option name="cachedIndexableFilesCount" value="2205" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -361,8 +373,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.24374.152" />
-        <option value="bundled-python-sdk-c59985aa861c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.24374.152" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.25134.203" />
+        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
       </set>
     </attachedChunks>
   </component>
@@ -447,6 +459,10 @@
       <workItem from="1780877137508" duration="52000" />
       <workItem from="1780877985656" duration="71000" />
       <workItem from="1781828615789" duration="1000" />
+      <workItem from="1782689108494" duration="3143000" />
+      <workItem from="1782775755500" duration="4602000" />
+      <workItem from="1782966459660" duration="1992000" />
+      <workItem from="1783143319242" duration="741000" />
     </task>
     <servers />
   </component>

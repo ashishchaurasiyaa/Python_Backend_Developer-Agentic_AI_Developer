@@ -102,6 +102,7 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 ## Phase B1 — Foundations (refresh) 🟡
 - [ ] 🟡 **Level 1 — LLM Foundations** — kya hai LLM, tokens, embeddings, attention, model landscape → [Level1_LLM_Foundations](Agentic_AI/Level1_LLM_Foundations)
 - [ ] 🔴 **Deep Architecture** — prompt ka poora safar (tokenization→attention→sampling→inference). *"LLM kaise kaam karta hai"* interview ke liye gold → [00_complete_journey.md](Agentic_AI/Level1_LLM_Foundations/Deep_Architecture/00_complete_journey.md)
+- [ ] ⚪ **Classical ML/DL Foundations** — perceptron→MLP→backprop→CNN→RNN/LSTM→bridge to Transformer→transfer learning→GANs/diffusion. Interview-depth only, not build-required → [Classical_ML_DL_Foundations/README.md](Agentic_AI/Level1_LLM_Foundations/Classical_ML_DL_Foundations/README.md)
 - [ ] 🟡 **Level 2 — Prompt Engineering** — zero/few-shot, CoT, structured output, templates → [Level2_Prompt_Engineering](Agentic_AI/Level2_Prompt_Engineering)
 - [ ] 🟡 **Level 3 — LLM APIs & SDKs** — OpenAI/Claude/Gemini, streaming, async, retries, cost → [Level3_LLM_APIs_SDKs](Agentic_AI/Level3_LLM_APIs_SDKs)
 - [ ] 🔴 **Level 4 — Tool Use / Function Calling** — yahin se "agentic" shuru hota hai → [Level4_Tool_Use_Function_Calling](Agentic_AI/Level4_Tool_Use_Function_Calling)
@@ -119,6 +120,7 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 - [ ] 🟡 **Modern Topics** — start: [AI tools landscape (master map)](Agentic_AI/Modern_Topics/00_ai_tools_landscape.md) · then [AI coding tools](Agentic_AI/Modern_Topics/07_ai_coding_tools.md) + [Playwright](Agentic_AI/Modern_Topics/06_playwright_browser_automation.md); ⚪ voice/multimodal/computer-use role-specific ho to → [Modern_Topics](Agentic_AI/Modern_Topics)
 - [x] 🔴 **MCP Advanced — Server Development** — custom MCP server banana, Transport (stdio/SSE/HTTP), Security, Deployment *(NEW)* → [08_mcp_advanced_server_dev](Agentic_AI/Modern_Topics/08_mcp_advanced_server_dev.md)
 - [x] 🔴 **AI Security** — Prompt Injection, Jailbreak, Tool Poisoning, Data Leakage, OWASP LLM Top 10, AI Threat Modeling *(NEW)* → [09_ai_security_threats](Agentic_AI/Modern_Topics/09_ai_security_threats.md)
+- [ ] 🟡 **AI Ethics & Responsible AI** — Bias/fairness testing, model cards, hallucination-as-ethics-issue, copyright/provenance, EU AI Act *(NEW)* → [10_ai_ethics_responsible_ai](Agentic_AI/Modern_Topics/10_ai_ethics_responsible_ai.md)
 
 ## 📦 Reference (padhna nahi — zaroorat pe jhaanko)
 - **Udemy Agentic Course** (Hinglish notes + 25 labs) — rusty topic ka fast refresh → [Udemy_EdDonner_Course](Agentic_AI/my-agentic-ai-project/Udemy_EdDonner_Course)

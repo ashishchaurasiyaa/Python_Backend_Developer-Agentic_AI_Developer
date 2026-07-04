@@ -1,0 +1,8 @@
+{
+  "$comment": "Copy to settings.local.json for PERSONAL overrides. This file (settings.local.json) is gitignored — it never gets committed. Use it for machine-specific paths, your own permission relaxations, or a different default model while developing.",
+  "permissions": {
+    "allow": [
+      "Bash(git:*)"
+    ]
+  }
+}

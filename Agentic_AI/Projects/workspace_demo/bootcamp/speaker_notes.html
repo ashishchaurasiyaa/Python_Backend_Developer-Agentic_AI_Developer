@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Speaker Notes — Building a Claude Code Workspace</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dark:  #151622;
+    --clay:  #D97757;
+    --clay2: #B85C3E;
+    --ink:   #23262F;
+    --slate: #5C6472;
+    --card:  #F4F5F8;
+    --warm:  #FBF1EA;
+    --green: #3F8F5B;
+    --red:   #C2503F;
+    --blue:  #185FA5;
+  }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 28px 32px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--dark);
+    color: #fff;
+    border-radius: 10px;
+    padding: 28px 32px 22px;
+    margin-bottom: 28px;
+  }
+  .cover-kicker { color: var(--clay); font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .cover h1 { font-size: 26px; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+  .cover p { font-size: 13px; color: #AEB6CC; }
+  .cover-meta { display: flex; gap: 28px; margin-top: 16px; }
+  .cover-meta span { background: rgba(255,255,255,0.08); border-radius: 6px; padding: 5px 12px; font-size: 12px; color: #C6CEF0; }
+
+  /* ── TIMING BAR ── */
+  .timing-bar {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    background: var(--card); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 28px;
+    border-left: 3px solid var(--clay);
+  }
+  .timing-bar strong { width: 100%; font-size: 11px; color: var(--slate); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .tb-item { font-size: 11px; background: #fff; border: 1px solid #E4E7ED; border-radius: 4px; padding: 3px 9px; color: var(--ink); }
+
+  /* ── SECTION DIVIDER ── */
+  .section-div {
+    background: var(--clay);
+    color: #fff;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 24px 0 12px;
+  }
+
+  /* ── SLIDE CARD ── */
+  .slide-card {
+    border: 1px solid #E4E7ED;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .slide-header {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--card);
+    padding: 10px 16px;
+    border-bottom: 1px solid #E4E7ED;
+  }
+  .slide-num {
+    background: var(--dark);
+    color: var(--clay);
+    font-size: 13px; font-weight: 700;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .slide-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .slide-time { margin-left: auto; font-size: 11px; color: var(--slate); white-space: nowrap; }
+
+  .slide-body { padding: 14px 18px 16px; }
+
+  /* ── OPEN LINE ── */
+  .open-line {
+    background: var(--warm);
+    border-left: 3px solid var(--clay);
+    border-radius: 4px;
+    padding: 9px 13px;
+    font-size: 13px;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .open-line strong { font-style: normal; font-size: 10px; color: var(--clay2); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+
+  /* ── POINTS ── */
+  .points { list-style: none; margin-bottom: 12px; }
+  .points li { padding: 4px 0 4px 18px; position: relative; color: var(--ink); }
+  .points li::before { content: "→"; position: absolute; left: 0; color: var(--clay); font-weight: 700; }
+
+  /* ── SOFT SKILL BADGE ── */
+  .softskill {
+    display: inline-block;
+    background: #E8F3DE;
+    color: #2E6B38;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    border-radius: 4px; padding: 2px 8px;
+    margin-right: 6px; margin-bottom: 2px;
+  }
+  .softskill-row { margin-bottom: 10px; }
+
+  /* ── ENGAGE BLOCK ── */
+  .engage {
+    background: #EBF3FC;
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 8px 13px;
+    font-size: 12.5px;
+    color: #1a3a5c;
+    margin-bottom: 10px;
+  }
+  .engage strong { font-size: 10px; color: var(--blue); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+
+  /* ── TRANSITION ── */
+  .transition {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: var(--slate);
+    border-top: 1px dashed #DDD;
+    padding-top: 10px; margin-top: 4px;
+  }
+  .transition::before { content: "▶"; color: var(--clay); font-size: 10px; margin-top: 2px; }
+
+  /* ── WARNING ── */
+  .warn {
+    background: #FDECEA;
+    border-left: 3px solid var(--red);
+    border-radius: 4px;
+    padding: 7px 12px;
+    font-size: 12px; color: #6B1E1E;
+    margin-bottom: 10px;
+  }
+  .warn strong { color: var(--red); }
+
+  /* ── CHEAT BLOCK ── */
+  .cheat {
+    background: #1E1F2E; color: #C6CEF0;
+    border-radius: 6px; padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+    margin-bottom: 10px; line-height: 1.7;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { padding: 16px 20px; font-size: 12px; }
+    .cover { page-break-after: always; }
+    .slide-card { page-break-inside: avoid; margin-bottom: 10px; }
+    .section-div { margin: 16px 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="cover-kicker">Speaker Notes · Friday Bootcamp</div>
+  <h1>Building a Claude Code Workspace</h1>
+  <p>24 slides · ~55 min · Live demo + hands-on lab</p>
+  <div class="cover-meta">
+    <span>Presenter: Abhishek</span>
+    <span>Audience: Developers</span>
+    <span>Print this · Keep it handy</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TIMING -->
+<div class="timing-bar">
+  <strong>Timing at a glance</strong>
+  <span class="tb-item">S1-3 Title + Intro · 5 min</span>
+  <span class="tb-item">S4-9 Foundation · 13 min</span>
+  <span class="tb-item">S10-16 Capabilities · 16 min</span>
+  <span class="tb-item">S17 Auto-flow · 4 min</span>
+  <span class="tb-item">S18-19 Demo + Practical · 9 min</span>
+  <span class="tb-item">S20 Lab · 5 min</span>
+  <span class="tb-item">S21-24 Close · 8 min</span>
+</div>
+
+<!-- ══════════════════════════════════════════════════ SECTION 1 -->
+<div class="section-div">Opening (5 min)</div>
+
+<!-- S1 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">1</div>
+    <div class="slide-title">Title</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Sabse pehle ek sawaal — kitne logon ne Claude Code use kiya hai kabhi? Achha. Aur kitno ne isko ek project ka permanent teammate bana ke rakha hai?" <em>(pause — most will not raise hands)</em> "Exactly. Aaj wahi banate hain."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Storytelling</span>
+      <span class="softskill">Audience hook</span>
+      <span class="softskill">Confidence</span>
+    </div>
+    <ul class="points">
+      <li>Don't read the slide — the visual does the work.</li>
+      <li>Stand still, smile, let the silence after the question land.</li>
+      <li>55 min, live demo, hands-on. "No API key needed — safe for everyone."</li>
+    </ul>
+    <div class="transition">Next: show the roadmap — "Yeh hain aaj ke 8 topics, let's go."</div>
+  </div>
+</div>
+
+<!-- S2 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">2</div>
+    <div class="slide-title">Agenda</div>
+    <div class="slide-time">1 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "8 topics, roughly 55 minutes. Last 5 minutes tumhara — hands-on karo. Aur ek promise: yeh sab sirf theory nahi, hum live chalate bhi hain."
+    </div>
+    <ul class="points">
+      <li>Point to the bottom bar: "Yeh 5 cheezein leke jaana hai aaj." Read them out loud.</li>
+      <li>Don't linger — this is a map, not a destination.</li>
+    </ul>
+    <div class="transition">Next: "Shuru karte hain ek basic sawaal se — workspace ka matlab actually kya hai?"</div>
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">3</div>
+    <div class="slide-title">Workspace ka matlab kya hai? (NEW)</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Ek nayi job pe join karo — pehle hafte kya hota hai? Sab dobara explain karna padta hai — architecture, conventions, how to run the app. Workspace iska solution hai. Ek baar likhо — hamesha kaam karo."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Relatable analogy</span>
+      <span class="softskill">Simplification</span>
+    </div>
+    <ul class="points">
+      <li>Point 1: "Tumhara code waise hi rehta hai — kuch nahi badlta."</li>
+      <li>Point 2: ".claude/ ek얇a config layer hai — agents, skills, settings — git mein committed."</li>
+      <li>Point 3: "Clone karo — Claude ko sab pata hota hai. Zero onboarding."</li>
+    </ul>
+    <div class="engage">
+      <strong>Engage</strong>
+      "Kitne logon ne kabhi kisi new project mein join kiya aur pehle din 2 ghante documentation padhne mein gaye?" (haath uthao) "Yahi solve karta hai workspace."
+    </div>
+    <div class="transition">Next: "Is idea ko ek aur deep karte hain — mental model dikhata hun."</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ SECTION 2 -->
+<div class="section-div">Foundation (13 min) · S4–S9</div>
+
+<!-- S4 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">4</div>
+    <div class="slide-title">Mental Model</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Yeh stack ki tarah socho. Neeche tumhara code — untouched. Upar ek얇a config layer — .claude/ folder. Yahi layer Claude ko project teach karti hai."
+    </div>
+    <ul class="points">
+      <li>Point at right panel — bottom to top: code → settings → workspace.</li>
+      <li>Analogy: ".claude/ = new employee ka onboarding handbook + ek team of specialists — sab git mein."</li>
+      <li>Keep it under 2 min — this is setup for the folder map.</li>
+    </ul>
+    <div class="transition">Next: "Ab dekho yeh actually kaise dikhta hai — file by file."</div>
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">5</div>
+    <div class="slide-title">The Demo App</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "App deliberately simple hai — FastAPI backend, plain HTML frontend. Point yeh nahi ki app complex ho. Point yeh hai ki workspace uske around wrap hoti hai."
+    </div>
+    <ul class="points">
+      <li>"API key nahi chahiye — demo mode mein chalegi. Stage pe fail nahi hogi."</li>
+      <li>Show the message flow (right panel) quickly — browser → API → Claude → reply.</li>
+    </ul>
+    <div class="transition">Next: "Toh yeh workspace actually kaisi dikhti hai? Folder map."</div>
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">6</div>
+    <div class="slide-title">Folder Map</div>
+    <div class="slide-time">3 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Yeh hai poora workspace. Har file ka ek kaam hai — main dikhata hun."
+    </div>
+    <ul class="points">
+      <li>Walk top to bottom, ~10 sec per line. Don't rush.</li>
+      <li>Stress: ".claude/ IS committed — green checkmark. .env NEVER committed — red cross."</li>
+      <li>Point right panel: "Committed vs ignored — yeh rule yaad rakhna. Next slide mein aur detail hai."</li>
+    </ul>
+    <div class="transition">Next: "Shuru karte hain memory se — CLAUDE.md."</div>
+  </div>
+</div>
+
+<!-- S7 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">7</div>
+    <div class="slide-title">CLAUDE.md</div>
+    <div class="slide-time">3 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Yeh file Claude har session ke shuru mein padh leta hai — automatically. Toh jo bhi yahan likha hai, Claude ko hamesha pata rehta hai."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Simplification</span>
+    </div>
+    <ul class="points">
+      <li>"Commands, conventions, capabilities — in teeno ko CLAUDE.md mein rakho."</li>
+      <li>"200 lines se chhota rakho. Zyada lamba = focus diluted."</li>
+      <li>"Long procedures? Woh Skills mein jaate hain — agle kuch slides mein dikhata hun."</li>
+      <li>"Quick start: /init command run karo — Claude khud draft karta hai."</li>
+    </ul>
+    <div class="transition">Next: "Ab settings — kya allow karna hai, kya deny karna hai."</div>
+  </div>
+</div>
+
+<!-- S8 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">8</div>
+    <div class="slide-title">settings.json</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Yeh hai guardrails. Claude ko kya karne ka permission hai — allow list. Kya kabhi nahi karna — deny list."
+    </div>
+    <ul class="points">
+      <li>Point to deny line: <code>"Read(./.env)"</code> — "Yeh hardcode karo. Claude apni API key kabhi nahi padh sakta — bhale hi koi keh de."</li>
+      <li>"settings.local.json — tumhari machine ke personal overrides, gitignored."</li>
+      <li>"Precedence: managed > local > project > user."</li>
+    </ul>
+    <div class="transition">Next: ".gitignore — commit karo ya mat karo, iski clear line."</div>
+  </div>
+</div>
+
+<!-- S9 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">9</div>
+    <div class="slide-title">.gitignore (NEW)</div>
+    <div class="slide-time">1 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Simple rule — do columns. Left: team ke saath share karo. Right: apne paas rakho."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Clarity</span>
+    </div>
+    <ul class="points">
+      <li>"Left: .claude/, CLAUDE.md, .mcp.json, .env.example (template, no real keys)."</li>
+      <li>"Right: .env (real key), *.local.json, __pycache__, .venv."</li>
+    </ul>
+    <div class="warn">
+      <strong>⚠ If anyone commits a real key:</strong> Go to console.anthropic.com → revoke immediately → create new. Tell the team. Never panic-delete from history without revoking first.
+    </div>
+    <div class="transition">Next: "Ab capabilities — pehle agents."</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ SECTION 3 -->
+<div class="section-div">Capabilities (16 min) · S10–S16</div>
+
+<!-- S10 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">10</div>
+    <div class="slide-title">Agents</div>
+    <div class="slide-time">3 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Agent ek separate Claude hai — apna context, apne tools, apna model. Main Claude delegate karta hai isko."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Teaching clarity</span>
+    </div>
+    <ul class="points">
+      <li>"description field — yahi trigger hai. Jab user ka message description se match kare, tab agent call hota hai."</li>
+      <li>"tools list — sandbox. Sirf yahi tools use kar sakta hai."</li>
+      <li>"model — har job ke liye sahi model."</li>
+      <li>Show the .md file structure — name, description, tools, model, body.</li>
+    </ul>
+    <div class="transition">Next: "Ek real example — 3 specialist agents, 3 alag models, kyun?"</div>
+  </div>
+</div>
+
+<!-- S11 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">11</div>
+    <div class="slide-title">3 Specialist Agents — Model Selection (NEW)</div>
+    <div class="slide-time">4 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "project3 mein 3 agents hain — aur teeno alag-alag models use karte hain. Kyun? Cost aur quality trade-off."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Business thinking</span>
+      <span class="softskill">Decision making</span>
+    </div>
+    <ul class="points">
+      <li><strong>Security → Opus ($0.08):</strong> "CRITICAL issue miss karna = disaster. Sabse capable model. Cost justify hai."</li>
+      <li><strong>Perf → Sonnet ($0.02):</strong> "Pattern matching — N+1, sync-in-async. Sonnet kafi hai."</li>
+      <li><strong>Style → Haiku ($0.001):</strong> "PEP8 check karna — cheapest task. 80x cheaper than Opus."</li>
+      <li>"Total per PR: ~$0.10. Workspace ke bina yeh choices hamesha manually likhni padti."</li>
+    </ul>
+    <div class="engage">
+      <strong>Engage</strong>
+      "Koi sochega — Opus kyun security ke liye hi? Because a missed SQL injection costs more than $0.10. Simple ROI."
+    </div>
+    <div class="transition">Next: "Ab Skills — reusable workflows."</div>
+  </div>
+</div>
+
+<!-- S12 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">12</div>
+    <div class="slide-title">Skills</div>
+    <div class="slide-time">3 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Skill ek packaged procedure hai. Folder mein SKILL.md, optional scripts, optional reference docs."
+    </div>
+    <ul class="points">
+      <li>"Ek baar likhо — hamesha reuse karo. 'Add endpoint' → Claude steps follow karta hai."</li>
+      <li>"description = trigger. Name match kare toh Claude skill load karta hai."</li>
+      <li>"Also /skill-name se manually run kar sakte ho."</li>
+      <li>"No install, no restart — folder drop karo, live ho jaata hai."</li>
+    </ul>
+    <div class="transition">Next: "Skill itne ho sakte hain — context bloat kyun nahi hota? Progressive disclosure."</div>
+  </div>
+</div>
+
+<!-- S13 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">13</div>
+    <div class="slide-title">Progressive Disclosure (NEW)</div>
+    <div class="slide-time">3 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "50 skills hain — context window chhota hai. Sab ek saath load karo toh model slow ho jaata hai. Solution: progressive disclosure."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Systems thinking</span>
+      <span class="softskill">Simplification</span>
+    </div>
+    <ul class="points">
+      <li><strong>Level 1 — Always loaded:</strong> Sirf name + description. Tiny. 200 skills = no bloat.</li>
+      <li><strong>Level 2 — On trigger:</strong> Description match hone par full SKILL.md load.</li>
+      <li><strong>Level 3 — On demand:</strong> Reference docs sirf tab load jab Claude open kare.</li>
+    </ul>
+    <div class="engage">
+      <strong>Analogy to use</strong>
+      "Library mein jaate ho — sab books ek saath nahi padhte. Pehle title dekhte ho, phir summary, phir full book. Yahi hai progressive disclosure."
+    </div>
+    <div class="transition">Next: "Commands — quick one-shot triggers."</div>
+  </div>
+</div>
+
+<!-- S14 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">14</div>
+    <div class="slide-title">Commands (NEW)</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Commands Skills ke simple version hain. Ek single .md file, /command-name se run. No folder needed."
+    </div>
+    <ul class="points">
+      <li>"Use Skills for multi-step procedures. Use Commands for quick one-shot actions."</li>
+      <li>"Example: /check-milestones — Claude saari 8 milestone files check karta hai, status table banata hai."</li>
+      <li>Live show: "Yeh project3 mein dikhaunga — /check-milestones type karo."</li>
+    </ul>
+    <div class="transition">Next: "MCP — Claude ko bahar bhi connect karo."</div>
+  </div>
+</div>
+
+<!-- S15 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">15</div>
+    <div class="slide-title">MCP</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Claude by default sirf files aur conversation dekh sakta hai. MCP se — database, GitHub, browser, URLs — sab connect."
+    </div>
+    <ul class="points">
+      <li>"Standard protocol — koi bhi tool MCP implement kare, Claude use kar sakta hai."</li>
+      <li>".mcp.json — committed, team share karta hai same tools."</li>
+      <li>"Tokens kabhi .mcp.json mein mat daalo — env vars mein rakho."</li>
+    </ul>
+    <div class="transition">Next: "Toh Agent, Skill, MCP — kab kya use karna? Decision guide."</div>
+  </div>
+</div>
+
+<!-- S16 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">16</div>
+    <div class="slide-title">Agent vs Skill vs MCP</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Simple decision tree — tino ke liye ek line each."
+    </div>
+    <ul class="points">
+      <li><strong>Agent</strong> = isolation chahiye, alag model chahiye, heavy work.</li>
+      <li><strong>Skill</strong> = repeatable procedure, package karna hai, reuse karna hai.</li>
+      <li><strong>MCP</strong> = bahar jaana hai — DB, GitHub, web.</li>
+      <li>"Compose karte hain — ek skill agent ke andar chal sakti hai, agent MCP use kar sakta hai."</li>
+    </ul>
+    <div class="transition">Next: "Ab sabse important slide — auto-flow. Yeh aha moment hai."</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ SECTION 4 -->
+<div class="section-div">The Aha Moment (4 min) · S17</div>
+
+<!-- S17 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">17</div>
+    <div class="slide-title">Auto-flow — Kuch Configure Nahi Kiya (NEW)</div>
+    <div class="slide-time">4 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Yeh mera favorite slide hai. Kyunki yahan ek cheez realize hoti hai — humne manually kuch configure nahi kiya, phir bhi sab kuch automatic hua."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Storytelling climax</span>
+      <span class="softskill">Building suspense</span>
+      <span class="softskill">Audience impact</span>
+    </div>
+    <ul class="points">
+      <li>Walk through the 5 steps — slowly, one by one.</li>
+      <li>"Step 1: Session start — CLAUDE.md load hua. Project pata chala."</li>
+      <li>"Step 2: Agent descriptions scan huin — Claude ko pata chala kab kisko bhejna hai."</li>
+      <li>"Step 3: User ne kuch bola — description match hua — agent decide hua."</li>
+      <li>"Step 4: Tab agent ka body load hua — pehle nahi."</li>
+      <li>"Step 5: Apne model pe, apne context mein, apne tools se — run kiya."</li>
+    </ul>
+    <div class="engage">
+      <strong>Pause here and say:</strong>
+      "Yahi hai workspace ka power. Teen files milke system banati hain — CLAUDE.md kya hai project, description kab use karo, body kaise karo. Aur yeh sab automatic hai."
+    </div>
+    <div class="transition">Next: "Dekho yeh live — demo time."</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ SECTION 5 -->
+<div class="section-div">Demo + Practical (9 min) · S18–S19</div>
+
+<!-- S18 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">18</div>
+    <div class="slide-title">Live Demo</div>
+    <div class="slide-time">5 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Ab theory band — live demo. Do commands, 30 seconds."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Preparation</span>
+      <span class="softskill">Confidence</span>
+    </div>
+    <div class="cheat">
+$ cd workspace_demo<br>
+$ pip install -r requirements.txt<br>
+$ uvicorn backend.main:app --reload<br>
+→ open http://127.0.0.1:8000
+    </div>
+    <ul class="points">
+      <li>Type "hello" — show the reply. Point at status pill (demo mode / live).</li>
+      <li>"Maine CLAUDE.md already set ki thi — app kaise run karein, Claude ko pata tha."</li>
+      <li>"settings.json mein uvicorn allow tha — isliye permission nahi maanga."</li>
+    </ul>
+    <div class="warn">
+      <strong>If it breaks:</strong> --port 8001, ya curl output screen pe dikhao. Never debug live > 30 sec. "Yeh demo mode mein bhi perfectly dikhata hai."
+    </div>
+    <div class="transition">Next: "Ab agents ko kaam karte dikhate hain — buggy code pe."</div>
+  </div>
+</div>
+
+<!-- S19 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">19</div>
+    <div class="slide-title">Practical — Buggy Code Review (NEW)</div>
+    <div class="slide-time">4 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Main ek sawaal puchta hun — yeh code hai, 56 lines. Bina workspace ke PR review mein kitne bugs milte? Honestly?"
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Practical thinking</span>
+      <span class="softskill">Audience challenge</span>
+    </div>
+    <ul class="points">
+      <li>"3 agents — Security (Opus), Perf (Sonnet), Style (Haiku) — parallel run hue."</li>
+      <li><strong>Security:</strong> CRITICAL — hardcoded API key (line 9), SQL injection (line 14), pickle.loads (line 19).</li>
+      <li><strong>Perf:</strong> N+1 query, sync-in-async (requests.get inside async), repeated len() in loop.</li>
+      <li><strong>Style:</strong> Mutable default arg, unclear names, missing type hints, == None.</li>
+      <li>"Decision: human_review — kyunki CRITICAL issues mili. Merge block."</li>
+      <li>"Total cost: $0.10. Total time: automatic."</li>
+    </ul>
+    <div class="engage">
+      <strong>Ask the audience:</strong>
+      "Haath uthao — kitno ne SQL injection wala manually pakda hota?" (wait) "Agents se miss nahi hota. Yahi point hai."
+    </div>
+    <div class="transition">Next: "Tumhari baari — 5 minute lab."</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ SECTION 6 -->
+<div class="section-div">Hands-on + Close (13 min) · S20–S24</div>
+
+<!-- S20 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">20</div>
+    <div class="slide-title">Hands-on Lab</div>
+    <div class="slide-time">5 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Tumhari baari. 3 steps, 5 minute. Ek Skill banao — phir Claude se use karwao."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Teaching</span>
+      <span class="softskill">Ownership</span>
+    </div>
+    <div class="cheat">
+mkdir -p .claude/skills/greet<br>
+# create SKILL.md with name + description<br>
+# then type: /greet OR "welcome teammate Sara"
+    </div>
+    <ul class="points">
+      <li>Give 3 min silent working time — walk around, help individually.</li>
+      <li>Then show on your screen — live.</li>
+      <li>"No install, no restart — folder drop kiya, Claude ne detect kar liya."</li>
+      <li>Full steps in bootcamp/LAB.md — share the link.</li>
+    </ul>
+    <div class="transition">Next: "5 takeaways — yeh yaad rakhna."</div>
+  </div>
+</div>
+
+<!-- S21 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">21</div>
+    <div class="slide-title">Recap</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "5 cheezein — inhe yaad rakhna. Baki sab bhul jaao, yeh mat bhoolna."
+    </div>
+    <ul class="points">
+      <li>Read each point — slow and clear. Don't rush the recap.</li>
+      <li>Ask: "Inme se sabse surprising kya laga?" — good 30-sec discussion.</li>
+    </ul>
+    <div class="transition">Next: "Yeh real production mein kaisa dikhta hai?"</div>
+  </div>
+</div>
+
+<!-- S22 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">22</div>
+    <div class="slide-title">Project3 — Real-world</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Yeh woh project hai jo production mein jaata hai. GitHub PR open hota hai — webhook trigger hoti hai — 3 agents parallel run karte hain — synthesizer decision leta hai."
+    </div>
+    <ul class="points">
+      <li>Walk through the architecture diagram — 20 sec only.</li>
+      <li>"4 agents, 2 skills, 1 command — sab workspace mein committed."</li>
+      <li>"Clone karo, Claude Code kholo — immediately productive ho."</li>
+    </ul>
+    <div class="transition">Next: "Aur yeh actually ek known productivity system se connect hota hai."</div>
+  </div>
+</div>
+
+<!-- S23 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">23</div>
+    <div class="slide-title">GSD Connection</div>
+    <div class="slide-time">2 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "GSD — Get Shit Done system. Ek dev.to article ne 3 disciplines define ki hain AI-assisted dev ke liye. Claude Code workspace teeno automatically implement karta hai."
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Connecting ideas</span>
+      <span class="softskill">Broader awareness</span>
+    </div>
+    <ul class="points">
+      <li><strong>Meta-Prompting</strong> = agent frontmatter — role, reasoning, constraints.</li>
+      <li><strong>Context Engineering</strong> = CLAUDE.md har session + Skills on demand.</li>
+      <li><strong>Spec-Driven Dev</strong> = SKILL.md pehle likhte hain, phir Claude execute karta hai.</li>
+      <li>"Setup time: 10-15 min → under 60 sec."</li>
+    </ul>
+    <div class="transition">Next: "Questions?"</div>
+  </div>
+</div>
+
+<!-- S24 -->
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num">24</div>
+    <div class="slide-title">Q&amp;A / Close</div>
+    <div class="slide-time">5 min</div>
+  </div>
+  <div class="slide-body">
+    <div class="open-line">
+      <strong>Open with</strong>
+      "Shukriya. Repo mein sab kuch hai — README, WORKSPACE_GUIDE, LAB, CHEATSHEET. Koi bhi sawaal?"
+    </div>
+    <div class="softskill-row">
+      <span class="softskill">Handling questions</span>
+      <span class="softskill">Confidence</span>
+      <span class="softskill">Closing strong</span>
+    </div>
+    <ul class="points">
+      <li>For every question: pause, repeat the question back, then answer.</li>
+      <li>"Achha sawaal hai" — aur phir answer. Shows respect and confidence.</li>
+    </ul>
+    <div class="engage">
+      <strong>3 tough questions + answers</strong>
+    </div>
+    <ul class="points">
+      <li><strong>"ChatGPT / Copilot se alag kyun?"</strong> — Project-level awareness + scoped tools + runs commands + git mein committed. ChatGPT har session mein nayi hai. Workspace nahi bhoolti.</li>
+      <li><strong>"Mera code Anthropic ko jaata hai?"</strong> — Apni org ki data policy follow karo. Sensitive paths ke liye deny rules lagao settings.json mein.</li>
+      <li><strong>"Lock-in toh nahi hoga?"</strong> — Sirf markdown aur JSON. .claude/ folder delete karo — plain project. Koi vendor lock-in nahi.</li>
+    </ul>
+    <div class="open-line">
+      <strong>Closing line</strong>
+      "Go build one. Sirf ek project pick karo, ek CLAUDE.md likhо, ek agent add karo. Baaki khud ho jaata hai."
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ QUICK REF -->
+<div class="section-div">Quick Reference — Keep handy during presentation</div>
+
+<div class="slide-card">
+  <div class="slide-header">
+    <div class="slide-num" style="width:auto;padding:0 10px;">⚡</div>
+    <div class="slide-title">Soft Skills Moments Cheatsheet</div>
+  </div>
+  <div class="slide-body">
+    <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+      <tr style="background:var(--card);">
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #E4E7ED;">When</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #E4E7ED;">What to do</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #E4E7ED;">Skill shown</th>
+      </tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slide 1 open</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">"Kitno ne Claude Code use kiya?" — haath uthwao</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Audience engagement</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slide 3</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">New job analogy — "pehle hafte sab dobara explain"</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Relatable analogy</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slide 11</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Opus for security — "missed SQL injection = more than $0.10"</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Business/ROI thinking</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slide 13</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Library analogy for progressive disclosure</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Simplification</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slide 17</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slow down. Let the 5 steps land. Pause at the end.</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Storytelling climax</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Slide 19</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">"Kitno ne SQL injection pakda hota?" — haath uthwao</td><td style="padding:7px 12px;border-bottom:1px solid #F0F0F0;">Audience challenge</td></tr>
+      <tr><td style="padding:7px 12px;">Q&amp;A tough questions</td><td style="padding:7px 12px;">Pause → repeat question → "Achha sawaal" → answer</td><td style="padding:7px 12px;">Confidence under pressure</td></tr>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center;color:#AEB6CC;font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid #E4E7ED;">
+  Friday Bootcamp · Building a Claude Code Workspace · Speaker Notes
+</div>
+
+</body>
+</html>

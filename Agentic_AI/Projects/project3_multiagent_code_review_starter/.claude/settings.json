@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
+      "Bash(uvicorn:*)",
+      "Bash(pytest:*)",
+      "Bash(ruff:*)",
+      "Bash(curl:*)",
+      "Read(./*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Bash(rm -rf:*)",
+      "Bash(git push:*)"
+    ]
+  },
+  "env": {
+    "PYTHONUNBUFFERED": "1"
+  }
+}

@@ -1,0 +1,25 @@
+# ---- Secrets & local env -------------------------------------------------
+.env
+.env.*
+!.env.example          # keep the template, ignore real env files
+
+# ---- Python --------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# ---- Claude Code: personal / machine-local files -------------------------
+# Shared config (.claude/settings.json, agents/, skills/) IS committed.
+# Only personal and generated files are ignored:
+.claude/settings.local.json      # your private overrides
+.claude/agent-memory-local/      # local-scope subagent memory
+.claude/.session/                # transient session state
+
+# ---- OS / editor ---------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+node_modules/

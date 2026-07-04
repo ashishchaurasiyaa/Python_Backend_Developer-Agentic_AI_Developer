@@ -1,0 +1,20 @@
+{
+  "$comment": "Shared, committed project settings. Local overrides go in settings.local.json (gitignored). Precedence: managed > local > project > user.",
+  "permissions": {
+    "allow": [
+      "Bash(uvicorn:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip install:*)",
+      "Bash(curl:*)",
+      "Read(./**)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  },
+  "env": {
+    "PYTHONUNBUFFERED": "1"
+  }
+}
