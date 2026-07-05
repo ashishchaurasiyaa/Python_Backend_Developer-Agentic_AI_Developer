@@ -233,6 +233,7 @@ LevelN_Topic/
 | 7.6 | DSPy | 📦 [_existing_DSPy](Level7_Frameworks/06_dspy_complete.md) | 📦 [practical](Level7_Frameworks/06_dspy_complete_practical.py) |
 | 7.7 | LlamaIndex | [✅ 07_llamaindex.md](Level7_Frameworks/07_llamaindex.md) | [✅ practical](Level7_Frameworks/07_llamaindex_practical.py) |
 | 7.8 | Pydantic AI | [✅ 08_pydantic_ai.md](Level7_Frameworks/08_pydantic_ai.md) | [✅ practical](Level7_Frameworks/08_pydantic_ai_practical.py) |
+| 7.9 | Semantic Kernel (Azure/.NET shops) | [✅ 09_semantic_kernel.md](Level7_Frameworks/09_semantic_kernel.md) | — |
 
 ⭐ = Must-master
 
@@ -254,6 +255,7 @@ LevelN_Topic/
 | 8.8 | **Observability (LangSmith/Langfuse)** ⭐ | [✅ 08_observability.md](Level8_Production_LLMOps/08_observability.md) | [✅ practical](Level8_Production_LLMOps/08_observability_practical.py) |
 | 8.9 | **Guardrails & Safety** ⭐ | [✅ 09_guardrails.md](Level8_Production_LLMOps/09_guardrails.md) | [✅ practical](Level8_Production_LLMOps/09_guardrails_practical.py) |
 | 8.10 | **Cost Optimization (Advanced)** | [✅ 10_cost_optimization_advanced.md](Level8_Production_LLMOps/10_cost_optimization_advanced.md) | [✅ practical](Level8_Production_LLMOps/10_cost_optimization_advanced_practical.py) |
+| 8.11 | Databricks/Spark/Snowflake (enterprise data plane) | [✅ 11_databricks_spark_snowflake.md](Level8_Production_LLMOps/11_databricks_spark_snowflake.md) | — |
 
 ---
 
