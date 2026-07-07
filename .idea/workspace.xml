@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -450,7 +449,7 @@
       <workItem from="1782775755500" duration="4602000" />
       <workItem from="1782966459660" duration="1992000" />
       <workItem from="1783143319242" duration="741000" />
-      <workItem from="1783174100606" duration="2373000" />
+      <workItem from="1783174100606" duration="3103000" />
     </task>
     <servers />
   </component>

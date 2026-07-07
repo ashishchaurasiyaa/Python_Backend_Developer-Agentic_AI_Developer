@@ -269,6 +269,168 @@ jobs:
 
 ---
 
+### Q8: Build artifacts kya hote hain aur jobs ke beech data kaise pass karte hain?
+**Answer:**
+
+Artifacts = files produced by one job (build output, test reports, coverage
+HTML) that need to survive after that job's runner is destroyed, either for
+download by a human or for use by a LATER job in the same workflow.
+Environment variables/`needs.<job>.outputs` only pass small strings between
+jobs — actual FILES need artifacts.
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m build   # produces dist/*.whl, dist/*.tar.gz
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package
+          path: dist/
+          retention-days: 7      # auto-deleted after N days — avoid unbounded storage cost
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: pytest --cov=app --cov-report=html
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+
+  deploy:
+    needs: build            # deploy job re-uses what build job produced
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package
+          path: dist/
+      - run: pip install dist/*.whl && deploy_script.sh
+```
+
+**Interview point:** artifacts let you build ONCE and deploy the EXACT same
+built package to multiple later stages (staging → prod), instead of
+rebuilding at each stage — rebuilding risks subtle differences (different
+dependency resolution at a different time) between what was tested and what
+actually ships. This is the CI/CD principle "build once, promote the same
+artifact everywhere."
+
+---
+
+### Q9: Self-hosted runners kab use karte hain, GitHub-hosted runners ke bajaye?
+**Answer:**
+
+GitHub-hosted runners (`runs-on: ubuntu-latest`) are ephemeral VMs GitHub
+provisions and destroys per job — zero maintenance, but limited specs, no
+persistent state between runs, and can't reach your private network
+(on-prem DB, internal VPC resources) without extra tunneling.
+
+```yaml
+jobs:
+  build:
+    runs-on: self-hosted   # or a custom label: [self-hosted, linux, gpu]
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh
+```
+
+```bash
+# Registering a self-hosted runner (runs on YOUR infrastructure — a VM,
+# an on-prem server, or a Kubernetes pod via actions-runner-controller)
+./config.sh --url https://github.com/your-org/your-repo --token ABC123
+./run.sh
+```
+
+| Need | Choice |
+|---|---|
+| Standard build/test, no special hardware | GitHub-hosted — zero maintenance |
+| GPU-dependent jobs (ML model training/inference in CI) | Self-hosted with GPU |
+| CI needs to reach a private VPC/on-prem database directly | Self-hosted, inside that network |
+| Compliance requires build artifacts never leave your infrastructure | Self-hosted |
+| Persistent build cache across runs without re-downloading each time | Self-hosted (GitHub-hosted runners are wiped clean every run) |
+
+**Tradeoff to mention:** self-hosted runners are YOUR security responsibility
+— a compromised self-hosted runner has whatever network access that machine
+has, unlike GitHub-hosted runners which are fully isolated/destroyed per job.
+Never use self-hosted runners for public/fork-triggered workflows without
+careful guardrails (a malicious PR could run arbitrary code on your infra).
+
+---
+
+### Q10: Monorepo mein CI kaise design karte ho — har push par SAB services build na ho?
+**Answer:**
+
+A monorepo with multiple independent services (e.g., `services/api/`,
+`services/worker/`, `services/frontend/`) shouldn't rebuild/retest
+EVERYTHING on every single push — that wastes CI minutes and slows feedback.
+**Path filtering** runs a job only when files in its relevant directory changed.
+
+```yaml
+# .github/workflows/ci.yml
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      worker: ${{ steps.filter.outputs.worker }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'services/api/**'
+            worker:
+              - 'services/worker/**'
+
+  test-api:
+    needs: changes
+    if: needs.changes.outputs.api == 'true'   # only runs if api/ actually changed
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd services/api && pytest
+
+  test-worker:
+    needs: changes
+    if: needs.changes.outputs.worker == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd services/worker && pytest
+```
+
+**Alternative — native path filters on the trigger itself** (simpler, but
+less flexible than the `dorny/paths-filter` job-output pattern above, since
+it can only gate the WHOLE workflow, not individual jobs within one):
+
+```yaml
+on:
+  push:
+    paths:
+      - 'services/api/**'
+```
+
+**Interview point:** the job-output pattern (via `paths-filter` action) is
+preferred over trigger-level `paths:` in real monorepos because a single PR
+often touches MULTIPLE services — trigger-level filtering runs the whole
+workflow-or-nothing, while the job-output pattern lets you selectively run
+`test-api` AND `test-worker` in the SAME workflow run when both changed, and
+skip whichever one didn't.
+
+---
+
 ## Complete CI/CD Pipeline Example (Production-ready)
 
 ```yaml

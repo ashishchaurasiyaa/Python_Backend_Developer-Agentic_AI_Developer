@@ -77,6 +77,7 @@ LevelN_Topic/
 | 1.5 | Models Landscape | [✅ 05_models_landscape.md](Level1_LLM_Foundations/05_models_landscape.md) | (reference) |
 | 1.6 | Dev Environment Setup | [✅ 06_dev_environment_setup.md](Level1_LLM_Foundations/06_dev_environment_setup.md) | (setup guide) |
 | 1.7 | First API Calls | [✅ 07_first_api_calls.md](Level1_LLM_Foundations/07_first_api_calls.md) | [✅ practical.py](Level1_LLM_Foundations/07_first_api_calls_practical.py) |
+| 1.8 | **World Models & Theory of Mind** ⭐ *(NEW)* | [✅ 08_world_models_theory_of_mind.md](Level1_LLM_Foundations/08_world_models_theory_of_mind.md) | — |
 | 🔬 | **Deep Architecture (Internal Working)** | [✅ Deep_Architecture/README.md](Level1_LLM_Foundations/Deep_Architecture/README.md) | [✅ visualize_internals.py](Level1_LLM_Foundations/Deep_Architecture/10_visualize_internals_practical.py) |
 | 🧠 | **Classical ML/DL Foundations (Before Transformers)** | [✅ Classical_ML_DL_Foundations/README.md](Level1_LLM_Foundations/Classical_ML_DL_Foundations/README.md) | [✅ 4 numpy-from-scratch practicals](Level1_LLM_Foundations/Classical_ML_DL_Foundations/04_gradient_descent_backprop_practical.py) |
 | — | 📦 Existing reference | [_existing_ref/](Level1_LLM_Foundations/_existing_ref/) | — |
@@ -195,6 +196,7 @@ LevelN_Topic/
 | 5.7 | **Reranking** ⭐ | [✅ 07_reranking.md](Level5_RAG_Vector_Databases/07_reranking.md) | [✅ practical](Level5_RAG_Vector_Databases/07_reranking_practical.py) |
 | 5.8 | Query Transformation (HyDE) | [✅ 08_query_transformation.md](Level5_RAG_Vector_Databases/08_query_transformation.md) | [✅ practical](Level5_RAG_Vector_Databases/08_query_transformation_practical.py) |
 | 5.9 | **RAGAS Evaluation** ⭐ | [✅ 09_ragas_evaluation.md](Level5_RAG_Vector_Databases/09_ragas_evaluation.md) | [✅ practical](Level5_RAG_Vector_Databases/09_ragas_evaluation_practical.py) |
+| 5.10 | **Contextual Retrieval (Anthropic)** ⭐ *(NEW)* | [✅ 10_contextual_retrieval.md](Level5_RAG_Vector_Databases/10_contextual_retrieval.md) | — |
 
 **Mastery check:** RAG over 1000 docs with hybrid search, reranking, RAGAS metrics > 0.85.
 
@@ -216,6 +218,7 @@ LevelN_Topic/
 | 6.8 | Routing & Classification | [✅ 08_routing.md](Level6_Agent_Patterns/08_routing.md) | [✅ practical](Level6_Agent_Patterns/08_routing_practical.py) |
 | 6.9 | Human-in-the-Loop | [✅ 09_human_in_loop.md](Level6_Agent_Patterns/09_human_in_loop.md) | [✅ practical](Level6_Agent_Patterns/09_human_in_loop_practical.py) |
 | 6.10 | **Agent Evaluation** ⭐ | [✅ 10_agent_evaluation.md](Level6_Agent_Patterns/10_agent_evaluation.md) | [✅ practical](Level6_Agent_Patterns/10_agent_evaluation_practical.py) |
+| 6.12 | **Agent Harness Engineering** ⭐ *(NEW)* | [✅ 12_agent_harness_engineering.md](Level6_Agent_Patterns/12_agent_harness_engineering.md) | — |
 
 ---
 
@@ -234,6 +237,8 @@ LevelN_Topic/
 | 7.7 | LlamaIndex | [✅ 07_llamaindex.md](Level7_Frameworks/07_llamaindex.md) | [✅ practical](Level7_Frameworks/07_llamaindex_practical.py) |
 | 7.8 | Pydantic AI | [✅ 08_pydantic_ai.md](Level7_Frameworks/08_pydantic_ai.md) | [✅ practical](Level7_Frameworks/08_pydantic_ai_practical.py) |
 | 7.9 | Semantic Kernel (Azure/.NET shops) | [✅ 09_semantic_kernel.md](Level7_Frameworks/09_semantic_kernel.md) | — |
+| 7.10 | **A2A Protocol (Agent2Agent interop)** ⭐ *(NEW)* | [✅ 10_a2a_protocol.md](Level7_Frameworks/10_a2a_protocol.md) | — |
+| 7.11 | Haystack (deepset) *(NEW)* | [✅ 11_haystack.md](Level7_Frameworks/11_haystack.md) | — |
 
 ⭐ = Must-master
 
@@ -288,6 +293,7 @@ Cutting-edge topics beyond original PDF roadmap.
 | 8 | **MCP Advanced Server Dev** (transports, auth, hardening) | [✅ 08_mcp_advanced_server_dev.md](Modern_Topics/08_mcp_advanced_server_dev.md) |
 | 9 | **AI Security Threats** (OWASP LLM Top 10, prompt injection) | [✅ 09_ai_security_threats.md](Modern_Topics/09_ai_security_threats.md) |
 | 10 | **AI Ethics & Responsible AI** (bias, fairness, governance, EU AI Act) | [✅ 10_ai_ethics_responsible_ai.md](Modern_Topics/10_ai_ethics_responsible_ai.md) |
+| 11 | **Coding Agent Harness Deep Dive** (diff-editing, verification loops, sandboxing) *(NEW)* | [✅ 11_coding_agent_harness_deep_dive.md](Modern_Topics/11_coding_agent_harness_deep_dive.md) |
 
 ---
 
