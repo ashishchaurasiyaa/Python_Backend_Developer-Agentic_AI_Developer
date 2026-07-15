@@ -132,6 +132,35 @@ Prompt comparison framework — A/B test prompts.
 ### D. LangSmith / Langfuse
 Production observability + eval.
 
+### E. OpenAI Evals
+OpenAI ka open-source eval framework (`openai/evals` repo + built-in Evals product in the platform dashboard).
+- **Registry-based**: har eval = ek YAML/JSONL — samples + graded output rules. `oaieval <model> <eval-name>` se run.
+- **Do tarah ke graders**: (1) `match`/`includes`/`fuzzy_match` — deterministic string checks; (2) `model-graded` — ek LLM judge rubric ke against grade kare (G-Eval jaisa).
+- **Platform Evals API**: dataset upload → `eval` create → runs compare across model versions, dashboard me side-by-side. CI me regression-gate ke liye achha.
+
+```python
+# Platform Evals API (2025+) — code se eval banao
+from openai import OpenAI
+client = OpenAI()
+
+eval_obj = client.evals.create(
+    name="support-answer-quality",
+    data_source_config={"type": "custom", "item_schema": {
+        "type": "object",
+        "properties": {"question": {"type": "string"}, "expected": {"type": "string"}},
+    }},
+    testing_criteria=[{
+        "type": "label_model",           # LLM-as-judge grader
+        "model": "gpt-4.1-mini",
+        "input": [{"role": "user", "content": "Q: {{item.question}}\nExpected: {{item.expected}}\nAnswer: {{sample.output_text}}\nIs the answer correct? Reply pass/fail."}],
+        "labels": ["pass", "fail"], "passing_labels": ["pass"],
+    }],
+)
+# phir client.evals.runs.create(eval_id=..., data_source=...) se run + compare
+```
+
+**Kab kya**: RAG → RAGAS; general LLM app + Python-native asserts → DeepEval; prompt A/B (CLI/CI) → Promptfoo; OpenAI stack pe tightly-integrated regression gate → OpenAI Evals.
+
 ---
 
 ## 6. LLM-as-Judge

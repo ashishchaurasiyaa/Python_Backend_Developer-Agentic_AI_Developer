@@ -2,7 +2,7 @@
 
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
-**Last updated:** 2026-07-04 (added Classical_ML_DL_Foundations sub-series under Level 1)
+**Last updated:** 2026-07-14 (added Modern Topics 12 OpenAI Responses API + 13 Gemini Live API; OpenAI Evals in agent_evaluation §5E)
 **Combined roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) (single phase-wise plan)
 
 ---
@@ -12,7 +12,7 @@
 ```
 ✅ ALL HIGH priority gaps:    FILLED (10 docs)
 ✅ ALL MEDIUM priority gaps:  FILLED (9 docs added today)
-✅ ALL Modern Topics:          FILLED (5 docs)
+✅ ALL Modern Topics:          FILLED (13 docs)
 ✅ ZERO blocking gaps for Backend+AI senior interviews
 
 Current total: 101 markdown docs across 8 levels + Modern + Projects + Interview Prep
@@ -294,6 +294,8 @@ Cutting-edge topics beyond original PDF roadmap.
 | 9 | **AI Security Threats** (OWASP LLM Top 10, prompt injection) | [✅ 09_ai_security_threats.md](Modern_Topics/09_ai_security_threats.md) |
 | 10 | **AI Ethics & Responsible AI** (bias, fairness, governance, EU AI Act) | [✅ 10_ai_ethics_responsible_ai.md](Modern_Topics/10_ai_ethics_responsible_ai.md) |
 | 11 | **Coding Agent Harness Deep Dive** (diff-editing, verification loops, sandboxing) *(NEW)* | [✅ 11_coding_agent_harness_deep_dive.md](Modern_Topics/11_coding_agent_harness_deep_dive.md) |
+| 12 | **OpenAI Responses API** (2025 agentic API: stateful, hosted tools, agent loop) *(NEW)* | [✅ 12_openai_responses_api.md](Modern_Topics/12_openai_responses_api.md) |
+| 13 | **Gemini Live API** (real-time bidirectional multimodal, barge-in, voice+vision) *(NEW)* | [✅ 13_gemini_live_api.md](Modern_Topics/13_gemini_live_api.md) |
 
 ---
 

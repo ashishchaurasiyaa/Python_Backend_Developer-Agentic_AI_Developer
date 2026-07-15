@@ -7,6 +7,9 @@
 >
 > **Legend:** 🔴 must (pakka karo) · 🟡 should (kar lo to accha) · ⚪ skim (sirf jhaank lo)
 > Tu 4-saal ka backend dev hai + Udemy agentic 100% done — isliye basics = skim, senior/system-design + agent-patterns = deep.
+>
+> **📋 Kya-kya COMPULSORY hai (poori topic list):** [COMPULSORY_TOPICS.md](COMPULSORY_TOPICS.md) — Python/Django/DRF/REST/FastAPI/DB + AI, tier-wise (🔴/🟡/⚪). Interview se pehle isse check kar.
+> **🎯 Job-hunt track (resume + apply + project):** [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md#-job-hunt-track-runs-in-parallel-with-the-study-weeks--read-this-first)
 
 ---
 
@@ -48,6 +51,7 @@ Index: [01_Year3-4_Mid/README.md](Backend_Developer/01_Year3-4_Mid/README.md)
 - [x] 🔴 **Kubernetes + Helm** (Senior must-have) → [06_kubernetes_helm](Backend_Developer/01_Year3-4_Mid/04_DevOps/06_kubernetes_helm.md)
 - [x] 🔴 **OpenTelemetry + Distributed Tracing** — Spans, Trace IDs, Jaeger, Correlation IDs, Sampling *(NEW)* → [19_opentelemetry_distributed_tracing](Backend_Developer/01_Year3-4_Mid/04_DevOps/19_opentelemetry_distributed_tracing.md)
 - [x] 🟡 **Terraform + GitOps** — IaC, ArgoCD, Flux → [07_terraform](Backend_Developer/01_Year3-4_Mid/04_DevOps/07_terraform.md) · [13_gitops_argocd_flux](Backend_Developer/01_Year3-4_Mid/04_DevOps/13_gitops_argocd_flux.md)
+- [x] 🟡 **AWS Managed Services** — Lambda, API Gateway, EventBridge, CloudWatch, Secrets Manager, ECS vs EKS *(NEW)* → [22_aws_managed_services](Backend_Developer/01_Year3-4_Mid/04_DevOps/22_aws_managed_services.md)
 - [ ] 🔴 **Microservices** — decomposition, CQRS, event sourcing, outbox, saga → [05_Microservices](Backend_Developer/01_Year3-4_Mid/05_Microservices)
 - [ ] 🔴 **Design Patterns + SOLID** — GoF in Python + interview drills → [15_Design_Patterns_SOLID](Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/README.md)
 - [ ] 🟡 **Kafka** — topics/partitions, exactly-once, streams → [07_Kafka](Backend_Developer/01_Year3-4_Mid/07_Kafka)
