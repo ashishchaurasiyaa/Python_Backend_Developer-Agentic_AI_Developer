@@ -296,6 +296,16 @@ Cutting-edge topics beyond original PDF roadmap.
 | 11 | **Coding Agent Harness Deep Dive** (diff-editing, verification loops, sandboxing) *(NEW)* | [✅ 11_coding_agent_harness_deep_dive.md](Modern_Topics/11_coding_agent_harness_deep_dive.md) |
 | 12 | **OpenAI Responses API** (2025 agentic API: stateful, hosted tools, agent loop) *(NEW)* | [✅ 12_openai_responses_api.md](Modern_Topics/12_openai_responses_api.md) |
 | 13 | **Gemini Live API** (real-time bidirectional multimodal, barge-in, voice+vision) *(NEW)* | [✅ 13_gemini_live_api.md](Modern_Topics/13_gemini_live_api.md) |
+| 14 | **Data Extraction** (Crawl4AI, FireCrawl, ScrapeGraphAI, Docling, LlamaParse, MegaParser, ExtractThinker) — architecture + practical *(NEW)* | [✅ 14_data_extraction.md](Modern_Topics/14_data_extraction.md) · [🐍 practical](Modern_Topics/14_data_extraction_practical.py) |
+| 15 | **Cassandra / Astra vector store** (masterless ring, SAI + JVector ANN, CQL) *(NEW)* | [✅ 15_cassandra_vector_store.md](Modern_Topics/15_cassandra_vector_store.md) · [🐍 practical](Modern_Topics/15_cassandra_vector_store_practical.py) |
+| 16 | **Txtai** (all-in-one embeddings DB + pipelines + workflows) *(NEW)* | [✅ 16_txtai.md](Modern_Topics/16_txtai.md) · [🐍 practical](Modern_Topics/16_txtai_practical.py) |
+| 17 | **Giskard** (LLM/RAG red-teaming, scan, RAGET, CI gate) *(NEW)* | [✅ 17_giskard_evaluation.md](Modern_Topics/17_giskard_evaluation.md) · [🐍 practical](Modern_Topics/17_giskard_evaluation_practical.py) |
+| 18 | **Model training internals** (RLHF/PPO/DPO, Distillation, Validation Loss) — concept level *(NEW)* | [✅ 18_model_training_internals.md](Modern_Topics/18_model_training_internals.md) |
+| 19 | **Milvus** (cloud-native, billion-scale, disaggregated, GPU ANN) *(NEW)* | [✅ 19_milvus_vector_db.md](Modern_Topics/19_milvus_vector_db.md) · [🐍 practical](Modern_Topics/19_milvus_vector_db_practical.py) |
+| 20 | **OpenSearch vectors** (k-NN + BM25 hybrid, HNSW/Faiss) *(NEW)* | [✅ 20_opensearch_vector.md](Modern_Topics/20_opensearch_vector.md) · [🐍 practical](Modern_Topics/20_opensearch_vector_practical.py) |
+| 21 | **Together AI** (hosted open-weight models, OpenAI-compatible, FT) *(NEW)* | [✅ 21_together_ai.md](Modern_Topics/21_together_ai.md) · [🐍 practical](Modern_Topics/21_together_ai_practical.py) |
+| 22 | **TruLens** (LLM observability, RAG Triad, feedback functions) *(NEW)* | [✅ 22_trulens_evaluation.md](Modern_Topics/22_trulens_evaluation.md) · [🐍 practical](Modern_Topics/22_trulens_evaluation_practical.py) |
+| — | **📊 Complete Coverage Analysis** (all 43 tools + 12 terms mapped) | [✅ COVERAGE_ANALYSIS.md](Modern_Topics/COVERAGE_ANALYSIS.md) |
 
 ---
 
