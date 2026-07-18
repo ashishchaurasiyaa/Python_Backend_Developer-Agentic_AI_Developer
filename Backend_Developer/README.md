@@ -3,7 +3,7 @@
 > Ek hi jagah pe **fresher se senior/staff tak** ka pura Python backend journey.
 > Folders **year-experience** ke hisaab se grouped hain, aur har folder ke aage ka **number = priority / seekhne ka order** hai.
 
-**Status:** ✅ Zero-to-Advanced coverage complete · **619 markdown docs + 615 Python files**
+**Status:** ✅ Zero-to-Advanced coverage complete · **698 markdown docs + 738 Python files** *(counts current as of 2026-07-18)*
 **Target:** Senior/Staff Python backend (₹25–50 LPA India / $130–200K abroad)
 **Style:** Hinglish / Bhai-mode teaching — WHAT / WHY / HOW + internal working. Concepts pe focus, code tu khud likhega.
 
@@ -41,14 +41,14 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 00_Year0-2_Junior — Foundations + Core Stack  (490 files)
+## 📁 00_Year0-2_Junior — Foundations + Core Stack  (549 files)
 
 > Job-ready banne ke liye yeh sab **cold** aana chahiye.
 
 | # | Folder | Priority | Kya hai |
 |---|--------|----------|---------|
 | 01 | `01_Foundations` | 🔴 HIGH | Linux/bash, networking, OS concepts, git, pehli API, env setup, SQL basics, Postman, legacy code reading |
-| 02 | `02_Python_Daily` | 🔴 HIGH | Day01–Day52: variables → OOP → decorators/generators → async → metaclasses. Core Python ki reedh ki haddi |
+| 02 | `02_Python_Daily` | 🔴 HIGH | Day01–Day55: variables → OOP → decorators/generators → async → metaclasses (+ Day53–55 gap-fill). Core Python ki reedh ki haddi |
 | 03 | `03_Python_Tooling` | 🟡 MEDIUM | venv, pip/poetry, linters, formatters, pre-commit |
 | 04 | `04_Database_SQL` | 🔴 HIGH | PostgreSQL deep, indexing, transactions, window functions, partitioning, CDC, vector DBs |
 | 05 | `05_MySQL` | 🔴 HIGH | MySQL CRUD → performance schema, ProxySQL |
@@ -62,7 +62,7 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 01_Year3-4_Mid — Depth + Engineering Maturity  (257 files)
+## 📁 01_Year3-4_Mid — Depth + Engineering Maturity  (374 files)
 
 > Mid → senior jump. Advanced stack + process skills.
 
@@ -85,7 +85,7 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 02_Year5+_Senior — System Design + Architecture + Leadership  (430 files)
+## 📁 02_Year5+_Senior — System Design + Architecture + Leadership  (415 files)
 
 > Senior/staff level. Yahan technical depth + leadership dono chahiye.
 
@@ -97,7 +97,7 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 03_Interview_AnyYear — DSA + Interview Prep + Projects  (76 files)
+## 📁 03_Interview_AnyYear — DSA + Interview Prep + Projects  (97 files)
 
 > Kisi bhi year pe relevant. Interview se pehle yahan time do.
 
