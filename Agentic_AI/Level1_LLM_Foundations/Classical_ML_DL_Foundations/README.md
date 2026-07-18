@@ -1,6 +1,8 @@
 # 🧠 Classical ML/DL Foundations — Before the Transformer
 
 > **Why this folder exists:** `Level1_LLM_Foundations` and `Deep_Architecture/` start at the transformer/attention level. This folder fills the layer BEFORE that — classical machine learning and deep learning (linear regression → perceptron → MLP → CNN → RNN/LSTM), ending with an explicit bridge into the Transformer you already know, plus transfer learning and GANs/diffusion. Gap identified 2026-07-04 while cross-checking the repo against an external Agentic AI bootcamp syllabus's "Foundations of Neural Networks and Transformers" module.
+>
+> **Docs 11–12 added 2026-07-18:** classical ML breadth (supervised/unsupervised algorithms + the full data-science pipeline) and classical NLP (BoW→TF-IDF→Word2Vec). These fill the two genuine content gaps found when mapping the repo against Tutedude's "90-Day GenAI" Modules 12 (ML) & 13 (NLP) — the only parts of that course not already covered (deeper) elsewhere in this repo.
 
 ---
 
@@ -18,6 +20,8 @@
 | 8 | [08_rnn_limits_transformer_rise.md](08_rnn_limits_transformer_rise.md) ⭐ | **The bridge** — RNN's 2 limitations → Transformer's 2 fixes | (links to existing Deep_Architecture series) |
 | 9 | [09_transfer_learning.md](09_transfer_learning.md) | Feature extraction vs fine-tuning — maps directly to RAG vs LoRA vs full fine-tune | (concepts) |
 | 10 | [10_gans_diffusion_image_gen.md](10_gans_diffusion_image_gen.md) | GANs, diffusion models, DALL-E/Stable Diffusion/Midjourney foundations | (concepts) |
+| 11 | [11_classical_ml_algorithms.md](11_classical_ml_algorithms.md) 🆕 | **Classical ML breadth** — SVM/KNN/NB/Trees/RF, K-Means/DBSCAN, DS pipeline, metrics, bias-variance | [✅ practical.py](11_classical_ml_algorithms_practical.py) — sklearn model bake-off + clustering |
+| 12 | [12_classical_nlp_pipeline.md](12_classical_nlp_pipeline.md) 🆕 | **Classical NLP** — cleaning, BoW → TF-IDF → N-grams → Word2Vec, cosine similarity | [✅ practical.py](12_classical_nlp_pipeline_practical.py) — TF-IDF spam clf + mini embedding |
 
 ---
 
