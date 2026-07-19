@@ -35,8 +35,8 @@ Time budget: ~10–12 hrs/week (evenings + weekend). Realistic ship: **4 weeks**
 
 ## 📅 Week 1 — Skeleton LIVE + Ingestion
 
-- [ ] **D1** Starter clone, `docker-compose` (Postgres+pgvector, Redis), `CREATE EXTENSION vector;`
-- [ ] **D1** `.env` + `pydantic-settings` config, secrets clean (no keys in git)
+- [x] **D1** Starter refactored into `app/` package (config, db, routers, retrieval); `docker-compose.yml` (pgvector+redis) + `init-db.sql` (`CREATE EXTENSION vector`); `Makefile`
+- [x] **D1** `pydantic-settings` config (`app/config.py`) + `.env.example`; secrets gitignored. Skeleton **boot-verified** — `/health`, `/health/ready`, `/documents`, `/query`, `/query/stream` all 200/SSE ✅
 - [ ] **D2** SQLAlchemy async models: `tenants`, `users`, `documents`, `chunks` (pgvector column) + Alembic migration
 - [ ] **D2** JWT auth (`/auth/login`, `get_current_tenant` dependency), `/health`
 - [ ] 🎯 **D3 — DEPLOY skeleton** to Fly.io/Render (Postgres+Redis add-on). **Live `/health` = Checkpoint 1**

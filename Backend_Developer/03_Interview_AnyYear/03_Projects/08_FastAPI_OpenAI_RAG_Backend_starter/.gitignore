@@ -1,0 +1,7 @@
+# Project-local ignores (repo root .gitignore already covers .venv/.env/__pycache__)
+.venv/
+__pycache__/
+*.pyc
+.env
+uploads/
+*.db
