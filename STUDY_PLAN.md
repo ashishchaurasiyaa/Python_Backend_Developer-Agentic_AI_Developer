@@ -93,7 +93,7 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 - [ ] 🔴 **Python tricky questions** (GIL, mutable defaults, descriptors, async) → [02_Interview_Prep](Backend_Developer/03_Interview_AnyYear/02_Interview_Prep)
 - [ ] 🟡 **System Design 50 Qs + SQL Qs + Debugging scenarios** → [02_Interview_Prep](Backend_Developer/03_Interview_AnyYear/02_Interview_Prep)
 - [ ] 🟡 **Behavioral (STAR) + Resume walkthrough + Negotiation** → [02_Interview_Prep](Backend_Developer/03_Interview_AnyYear/02_Interview_Prep)
-- [ ] 🟡 **1 portfolio project banao** — Multi-Tenant SaaS *ya* OpenAI RAG Backend (resume gold) → [03_Projects](Backend_Developer/03_Interview_AnyYear/03_Projects)
+- [ ] 🔴 **1 portfolio project SHIP karo** — RAG-as-a-Service Backend (resume gold, "padha→kiya" proof). Day-by-day tracker: **[📋 SHIP PLAN.md](Backend_Developer/03_Interview_AnyYear/03_Projects/08_FastAPI_OpenAI_RAG_Backend_starter/PLAN.md)** · spec → [08_RAG_Backend](Backend_Developer/03_Interview_AnyYear/03_Projects/08_FastAPI_OpenAI_RAG_Backend.md) · all projects → [03_Projects](Backend_Developer/03_Interview_AnyYear/03_Projects)
 
 ---
 
