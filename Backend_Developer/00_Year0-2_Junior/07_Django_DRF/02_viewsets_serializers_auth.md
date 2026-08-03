@@ -13,6 +13,9 @@
 ## Interview Questions & Answers
 
 ### Q1: DRF Serializers kaise likhte hain? Validation kaise karte hain?
+<img alt="img_7.png" src="img_7.png"/>
+
+<img alt="img_8.png" src="img_8.png"/>
 **Answer:**
 ```python
 from rest_framework import serializers
@@ -70,13 +73,15 @@ class UserSerializer(serializers.ModelSerializer):
 serializer = UserSerializer(data=request.data)
 if serializer.is_valid(raise_exception=True):
     user = serializer.save()
-```
 
----
 
 ### Q2: ViewSet kaise banate hain? Router se URLs kaise generate hote hain?
 **Answer:**
-```python
+#python
+
+<img alt="img_10.png" src="img_10.png"/>
+<img alt="img_11.png" src="img_11.png"/>
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -145,13 +150,11 @@ urlpatterns = [path("api/", include(router.urls))]
 # DELETE /api/users/{id}/      → destroy
 # GET    /api/users/me/        → me (custom action)
 # POST   /api/users/{id}/activate/  → activate
-```
-
----
 
 ### Q3: DRF Permissions kaise kaam karte hain? Custom permission kaise banate hain?
 **Answer:**
-```python
+<img alt="img_13.png" src="img_13.png"/>
+
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 # Built-in permissions
@@ -189,17 +192,15 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(detail=False, permission_classes=[IsPremiumUser])
     def export(self, request):
         ...
-```
 
----
+
 
 ### Q4: JWT Authentication DRF mein kaise setup karte hain?
 **Answer:**
-```bash
 pip install djangorestframework-simplejwt
-```
 
-```python
+<img alt="img_14.png" src="img_14.png"/>
+
 # settings.py
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -239,13 +240,13 @@ class MyTokenSerializer(TokenObtainPairSerializer):
         token["role"] = user.role
         token["plan"] = user.plan
         return token
-```
 
----
 
 ### Q5: DRF Pagination kaise karte hain?
 **Answer:**
-```python
+
+<img alt="img_15.png" src="img_15.png"/>
+
 # settings.py
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -276,13 +277,11 @@ class OrderCursorPagination(CursorPagination):
 
 class OrderViewSet(viewsets.ModelViewSet):
     pagination_class = OrderCursorPagination
-```
 
----
 
 ### Q6: DRF Throttling (Rate Limiting) kaise karte hain?
 **Answer:**
-```python
+<img alt="img_16.png" src="img_16.png"/>
 # settings.py
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": [

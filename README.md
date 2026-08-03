@@ -23,11 +23,19 @@ PythonRevision/
 │   ├── 03_Interview_AnyYear/     (DSA [28 topics + patterns index], Interview Prep, Projects)
 │   └── README.md                 (backend index)
 │
-└── Agentic_AI/                 ← Modern AI engineering (Level 1 → 8)
-    ├── Level1..8/                (LLM → Prompt → APIs → Tools → RAG → Agents → Frameworks → LLMOps)
-    ├── Modern_Topics/  Projects/  Interview_Prep/
-    ├── my-agentic-ai-project/    ← hands-on practice project (uv: pyproject + generativeai/)
-    └── MASTER_INDEX.md · 00_LEARNING_ROADMAP.md · AGENTIC_AI_CURRICULUM.md
+├── Agentic_AI/                 ← Modern AI engineering (Level 1 → 8)
+│   ├── Level1..8/                (LLM → Prompt → APIs → Tools → RAG → Agents → Frameworks → LLMOps)
+│   ├── Modern_Topics/  Projects/  Interview_Prep/
+│   ├── my-agentic-ai-project/    ← hands-on practice project (uv: pyproject + generativeai/)
+│   └── MASTER_INDEX.md · 00_LEARNING_ROADMAP.md · AGENTIC_AI_CURRICULUM.md
+│
+└── DevOps/                     ← Standalone DevOps Engineer track (Phase 1 → 21)
+    ├── 01_Linux .. 04_Git         (Foundation: Linux, Bash, Networking, Git)
+    ├── 05_Docker .. 09_Ansible    (Docker, Kubernetes, AWS, Terraform, Ansible)
+    ├── 10_CICD .. 13_Web_Servers  (CI/CD, Monitoring, Logging, Nginx/Apache)
+    ├── 14_Security .. 17_Caching  (Security, Databases, Messaging, Caching)
+    ├── 18_System_Design .. 21_Projects (System Design, Observability, Best Practices, 10 Projects)
+    └── README.md                 (DevOps track index)
 ```
 
 ---
@@ -43,6 +51,7 @@ PythonRevision/
 | **Agentic AI** | `Agentic_AI/Level1_LLM_Foundations/` → … → `Level8_Production_LLMOps/` |
 | **Interview prep** | `Backend_Developer/03_Interview_AnyYear/02_Interview_Prep/` + `Agentic_AI/Interview_Prep/` |
 | **Projects** | `Agentic_AI/Projects/` + `Backend_Developer/03_Interview_AnyYear/03_Projects/` |
+| **DevOps (Linux → K8s → AWS → CI/CD)** | `DevOps/` (start at `DevOps/README.md`) |
 
 ---
 

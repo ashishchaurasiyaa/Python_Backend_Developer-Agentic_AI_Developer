@@ -36,6 +36,9 @@ Unlike Flask/FastAPI (which are minimal and let you pick every piece), Django sh
 | **URL routing** | `urls.py` maps paths to views declaratively |
 | **Migrations** | Schema changes tracked and applied via `manage.py migrate` |
 
+<img alt="img.png" src="img.png"/>
+
+
 ---
 
 ## 🏛️ MVT Architecture (Django's spin on MVC)

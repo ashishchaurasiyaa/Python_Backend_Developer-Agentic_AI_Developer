@@ -8,10 +8,12 @@
 - **Custom Manager** = queryset logic reuse karo
 
 ---
+<img alt="img_1.png" src="img_1.png"/>
 
 ## Interview Questions & Answers
 
 ### Q1: N+1 problem kya hai? select_related aur prefetch_related se kaise fix karte hain?
+<img alt="img_2.png" src="img_2.png"/>
 **Answer:**
 N+1: 1 query for list + N queries for each item's relation = N+1 total queries.
 
@@ -56,6 +58,7 @@ orders = Order.objects.select_related(
 ---
 
 ### Q2: annotate aur aggregate ka fark kya hai? Examples?
+<img alt="img_3.png" src="img_3.png"/>
 **Answer:**
 ```python
 from django.db.models import Count, Sum, Avg, Max, Min, F, Q
@@ -97,10 +100,8 @@ premium_or_admin = User.objects.filter(
 active_non_trial = User.objects.filter(
     Q(is_active=True) & ~Q(plan="trial")
 )
-```
 
----
-
+<img alt="img_4.png" src="img_4.png"/>
 ### Q3: Custom Managers aur QuerySets kaise banate hain?
 **Answer:**
 ```python
@@ -149,11 +150,10 @@ class Order(models.Model):
 Order.objects.pending()
 Order.objects.high_value(500)
 Order.objects.get_queryset().active().recent(7).with_total()
-```
 
----
 
 ### Q4: Django ORM performance tips kya hain?
+<img alt="img_5.png" src="img_5.png"/>
 **Answer:**
 ```python
 # 1. only() — sirf zaruri fields load karo
@@ -191,11 +191,9 @@ from django.db import connection
 with connection.cursor() as cursor:
     cursor.execute("EXPLAIN ANALYZE " + str(queryset.query))
     print(cursor.fetchall())
-```
-
----
 
 ### Q5: Django signals kab aur kaise use karte hain?
+<img alt="img_6.png" src="img_6.png"/>
 **Answer:**
 ```python
 from django.db.models.signals import post_save, pre_save, post_delete

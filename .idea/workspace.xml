@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/coding_practic/basic_foundation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PythonRevision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonRevision.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/Level6_Agent_Patterns/10_agent_evaluation.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/Level6_Agent_Patterns/10_agent_evaluation.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/Projects/workspace_demo/bootcamp/Workspace_Bootcamp.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAILY_PLAN_90_DAYS.md" beforeDir="false" afterPath="$PROJECT_DIR$/DAILY_PLAN_90_DAYS.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/STUDY_PLAN.md" beforeDir="false" afterPath="$PROJECT_DIR$/STUDY_PLAN.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/00_django_basics_definition.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/00_django_basics_definition.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/01_orm_deep_dive.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/01_orm_deep_dive.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/02_viewsets_serializers_auth.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/02_viewsets_serializers_auth.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +19,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="2243" />
-    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+    <option name="cachedIndexableFilesCount" value="2386" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -69,23 +68,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.482315264769119" />
-      <entry key="MS500" value="3.729086094288493" />
-      <entry key="S2" value="8.520558198383045" />
-      <entry key="S5" value="17.30660063171515" />
-      <entry key="S10" value="28.545818643849103" />
-      <entry key="S30" value="47.195657493626584" />
-      <entry key="S60" value="55.04295023291328" />
-      <entry key="M2" value="59.71993410302538" />
-      <entry key="M5" value="62.81007799597397" />
-      <entry key="M10" value="63.891563810947304" />
-      <entry key="M15" value="64.2580103531935" />
-      <entry key="M30" value="64.62747953726989" />
-      <entry key="H1" value="64.81335655759538" />
-      <entry key="H2" value="64.90658224988289" />
-      <entry key="H4" value="64.95326708938029" />
-      <entry key="D1" value="64.99220784088334" />
-      <entry key="W1" value="64.99888675256793" />
+      <entry key="MS100" value="1.3208567851420019" />
+      <entry key="MS500" value="1.9791300446829323" />
+      <entry key="S2" value="5.628407740546315" />
+      <entry key="S5" value="12.68149835476244" />
+      <entry key="S10" value="20.923198700708454" />
+      <entry key="S30" value="32.895942400558866" />
+      <entry key="S60" value="37.476343110816735" />
+      <entry key="M2" value="40.10885694455736" />
+      <entry key="M5" value="42.23116233134541" />
+      <entry key="M10" value="47.12559829932384" />
+      <entry key="M15" value="54.52912195619951" />
+      <entry key="M30" value="74.54003909747253" />
+      <entry key="H1" value="95.51785553648915" />
+      <entry key="H2" value="110.92810208508386" />
+      <entry key="H4" value="120.30016815897363" />
+      <entry key="D1" value="129.116659114795" />
+      <entry key="W1" value="130.72839232476935" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -107,23 +106,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.412716757749064" />
-      <entry key="MS500" value="3.6789547454313403" />
-      <entry key="S2" value="8.49170674845681" />
-      <entry key="S5" value="17.281834557837637" />
-      <entry key="S10" value="28.522841827652467" />
-      <entry key="S30" value="47.18116572298207" />
-      <entry key="S60" value="55.034169728753206" />
-      <entry key="M2" value="59.71507767697451" />
-      <entry key="M5" value="62.80801100770054" />
-      <entry key="M10" value="63.890508441022995" />
-      <entry key="M15" value="64.25730182392256" />
-      <entry key="M30" value="64.62712277560327" />
-      <entry key="H1" value="64.81317754827543" />
-      <entry key="H2" value="64.9064925875696" />
-      <entry key="H4" value="64.95322221874368" />
-      <entry key="D1" value="64.99220035695492" />
-      <entry key="W1" value="64.99888568330084" />
+      <entry key="MS100" value="1.275863546386227" />
+      <entry key="MS500" value="1.9630479776200522" />
+      <entry key="S2" value="5.608180641761768" />
+      <entry key="S5" value="12.662724534934712" />
+      <entry key="S10" value="20.90743346053026" />
+      <entry key="S30" value="32.88744946621956" />
+      <entry key="S60" value="37.47146003265909" />
+      <entry key="M2" value="40.10623071438069" />
+      <entry key="M5" value="42.23004923312637" />
+      <entry key="M10" value="47.12495222710223" />
+      <entry key="M15" value="54.52859582443361" />
+      <entry key="M30" value="74.53964447907462" />
+      <entry key="H1" value="95.51758861455701" />
+      <entry key="H2" value="110.92794295689508" />
+      <entry key="H4" value="120.30008077635263" />
+      <entry key="D1" value="129.11664332395637" />
+      <entry key="W1" value="130.72839003687358" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -365,8 +364,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PY-261.26222.68" />
-        <option value="bundled-python-sdk-50341a9f1f9c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.26222.68" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-PY-262.8665.369" />
+        <option value="bundled-python-sdk-6fa658e1df1a-5bd6d13a2a75-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-262.8665.369" />
       </set>
     </attachedChunks>
   </component>
@@ -459,6 +458,12 @@
       <workItem from="1783381193517" duration="6030000" />
       <workItem from="1783435251147" duration="10760000" />
       <workItem from="1783915885841" duration="18669000" />
+      <workItem from="1784032153194" duration="25420000" />
+      <workItem from="1784391144450" duration="25159000" />
+      <workItem from="1784711530660" duration="3650000" />
+      <workItem from="1784847317456" duration="28280000" />
+      <workItem from="1785143672734" duration="8742000" />
+      <workItem from="1785754065448" duration="2617000" />
     </task>
     <servers />
   </component>
