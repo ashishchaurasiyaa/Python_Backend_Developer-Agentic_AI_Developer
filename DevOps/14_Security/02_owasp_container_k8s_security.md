@@ -183,6 +183,40 @@ docker scan myapp:latest
 docker scout cves myapp:latest
 ```
 
+### The Docker Socket — Never Mount It Casually
+
+```bash
+# This line hands the container ROOT ON THE HOST:
+docker run -v /var/run/docker.sock:/var/run/docker.sock myapp
+```
+
+```
+Why: the socket is the Docker daemon's API, and the daemon runs as
+root. Anything that can talk to the socket can say "run me a new
+container, privileged, with the host filesystem mounted" — that's a
+complete container escape in two commands:
+
+  docker run -v /:/host --privileged -it alpine chroot /host sh
+
+Where it shows up legitimately: CI runners building images (DinD),
+monitoring agents (cAdvisor), reverse proxies that watch containers
+(Traefik). Even then, treat "has the socket" = "is root on host".
+
+Safer alternatives:
+  - Rootless builds in CI: kaniko, buildah, BuildKit rootless
+  - A socket proxy (tecnativa/docker-socket-proxy) exposing only the
+    read-only API endpoints the tool actually needs
+  - --group-add + a read-only mount (-v ...docker.sock:...:ro) limits
+    accidents, NOT attackers — the API itself is still fully writable
+    through a read-only-mounted socket file
+
+Same logic in Kubernetes: mounting the container runtime socket
+(containerd.sock) into a Pod is the same escape; PSS "restricted"
+profile blocks hostPath mounts for exactly this reason.
+```
+
+**Interview line:** *"Mounting docker.sock is equivalent to giving the container passwordless root on the host — the daemon API can start a privileged container with `/` mounted. If a tool needs it, I scope it through a socket proxy or move builds to kaniko/rootless BuildKit."*
+
 ---
 
 ## Kubernetes Security
