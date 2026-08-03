@@ -365,3 +365,40 @@ Instrumentator(
 |-----------|---------|-------------|
 | APScheduler | Simple cron, in-process | ❌ |
 | Celery Beat | Heavy tasks, production | ✅ |
+
+---
+
+## Bonus: Documenting Outgoing Webhooks in OpenAPI
+
+Tumhare API ke *incoming* endpoints OpenAPI me auto-documented hote hain — par jo webhooks **tum bhejte ho** (order.created → client ka URL), unka contract client ko kaise batao? FastAPI iske liye do mechanisms deta hai:
+
+```python
+from fastapi import FastAPI, APIRouter
+from pydantic import BaseModel
+
+class OrderCreatedPayload(BaseModel):
+    order_id: int
+    total: float
+
+# ── Option 1 (modern, OpenAPI 3.1): app-level webhooks ──
+app = FastAPI()
+
+@app.webhooks.post("order-created")          # /docs me "Webhooks" section banata hai
+def order_created(body: OrderCreatedPayload):
+    """Jab order banta hai, hum tumhare registered URL pe yeh POST bhejte hain."""
+    # Body sirf DOCUMENTATION ke liye hai — yeh endpoint serve nahi hota
+
+# ── Option 2 (per-endpoint): callbacks= on the subscribing route ──
+callback_router = APIRouter()
+
+@callback_router.post("{$callback_url}/order-events")
+def order_event_callback(body: OrderCreatedPayload):
+    pass                                      # sirf schema documentation
+
+@app.post("/subscribe", callbacks=callback_router.routes)
+def subscribe(callback_url: str):
+    """Client apna URL register karta hai; callbacks= uska contract dikhata hai."""
+    return {"subscribed": callback_url}
+```
+
+**Kab kya:** `app.webhooks` = global webhook catalog (Stripe-style docs); `callbacks=` = "is subscribe endpoint ke jawab me yeh calls aayengi" wala per-route contract. Dono sirf documentation generate karte hain — actual sending tumhara code karta hai (delivery + HMAC signing + retries ke liye dekho [22_hmac_webhooks_idempotency.md](22_hmac_webhooks_idempotency.md)).
