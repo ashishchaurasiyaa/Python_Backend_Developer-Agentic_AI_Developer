@@ -598,6 +598,41 @@ class Meta:
 
 ---
 
+## Bonus: CompositePrimaryKey (Django 5.2+)
+
+Django 5.2 ka headline ORM feature — ab tak har model me single-column PK (auto `id`) compulsory tha; ab composite natural keys natively:
+
+```python
+from django.db import models
+
+class OrderItem(models.Model):
+    pk = models.CompositePrimaryKey("order_id", "product_id")   # field ka naam 'pk' hi hona chahiye
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField()
+
+# Lookups tuple se:
+OrderItem.objects.get(pk=(42, 7))
+item.pk          # → (42, 7)
+```
+
+**Kab use karo:** junction/association tables (order_items, enrollments), multi-tenant row keys (`tenant_id + local_id`), legacy DB integration jahan composite PK pehle se hai (`inspectdb` ab inhe detect karta hai).
+
+**Limitations (yehi interview me poochte hain):**
+```
+1. Doosre models se is model pe ForeignKey NAHI kar sakte abhi —
+   composite FK support future release me hai. Isliye "children" wale
+   models ke liye ab bhi surrogate id + UniqueConstraint pattern sahi hai.
+2. Field ka naam literally `pk` hona zaroori hai.
+3. DRF/admin tooling tuple-pk se URLs banate time friction dega —
+   API-facing models pe surrogate key + composite UNIQUE constraint
+   ab bhi zyada practical hai.
+```
+
+**Interview line:** *"5.2 se pehle composite natural key = surrogate `id` + `UniqueConstraint(fields=[...])`. 5.2 me `CompositePrimaryKey` native hai — main junction tables aur legacy schemas ke liye use karta hoon, par jis model pe doosre models FK karte hain wahan surrogate hi rakhta hoon kyunki composite-FK abhi supported nahi."*
+
+---
+
 ## References
 
 - [Model inheritance](https://docs.djangoproject.com/en/5.0/topics/db/models/#model-inheritance)
