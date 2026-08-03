@@ -362,6 +362,64 @@ SELECT * FROM events WHERE created_at >= '2024-01-01' AND created_at < '2024-02-
 
 ---
 
+## Bonus 1: GROUPING SETS / ROLLUP / CUBE — multi-level aggregation ek query me
+
+"Region-wise total, product-wise total, AUR grand total — teeno ek saath" — teen alag GROUP BY + UNION ALL ki jagah:
+
+```sql
+-- GROUPING SETS: exactly jo combinations chahiye
+SELECT region, product, SUM(amount) AS total
+FROM sales
+GROUP BY GROUPING SETS ((region), (product), ());   -- () = grand total row
+
+-- ROLLUP: hierarchy ke saare levels — (region, product) → (region) → ()
+SELECT region, product, SUM(amount)
+FROM sales GROUP BY ROLLUP (region, product);
+-- Report: har region ke andar product totals + region subtotal + grand total
+
+-- CUBE: SAB combinations (2^n) — cross-tab analysis
+SELECT region, product, SUM(amount)
+FROM sales GROUP BY CUBE (region, product);
+
+-- Subtotal rows me dono NULL dikhte hain — asli NULL se differentiate:
+SELECT region, product, SUM(amount),
+       GROUPING(region) AS is_region_subtotal    -- 1 = yeh subtotal row hai
+FROM sales GROUP BY ROLLUP (region, product);
+```
+
+**Interview line:** *"ROLLUP hierarchical subtotals ke liye (region→product report), CUBE har combination ke liye, GROUPING SETS jab custom combinations chahiye. Ek hi scan me saare levels — UNION ALL wale version se N-times faster, aur `GROUPING()` se subtotal rows identify hoti hain."* (MySQL 8 me sirf `WITH ROLLUP` syntax hai; GROUPING SETS/CUBE PostgreSQL/standard.)
+
+---
+
+## Bonus 2: LATERAL Join — "har row ke liye correlated subquery, FROM me"
+
+Classic problem: **"har customer ke last 3 orders"** — window function se ho jata hai, par LATERAL zyada natural aur often faster hai:
+
+```sql
+SELECT c.name, o.*
+FROM customers c
+CROSS JOIN LATERAL (
+    SELECT id, amount, created_at
+    FROM orders
+    WHERE orders.customer_id = c.id      -- ← bahar wali table ko reference! yehi LATERAL hai
+    ORDER BY created_at DESC
+    LIMIT 3
+) o;
+-- Without LATERAL yeh subquery c.id ko dekh hi nahi sakti thi
+
+-- LEFT JOIN LATERAL ... ON true  → jinke orders nahi unko bhi rakho
+SELECT c.name, o.amount
+FROM customers c
+LEFT JOIN LATERAL (
+    SELECT amount FROM orders WHERE customer_id = c.id
+    ORDER BY created_at DESC LIMIT 1
+) o ON true;
+```
+
+**Kab LATERAL vs window function:** top-N-per-group me agar N chhota hai aur `(customer_id, created_at)` pe index hai to LATERAL har customer ke liye index se seedha N rows uthata hai (nested loop); window function poori table scan karke ROW_NUMBER assign karta hai. Chhota N + selective outer = LATERAL jeeta; poore dataset ka ranking chahiye = window function.
+
+---
+
 ## Summary
 
 | Function | Use Case |

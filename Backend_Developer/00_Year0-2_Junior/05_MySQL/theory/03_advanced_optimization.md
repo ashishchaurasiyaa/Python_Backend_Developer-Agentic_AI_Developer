@@ -526,6 +526,40 @@ WHERE table_schema = 'mydb' AND table_name = 'orders';
 
 ---
 
+## Section H — MySQL 8 Index Features: Invisible & Descending Indexes
+
+### Invisible indexes — "index hatane se pehle test karo"
+
+Production me index DROP karna scary hai — kya koi query use kar rahi thi? Invisible = optimizer ke liye गायब, par maintained:
+
+```sql
+ALTER TABLE orders ALTER INDEX idx_customer_date INVISIBLE;
+-- Index ab bhi update hota hai har write pe, par optimizer USE nahi karta
+
+-- 24-48 ghante monitor karo: slow query log / performance_schema me regression?
+--   Regression aayi  → ALTER INDEX ... VISIBLE;   (instant rollback, rebuild nahi)
+--   Sab theek        → DROP INDEX ...;             (ab confidently)
+```
+
+**Interview line:** *"Index drop karne se pehle main use INVISIBLE karta hoon — writes pe maintain hota rehta hai isliye rollback instant hai, aur agar koi hidden query regress kare to VISIBLE wapas ek metadata flip hai, multi-hour index rebuild nahi."* (PostgreSQL me direct equivalent nahi — wahan `hypopg` hypothetical indexes ulta direction test karte hain.)
+
+### Descending indexes — mixed-order ORDER BY ka fix
+
+MySQL 8 se pehle `INDEX (a ASC, b DESC)` me DESC **parse hota tha par ignore** hota tha — mixed-direction sorts filesort karate the:
+
+```sql
+-- Feed query: naye posts pehle, same-time pe author A-Z
+SELECT * FROM posts ORDER BY created_at DESC, author ASC LIMIT 20;
+
+-- MySQL 8: ab genuinely descending store hota hai
+CREATE INDEX idx_feed ON posts (created_at DESC, author ASC);
+-- EXPLAIN: "Using index" — no filesort ✅
+-- (Single-column DESC scan to pehle bhi backward-scan se ho jata tha;
+--  yeh MIXED directions ke liye matter karta hai)
+```
+
+---
+
 ## Interview Q&A — Advanced Optimization
 
 **Q1: Window functions MySQL mein kab available hue?**

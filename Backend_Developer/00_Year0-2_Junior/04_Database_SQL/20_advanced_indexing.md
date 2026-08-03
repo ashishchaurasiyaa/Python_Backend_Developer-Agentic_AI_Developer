@@ -285,6 +285,31 @@ CREATE INDEX idx_data_gin ON orders USING GIN (data);
 
 ---
 
+## Exclusion Constraints — "overlap allowed hi nahi" (GiST ka killer use case)
+
+UNIQUE bolta hai "equal values nahi"; **EXCLUDE** bolta hai "koi bhi do rows jinke beech yeh operator true ho, nahi" — booking-overlap problem ka database-level solution:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
+CREATE TABLE bookings (
+    room_id  int,
+    duration tstzrange,        -- [check_in, check_out)
+    EXCLUDE USING GIST (
+        room_id  WITH =,        -- same room...
+        duration WITH &&        -- ...overlapping time range → REJECT
+    )
+);
+
+INSERT INTO bookings VALUES (101, '[2026-08-10, 2026-08-12)');   -- ✅
+INSERT INTO bookings VALUES (101, '[2026-08-11, 2026-08-13)');   -- ❌ conflict!
+INSERT INTO bookings VALUES (102, '[2026-08-11, 2026-08-13)');   -- ✅ different room
+```
+
+**Yeh kyun important hai:** application-level check (`SELECT ... FOR UPDATE` + overlap query) race conditions me leak karta hai jab tak serializable isolation ya explicit locking na ho — EXCLUDE constraint index-level pe atomically enforce karta hai, concurrency bugs impossible. Meeting rooms, hotel bookings, shift scheduling, IP-range allocation — sab yahi pattern. (BookMyShow/Airbnb HLD discussion me yeh bolna strong signal hai — "seat/room overlap ko main DB-level exclusion constraint se guarantee karta hoon, app-level check sirf UX ke liye.")
+
+---
+
 ## Interview Q&A
 
 **Q1:** Multi-column index ka order kaise decide karoge?
