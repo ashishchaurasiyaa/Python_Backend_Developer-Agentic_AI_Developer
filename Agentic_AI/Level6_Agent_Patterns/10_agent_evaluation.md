@@ -301,7 +301,33 @@ Compare to: human performance, previous version, competitor.
 
 ---
 
-## 12. Key Takeaways
+## 12. Public Agent Benchmarks (jab koi kahe "model X is better at agents")
+
+Sections 1–11 = **apne** agent ko evaluate karna. Yeh section = **industry-standard public benchmarks** jo model/agent capability measure karte hain. Model announcements aur interviews dono me yehi naam aate hain.
+
+| Benchmark | Kya test karta hai | Task shape |
+|---|---|---|
+| **SWE-bench (Verified)** | Real GitHub issues fix karna — repo samajhna, patch likhna, tests pass karna | Coding agent, full repo context |
+| **tau-bench / tau2** | Customer-service agent — tools + policy rules follow karna, multi-turn user simulation | Tool use + policy compliance |
+| **GAIA** | General assistant tasks — web browsing, file handling, multi-step reasoning | Generalist agent |
+| **WebArena / OSWorld** | Real websites/OS me tasks complete karna (clicks, forms, navigation) | Browser/computer-use agent |
+| **Terminal-Bench** | Shell me kaam — build, debug, sysadmin tasks | CLI/terminal agent |
+| **HLE (Humanity's Last Exam)** | Expert-level knowledge questions — frontier "hard ceiling" | Knowledge + reasoning (agent-lite) |
+| **AgentBench** | Multi-environment suite (OS, DB, web, games) | Broad agent survey |
+
+### Benchmark numbers padhne ke caveats (interview gold)
+
+1. **"Verified" matters** — original SWE-bench me kuch tasks broken/ambiguous the; SWE-bench **Verified** = human-filtered 500 solvable subset. Announcements me hamesha check karo kaunsa variant hai.
+2. **pass@1 vs pass@k** — ek attempt me solve kiya ya k attempts me best? pass@8 number pass@1 se hamesha bada dikhega.
+3. **Harness matters as much as model** — same model, different scaffold (tools, retries, context management) = 20+ point difference. "Model X scored Y" actually means "Model X + iska harness scored Y". (Dekho [12_agent_harness_engineering.md](12_agent_harness_engineering.md).)
+4. **Contamination** — public benchmark → training data me leak ho sakta hai. Isliye private/rotating evals (LiveBench-style) zyada trusted hain.
+5. **Benchmark ≠ tumhara workload** — SWE-bench score tumhare invoice-processing agent ka proxy nahi hai. Final decision hamesha apne eval set (§3) pe.
+
+**Interview answer template:** "Public benchmarks (SWE-bench Verified for coding, tau-bench for tool-use/policy, GAIA for general assistance) se model shortlist karta hoon, phir apne domain ka 200-example eval set bana ke actual decision leta hoon — kyunki harness aur domain shift se public numbers directly transfer nahi hote."
+
+---
+
+## 13. Key Takeaways
 
 ✅ Eval is NOT optional. Critical for production.
 ✅ Categories: task accuracy, operational, quality, satisfaction
@@ -310,5 +336,6 @@ Compare to: human performance, previous version, competitor.
 ✅ LLM-as-judge works well
 ✅ Monitor continuously in production (1% sampling)
 ✅ A/B test changes; don't ship without comparison
+✅ Public benchmarks (SWE-bench Verified, tau-bench, GAIA) = model shortlisting; final call apne eval set pe
 
 **Level 6 advanced patterns covered!** Next: Level 5 RAG deep dives.
