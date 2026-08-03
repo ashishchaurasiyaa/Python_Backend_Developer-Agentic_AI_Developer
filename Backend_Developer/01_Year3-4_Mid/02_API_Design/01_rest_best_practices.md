@@ -379,3 +379,43 @@ async def receive_payment_webhook(
 
     return {"received": True}
 ```
+
+---
+
+## Bonus: API Governance — Style Guides & Automated Linting
+
+Ek API achhi design karna alag skill hai; **50 teams ke APIs consistent rakhna** governance problem hai — senior/staff interviews me yehi poocha jata hai ("how do you scale API quality across an org?").
+
+### The three-layer answer
+
+```
+1. STYLE GUIDE (written rules)
+   Public references jo internal guide ka base bante hain:
+   - Google AIP (aip.dev)     — resource-oriented design, numbered rules (AIP-132: list, AIP-134: update)
+   - Zalando RESTful Guidelines — most-copied enterprise guide (MUST/SHOULD/MAY format)
+   - Microsoft REST Guidelines  — pragmatic, pagination/error shapes
+   Internal guide inme se pick karke thin layer banao — from-scratch mat likho.
+
+2. AUTOMATED LINTING (rules ko CI me enforce karo)
+   Spectral (stoplight) = OpenAPI ka ruff — spec pe custom rules:
+
+   # .spectral.yaml
+   extends: spectral:oas
+   rules:
+     paths-kebab-case:
+       given: $.paths[*]~
+       then: { function: pattern, functionOptions: { match: "^(/[a-z0-9-]+|/{[^}]+})+$" } }
+     must-have-429-on-list:
+       given: $.paths[*].get.responses
+       then: { field: "429", function: truthy }
+
+   CI: spectral lint openapi.yaml --fail-severity=warn
+   → galat naming/missing error responses PR me hi block ho jate hain.
+
+3. DESIGN REVIEW (jo linting nahi pakad sakti)
+   Naye endpoints ka lightweight review — resource modeling sahi hai?
+   Breaking change to nahi? Sunset policy follow hui? API changelog updated?
+   Contract-first workflow: spec pehle merge hoti hai, code baad me.
+```
+
+**Interview line:** *"Consistency scale nahi hoti documents se — automation se hoti hai. Main Zalando/AIP se derived thin style guide rakhta hoon, Spectral rules CI me enforce karta hoon (naming, pagination shape, error format, mandatory 429/problem+json), aur sirf resource-modeling decisions human review me jaate hain. Result: reviewer nitpicks pe time nahi jalta, sirf design pe."*
