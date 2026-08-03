@@ -1,8 +1,8 @@
-# 🏛️ HLD Theory — Mini-Index (66 topics)
+# 🏛️ HLD Theory — Mini-Index (67 topics)
 
-> High-Level Design theory ki poori foundation — **interview ka sabse critical hissa**. Files number order (01→66) me build-up hain, par neeche **theme-wise** group kiye hain taaki topic dhoondhna aasan ho.
+> High-Level Design theory ki poori foundation — **interview ka sabse critical hissa**. Files number order (01→67) me build-up hain, par neeche **theme-wise** group kiye hain taaki topic dhoondhna aasan ho.
 >
-> **Study order:** pehli baar padho to **01→66 sequence me** jao (concepts stack karte hain). Revision me neeche wale groups se jump karo.
+> **Study order:** pehli baar padho to **01→67 sequence me** jao (concepts stack karte hain). Revision me neeche wale groups se jump karo.
 >
 > Parent: [System Design](../) · Problems: [HLD_Problems](../HLD_Problems/) · Low-level: [LLD_Theory](../LLD_Theory/)
 
@@ -60,6 +60,7 @@
 | 14 | [Cache Eviction Techniques](14_Cache_Eviction_Techniques.md) |
 | 32 | [CDN](32_CDN.md) |
 | 42 | [Bloom Filters](42_Bloom_Filters.md) |
+| 67 | [Probabilistic Data Structures — HLL, Count-Min, T-Digest](67_Probabilistic_Data_Structures.md) |
 
 ## 6. Load Balancing & Gateways
 | # | Topic |
@@ -120,4 +121,4 @@
 
 ---
 
-*66 topics grouped into 11 themes. Har file standalone padhi ja sakti hai; interview se pehle groups 2, 3, 4, 5, 8 pe extra time do — yeh sabse zyada poochhe jaate hain.*
+*67 topics grouped into 11 themes. Har file standalone padhi ja sakti hai; interview se pehle groups 2, 3, 4, 5, 8 pe extra time do — yeh sabse zyada poochhe jaate hain.*

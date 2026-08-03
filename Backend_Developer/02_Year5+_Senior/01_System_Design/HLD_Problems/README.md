@@ -1,4 +1,4 @@
-# 🏗️ HLD Problems — Mini-Index (34 designs)
+# 🏗️ HLD Problems — Mini-Index (36 designs)
 
 > System Design ke **practice problems** — har file ek complete "design X" walkthrough. Theory se alag: yahan tu **bolke design karna** practice karta hai (requirements → estimation → API → data model → scaling → bottlenecks).
 >
@@ -23,6 +23,7 @@
 | [Distributed Cache](Design_Distributed_Cache.md) | consistent hashing, eviction |
 | [Distributed Logging](Design_Distributed_Logging.md) | ingestion, aggregation, search |
 | [Multi-Tenant SaaS](Design_Multi_Tenant_SaaS.md) | isolation, noisy-neighbour |
+| [Distributed Message Queue](Design_Distributed_Message_Queue.md) | Kafka-from-scratch: segments, ISR, offsets |
 
 ## 3. Social & Feed 🔴
 | Design | |
@@ -70,6 +71,7 @@
 | [Search Engine](Design_Search_Engine.md) | inverted index, ranking |
 | [Real-Time Analytics](Design_Real_Time_Analytics.md) | streaming, aggregation |
 | [Ad Server](Design_AdServer.md) | targeting, budget, low latency |
+| [Gaming Leaderboard](Design_Gaming_Leaderboard.md) | Redis ZSET, rank, score-range sharding |
 
 ## 9. AI / LLM (modern — high interview value now) 🔴
 | Design | |
@@ -80,4 +82,4 @@
 
 ---
 
-*34 designs grouped into 9 categories. Interview prep order: Group 1 (warm-ups) → 3 (social/feed) → 2 (infra) → 9 (AI, agar AI role ho). Group 4's Google Docs (OT/CRDT) aur Group 7's BookMyShow/Stock Exchange (concurrency) sabse zyada distinguishing hote hain senior interviews me.*
+*36 designs grouped into 9 categories. Interview prep order: Group 1 (warm-ups) → 3 (social/feed) → 2 (infra) → 9 (AI, agar AI role ho). Group 4's Google Docs (OT/CRDT) aur Group 7's BookMyShow/Stock Exchange (concurrency) sabse zyada distinguishing hote hain senior interviews me.*
