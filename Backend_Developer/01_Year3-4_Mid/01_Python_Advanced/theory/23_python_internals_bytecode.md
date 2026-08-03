@@ -901,6 +901,52 @@ py-spy top --pid $(pgrep python)
 
 ---
 
+## How Debuggers & Coverage Work — sys.settrace vs sys.monitoring (PEP 669)
+
+Ever wondered how `pdb`, `coverage.py`, and IDE debuggers actually hook into your running code? Two mechanisms:
+
+### The old way — `sys.settrace` (slow but universal)
+
+```python
+import sys
+
+def tracer(frame, event, arg):
+    # Called for EVERY event in EVERY frame: 'call', 'line', 'return', 'exception'
+    if event == "line":
+        print(f"{frame.f_code.co_filename}:{frame.f_lineno}")
+    return tracer          # return self to keep tracing nested calls
+
+sys.settrace(tracer)       # pdb.set_trace() and old coverage.py sit on THIS
+```
+
+Problem: the interpreter must check "is there a tracer?" and call your Python function on **every line executed** — 2-10x slowdown even when you only care about one file. That's why running under a debugger or coverage used to hurt so much.
+
+### The new way — `sys.monitoring` (Python 3.12+, PEP 669)
+
+```python
+import sys
+mon = sys.monitoring
+TOOL = mon.PROFILER_ID
+
+mon.use_tool_id(TOOL, "mytool")
+def on_line(code, line_number):
+    if code.co_filename != "myapp.py":
+        return mon.DISABLE          # ← the magic: per-code-object opt-out,
+                                    #   interpreter stops firing events HERE entirely
+    record(line_number)
+
+mon.register_callback(TOOL, mon.events.LINE, on_line)
+mon.set_events(TOOL, mon.events.LINE)
+```
+
+Events are compiled into the adaptive interpreter (same machinery as the 3.11+ specializing/3.13 JIT work), and `DISABLE` turns instrumentation off per-location — near-zero overhead for code you're not watching. `coverage.py` 7.4+ uses this on 3.12+; that's why modern coverage runs are dramatically faster.
+
+**Interview line:** *"`sys.settrace` fires a Python callback on every line globally — that's the historic debugger/coverage overhead. PEP 669's `sys.monitoring` (3.12) registers per-event, per-tool callbacks that the adaptive interpreter can disable per code location, so instrumentation costs near-zero where you're not looking."*
+
+Related niche hook: **audit hooks** (`sys.addaudithook`, PEP 578) — security-event stream (`open`, `exec`, socket connects) for sandboxing/compliance logging; unrelated to tracing performance but same "hook into the interpreter" family.
+
+---
+
 ## Python Internals Checklist
 
 ```markdown
