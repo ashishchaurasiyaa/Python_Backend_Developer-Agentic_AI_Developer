@@ -3,7 +3,7 @@
 > Ek hi jagah pe **fresher se senior/staff tak** ka pura Python backend journey.
 > Folders **year-experience** ke hisaab se grouped hain, aur har folder ke aage ka **number = priority / seekhne ka order** hai.
 
-**Status:** ✅ Zero-to-Advanced coverage complete · **698 markdown docs + 738 Python files** *(counts current as of 2026-07-18)*
+**Status:** ✅ Zero-to-Advanced coverage complete · **709 markdown docs + 750 Python files** *(counts current as of 2026-08-03)*
 **Target:** Senior/Staff Python backend (₹25–50 LPA India / $130–200K abroad)
 **Style:** Hinglish / Bhai-mode teaching — WHAT / WHY / HOW + internal working. Concepts pe focus, code tu khud likhega.
 
@@ -41,7 +41,7 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 00_Year0-2_Junior — Foundations + Core Stack  (549 files)
+## 📁 00_Year0-2_Junior — Foundations + Core Stack  (555 files)
 
 > Job-ready banne ke liye yeh sab **cold** aana chahiye.
 
@@ -85,7 +85,7 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 02_Year5+_Senior — System Design + Architecture + Leadership  (415 files)
+## 📁 02_Year5+_Senior — System Design + Architecture + Leadership  (420 files)
 
 > Senior/staff level. Yahan technical depth + leadership dono chahiye.
 
@@ -97,7 +97,7 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 
 ---
 
-## 📁 03_Interview_AnyYear — DSA + Interview Prep + Projects  (97 files)
+## 📁 03_Interview_AnyYear — DSA + Interview Prep + Projects  (109 files)
 
 > Kisi bhi year pe relevant. Interview se pehle yahan time do.
 
