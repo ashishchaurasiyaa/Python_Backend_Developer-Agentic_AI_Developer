@@ -2,7 +2,7 @@
 
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
-**Last updated:** 2026-07-14 (added Modern Topics 12 OpenAI Responses API + 13 Gemini Live API; OpenAI Evals in agent_evaluation §5E)
+**Last updated:** 2026-08-03 (added Modern Topics 23 Claude Agent SDK + Skills, 24 OpenAI AgentKit)
 **Combined roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) (single phase-wise plan)
 
 ---
@@ -12,7 +12,7 @@
 ```
 ✅ ALL HIGH priority gaps:    FILLED (10 docs)
 ✅ ALL MEDIUM priority gaps:  FILLED (9 docs added today)
-✅ ALL Modern Topics:          FILLED (13 docs)
+✅ ALL Modern Topics:          FILLED (25 docs, 00–24)
 ✅ ZERO blocking gaps for Backend+AI senior interviews
 
 Current total: 101 markdown docs across 8 levels + Modern + Projects + Interview Prep
@@ -305,6 +305,8 @@ Cutting-edge topics beyond original PDF roadmap.
 | 20 | **OpenSearch vectors** (k-NN + BM25 hybrid, HNSW/Faiss) *(NEW)* | [✅ 20_opensearch_vector.md](Modern_Topics/20_opensearch_vector.md) · [🐍 practical](Modern_Topics/20_opensearch_vector_practical.py) |
 | 21 | **Together AI** (hosted open-weight models, OpenAI-compatible, FT) *(NEW)* | [✅ 21_together_ai.md](Modern_Topics/21_together_ai.md) · [🐍 practical](Modern_Topics/21_together_ai_practical.py) |
 | 22 | **TruLens** (LLM observability, RAG Triad, feedback functions) *(NEW)* | [✅ 22_trulens_evaluation.md](Modern_Topics/22_trulens_evaluation.md) · [🐍 practical](Modern_Topics/22_trulens_evaluation_practical.py) |
+| 23 | **Claude Agent SDK + Agent Skills** (Claude Code as a library: built-in tools, hooks, subagents; SKILL.md progressive disclosure) *(NEW)* | [✅ 23_claude_agent_sdk_skills.md](Modern_Topics/23_claude_agent_sdk_skills.md) |
+| 24 | **OpenAI AgentKit** (Agent Builder, ChatKit, Connector Registry, trace-grading Evals; vs Agents SDK) *(NEW)* | [✅ 24_openai_agentkit.md](Modern_Topics/24_openai_agentkit.md) |
 | — | **📊 Complete Coverage Analysis** (all 43 tools + 12 terms mapped) | [✅ COVERAGE_ANALYSIS.md](Modern_Topics/COVERAGE_ANALYSIS.md) |
 
 ---

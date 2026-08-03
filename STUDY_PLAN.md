@@ -127,6 +127,8 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 - [x] 🔴 **MCP Advanced — Server Development** — custom MCP server banana, Transport (stdio/SSE/HTTP), Security, Deployment *(NEW)* → [08_mcp_advanced_server_dev](Agentic_AI/Modern_Topics/08_mcp_advanced_server_dev.md)
 - [x] 🔴 **AI Security** — Prompt Injection, Jailbreak, Tool Poisoning, Data Leakage, OWASP LLM Top 10, AI Threat Modeling *(NEW)* → [09_ai_security_threats](Agentic_AI/Modern_Topics/09_ai_security_threats.md)
 - [ ] 🟡 **AI Ethics & Responsible AI** — Bias/fairness testing, model cards, hallucination-as-ethics-issue, copyright/provenance, EU AI Act *(NEW)* → [10_ai_ethics_responsible_ai](Agentic_AI/Modern_Topics/10_ai_ethics_responsible_ai.md)
+- [ ] 🔴 **Claude Agent SDK + Agent Skills** — Claude Code as a library (built-in tools, hooks, subagents, permissions), SKILL.md format, vs Tool Runner/Managed Agents; doubles as padha→kiya project candidate *(NEW)* → [23_claude_agent_sdk_skills](Agentic_AI/Modern_Topics/23_claude_agent_sdk_skills.md)
+- [ ] 🟡 **OpenAI AgentKit** — Agent Builder, ChatKit, Connector Registry, trace-grading Evals; OpenAI agent stack layers *(NEW)* → [24_openai_agentkit](Agentic_AI/Modern_Topics/24_openai_agentkit.md)
 
 ## 📦 Reference (padhna nahi — zaroorat pe jhaanko)
 - **Udemy Agentic Course** (Hinglish notes + 25 labs) — rusty topic ka fast refresh → [Udemy_EdDonner_Course](Agentic_AI/my-agentic-ai-project/Udemy_EdDonner_Course)
