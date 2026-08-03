@@ -1766,6 +1766,42 @@ db.orders.create_index([("status", 1), ("created_at", -1)])     # Status filter
 
 ---
 
+## 11. 🔤 Collation — Case/Locale-Aware Sorting & Indexes
+
+Default comparison **binary** hota hai — `"Apple" < "banana"` (uppercase pehle), aur `"a" != "A"`. Collation locale-aware comparison deta hai:
+
+```javascript
+// Case-insensitive UNIQUE email — THE classic use case
+db.users.createIndex(
+  { email: 1 },
+  { unique: true, collation: { locale: "en", strength: 2 } }
+)
+// strength: 1 = sirf base char (a=A=á), 2 = case-insensitive but accent-sensitive (a=A, a≠á)
+// Ab "John@X.com" aur "john@x.com" dono insert = duplicate key error ✅
+
+// Query ko SAME collation deni hogi warna index use nahi hoga:
+db.users.find({ email: "JOHN@X.COM" }).collation({ locale: "en", strength: 2 })
+
+// Locale-aware sort (Hindi/German/Turkish sorting rules):
+db.products.find().sort({ name: 1 }).collation({ locale: "hi" })
+
+// Numeric ordering of string numbers: "10" > "9" (binary me "10" < "9"!)
+db.items.find().sort({ code: 1 }).collation({ locale: "en", numericOrdering: true })
+```
+
+```python
+# PyMongo
+from pymongo.collation import Collation
+users.create_index([("email", 1)], unique=True,
+                   collation=Collation(locale="en", strength=2))
+users.find_one({"email": "JOHN@X.COM"},
+               collation=Collation(locale="en", strength=2))
+```
+
+**Gotchas:** (1) index ki collation aur query ki collation **exactly match** honi chahiye, warna COLLSCAN; (2) collection-level default collation create ke time set hoti hai — baad me change nahi; (3) PostgreSQL equivalent = `CITEXT`/`LOWER()` functional index — interview me parallel bolna accha lagta hai.
+
+---
+
 ## 📋 Quick Reference Cheatsheet
 
 ```

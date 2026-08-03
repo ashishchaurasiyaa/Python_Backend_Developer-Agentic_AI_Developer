@@ -576,6 +576,51 @@ Loki (logs only), Grafana Mimir (metrics), Tempo (traces) — cheaper but ES has
 
 ---
 
+## 22. Ingest Pipelines & Runtime Fields (Logstash-ke-bina transforms)
+
+### Ingest pipelines — transform at index time, inside ES
+
+Logstash alag process hai; **ingest pipeline** ES ke andar hi processors chain karta hai — light transforms ke liye Logstash ki zaroorat khatam:
+
+```json
+PUT _ingest/pipeline/logs-pipeline
+{
+  "processors": [
+    { "grok":   { "field": "message", "patterns": ["%{IP:client_ip} %{WORD:method} %{URIPATHPARAM:path}"] } },
+    { "geoip":  { "field": "client_ip" } },
+    { "date":   { "field": "ts", "formats": ["ISO8601"] } },
+    { "remove": { "field": "message" } }
+  ]
+}
+
+// Use: index request pe ?pipeline=logs-pipeline, ya index setting:
+PUT logs-000001 { "settings": { "index.default_pipeline": "logs-pipeline" } }
+```
+
+Common processors: `grok`, `dissect`, `geoip`, `date`, `set/remove/rename`, `script` (Painless), `enrich` (lookup-join from another index). **Filebeat → ingest pipeline → ES** = Logstash-free ELK for most log cases (yehi modern default hai).
+
+### Runtime fields — schema-on-read (query time)
+
+Mapping me field nahi tha, ab chahiye — reindex mat karo:
+
+```json
+GET logs/_search
+{
+  "runtime_mappings": {
+    "response_time_s": {
+      "type": "double",
+      "script": { "source": "emit(doc['response_time_ms'].value / 1000.0)" }
+    }
+  },
+  "query": { "range": { "response_time_s": { "gte": 2.0 } } },
+  "fields": ["response_time_s"]
+}
+```
+
+**Trade-off (interview line):** *"Ingest pipeline = schema-on-write — pay at index time, fast queries. Runtime field = schema-on-read — zero reindex, per-query compute cost. Naya derived field pehle runtime field ke roop me try karta hoon; agar wo hot query ban jaye to ingest pipeline se materialize kar deta hoon."*
+
+---
+
 ## Related
 - [[01_basics_installation_crud]]
 - [[02_search_queries]]

@@ -106,6 +106,41 @@ an explicit tradeoff you opt into.
 
 ---
 
+## The third option — `join` field (parent-child)
+
+`nested` ka limitation: parent update = poora nested block reindex. Jab **children parent se independently update hote hain** (e.g. product + uske reviews — reviews roz aate hain, product static hai), tab `join` field:
+
+```json
+PUT products
+{
+  "mappings": {
+    "properties": {
+      "my_join": { "type": "join", "relations": { "product": "review" } }
+    }
+  }
+}
+
+// Parent:  PUT /products/_doc/1            {"name": "iPhone", "my_join": "product"}
+// Child:   PUT /products/_doc/101?routing=1 {"stars": 5, "my_join": {"name": "review", "parent": "1"}}
+//                              ^^^^^^^^^ routing=parent-id ZAROORI — same shard pe hone chahiye
+
+// "products with a 5-star review":
+GET /products/_search
+{ "query": { "has_child": { "type": "review", "query": { "term": { "stars": 5 } } } } }
+// has_parent bhi hai — reviews of products matching X
+```
+
+| | `nested` | `join` (parent-child) |
+|---|---|---|
+| Update child | Full parent reindex | Child doc alone — cheap |
+| Query speed | Fast-ish (same block) | **Slow** — has_child/has_parent are expensive |
+| Storage | Same document block | Separate docs, same shard (routing) |
+| Use when | Read-heavy, data changes together | Children churn independently, write-heavy |
+
+**Interview line:** *"Default `object` for independent fields, `nested` when I query array elements' fields together, `join` only when children update independently of the parent — and I say 'only' because has_child queries are the slowest thing in ES; if I can denormalize instead, I do."*
+
+---
+
 ## Percolator — "reverse search" (query is stored, document is searched against it)
 
 ```
