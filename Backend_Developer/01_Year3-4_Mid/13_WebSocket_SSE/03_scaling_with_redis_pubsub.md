@@ -406,6 +406,42 @@ WebSocket + Pub/Sub for collaborative editing CRDT messages.
 
 ---
 
+## Message Ordering — What Scaling Breaks and How to Fix It
+
+Single server pe ordering free milti hai: **ek WebSocket connection = ek TCP stream** = messages usi order me pahunchte hain jis order me bheje. Scale karte hi yeh guarantee toot jaati hai:
+
+```
+Breaks at fan-out:  User A → Server 1 ─┐
+                                        ├─ Redis Pub/Sub ─→ Server 3 → User C
+                    User B → Server 2 ─┘
+Redis Pub/Sub channels FIFO hain per-publisher, par do alag servers
+se aaye messages ka interleaving order UNDEFINED hai — network timing
+jo bhi pehle pahucha de. "B ka reply A ke message se pehle dikh gaya."
+```
+
+**Fixes, cheapest se expensive:**
+
+```
+1. Per-conversation sequence numbers (standard answer)
+   Server assigns seq via Redis INCR conversation:{id}:seq before fanout.
+   Client renders by seq, not arrival — aur gap detect karta hai:
+   "seq 41 ke baad 43 aaya? 42 ko 200ms wait karo, phir REST se fetch."
+
+2. Single writer per conversation
+   Conversation-id se hash karke EK hi server/stream us conversation
+   ke messages sequence kare (Kafka partition-key wahi idea hai).
+   Ordering by construction — par hot conversation = hot shard.
+
+3. Client-side reorder buffer + idempotent render
+   Chhota buffer (100-500ms) jo out-of-order ko sort kar leta hai;
+   message-id se dedup. Reconnect + missed-message replay ke saath
+   pair hota hai (resume from last-seen seq).
+```
+
+**Interview line:** *"Ek connection pe TCP ordering free hai; problem multi-server fanout pe aati hai kyunki Redis Pub/Sub cross-publisher interleaving guarantee nahi karta. Main per-conversation seq number (Redis INCR) assign karta hoon — client seq se render karta hai, gaps pe short wait then REST backfill. Strict ordering chahiye to conversation ko single stream me route karo — wahi trade-off Kafka partition-ordering wala hai."*
+
+---
+
 ## TL;DR
 
 - Single server WS → multi-server requires a backplane.
