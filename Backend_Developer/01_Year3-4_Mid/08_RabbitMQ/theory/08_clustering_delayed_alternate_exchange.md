@@ -172,6 +172,48 @@ same "never let a message vanish silently" philosophy, different failure mode.
 
 ---
 
+## 4. Memory/Disk Alarms & Blocked Publishers (the "RabbitMQ stopped accepting messages" incident)
+
+RabbitMQ protects itself under resource pressure by **blocking publishers** — consumers keep draining, but every publishing connection freezes silently. This is the #1 "RabbitMQ is down but not down" production incident.
+
+```
+Trigger thresholds:
+  vm_memory_high_watermark   default 0.4 (40% of host RAM)
+  disk_free_limit            default 50MB (dangerously low — raise it!)
+
+What happens when tripped:
+  1. Broker fires a memory/disk ALARM (visible in mgmt UI + logs)
+  2. ALL publishing connections get blocked — publish calls just hang
+     (no error, no nack — the TCP connection simply stops being read)
+  3. Consumers continue — the design intent is "drain your way out"
+  4. Alarm clears → publishers resume automatically
+```
+
+```python
+# Detect it client-side — register the blocked-connection callbacks
+import pika
+
+conn = pika.BlockingConnection(pika.ConnectionParameters(
+    host="localhost",
+    blocked_connection_timeout=30,     # raise ConnectionBlockedTimeout after 30s
+))
+# aio-pika: connection.add_blocked_callback / heartbeat still answered while blocked
+```
+
+```bash
+rabbitmqctl status | grep -A4 alarms          # active alarms
+rabbitmq-diagnostics check_local_alarms        # healthcheck-friendly probe
+# Config (rabbitmq.conf):
+#   vm_memory_high_watermark.relative = 0.6
+#   disk_free_limit.absolute = 5GB
+```
+
+**Ops playbook when it fires:** check which queues are hoarding memory (`rabbitmqctl list_queues name messages memory`), fix the slow/dead consumer (that's almost always the real cause), consider lazy/stream queues for deep backlogs, and alert on `connection_blocked` events + queue depth — not just node CPU.
+
+**Interview line:** *"If publishers hang with no errors while consumers still work, my first check is a memory or disk alarm — RabbitMQ blocks publishing connections under resource pressure by design. The fix is draining the backlog (usually a stuck consumer), not restarting the broker; restarting loses the memory pressure signal and can turn a slowdown into an outage."*
+
+---
+
 ## Interview Q&A
 
 **Q: What's `pause_minority` and why is it the recommended partition-handling mode?**
