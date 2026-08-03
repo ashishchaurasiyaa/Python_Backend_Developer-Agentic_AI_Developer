@@ -773,3 +773,51 @@ SERVICE_CONFIG = {
 | **No circuit breaker** | Cascading failures | Use pybreaker or custom |
 | **Shared thread pool** | One slow service blocks all | Bulkhead pattern |
 | **Too many retries** | Amplifies traffic during outage | Retry budget pattern |
+
+---
+
+## Rich Error Model — Structured Errors Beyond Status Codes
+
+A bare `INVALID_ARGUMENT` + string message can't tell the client *which* field failed or *how long* to back off. The standard answer is Google's **rich error model**: attach typed protobuf payloads (`google/rpc/error_details.proto`) to the status, transported in the `grpc-status-details-bin` trailer.
+
+```python
+# pip install grpcio-status googleapis-common-protos
+
+# ─── Server: return WHICH fields failed + retry guidance ───
+from grpc_status import rpc_status
+from google.rpc import status_pb2, code_pb2, error_details_pb2
+
+def CreateUser(self, request, context):
+    violations = []
+    if not request.email:
+        violations.append(error_details_pb2.BadRequest.FieldViolation(
+            field="email", description="email is required"))
+    if violations:
+        detail = error_details_pb2.BadRequest(field_violations=violations)
+        status = status_pb2.Status(
+            code=code_pb2.INVALID_ARGUMENT,
+            message="validation failed",
+        )
+        status.details.add().Pack(detail)
+        context.abort_with_status(rpc_status.to_status(status))
+```
+
+```python
+# ─── Client: unpack typed details instead of parsing strings ───
+try:
+    stub.CreateUser(req)
+except grpc.RpcError as e:
+    status = rpc_status.from_call(e)
+    for d in status.details:
+        if d.Is(error_details_pb2.BadRequest.DESCRIPTOR):
+            bad = error_details_pb2.BadRequest(); d.Unpack(bad)
+            for v in bad.field_violations:
+                print(f"{v.field}: {v.description}")     # form-level errors!
+        elif d.Is(error_details_pb2.RetryInfo.DESCRIPTOR):
+            ri = error_details_pb2.RetryInfo(); d.Unpack(ri)
+            time.sleep(ri.retry_delay.seconds)           # server-driven backoff
+```
+
+Standard detail types worth knowing: `BadRequest` (field violations), `RetryInfo` (server tells client when to retry — pairs with the retry policies above), `QuotaFailure`, `ErrorInfo` (machine-readable reason + domain), `PreconditionFailure`, `DebugInfo`.
+
+**Interview line:** *"Status codes answer 'can I retry?'; the rich error model answers 'what exactly went wrong?' — typed `error_details` protos in the `grpc-status-details-bin` trailer. It's gRPC's equivalent of REST's RFC 7807 Problem Details, and `RetryInfo` even lets the server drive client backoff."* (REST side: see FastAPI [21_rfc7807_problem_details](../../00_Year0-2_Junior/06_FastAPI/21_rfc7807_problem_details.md).)

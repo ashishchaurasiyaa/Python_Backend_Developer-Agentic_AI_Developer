@@ -406,6 +406,42 @@ Both. Safest.
 
 ---
 
+## Rack Awareness — Multi-AZ Replica Placement
+
+Without rack awareness, all 3 replicas of a partition can land in the **same availability zone** — one AZ outage then loses the partition entirely, despite RF=3.
+
+```properties
+# broker config — tag each broker with its AZ
+broker.rack=ap-south-1a        # broker 1
+broker.rack=ap-south-1b        # broker 2
+broker.rack=ap-south-1c        # broker 3
+# New topics now spread replicas across racks/AZs automatically
+```
+
+```properties
+# The COST: cross-AZ replication + consumer traffic = real money on AWS.
+# Fix for the consumer side (Kafka 2.4+, "follower fetching"):
+# consumers read from the NEAREST replica instead of always the leader.
+
+# broker:
+replica.selector.class=org.apache.kafka.common.replication.RackAwareReplicaSelector
+# consumer:
+client.rack=ap-south-1a        # consumer says which AZ it lives in
+```
+
+```
+Interview line: "RF=3 means nothing if all three replicas share an AZ —
+broker.rack spreads them. Then client.rack + RackAwareReplicaSelector
+lets consumers fetch from their local AZ's follower, which routinely
+cuts cross-AZ data-transfer cost 2-3x on read-heavy clusters. Writes
+still go to the leader — only fetches are rack-local."
+
+Note: existing topics keep old assignments — rerun a partition
+reassignment (kafka-reassign-partitions.sh) after enabling racks.
+```
+
+---
+
 ## Common Anti-Patterns
 
 | Anti-pattern | Why bad | Fix |
