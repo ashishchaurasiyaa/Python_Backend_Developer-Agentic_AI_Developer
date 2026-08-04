@@ -3,6 +3,8 @@
 > **Yeh ek hi file hai jisse tujhe roz start karna hai.** Confusion ho to bas yahin wapas aa.
 > Do track hain: **🏛️ Backend Revision** aur **🤖 Agentic AI**. Dono ko roz thoda-thoda chalaate hain.
 >
+> **😵 Confuse ho? Toh yeh file mat kholo — [ROADMAP.md](ROADMAP.md) kholo.** Wahan din-ba-din ek hi line hai: jahan `- [ ]` mila wahi aaj ka kaam. Yeh file (STUDY_PLAN) topic-wise *reference view* hai — jab kisi topic ka poora scope dekhna ho tab kaam aati hai.
+>
 > **Kaam karne ka tarika:** har track me items **upar se neeche** order me hain. Jo `- [ ]` khaali hai wahi tera "next" hai. Khatam hote hi `- [x]` kar de.
 >
 > **Legend:** 🔴 must (pakka karo) · 🟡 should (kar lo to accha) · ⚪ skim (sirf jhaank lo)
