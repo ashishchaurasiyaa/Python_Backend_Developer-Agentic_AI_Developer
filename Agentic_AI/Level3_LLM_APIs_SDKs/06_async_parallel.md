@@ -444,4 +444,4 @@ Blocks the event loop. While that call waits, no other coroutine runs — defeat
 - [05_streaming_responses.md](05_streaming_responses.md)
 - [07_error_handling_retries.md](07_error_handling_retries.md)
 - [10_cost_optimization.md](10_cost_optimization.md)
-- [../../Backend_Developer/Phase1_Python_Daily/Day31_Asyncio_Advanced/](../../Backend_Developer/Phase1_Python_Daily/Day31_Asyncio_Advanced/) — asyncio fundamentals
+- [../../Backend_Developer/00_Year0-2_Junior/02_Python_Daily/Day31_Asyncio_Advanced/](../../Backend_Developer/00_Year0-2_Junior/02_Python_Daily/Day31_Asyncio_Advanced/) — asyncio fundamentals

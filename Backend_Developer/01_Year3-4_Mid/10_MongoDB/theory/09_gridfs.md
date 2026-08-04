@@ -131,5 +131,5 @@ loads the whole file into memory at once).
 ---
 
 Related: `01_basics_installation_crud.md` (the 16MB BSON document limit this
-solves), [17_storage_backends_s3.md](../../00_Year0-2_Junior/07_Django_DRF/17_storage_backends_s3.md)
+solves), [17_storage_backends_s3.md](../../../00_Year0-2_Junior/07_Django_DRF/17_storage_backends_s3.md)
 (the S3 alternative this compares against).

@@ -125,4 +125,4 @@ shard of it.
 ---
 
 Related: `07_replication_deep.md` (async primary-replica, the default
-choice this compares against), [10_postgresql_ha_read_replicas.md](../../04_Database_SQL/10_postgresql_ha_read_replicas.md).
+choice this compares against), [09_postgresql_ha_read_replicas.md](../../04_Database_SQL/09_postgresql_ha_read_replicas.md).
