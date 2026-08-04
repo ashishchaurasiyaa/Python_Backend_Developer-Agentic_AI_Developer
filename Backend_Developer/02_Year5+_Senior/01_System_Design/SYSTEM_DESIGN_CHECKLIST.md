@@ -4,6 +4,8 @@
 
 ---
 
+> **Theory coverage yeh file track karti hai. Bolne ki practice ke liye → [PRACTICE_DRILLS.md](PRACTICE_DRILLS.md)** (timed 45-min drills + self-grading rubric). Padhna aur bol pana alag skill hai.
+
 ## How to use this file
 - `[ ]` = Not done
 - `[x]` = Done
