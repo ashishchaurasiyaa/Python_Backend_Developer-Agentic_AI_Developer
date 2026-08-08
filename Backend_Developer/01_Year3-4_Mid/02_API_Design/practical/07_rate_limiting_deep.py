@@ -4,6 +4,7 @@ Rate Limiting — Production Patterns
 All major algorithms + framework integrations.
 """
 
+import os
 import time
 import uuid
 import redis
@@ -531,3 +532,102 @@ Storage choice:
 - DynamoDB / Cosmos (multi-region)
 - Hazelcast (Java shops)
 """
+
+
+# ==========================================================================
+# RUNNABLE LAB — In-Memory Token Bucket (Docker-free port of Section 1)
+# ==========================================================================
+"""
+LAB OBJECTIVE: TOKEN_BUCKET_SCRIPT (Section 1, top of file) IS the real
+algorithm — Lua running inside Redis. Yeh lab usi refill+cost math ko
+plain Python dict me le aata hai, taaki bina Docker/Redis chalaye burst
+behavior verify kar sako.
+
+TASK:
+  1. TODO: `_bucket_check()` bharo — refill karo, phir cost check karo
+     (same math jo TOKEN_BUCKET_SCRIPT me hai, bas Lua ki jagah Python)
+  2. Run: python3 07_rate_limiting_deep.py
+"""
+
+_buckets: dict[str, dict] = {}
+
+
+def _bucket_check(key: str, capacity: float, refill_rate: float, cost: float, now: float) -> tuple[bool, float]:
+    """In-memory twin of TOKEN_BUCKET_SCRIPT above. Returns (allowed, tokens_remaining)."""
+    bucket = _buckets.get(key, {"tokens": capacity, "last_refill": now})
+    tokens = bucket["tokens"]
+    last_refill = bucket["last_refill"]
+
+    # ─────────────────────────────────────────────────────
+    # TODO: refill + decide — same math as TOKEN_BUCKET_SCRIPT (Section 1):
+    #   elapsed = now - last_refill
+    #   tokens = min(capacity, tokens + elapsed * refill_rate)
+    #   if tokens >= cost: tokens -= cost; allowed = True
+    #   else: allowed = False
+    #
+    elapsed = now - last_refill
+    tokens = min(capacity, tokens + elapsed * refill_rate)
+    if tokens >= cost:
+        tokens -= cost
+        allowed = True
+    else:
+        allowed = False
+    # ─────────────────────────────────────────────────────
+
+    _buckets[key] = {"tokens": tokens, "last_refill": now}
+    return allowed, tokens
+
+
+def in_memory_token_bucket(key: str, capacity: int = 5, refill_rate: float = 0.0, cost: int = 1) -> tuple[bool, float]:
+    return _bucket_check(key, capacity, refill_rate, cost, time.time())
+
+
+def main() -> None:
+    print("\n[setup] capacity=5 tokens, refill_rate=0 (no refill during burst → clean test)")
+    key = f"test:{uuid.uuid4().hex[:6]}"
+
+    results = []
+    for i in range(8):
+        allowed, remaining = in_memory_token_bucket(key, capacity=5, refill_rate=0.0, cost=1)
+        results.append(allowed)
+        tag = "" if allowed else " → 429"
+        print(f"  request {i + 1}: allowed={allowed}, tokens_remaining={remaining:.1f}{tag}")
+
+    allowed_count = sum(results)
+    rejected_count = len(results) - allowed_count
+
+    # Reuse the file's own 429 helper (Section 12) for the rejected ones —
+    # proves the in-memory check plugs into the same response shape as prod.
+    for i, ok in enumerate(results):
+        if not ok:
+            body, headers = make_429_response(retry_after_seconds=60)
+            assert body["error"] == "rate_limited", "make_429_response() shape changed?"
+
+    print("\n" + "─" * 55)
+    if results == [True] * 5 + [False] * 3:
+        print(f"✅ PASS — exactly 5 requests allowed (capacity), 3 rejected (burst > capacity), "
+              "in order")
+    else:
+        print(f"❌ FAIL — expected [True]*5 + [False]*3, got {results} "
+              f"({allowed_count} allowed / {rejected_count} rejected)")
+        print("   TODO block bharo _bucket_check() me — refill/cost check missing lagta hai "
+              "(placeholder sab kuch allow kar raha hai).")
+
+    print("""
+SOCH:
+  1. refill_rate=0 rakha isliye ki burst-limit clean test ho — production
+     me refill_rate > 0 hota, to eventually saare allow ho jaate. Kyun?
+  2. Yeh same Lua script hai jo Section 1 me Redis ke against chalta hai —
+     single-instance dev me dict thik hai, par 2 app instances ho to?
+     (Hint: isliye centralized Redis chahiye — dict per-instance state hai,
+     dusra instance ko iska pata hi nahi chalega)
+  3. cost-based check (Section 6) isi bucket function ko reuse karta hai,
+     bas cost=100 jaisa bada number deta hai. Iska kya matlab hai practically?
+  4. Multi-dimensional check (Section 5) — global + per-endpoint + expensive,
+     teeno independent buckets hain. Kaunsa dimension violate hua wo track
+     karna kyun zaroori hai (sirf allow/deny se zyada)?
+""")
+
+
+if __name__ == "__main__":
+    main()

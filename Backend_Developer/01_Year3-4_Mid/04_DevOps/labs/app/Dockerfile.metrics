@@ -1,0 +1,7 @@
+# Small image for the Lab 03 metrics app — pre-installs prometheus_client
+# so `docker compose up` doesn't hit the network every start.
+FROM python:3.12-slim
+RUN pip install --no-cache-dir prometheus_client==0.20.0
+WORKDIR /app
+COPY metrics_app.py .
+CMD ["python", "metrics_app.py"]

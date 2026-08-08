@@ -180,6 +180,57 @@ PROBLEMS = {
         ((5,), [0, 1, 1, 2, 1, 2]),
         ((2,), [0, 1, 1]),
     ], None),
+
+    # ── Trie ──
+    "implement_trie": ("14_Trie", [       # LC 208, design-problem as ops list
+        (((["Trie", "insert", "search", "search", "startsWith", "insert", "search"],
+           [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]])),
+         [None, None, True, False, True, None, True]),
+        (((["Trie", "startsWith", "insert", "search", "startsWith", "search"],
+           [[], ["a"], ["ab"], ["a"], ["a"], ["ab"]])),
+         [None, False, None, False, True, True]),
+    ], None),
+
+    # ── Union-Find ──
+    "redundant_connection": ("15_Advanced_Graphs", [  # LC 684
+        (([[1, 2], [1, 3], [2, 3]],), [2, 3]),
+        (([[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]],), [1, 4]),
+    ], None),
+
+    # ── Dijkstra ──
+    "network_delay_time": ("15_Advanced_Graphs", [    # LC 743
+        (([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2), 2),
+        (([[1, 2, 1]], 2, 1), 1),
+        (([[1, 2, 1]], 2, 2), -1),                    # node 1 unreachable
+    ], None),
+
+    # ── Monotonic Queue ──
+    "sliding_window_maximum": ("22_Monotonic_Queue", [  # LC 239
+        (([1, 3, -1, -3, 5, 3, 6, 7], 3), [3, 3, 5, 5, 6, 7]),
+        (([1], 1), [1]),
+        (([9, 8, 7, 6, 5], 2), [9, 8, 7, 6]),           # strictly decreasing
+    ], None),
+
+    # ── Two Heaps ──
+    "median_from_stream": ("10_Heaps_Priority_Queue", [  # LC 295, median after each add
+        (([2, 3],), [2.0, 2.5]),
+        (([1, 2, 3],), [1.0, 1.5, 2.0]),
+        (([5, 1, 9, 2],), [5.0, 3.0, 5.0, 3.5]),
+    ], None),
+
+    # ── K-way Merge ──
+    "merge_k_sorted_lists": ("10_Heaps_Priority_Queue", [  # LC 23, list-of-lists form
+        (([[1, 4, 5], [1, 3, 4], [2, 6]],), [1, 1, 2, 3, 4, 4, 5, 6]),
+        (([],), []),
+        (([[], [1]],), [1]),
+    ], None),
+
+    # ── Cyclic Sort ──
+    "first_missing_positive": ("08_Sorting_Algorithms", [  # LC 41
+        (([1, 2, 0],), 3),
+        (([3, 4, -1, 1],), 2),
+        (([7, 8, 9, 11, 12],), 1),
+    ], None),
 }
 
 
@@ -278,6 +329,13 @@ def make_template() -> str:
         "jump_game": "nums: List[int]) -> bool",
         "single_number": "nums: List[int]) -> int",
         "count_bits": "n: int) -> List[int]",
+        "implement_trie": "ops: List[str], args: List[List[str]]) -> List[Optional[bool]]",
+        "redundant_connection": "edges: List[List[int]]) -> List[int]",
+        "network_delay_time": "times: List[List[int]], n: int, k: int) -> int",
+        "sliding_window_maximum": "nums: List[int], k: int) -> List[int]",
+        "median_from_stream": "nums: List[int]) -> List[float]",
+        "merge_k_sorted_lists": "lists: List[List[int]]) -> List[int]",
+        "first_missing_positive": "nums: List[int]) -> int",
     }
     parts = [TEMPLATE_HEADER]
     current_topic = None
@@ -290,6 +348,15 @@ def make_template() -> str:
             hint = "    # Hint: build_list(values) se node banao, list_values() se wapas\n"
         elif name in ("max_depth", "is_valid_bst"):
             hint = "    # Hint: build_tree(level_order) se tree banao\n"
+        elif name == "implement_trie":
+            hint = (
+                "    # Hint: LeetCode design format — ops[i] ko args[i] ke saath chalao,\n"
+                "    #       har op ka result list me daalo (Trie/insert ka result None)\n"
+            )
+        elif name == "median_from_stream":
+            hint = "    # Hint: two heaps — har number add hone ke BAAD current median append karo\n"
+        elif name == "first_missing_positive":
+            hint = "    # Hint: cyclic sort — value v ka ghar index v-1 hai (O(n)/O(1) required)\n"
         parts.append(
             f"def {name}({sigs[name]}:\n"
             f"    # TODO: Time O(?)  Space O(?)\n"

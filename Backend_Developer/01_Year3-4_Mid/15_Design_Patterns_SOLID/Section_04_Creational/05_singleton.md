@@ -1,5 +1,7 @@
 # Singleton
 
+> Runnable version of this pattern: [`Design_Patterns_Code/01_singleton/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/01_singleton/) — `SapConnectionManager`, a thread-safe singleton reusing one SAP B1 HTTP session across all Django requests. `GET /api/singleton-proof/` proves two constructions are `is` the same object; `sap_connector/tests.py` has 14 passing tests covering this and the disconnect/reset lifecycle.
+
 > ⚠️ The most abused pattern. Default stance: **don't use it.** Read the "When NOT to use" section first.
 
 ## 1. Intent

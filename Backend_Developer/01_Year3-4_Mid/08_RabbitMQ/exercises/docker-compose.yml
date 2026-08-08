@@ -1,0 +1,26 @@
+# RabbitMQ lab stack — management UI included (topics/queues/bindings/confirms sab dikhte hain)
+# Start:  docker compose up -d
+# Check:  docker compose exec rabbitmq rabbitmq-diagnostics ping
+# UI:     http://localhost:15672   (user: guest / pass: guest)
+# Stop:   docker compose down -v     (-v = data bhi delete, fresh start ke liye)
+#
+# NOTE: agar tumhare paas already koi RabbitMQ chal raha hai (Homebrew
+# service, ya doosra container) ports 5672/15672 pe, to woh ise conflict
+# karega. `docker compose ps` / `lsof -i :5672` se check kar lo pehle,
+# ya niche ports remap kar do (e.g. "5673:5672").
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-lab
+    ports:
+      - "5672:5672"    # AMQP — pika isi pe connect karta hai
+      - "15672:15672"  # Management UI + HTTP API (verify.py 05 isse use karta hai)
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s

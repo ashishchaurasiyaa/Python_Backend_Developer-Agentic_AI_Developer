@@ -1,5 +1,14 @@
 """
 Elasticsearch Cluster Architecture — Production Patterns
+
+Run: python 07_cluster_architecture.py
+Prereq: docker compose up -d   (see docker-compose.yml in this folder)
+
+NOTE: yeh ek SINGLE-NODE lab hai — real multi-node cluster topology
+(zones, allocation awareness, actual shard rebalancing) local lab me
+practical nahi hai. Jo yahan real hai: the actual HTTP API surface —
+cluster.health(), cat.shards() — jo production multi-node cluster pe
+bhi bilkul yahi shape return karte hain.
 """
 
 from elasticsearch import Elasticsearch
@@ -422,3 +431,89 @@ Per index:
 - merge time
 - segment count
 """
+
+
+# ==========================================================================
+# 15. LAB DRIVER — real health check against a live cluster
+# ==========================================================================
+
+LAB_INDEX = "cluster_health_lab"
+
+HEALTH_MEANING = {
+    "green": "sab primary AUR replica shards allocated hain — full redundancy.",
+    "yellow": "saare PRIMARY shards allocated hain (koi data loss nahi), par "
+              "kuch REPLICA shards unassigned hain — is single-node lab me "
+              "yehi EXPECTED hai (replica ko host karne ke liye doosra node "
+              "chahiye, jo yahan hai hi nahi). Production me yellow ka matlab "
+              "'redundancy degraded' hota, real outage nahi.",
+    "red": "kuch PRIMARY shards hi unassigned hain — actual data unavailable. "
+           "Yeh single node down/crash jaisi situation me hota, single-node "
+           "lab me expected nahi hai.",
+}
+
+
+def get_cluster_health_status() -> str:
+    """Real cluster health API call karo, status string ('green'/'yellow'/'red') return karo."""
+    # ─────────────────────────────────────────────────────────────
+    # TODO 5: actual cluster health API call missing hai.
+    #   Hint: `return es.cluster.health()['status']`
+    raise NotImplementedError(
+        "TODO 5 unfilled: get_cluster_health_status() me es.cluster.health() "
+        "call missing hai."
+    )
+    # ─────────────────────────────────────────────────────────────
+
+
+def main() -> None:
+    print("Elasticsearch Cluster Architecture Lab — real health check")
+
+    print("\n[1] Connect")
+    info = es.info()
+    print(f"    cluster_name={info['cluster_name']}  version={info['version']['number']}")
+
+    print(f"\n[2] Create '{LAB_INDEX}' with 1 replica (default) — forces a "
+          "real allocation gap on single-node")
+    if es.indices.exists(index=LAB_INDEX):
+        es.indices.delete(index=LAB_INDEX)
+    es.indices.create(index=LAB_INDEX, settings={"number_of_shards": 1, "number_of_replicas": 1})
+    es.index(index=LAB_INDEX, document={"msg": "hello"})
+    es.indices.refresh(index=LAB_INDEX)
+
+    print("\n[3] get_cluster_health_status()")
+    try:
+        status = get_cluster_health_status()
+    except NotImplementedError as e:
+        print(f"\n{'─' * 60}\n❌ FAIL — {e}")
+        return
+    print(f"    status = {status}")
+
+    print("\n[4] _cat/shards for this index (see the unassigned replica)")
+    shards = es.cat.shards(index=LAB_INDEX, format="json")
+    for s in shards:
+        print(f"    shard={s.get('shard')} prirep={s.get('prirep')} "
+              f"state={s.get('state')} node={s.get('node', 'UNASSIGNED')}")
+
+    print("\n" + "─" * 60)
+    if status not in ("green", "yellow", "red"):
+        print(f"❌ FAIL — status '{status}' in-valid hai, expected one of "
+              "green/yellow/red.")
+    else:
+        print(f"✅ PASS — status = '{status}'. Iska matlab is scenario me: "
+              f"{HEALTH_MEANING[status]}")
+
+    print(f"""
+SOCH (bolke jawab do):
+  1. Agar number_of_replicas=0 kar dete is index par, status kya hota? Try
+     karke dekho (settings={{'number_of_replicas': 0}}).
+  2. Production 3-node cluster me ek node crash ho jaye — status yellow
+     hoga ya red? Depend karta hai kis shard type (primary/replica) pe.
+  3. diagnose_unassigned() (section 2, upar) use karke pata karo yeh replica
+     shard kyun unassigned hai — allocation_explain() ka output kya kahega?
+  4. Disk watermark (section 8, upar) bhi status ko yellow/red kar sakta
+     hai — allocation failure se kaise distinguish karoge (dono me shards
+     unassigned dikhte hain)?
+""")
+
+
+if __name__ == "__main__":
+    main()

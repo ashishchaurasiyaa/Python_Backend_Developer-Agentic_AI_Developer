@@ -1,5 +1,7 @@
 # Command
 
+> Runnable version of this pattern: [`Design_Patterns_Code/11_command/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/11_command/) — `credit_pipeline` drives a 12-state invoice credit pipeline entirely through Command objects (`AdvanceStatusCommand`, `MarkPaidCommand`, `EscalateToLegalCommand`...) with a `PipelineInvoker` LIFO undo stack; 21 passing tests cover execute/undo and the audit trail.
+
 ## 1. Intent
 
 Encapsulate a request as an **object**, so you can: parameterize callers, queue/log/schedule operations, and support undo.

@@ -1,5 +1,7 @@
 # Prototype
 
+> Runnable version of this pattern: [`Design_Patterns_Code/15_prototype/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/15_prototype/) — standalone script, `python prototype.py`.
+
 ## 1. Intent
 
 Create new objects by **cloning** an existing instance (the *prototype*), instead of constructing from scratch.

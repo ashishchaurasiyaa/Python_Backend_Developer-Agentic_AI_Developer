@@ -1,5 +1,7 @@
 # Mediator
 
+> Runnable version of this pattern: [`Design_Patterns_Code/18_mediator/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/18_mediator/) — standalone script, `python mediator.py`.
+
 ## 1. Intent
 
 Reduce coupling between many objects by centralising their interaction in a **mediator** that they all talk to (instead of to each other).

@@ -1,0 +1,18 @@
+# Lab 03 — scrape config. Yeh file docker-compose ke `prometheus` service
+# me /etc/prometheus/prometheus.yml pe mount hoti hai.
+#
+# TODO bharo, phir: docker compose up -d prometheus metrics-app
+
+global:
+  scrape_interval: 5s     # lab ke liye fast — production me 15s+ normal hai
+
+scrape_configs:
+  - job_name: "lab_metrics_app"
+    static_configs:
+      - targets:
+          # ─────────────────────────────────────────────────────
+          # TODO 1: docker-compose service naam + port jahan
+          #         metrics-app apna /metrics expose karta hai.
+          #         Hint: "metrics-app:8000"
+          - ___TODO_1___
+          # ─────────────────────────────────────────────────────

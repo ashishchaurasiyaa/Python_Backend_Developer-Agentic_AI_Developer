@@ -1,5 +1,7 @@
 # Facade
 
+> Runnable version of this pattern: [`Design_Patterns_Code/16_facade/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/16_facade/) — standalone script, `python facade.py`.
+
 ## 1. Intent
 
 Provide a **simple, unified interface** to a complex subsystem. The Facade *narrows* what callers see.

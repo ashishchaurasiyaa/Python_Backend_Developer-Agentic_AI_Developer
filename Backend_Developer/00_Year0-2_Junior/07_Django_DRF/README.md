@@ -1,4 +1,4 @@
-# 🎯 Django + DRF — Mini-Index (44 topics)
+# 🎯 Django + DRF — Mini-Index (45 topics)
 
 > Django aur Django REST Framework ka full backend coverage — basics se le kar internals, scaling, aur production hardening tak. Files number order me hain; neeche **theme-wise** group kiye hain.
 >
@@ -47,6 +47,7 @@
 | 21 | [Audit Logging](21_audit_logging.md) |
 | 22 | [Object-Level Permissions](22_object_level_permissions.md) |
 | 27 | [Custom User Model & Auth](27_custom_user_model_auth.md) |
+| 44 | [CORS Handling](44_cors_handling.md) |
 
 ## 5. Async, Realtime & Tasks
 | # | Topic |
@@ -86,4 +87,4 @@
 
 ---
 
-*44 topics grouped into 8 themes. Interview ke liye groups 2 (ORM), 3 (DRF) aur 4 (Auth) sabse zyada matter karte hain. Runnable code → [`practical/`](practical/).*
+*45 topics grouped into 8 themes. Interview ke liye groups 2 (ORM), 3 (DRF) aur 4 (Auth) sabse zyada matter karte hain. Runnable code → [`practical/`](practical/).*

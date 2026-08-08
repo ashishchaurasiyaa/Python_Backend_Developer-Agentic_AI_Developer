@@ -1,5 +1,7 @@
 # Abstract Factory
 
+> Related directory: [`Design_Patterns_Code/03_abstract_factory/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/03_abstract_factory/) is scaffolded (Django project + app) but the `sap_documents` models/views are still stub boilerplate — no actual Abstract Factory logic implemented there yet. See `01_factory_method.md`'s link for a working sibling example (Factory Method) in the meantime.
+
 ## 1. Intent
 
 Provide an interface for creating **families** of related objects without specifying their concrete classes. *Factory Method* makes one product; *Abstract Factory* makes a matched **set**.

@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║           SORTING ALGORITHMS — 10 LeetCode-Style Problems        ║
+║           SORTING ALGORITHMS — 13 LeetCode-Style Problems        ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -384,4 +384,139 @@ print(largestNumber([3,30,34,5,9]))   # "9534330"
 print(largestNumber([0,0]))           # "0"
 # Time: O(n log n * k) where k = avg digit length | Space: O(n)
 
-print("\n✓ All 10 Sorting Algorithm problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# CYCLIC SORT PATTERN (Problems 11–13)
+# ══════════════════════════════════════════════════════════════════
+# When an array holds numbers in a KNOWN range (usually 1..n), every
+# value has exactly one "home" index: value v belongs at index v-1.
+# Keep swapping the current element to its home until the current slot
+# holds either its correct value or a value that cannot be placed
+# (out of range / duplicate already home). One final pass over the
+# array then exposes the anomaly: any index i with nums[i] != i+1
+# marks a missing number, and the value sitting there is a duplicate.
+#
+# Why it beats sorting: O(n) time, O(1) space. Every swap sends at
+# least one element to its final home, so total swaps <= n even though
+# the loop looks like it could run longer.
+#
+# Interview tell: "array contains 1..n" / "find missing/duplicate
+# without extra space" → cyclic sort (or its cousin, sign-marking).
+#
+# Family:
+#   LC 41  First Missing Positive        → Problem 11 below
+#   LC 645 Set Mismatch                  → Problem 12 below
+#   LC 448 Find Disappeared Numbers      → Problem 13 below
+#   LC 442 Find All Duplicates           → already solved in
+#          ../01_Arrays_Hashing/problems.py (P12) — not repeated here
+#   LC 268 Missing Number                → same idea with range 0..n
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 11: First Missing Positive (LC 41) — Cyclic Sort
+# ══════════════════════════════════════════════════════════════════
+def firstMissingPositive(nums: List[int]) -> int:
+    """
+    Find the smallest missing positive integer in O(n) time, O(1) space.
+
+    Approach: Cyclic sort placement. The answer must lie in [1..n+1]
+    (n slots can cover at most 1..n). Swap every value v in [1..n]
+    to its home index v-1; ignore non-positives and values > n.
+    Then the first index i where nums[i] != i+1 gives the answer i+1;
+    if every slot matches, the answer is n+1.
+
+    Example:
+      [1,2,0] → 3
+      [3,4,-1,1] → 2
+      [7,8,9,11,12] → 1
+    """
+    n = len(nums)
+    i = 0
+    while i < n:
+        v = nums[i]
+        if 1 <= v <= n and nums[v - 1] != v:
+            nums[i], nums[v - 1] = nums[v - 1], nums[i]
+            # Don't advance i — the swapped-in value needs placing too
+        else:
+            i += 1
+    for i in range(n):
+        if nums[i] != i + 1:
+            return i + 1
+    return n + 1
+
+print("\n=== First Missing Positive (Cyclic Sort) ===")
+print(firstMissingPositive([1,2,0]))        # 3
+print(firstMissingPositive([3,4,-1,1]))     # 2
+print(firstMissingPositive([7,8,9,11,12]))  # 1
+print(firstMissingPositive([1]))            # 2
+# Time: O(n) — each swap homes >= 1 element | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 12: Set Mismatch (LC 645) — Cyclic Sort
+# ══════════════════════════════════════════════════════════════════
+def findErrorNums(nums: List[int]) -> List[int]:
+    """
+    Array originally held 1..n; one number got duplicated and one went
+    missing. Return [duplicate, missing].
+
+    Approach: Cyclic sort every value to index v-1. A value refuses to
+    move only when its home already holds a copy — that value is the
+    duplicate. After placement, the index i where nums[i] != i+1 holds
+    the duplicate, and i+1 is the missing number.
+
+    Example:
+      [1,2,2,4] → [2,3]
+      [2,2] → [2,1]
+    """
+    n = len(nums)
+    i = 0
+    while i < n:
+        v = nums[i]
+        if nums[v - 1] != v:          # v always in [1..n] here by problem statement
+            nums[i], nums[v - 1] = nums[v - 1], nums[i]
+        else:
+            i += 1
+    for i in range(n):
+        if nums[i] != i + 1:
+            return [nums[i], i + 1]
+    return []
+
+print("\n=== Set Mismatch (Cyclic Sort) ===")
+print(findErrorNums([1,2,2,4]))  # [2, 3]
+print(findErrorNums([1,1]))      # [1, 2]
+print(findErrorNums([2,2]))      # [2, 1]
+# Time: O(n) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 13: Find All Numbers Disappeared in an Array (LC 448)
+# ══════════════════════════════════════════════════════════════════
+def findDisappearedNumbers(nums: List[int]) -> List[int]:
+    """
+    All numbers are in [1..n]; some appear twice, some never appear.
+    Return every missing number. No extra space (output excluded).
+
+    Approach: Cyclic sort each value to its home. Afterwards, every
+    index i with nums[i] != i+1 means value i+1 never appeared
+    (a duplicate is squatting there instead).
+    (Alternative: sign-marking — negate nums[|v|-1] as "seen"; that is
+    the trick used for LC 442 in ../01_Arrays_Hashing/problems.py.)
+
+    Example:
+      [4,3,2,7,8,2,3,1] → [5,6]
+      [1,1] → [2]
+    """
+    n = len(nums)
+    i = 0
+    while i < n:
+        v = nums[i]
+        if nums[v - 1] != v:
+            nums[i], nums[v - 1] = nums[v - 1], nums[i]
+        else:
+            i += 1
+    return [i + 1 for i in range(n) if nums[i] != i + 1]
+
+print("\n=== Find Disappeared Numbers (Cyclic Sort) ===")
+print(findDisappearedNumbers([4,3,2,7,8,2,3,1]))  # [5, 6]
+print(findDisappearedNumbers([1,1]))               # [2]
+print(findDisappearedNumbers([1,2,3]))             # []
+# Time: O(n) | Space: O(1) beyond the output list
+
+print("\n✓ All 13 Sorting + Cyclic Sort problems solved!")

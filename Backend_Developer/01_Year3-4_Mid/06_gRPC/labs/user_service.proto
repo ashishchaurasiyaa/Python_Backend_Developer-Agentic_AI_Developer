@@ -1,0 +1,41 @@
+// user_service.proto
+// gRPC Labs — real proto compiled to real stubs (unlike ../practical/*.py
+// which hand-roll fake grpc classes and never emit an actual _pb2.py).
+syntax = "proto3";
+
+package userlab;
+
+// ─── Messages ───
+
+message User {
+  int32  id    = 1;
+  string name  = 2;
+  string email = 3;
+}
+
+message GetUserRequest {
+  int32 id = 1;
+}
+
+message CreateUserRequest {
+  string name  = 1;
+  string email = 2;
+}
+
+message ListUsersRequest {
+  // page_size == 0 means "return all users"
+  int32 page_size = 1;
+}
+
+// ─── Service ───
+
+service UserService {
+  // Unary: one request in, one response out.
+  rpc GetUser(GetUserRequest) returns (User);
+
+  // Unary: create + return the created user.
+  rpc CreateUser(CreateUserRequest) returns (User);
+
+  // Server-streaming: one request in, a STREAM of responses out.
+  rpc ListUsers(ListUsersRequest) returns (stream User);
+}

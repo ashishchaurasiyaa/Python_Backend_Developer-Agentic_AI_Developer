@@ -598,3 +598,99 @@ Receiver side:
 [ ] Log all received events (audit trail)
 [ ] Handle unknown event types gracefully (return 200, log)
 """
+
+
+# ==========================================================================
+# RUNNABLE LAB — Sign + Verify, Tamper-Detection Proof (Docker-free)
+# ==========================================================================
+"""
+LAB OBJECTIVE: Section 1 (sign_payload) and Section 2 (verify_signature)
+above are the reference implementation. This lab has you write both again
+from scratch — the point isn't to duplicate code, it's to prove you
+understand WHY signing works: a signature is a promise about the EXACT
+bytes that were signed. Flip one bit after signing and verification must
+fail, or the entire scheme is worthless.
+
+TASK:
+  1. TODO: `_sign()` (sender) and `_verify()` (receiver) — implement for
+     real (Section 1/2 above show the reference, but write it yourself).
+  2. Run: python3 12_webhook_design_deep.py
+"""
+
+
+def _sign(body: bytes, timestamp: int, secret: str) -> str:
+    """Sender side: HMAC-SHA256 over f'{timestamp}.{body}'."""
+    # ─────────────────────────────────────────────────────
+    # TODO: same construction as Section 1's sign_payload():
+    #   signed_payload = f'{timestamp}.'.encode() + body
+    #   return hmac.new(secret.encode(), signed_payload, hashlib.sha256).hexdigest()
+    #
+    signed_payload = f'{timestamp}.'.encode() + body
+    return hmac.new(secret.encode(), signed_payload, hashlib.sha256).hexdigest()
+    # ─────────────────────────────────────────────────────
+
+
+def _verify(body: bytes, signature: str, timestamp: int, secret: str) -> bool:
+    """Receiver side: recompute + constant-time compare."""
+    # ─────────────────────────────────────────────────────
+    # TODO: same construction as Section 2's verify_signature():
+    #   expected = _sign(body, timestamp, secret)
+    #   return hmac.compare_digest(expected, signature)
+    #   (NOTE: use compare_digest, not `==` — plain `==` short-circuits on
+    #   the first mismatched byte, leaking timing info an attacker can use
+    #   to guess the signature byte-by-byte.)
+    #
+    expected = _sign(body, timestamp, secret)
+    return hmac.compare_digest(expected, signature)
+    # ─────────────────────────────────────────────────────
+
+
+def main() -> None:
+    secret = "whsec_test_secret"
+    timestamp = int(time.time())
+    payload = {"id": "evt_1", "type": "payment.succeeded", "data": {"amount": 4999}}
+    body = json.dumps(payload).encode()
+
+    print("\n[1] correctly-signed payload")
+    signature = _sign(body, timestamp, secret)
+    valid = _verify(body, signature, timestamp, secret)
+    print(f"  signature: {signature[:24]}...")
+    print(f"  verify(untampered) → {valid}")
+
+    print("\n[2] tampered payload (flip a bit AFTER signing, signature unchanged)")
+    tampered = bytearray(body)
+    mid = len(tampered) // 2
+    tampered[mid] ^= 0xFF
+    tampered = bytes(tampered)
+    tampered_valid = _verify(tampered, signature, timestamp, secret)
+    print(f"  tampered body differs at byte {mid}: {body[max(0, mid - 5):mid + 5]!r} → "
+          f"{tampered[max(0, mid - 5):mid + 5]!r}")
+    print(f"  verify(tampered)   → {tampered_valid}")
+
+    print("\n" + "─" * 55)
+    if valid and not tampered_valid:
+        print("✅ PASS — untampered payload accepted, tampered payload REJECTED")
+        print("   (this IS the entire point of webhook signing — payload integrity)")
+    elif tampered_valid:
+        print("❌ FAIL — tampered payload was ACCEPTED. This is a security hole:")
+        print("   _verify() is either always returning True, or not actually comparing")
+        print("   the recomputed HMAC against the given signature. Fix the TODO.")
+    else:
+        print("❌ FAIL — even the UNTAMPERED payload failed verification.")
+        print("   _sign()/_verify() don't agree — check both TODOs use the same")
+        print("   f'{timestamp}.' + body construction as Section 1/2 above.")
+
+    print("""
+SOCH:
+  1. hmac.compare_digest() kyu, == kyu nahi? (constant-time — timing attack se bachta hai)
+  2. Signature payload me timestamp bhi included hai (f'{timestamp}.{body}') —
+     agar sirf body sign karte to replay attack me kya farak padta?
+  3. Section 3 (receive_webhook) me signature check ke BAAD hi JSON parse
+     hota hai. Pehle parse karke fir verify karte to kya risk hota?
+  4. Secret rotation (Section 4: verify_multi_secret) — dono purane/naye
+     secret try karte hain. Yeh zero-downtime rotation kaise enable karta hai?
+""")
+
+
+if __name__ == "__main__":
+    main()

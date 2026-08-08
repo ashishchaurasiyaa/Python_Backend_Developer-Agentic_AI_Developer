@@ -1,5 +1,8 @@
 """
 Elasticsearch Relevance Tuning — Production Patterns
+
+Run: python 06_relevance_tuning_bm25.py
+Prereq: docker compose up -d   (see docker-compose.yml in this folder)
 """
 
 from elasticsearch import Elasticsearch
@@ -403,3 +406,95 @@ PROD_CHECKLIST = """
 [ ] Click logs for learning-to-rank training data
 [ ] Fallback handling: empty results, typo correction (fuzziness)
 """
+
+
+# ==========================================================================
+# 13. LAB DRIVER — boost a doc above an equally-relevant one, prove it ranks higher
+# ==========================================================================
+
+LAB_INDEX = "relevance_lab"
+
+
+def build_promotion_boosted_query(query_text: str) -> dict:
+    """
+    Query jo is_promoted=True documents ko boost kare, taaki wo similarly-
+    relevant unboosted documents ke UPAR rank karein.
+    """
+    # ─────────────────────────────────────────────────────────────
+    # TODO 4: is match query ko function_score se wrap karo — jo
+    #   is_promoted=True docs ko boost kare.
+    #   Hint: {"function_score": {"query": {...}, "functions": [
+    #            {"filter": {"term": {"is_promoted": True}}, "weight": 3.0}
+    #          ], "boost_mode": "multiply"}}
+    return {"match": {"title": query_text}}  # <-- WRONG placeholder (no boost), fix karo
+    # ─────────────────────────────────────────────────────────────
+
+
+def _setup_lab_index() -> None:
+    if es.indices.exists(index=LAB_INDEX):
+        es.indices.delete(index=LAB_INDEX)
+    es.indices.create(
+        index=LAB_INDEX,
+        mappings={
+            "properties": {
+                "title": {"type": "text"},
+                "is_promoted": {"type": "boolean"},
+            },
+        },
+    )
+    # "regular" ka title EXACT match hai query se — BM25 length-normalization
+    # ke hisaab se, bina boost ke, ye "promoted" (diluted/longer title) se
+    # aage rank karega. Isliye agar TODO 4 unfilled ho, order badalta nahi.
+    es.index(index=LAB_INDEX, id="regular", document={
+        "title": "Wireless Mouse", "is_promoted": False,
+    })
+    es.index(index=LAB_INDEX, id="promoted", document={
+        "title": "Wireless Mouse Pro Max Ultra Edition", "is_promoted": True,
+    })
+    es.indices.refresh(index=LAB_INDEX)
+
+
+def main() -> None:
+    print("Elasticsearch Relevance Tuning Lab — boost a doc above an equally-relevant one")
+
+    print("\n[1] Connect + build lab index (2 docs: 'regular' vs 'promoted')")
+    print(f"    {es.info()['version']['number']}")
+    _setup_lab_index()
+
+    print("\n[2] Run boosted_query for 'wireless mouse'")
+    query = build_promotion_boosted_query("wireless mouse")
+    result = es.search(index=LAB_INDEX, query=query, size=10)
+    hits = result["hits"]["hits"]
+    ranking = [h["_id"] for h in hits]
+    scores = {h["_id"]: h["_score"] for h in hits}
+    print(f"    ranking: {ranking}")
+    print(f"    scores:  {scores}")
+
+    print("\n" + "─" * 60)
+    if "promoted" not in ranking or "regular" not in ranking:
+        print(f"❌ FAIL — dono docs hits me nahi mile: {ranking}")
+    elif ranking.index("promoted") < ranking.index("regular"):
+        print(f"✅ PASS — 'promoted' (score={scores['promoted']:.3f}) rank karta "
+              f"hai 'regular' (score={scores['regular']:.3f}) ke UPAR — boost kaam kar raha hai.")
+    else:
+        print(f"❌ FAIL — 'promoted' (score={scores['promoted']:.3f}) 'regular' "
+              f"(score={scores['regular']:.3f}) ke upar rank nahi kar raha. "
+              "TODO 4 abhi unfilled hai — query ko function_score se wrap karo "
+              "jo is_promoted=True par weight boost de.")
+
+    print(f"""
+SOCH (bolke jawab do):
+  1. boost_mode='multiply' vs 'sum' — dono ka score pe kya farak padta hai
+     jab base BM25 score already high ho vs low ho?
+  2. function_score me score_mode='sum' kab use karoge jab multiple boost
+     functions ho (popularity + recency + promotion)? (section 2, upar)
+  3. Rescore (section 5, upar) vs function_score — dono two-phase scoring
+     jaisa lagta hai, par farak kya hai? Konsa cheaper hai?
+  4. Agar 'promoted' ka weight bahut zyada rakh do (jaise weight=100), to
+     kya risk hai? (Hint: irrelevant results bhi top pe aa sakte hain —
+     relevance vs business-priority ka tradeoff)
+""")
+
+
+if __name__ == "__main__":
+    main()

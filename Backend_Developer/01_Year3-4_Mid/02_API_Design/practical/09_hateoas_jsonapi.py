@@ -506,3 +506,102 @@ HAL when:
   ✓ Want minimal HATEOAS without full JSON:API
   ✓ Embedded resources useful (avoid N+1)
 """
+
+
+# ==========================================================================
+# RUNNABLE LAB — Pagination _links (self/first/last/prev/next), Docker-free
+# ==========================================================================
+"""
+LAB OBJECTIVE: Section 3 (list_articles_jsonapi) builds pagination links
+inline, straight in the endpoint body. This lab pulls that exact logic out
+into a standalone, testable function — no FastAPI Request, no DB — so you
+can verify the links actually point at the right page, every edge included
+(first page has no prev, last page has no next).
+
+TASK:
+  1. TODO: `build_pagination_links()` — self/first/last always present;
+     prev/next are None exactly when there's no such page.
+  2. Run: python3 09_hateoas_jsonapi.py
+"""
+
+
+def build_pagination_links(base: str, path: str, page_number: int, page_size: int, total_count: int) -> dict:
+    """Same link shape Section 3's list_articles_jsonapi returns inline."""
+    total_pages = (total_count + page_size - 1) // page_size
+
+    def url(p: int) -> str:
+        return f'{base}{path}?page[number]={p}&page[size]={page_size}'
+
+    # ─────────────────────────────────────────────────────
+    # TODO: self/first/last hamesha hote hain. prev/next sirf tab jab wo
+    #   range me ho:
+    #     prev = url(page_number - 1) if page_number > 1 else None
+    #     next = url(page_number + 1) if page_number < total_pages else None
+    #   Hint: Section 3 (list_articles_jsonapi) me yehi pattern already hai —
+    #   yahan usko ek standalone function me likhna hai.
+    #
+    # WRONG placeholder below: prev/next both just point at the current
+    # page (self) — client would "page forward" and get the same page
+    # forever, and never know when to stop showing a "next" button.
+    return {
+        'self': url(page_number),
+        'first': url(1),
+        'last': url(total_pages),
+        'prev': url(page_number - 1) if page_number > 1 else None,
+        'next': url(page_number + 1) if page_number < total_pages else None,
+    }
+    # ─────────────────────────────────────────────────────
+
+
+def main() -> None:
+    base, path = 'https://api.example.com', '/jsonapi/articles'
+    total_count, page_size = 47, 20   # → 3 pages (20, 20, 7)
+
+    print("\n[setup] total_count=47, page_size=20 → 3 pages")
+
+    pages = {}
+    for page in (1, 2, 3):
+        links = build_pagination_links(base, path, page, page_size, total_count)
+        pages[page] = links
+        print(f"\n  page {page}: {links}")
+
+    print("\n" + "─" * 55)
+    page1_ok = pages[1]['prev'] is None and 'page[number]=2' in (pages[1]['next'] or '')
+    page2_ok = ('page[number]=1' in (pages[2]['prev'] or '')
+                and 'page[number]=3' in (pages[2]['next'] or ''))
+    page3_ok = pages[3]['next'] is None and 'page[number]=2' in (pages[3]['prev'] or '')
+    self_ok = all(f'page[number]={p}' in pages[p]['self'] for p in (1, 2, 3))
+    first_last_ok = all(
+        'page[number]=1' in pages[p]['first'] and 'page[number]=3' in pages[p]['last']
+        for p in (1, 2, 3)
+    )
+
+    if page1_ok and page2_ok and page3_ok and self_ok and first_last_ok:
+        print("✅ PASS — self/first/last always correct; prev=None on page 1, "
+              "next=None on last page, prev/next point to the right adjacent page")
+    else:
+        print("❌ FAIL — pagination links galat hain:")
+        if not page1_ok:
+            print(f"   page 1: prev should be None, next should point to page 2. Got: {pages[1]}")
+        if not page2_ok:
+            print(f"   page 2: prev→page1, next→page3 expected. Got: {pages[2]}")
+        if not page3_ok:
+            print(f"   page 3 (last): next should be None, prev should point to page 2. Got: {pages[3]}")
+        print("   TODO block bharo — prev/next hardcoded url(page_number) (self) return kar rahe.")
+
+    print("""
+SOCH:
+  1. prev=None kyu return karte hain (kisi bhi URL ki jagah)? Client is
+     field ko kaise use karega (if links.prev: show button, else hide)?
+  2. self link me current query params hone chahiye (page[size] bhi) —
+     agar client ne page[size]=5 bheja tha to self me bhi 5 hona chahiye,
+     hardcoded 20 nahi. Is function me yeh sahi hai?
+  3. HATEOAS ka poora point: client ko URL construct NAHI karna padta,
+     bas link follow karta hai. Agar backend pagination scheme badal de
+     (offset → cursor) to client code todhna padega agar usne hardcoded
+     URLs banaye the?
+""")
+
+
+if __name__ == "__main__":
+    main()

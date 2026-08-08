@@ -1,35 +1,60 @@
+"""
+RabbitMQ Exercise 04 — Topic Exchange (Publisher)
+=====================================================
+OBJECTIVE: samjho ki topic exchange me `*` (exactly ek word) aur `#`
+           (zero ya zyada words) kaise match karte hain routing_key ke
+           against.
+
+Routing key shape: "{severity}.{priority}.{action}.{component}"
+  e.g. "E.H.A1.C1" = Error, High priority, Action1, Component1
+
+TASK:
+  1. TODO 1: EXCHANGE_TYPE bharo
+  2. errorhandlingsub.py / A3actiontaker.py / allwarningsfromC2.py ke
+     apne TODO bharo (binding pattern — wildcards)
+  3. Run: python publisher.py   (subscribers pehle alag terminals me)
+  4. Ya seedha: python verify.py
+
+Prereq: docker compose up -d   |   pip install pika
+"""
+
 import pika
-import sys
-import random
+
+EXCHANGE = "system_exchange"
+
+# ─────────────────────────────────────────────────────────
+# TODO 1: topic exchange ka type — `.`-separated routing_key pe
+#   `*` (exactly ek word) aur `#` (zero+ words) wildcard match
+#   karta hai. (direct = exact match, fanout = sab kuch, topic =
+#   pattern match)
+#   Hint: "topic"
+EXCHANGE_TYPE = None
+# ─────────────────────────────────────────────────────────
+
+if EXCHANGE_TYPE is None:
+    print("❌ TODO 1 abhi bharna hai — EXCHANGE_TYPE set karo (Hint: \"topic\")")
+    raise SystemExit(1)
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-
 channel = connection.channel()
 
-channel.exchange_declare(exchange = 'system_exchange', exchange_type='topic', durable= True)
-severity = ['E', 'W', 'I']
-priority = ['H', 'M', 'L']
-action = ['A1', 'A2', 'A3']
-component = ['C1', 'C2', 'C3']
+channel.exchange_declare(exchange=EXCHANGE, exchange_type=EXCHANGE_TYPE, durable=True)
 
+if __name__ == "__main__":
+    # Deterministic set (random ki jagah) — teen routing keys jo
+    # teeno subscribers ki selectivity clearly prove karte hain:
+    #   1. sirf ek subscriber ko milega
+    #   2. do subscribers ko milega
+    #   3. kisi ko nahi milega (negative control)
+    test_messages = [
+        ("E.H.A1.C1", "sirf E.# (errorhandlingsub) ko milna chahiye"),
+        ("W.M.A3.C2", "A3actiontaker (#.A3.#) AUR allwarningsfromC2 (W.#.C2) dono ko milna chahiye"),
+        ("I.L.A2.C3", "KISI ko nahi milna chahiye (koi pattern match nahi karta)"),
+    ]
 
-for i in range(10):
-    randomSeverity = severity[random.randint(0, len(severity) - 1)]
-    randomPriority = priority[random.randint(0, len(priority) - 1)]
-    randomAction = action[random.randint(0, len(action) - 1)]
-    randomComponent = component[random.randint(0, len(component) - 1)]
+    for rk, note in test_messages:
+        message = f"{rk} :::: {note}"
+        channel.basic_publish(exchange=EXCHANGE, routing_key=rk, body=message)
+        print("[x] sent %r" % message)
 
-    rk = "{s}.{p}.{a}.{c}".format(s=randomSeverity, p=randomPriority, a=randomAction, c=randomComponent)
-    message = rk + " ::::: <Message>"
-
-    channel.basic_publish(exchange='system_exchange', routing_key=rk, body=message)
-    print("[x] sent %r" %message)
-
-#channel.exchange_delete(exchange='system_exchange', if_unused=False)
-
-connection.close()
-
-
-
-
-
+    connection.close()

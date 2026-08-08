@@ -1,5 +1,8 @@
 """
 ES Circuit Breakers & Version Conflicts — Production Patterns
+
+Run: python 08_circuit_breakers_version_conflicts.py
+Prereq: docker compose up -d   (see docker-compose.yml in this folder)
 """
 
 import time
@@ -351,3 +354,101 @@ PROD_CHECKLIST = """
 [ ] from+size capped (use search_after for deep)
 [ ] Monitor: search latency P95, indexing rate, JVM heap, fielddata usage
 """
+
+
+# ==========================================================================
+# 15. LAB DRIVER — force a real optimistic-concurrency conflict, then fix it
+# ==========================================================================
+
+LAB_INDEX = "occ_lab"
+LAB_DOC_ID = "counter_1"
+
+
+def conflicting_update(index: str, doc_id: str, correct_seq_no: int,
+                        correct_primary_term: int, updates: dict):
+    """
+    Jaan-bujh kar GALAT if_seq_no bhejo — taaki ES version conflict detect
+    kare aur ConflictError (HTTP 409) raise kare. Yeh optimistic concurrency
+    control ka poora point hai: "maine jo doc padha tha, kya wo abhi bhi
+    same hai?" — agar seq_no match nahi karta, ES update REJECT kar deta hai.
+    """
+    # ─────────────────────────────────────────────────────────────
+    # TODO 6: neeche wrong_seq_no ko GALAT set karo (correct_seq_no NAHI —
+    #   koi aisi value jo kabhi match nahi karegi, taaki conflict trigger ho).
+    #   Hint: `wrong_seq_no = correct_seq_no + 999`
+    wrong_seq_no = correct_seq_no  # <-- WRONG placeholder (yeh to sahi hi hai — conflict trigger NAHI karega), fix karo
+    # ─────────────────────────────────────────────────────────────
+    return es.update(
+        index=index, id=doc_id,
+        if_seq_no=wrong_seq_no, if_primary_term=correct_primary_term,
+        doc=updates,
+    )
+
+
+def main() -> None:
+    print("Elasticsearch OCC Lab — force a real version conflict, then fix it correctly")
+
+    print("\n[1] Connect + create lab doc")
+    if es.indices.exists(index=LAB_INDEX):
+        es.indices.delete(index=LAB_INDEX)
+    es.indices.create(index=LAB_INDEX)
+    es.index(index=LAB_INDEX, id=LAB_DOC_ID, document={"count": 1}, refresh=True)
+
+    current = es.get(index=LAB_INDEX, id=LAB_DOC_ID)
+    seq_no, primary_term = current["_seq_no"], current["_primary_term"]
+    print(f"    doc created: count=1, seq_no={seq_no}, primary_term={primary_term}")
+
+    print("\n[2] Attempt update with a DELIBERATELY WRONG if_seq_no")
+    conflict_raised = False
+    try:
+        conflicting_update(LAB_INDEX, LAB_DOC_ID, seq_no, primary_term, {"count": 2})
+        print("    no exception raised — update went through (should NOT have)")
+    except ConflictError as e:
+        conflict_raised = True
+        print(f"    caught ConflictError as expected: {e.meta.status if hasattr(e, 'meta') else e}")
+
+    print("\n[3] Fetch FRESH seq_no/primary_term, then update CORRECTLY")
+    fresh = es.get(index=LAB_INDEX, id=LAB_DOC_ID)
+    fresh_seq_no, fresh_primary_term = fresh["_seq_no"], fresh["_primary_term"]
+    print(f"    fresh: count={fresh['_source']['count']}, seq_no={fresh_seq_no}")
+    es.update(
+        index=LAB_INDEX, id=LAB_DOC_ID,
+        if_seq_no=fresh_seq_no, if_primary_term=fresh_primary_term,
+        doc={"count": 2},
+    )
+    final = es.get(index=LAB_INDEX, id=LAB_DOC_ID)
+    print(f"    after correct update: count={final['_source']['count']}")
+
+    print("\n" + "─" * 60)
+    update_succeeded = final["_source"]["count"] == 2
+    if conflict_raised and update_succeeded:
+        print("✅ PASS — galat if_seq_no ne real ConflictError (409) diya, "
+              "aur fresh seq_no ke saath correct update safalta se apply hua.")
+    elif not conflict_raised:
+        print(f"❌ FAIL — koi ConflictError raise nahi hua (count ab "
+              f"{final['_source']['count']} hai). TODO 6 abhi unfilled hai — "
+              "wrong_seq_no abhi bhi correct_seq_no ke barabar hai, isliye "
+              "ES ko conflict dikhta hi nahi.")
+    else:
+        print(f"❌ FAIL — conflict to raise hua par final correct update "
+              f"apply nahi hua (count={final['_source']['count']}, expected 2).")
+
+    print(f"""
+SOCH (bolke jawab do):
+  1. if_seq_no + if_primary_term dono kyun chahiye, sirf seq_no kyun nahi?
+     (Hint: primary_term shard leadership change track karta hai — seq_no
+     akela reused ho sakta hai naye primary term me)
+  2. retry_on_conflict (section 4, upar) OCC se kaise alag hai? Konsa
+     use-case ke liye better hai — counter increment vs "read-modify-write
+     business logic"?
+  3. External versioning (section 5, upar) OCC se kaise alag hai — CDC
+     pipeline me kyun better fit hai?
+  4. Is lab me conflict manually trigger kiya — real production race
+     condition kaise create hoti hai (do concurrent requests same doc pe)?
+     update_with_occ() (section 3, upar) retry loop kyun zaroori hai us
+     case me?
+""")
+
+
+if __name__ == "__main__":
+    main()

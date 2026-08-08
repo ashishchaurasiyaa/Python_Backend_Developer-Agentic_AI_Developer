@@ -15,8 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # NOTE: this was missing entirely — sap_connector/urls.py (and every
+    # /api/... endpoint documented in its views, incl. /api/singleton-proof/)
+    # was unreachable until this line was added.
+    path('api/', include('sap_connector.urls')),
 ]

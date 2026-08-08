@@ -1,5 +1,7 @@
 # Template Method
 
+> Runnable version of this pattern: [`Design_Patterns_Code/09_template_method/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/09_template_method/) — `reports/generators.py` fixes the report-generation skeleton while subclasses override individual steps.
+
 ## 1. Intent
 
 Define the **skeleton** of an algorithm in a base class, letting subclasses override specific steps **without** changing the algorithm's structure.

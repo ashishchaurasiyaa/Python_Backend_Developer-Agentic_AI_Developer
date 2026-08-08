@@ -1,5 +1,7 @@
 # Chain of Responsibility (CoR)
 
+> Runnable version of this pattern: [`Design_Patterns_Code/20_chain_of_responsibility/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/20_chain_of_responsibility/) — standalone script, `python chain.py`.
+
 ## 1. Intent
 
 Pass a request along a **chain of handlers**. Each handler decides to process it, pass it on, or stop the chain.

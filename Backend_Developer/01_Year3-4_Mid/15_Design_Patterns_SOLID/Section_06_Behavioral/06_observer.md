@@ -1,5 +1,7 @@
 # Observer (Publish-Subscribe)
 
+> Runnable version of this pattern: [`Design_Patterns_Code/04_observer/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/04_observer/) — `order_events` fans an order status change out to `AccountManagerNotifier`, `PlanningTeamNotifier`, `CustomerSMSNotifier`, and others; already has a real 330+ line test suite (subscribe/unsubscribe, per-event fan-out counts, API integration).
+
 ## 1. Intent
 
 Define a **one-to-many** dependency: when one object (Subject) changes, all its observers are notified automatically.

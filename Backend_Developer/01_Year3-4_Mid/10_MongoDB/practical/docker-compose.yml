@@ -1,0 +1,58 @@
+# MongoDB lab stack — single-node REPLICA SET (rs0)
+# Transactions & change streams REQUIRE a replica set — a standalone mongod
+# supports NEITHER at all (not "works but risky" — literally errors out).
+# A 1-node replica set is the lightest way to unlock both for local labs.
+#
+# Start:  docker compose up -d          (mongo-init runs once, then exits — normal)
+# Check:  docker compose exec mongo mongosh --eval "rs.status().ok"
+# Stop:   docker compose down -v        (-v = data bhi delete, fresh start ke liye)
+#
+# PORT NOTE: host port 27018 (not the default 27017) — kaafi dev machines pe
+# already ek local/Homebrew mongod 27017 pe chal raha hota hai, aur agar wo
+# already bound hai to Docker ka port-publish silently us process ke peeche
+# "hide" ho sakta hai (127.0.0.1-specific bind > 0.0.0.0 bind). 27018 use
+# karke ye clash hamesha ke liye avoid ho jaata hai.
+#
+# CONNECTION NOTE: rs0 ka member host "mongo:27017" hai (mongod isi address
+# pe khud ko sunta hai — replica-set member host wahi hona CHAHIYE jo node
+# khud apne liye "mujhe is naam/port se access karo" maanta hai). Host
+# machine se "mongo" hostname resolve nahi hota, isliye labs
+# directConnection=True use karte hain: mongodb://localhost:27018/?directConnection=true
+# — single-node RS me yeh safe hai (wahi node hamesha PRIMARY hai), aur
+# transactions + change streams dono directConnection ke saath kaam karte
+# hain (bas topology auto-discovery skip hoti hai, replica-set features nahi).
+name: mongo-lab-stack
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: mongo-lab
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "27018:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # One-shot init — rs0 ko initiate karta hai (idempotent: already-initiated
+  # hone par bhi safely skip ho jaata hai). Isse pehle transactions/change
+  # streams kaam nahi karenge — mongod replica-set mode me hai but no set
+  # config exists yet.
+  #
+  # NOTE: member host = "localhost:27018", NOT "mongo:27017" — labs isko
+  # host machine se python se connect karte hain (docker network ke andar se
+  # nahi), aur pymongo replica-set discovery isi advertised host se hone
+  # wale follow-up connections banata hai. "mongo:27017" sirf docker network
+  # ke andar resolve hota, host se nahi — aur 27018 wahi published host port
+  # hai jo upar "mongo" service define karta hai.
+  mongo-init:
+    image: mongo:7.0
+    container_name: mongo-init-lab
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: "no"
+    command: >
+      mongosh --host mongo:27017 --quiet --eval
+      "try { rs.status(); print('rs0 already initiated'); } catch (e) { rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'mongo:27017'}]}); print('rs0 initiated'); }"

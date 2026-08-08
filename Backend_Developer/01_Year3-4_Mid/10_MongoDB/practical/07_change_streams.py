@@ -1,10 +1,17 @@
 """
 MongoDB Change Streams — Production Patterns
+
+Run: python 07_change_streams.py
+Prereq: docker compose up -d   (see docker-compose.yml — change streams,
+        transactions ki tarah, replica set ke bina bilkul kaam nahi karte)
 """
 
+import os
 import asyncio
 import time
 import logging
+import threading
+import uuid
 from typing import Any
 from datetime import datetime
 
@@ -13,7 +20,8 @@ from pymongo import MongoClient
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
-client = MongoClient("mongodb://localhost:27017/?replicaSet=rs0")
+MONGO_URI = os.getenv("MONGO_LAB_URI", "mongodb://localhost:27018/?directConnection=true")
+client = MongoClient(MONGO_URI)
 db = client.mydb
 
 log = logging.getLogger(__name__)
@@ -333,3 +341,107 @@ def handle_invalidation():
         except pymongo.errors.PyMongoError as e:
             log.error(f"Stream error: {e}")
             time.sleep(2)
+
+
+# ==========================================================================
+# 12. LAB DRIVER — open a REAL stream, write in another thread, prove it fired
+# ==========================================================================
+
+def open_watch_stream(collection, pipeline=None):
+    """
+    Real change stream kholo, given collection pe, optional pipeline filter
+    ke saath.
+    """
+    # ─────────────────────────────────────────────────────────────
+    # TODO 1: actual watch() call missing hai. Collection pe change stream
+    #   kholo — pipeline (agar diya gaya) apply hona chahiye, aur insert ke
+    #   liye fullDocument already poora available hota hai.
+    #   Hint: `return collection.watch(pipeline=pipeline, full_document='updateLookup')`
+    raise NotImplementedError(
+        "TODO 1 unfilled: open_watch_stream() me collection.watch(...) "
+        "call missing hai — is function ko poora likho."
+    )
+    # ─────────────────────────────────────────────────────────────
+
+
+def _watch_and_capture(collection, pipeline, result_box, timeout_s=8):
+    """Background thread: stream khol ke rakho, pehla matching change capture karo."""
+    try:
+        stream = open_watch_stream(collection, pipeline=pipeline)
+    except NotImplementedError as e:
+        result_box['error'] = str(e)
+        result_box['ready'].set()
+        return
+
+    result_box['ready'].set()   # signal: stream is open, safe to write now
+    deadline = time.time() + timeout_s
+    with stream:
+        while time.time() < deadline:
+            change = stream.try_next()
+            if change is not None:
+                result_box['change'] = change
+                return
+    result_box['change'] = None
+
+
+def main() -> None:
+    print("MongoDB Change Streams Lab — open watch(), write elsewhere, prove it fired")
+
+    print("\n[1] Connect + clean lab collection")
+    client.admin.command('ping')
+    db.change_lab.delete_many({})
+
+    marker = str(uuid.uuid4())
+    pipeline = [{'$match': {'operationType': 'insert'}}]
+
+    print("\n[2] Open change stream in a background thread")
+    result_box = {'ready': threading.Event()}
+    t = threading.Thread(target=_watch_and_capture, args=(db.change_lab, pipeline, result_box))
+    t.start()
+    stream_opened = result_box['ready'].wait(timeout=5)
+
+    print("\n[3] Insert a document on the MAIN thread (stream should see it)")
+    if stream_opened and 'error' not in result_box:
+        # small buffer — try_next() polling needs at least one cycle after open
+        time.sleep(0.5)
+        db.change_lab.insert_one({'marker': marker, 'kind': 'lab_doc'})
+    t.join(timeout=10)
+
+    print("\n" + "─" * 60)
+    if result_box.get('error'):
+        print(f"❌ FAIL — {result_box['error']}")
+    else:
+        change = result_box.get('change')
+        if change is None:
+            print("❌ FAIL — koi change event capture nahi hua (timeout). "
+                  "Stream sahi collection watch kar raha hai? Pipeline filter check karo.")
+        else:
+            op_ok = change.get('operationType') == 'insert'
+            doc_ok = change.get('fullDocument', {}).get('marker') == marker
+            if op_ok and doc_ok:
+                print(f"✅ PASS — change stream ne asli insert event capture kiya "
+                      f"(operationType='{change['operationType']}', "
+                      f"marker match: {change['fullDocument']['marker'] == marker}).")
+            else:
+                print(f"❌ FAIL — event mila par mismatch — "
+                      f"operationType={change.get('operationType')!r} "
+                      f"(expected 'insert'), fullDocument={change.get('fullDocument')}")
+
+    print(f"""
+SOCH (bolke jawab do):
+  1. Is lab me try_next() polling use kiya (max_await_time_ms jaisa kuch
+     nahi diya) — production me `for change in stream:` blocking iteration
+     kyun better hota hai ek dedicated worker process me?
+  2. Agar insert se PEHLE stream open na hota (race condition), to event
+     miss ho jaata — real system me isko kaise handle karte hain? (Hint:
+     resume_token persist karna, section 3 upar)
+  3. pipeline=[{{'$match': {{'operationType': 'insert'}}}}] hata dete to
+     kya extra events aate? update/delete filter karne ka use case socho.
+  4. Collection drop ho jaye to stream 'invalidate' event deta hai aur band
+     ho jaata hai (section 11) — is lab ke simple try_next() loop me agar
+     collection drop hoti to kya hota? Production handler alag kyun hai?
+""")
+
+
+if __name__ == "__main__":
+    main()

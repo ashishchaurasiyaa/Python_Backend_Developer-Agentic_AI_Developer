@@ -1,0 +1,23 @@
+# Elasticsearch lab stack — single node, security disabled (local dev only).
+# A real multi-node cluster isn't practical for a lightweight local lab —
+# this gives you the real HTTP API (health, shards, breakers) against one node.
+#
+# Start:  docker compose up -d
+# Check:  curl http://localhost:9200/_cluster/health?pretty
+# Stop:   docker compose down -v     (-v = data bhi delete, fresh start ke liye)
+name: es-lab-stack
+services:
+  es:
+    image: elasticsearch:8.11.0
+    container_name: es-lab
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20

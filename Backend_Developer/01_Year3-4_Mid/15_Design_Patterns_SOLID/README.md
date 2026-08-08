@@ -12,6 +12,14 @@ A Python developer needs them for three concrete reasons:
 2. **Reading real codebases** — Django ORM is Active Record + Unit of Work; DRF serializers are Adapter; FastAPI `Depends()` is dependency injection (Factory + IoC). You can't navigate them without the vocabulary.
 3. **Avoiding two failure modes** — Java-flavored over-engineering (writing `AbstractFactoryBuilderFactory` in Python where a function would do) AND under-engineering (10-level `if/elif` chains that should have been Strategy or State).
 
+## Runnable code — this folder is theory only
+
+Every file in `Section_01`–`Section_10` is markdown. There are **zero `.py` files here on purpose** — the runnable implementations live one tier up, at [`../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/`](../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/).
+
+That directory is **not toy code**. It's 16 patterns, each a self-contained Django project (or standalone script for the simpler ones) built against the same domain as the repo owner's actual SAP-integration work at Youngman India — `SapConnectionManager` (Singleton), `ChallanFactory` (Factory Method), `PaymentService` + `DIContainer` (Dependency Injection), a 12-state credit-pipeline state machine driven by `Command` objects, and more. Each has a real `manage.py test <app>` suite proving the pattern's actual behavioural guarantee (e.g. Singleton: two constructions really are `is` the same object; Factory: each input dispatches to the right subclass; DI: swapping the injected gateway changes nothing in the service class).
+
+[Section_08 (Backend Mapping)](Section_08_Backend_Mapping/) is the file that maps *unnamed* patterns already hiding in FastAPI/Django/Celery/Kafka/Redis — read the runnable code above for the *named*, hand-built versions instead. Individual pattern notes below also link straight to their matching implementation where one exists.
+
 ## Study order (do not skip)
 
 | # | Section | Why first |

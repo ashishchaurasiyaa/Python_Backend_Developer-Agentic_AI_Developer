@@ -1,5 +1,7 @@
 # Builder
 
+> Runnable version of this pattern: [`Design_Patterns_Code/06_builder/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/06_builder/) — `sap_builder` constructs SAP B1 documents step by step.
+
 ## 1. Intent
 
 Construct a **complex object** step by step. The same construction process can create different representations.

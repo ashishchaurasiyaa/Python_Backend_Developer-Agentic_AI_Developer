@@ -1,14 +1,21 @@
 """
 MongoDB Data Modeling — Production Patterns
+
+Run: python 08_data_modeling_patterns.py
+Prereq: docker compose up -d   (see docker-compose.yml in this folder —
+        transactions/change streams nahi chahiye is file ko, par consistency
+        ke liye wahi lab instance use karte hain)
 """
 
+import os
 from datetime import datetime, timedelta
 import random
 
 from pymongo import MongoClient, ASCENDING, DESCENDING, TEXT
 
 
-client = MongoClient("mongodb://localhost:27017")
+MONGO_URI = os.getenv("MONGO_LAB_URI", "mongodb://localhost:27018/?directConnection=true")
+client = MongoClient(MONGO_URI)
 db = client.mydb
 
 
@@ -358,6 +365,120 @@ def schema_decision_tree(access_pattern: str, child_size: str, sharing: str):
     if child_size == 'unbounded':
         return 'REFERENCE + bucket pattern'
     return 'EMBED with extended reference'
+
+
+# ==========================================================================
+# 12. LAB DRIVER — pick embed vs reference, then PROVE the doc shape matches
+# ==========================================================================
+
+def choose_pattern(scenario: str) -> str:
+    """
+    Given an access-pattern scenario, return 'embed' or 'reference'.
+
+    Scenarios:
+      'post_comments'   — comments on a blog post: bounded (max ~50), almost
+                           always read TOGETHER with the post.
+      'customer_orders' — ALL orders a customer has EVER placed: unbounded,
+                           keeps growing forever, rarely needs to load with
+                           the customer profile.
+    """
+    if scenario == 'post_comments':
+        return 'embed'
+    elif scenario == 'customer_orders':
+        # ─────────────────────────────────────────────────────────
+        # TODO 3: 'customer_orders' unbounded hai — 'post_comments' jaisa
+        #   bounded (~50) nahi. Correct pattern kya hai?
+        #   Hint: unbounded array = document 16MB limit todne ka risk +
+        #   MongoDB perf degrade jab array bada ho jaata hai. Separate
+        #   collection + foreign key (customer_id) use karo.
+        return 'embed'  # <-- WRONG placeholder, fix karo ('embed' or 'reference')
+        # ─────────────────────────────────────────────────────────
+    else:
+        raise ValueError(f"unknown scenario: {scenario}")
+
+
+def apply_pattern(scenario: str, pattern: str) -> None:
+    """Chosen pattern ke hisaab se actual lab data likho — verification isi shape ko check karega."""
+    if scenario == 'post_comments':
+        if pattern == 'embed':
+            db.posts_lab.update_one(
+                {'_id': 'post_1'},
+                {'$push': {'comments': {'text': 'nice post!', 'at': datetime.utcnow()}}},
+                upsert=True,
+            )
+        else:
+            db.comments_lab.insert_one({'post_id': 'post_1', 'text': 'nice post!'})
+    elif scenario == 'customer_orders':
+        if pattern == 'embed':
+            db.customers_lab.update_one(
+                {'_id': 'cust_1'},
+                {'$push': {'orders': {'order_id': 'o1', 'amount': 99}}},
+                upsert=True,
+            )
+        else:
+            db.orders_lab.insert_one({'customer_id': 'cust_1', 'order_id': 'o1', 'amount': 99})
+
+
+def main() -> None:
+    print("MongoDB Data Modeling Lab — embed vs reference, per access pattern")
+
+    print("\n[1] Connect + clean lab collections")
+    client.admin.command('ping')
+    for coll in ('posts_lab', 'comments_lab', 'customers_lab', 'orders_lab'):
+        db[coll].drop()
+
+    print("\n[2] Scenario: post_comments (bounded, read together)")
+    p1 = choose_pattern('post_comments')
+    print(f"    choose_pattern() → '{p1}'")
+    apply_pattern('post_comments', p1)
+
+    print("\n[3] Scenario: customer_orders (unbounded, rarely loaded together)")
+    p2 = choose_pattern('customer_orders')
+    print(f"    choose_pattern() → '{p2}'")
+    apply_pattern('customer_orders', p2)
+
+    print("\n" + "─" * 60)
+    post = db.posts_lab.find_one({'_id': 'post_1'})
+    post_ok = (p1 == 'embed' and post is not None
+               and 'comments' in post and len(post['comments']) > 0)
+
+    customer_doc = db.customers_lab.find_one({'_id': 'cust_1'})
+    orders_separate = list(db.orders_lab.find({'customer_id': 'cust_1'}))
+    orders_ok = (p2 == 'reference' and len(orders_separate) > 0
+                 and (customer_doc is None or 'orders' not in customer_doc))
+
+    if post_ok and orders_ok:
+        print("✅ PASS — post_comments EMBED hua (bounded array directly on "
+              "post doc), customer_orders REFERENCE hua (separate collection "
+              "+ customer_id foreign key, unbounded growth safe).")
+    elif not orders_ok:
+        print(f"❌ FAIL — customer_orders ke liye pattern '{p2}' chuna gaya "
+              f"(expected 'reference'). orders_lab me {len(orders_separate)} "
+              f"docs mile, customers_lab doc = {customer_doc}. TODO 3 abhi "
+              "unfilled hai — unbounded array document 16MB limit todh sakta "
+              "hai; separate orders collection + customer_id FK use karo.")
+    else:
+        print(f"❌ FAIL — post_comments ke liye shape galat hai "
+              f"(pattern={p1}, doc={post}).")
+
+    print(f"""
+SOCH (bolke jawab do):
+  1. post_comments embed kiya — agar comments unbounded ho jayein (jaise
+     Reddit thread, 10k+ comments), tab kya badalna padega? (Hint: subset
+     pattern, section 3 upar — top-N embed + baaki separate collection)
+  2. customer_orders reference kyun — embed karte to konsa MongoDB hard
+     limit todne ka risk tha? (16MB doc size)
+  3. Extended reference pattern (section 1, upar) kab use karoge jab pure
+     reference bhi kaafi na ho (N+1 query problem se bachna ho)?
+  4. schema_decision_tree() (section 11, upar) me post_comments aur
+     customer_orders ke access_pattern/child_size/sharing values kya
+     doge? Manually trace karo — kya wahi answer aata hai jo choose_pattern()
+     me diya?
+""")
+
+
+if __name__ == "__main__":
+    main()
 
 
 # Examples

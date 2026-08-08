@@ -1,5 +1,7 @@
 # Visitor
 
+> Runnable version of this pattern: [`Design_Patterns_Code/19_visitor/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/19_visitor/) — standalone script, `python visitor.py`.
+
 > The hardest GoF pattern, and the rarest in idiomatic Python. Still worth knowing for compilers, ASTs, and query analysers.
 
 ## 1. Intent

@@ -191,7 +191,7 @@ class ChallanFactory:
         challan_class = cls._registry.get(movement_type)
         if not challan_class:
             raise ValueError(
-                f"Unknown movement type: "{movement_type}". "
+                f'Unknown movement type: "{movement_type}". '
                 f"Available: {list(cls._registry.keys())}"
             )
         return challan_class()

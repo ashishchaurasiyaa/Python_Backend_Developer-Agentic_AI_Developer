@@ -5,13 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/PythonRevision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonRevision.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/00_django_basics_definition.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/00_django_basics_definition.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/01_orm_deep_dive.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/01_orm_deep_dive.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/02_viewsets_serializers_auth.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/02_viewsets_serializers_auth.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agentic_AI/Senior_Python_Backend_Hiring_Companies.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/Senior_Python_Backend_Hiring_Companies.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/07_rate_limiting_deep.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/07_rate_limiting_deep.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/09_hateoas_jsonapi.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/09_hateoas_jsonapi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/10_bulk_operations_design.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/10_bulk_operations_design.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/12_webhook_design_deep.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/practical/12_webhook_design_deep.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/01_fanout/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/01_fanout/publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/01_fanout/subscriber.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/01_fanout/subscriber.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/02_rpc/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/02_rpc/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/02_rpc/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/02_rpc/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/alarmraiser.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/alarmraiser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/fiewriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/fiewriter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/screenprinter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/03_direct_routing/screenprinter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/A3actiontaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/A3actiontaker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/allwarningsfromC2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/allwarningsfromC2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/errorhandlingsub.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/errorhandlingsub.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/04_topic_routing/publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/05_durability_confirms/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/05_durability_confirms/publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/05_durability_confirms/subscriber.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/05_durability_confirms/subscriber.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/08_RabbitMQ/exercises/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/05_transactions_deep.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/05_transactions_deep.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/06_replication_read_preferences.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/06_replication_read_preferences.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/07_change_streams.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/07_change_streams.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/08_data_modeling_patterns.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/10_MongoDB/practical/08_data_modeling_patterns.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/11_Elasticsearch/practical/06_relevance_tuning_bm25.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/11_Elasticsearch/practical/06_relevance_tuning_bm25.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/11_Elasticsearch/practical/07_cluster_architecture.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/11_Elasticsearch/practical/07_cluster_architecture.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/11_Elasticsearch/practical/08_circuit_breakers_version_conflicts.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/11_Elasticsearch/practical/08_circuit_breakers_version_conflicts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/Section_04_Creational/01_factory_method.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/Section_04_Creational/01_factory_method.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/Section_04_Creational/02_abstract_factory.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/Section_04_Creational/02_abstract_factory.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/01_singleton/sap_connector/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/01_singleton/sap_connector/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/01_singleton/singleton_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/01_singleton/singleton_project/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/02_factory/challans/factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/02_factory/challans/factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/02_factory/challans/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/02_factory/challans/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/14_dependency_injection/payments/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/Design_Patterns_Code/14_dependency_injection/payments/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,23 +98,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.3208567851420019" />
-      <entry key="MS500" value="1.9791300446829323" />
-      <entry key="S2" value="5.628407740546315" />
-      <entry key="S5" value="12.68149835476244" />
-      <entry key="S10" value="20.923198700708454" />
-      <entry key="S30" value="32.895942400558866" />
-      <entry key="S60" value="37.476343110816735" />
-      <entry key="M2" value="40.10885694455736" />
-      <entry key="M5" value="42.23116233134541" />
-      <entry key="M10" value="47.12559829932384" />
-      <entry key="M15" value="54.52912195619951" />
-      <entry key="M30" value="74.54003909747253" />
-      <entry key="H1" value="95.51785553648915" />
-      <entry key="H2" value="110.92810208508386" />
-      <entry key="H4" value="120.30016815897363" />
-      <entry key="D1" value="129.116659114795" />
-      <entry key="W1" value="130.72839232476935" />
+      <entry key="MS100" value="1.4169289329275276" />
+      <entry key="MS500" value="3.6764344003632545" />
+      <entry key="S2" value="7.12397493065456" />
+      <entry key="S5" value="8.659176808266833" />
+      <entry key="S10" value="9.292403955906446" />
+      <entry key="S30" value="9.75528640129848" />
+      <entry key="S60" value="9.876498360231134" />
+      <entry key="M2" value="9.93795997074044" />
+      <entry key="M5" value="9.975114190330405" />
+      <entry key="M10" value="9.987545429701182" />
+      <entry key="M15" value="9.991694358397886" />
+      <entry key="M30" value="9.995846152839853" />
+      <entry key="H1" value="10.00479351157753" />
+      <entry key="H2" value="11.116895822112102" />
+      <entry key="H4" value="24.349374410042643" />
+      <entry key="D1" value="130.77710562056922" />
+      <entry key="W1" value="184.06568637443573" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -106,23 +136,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.275863546386227" />
-      <entry key="MS500" value="1.9630479776200522" />
-      <entry key="S2" value="5.608180641761768" />
-      <entry key="S5" value="12.662724534934712" />
-      <entry key="S10" value="20.90743346053026" />
-      <entry key="S30" value="32.88744946621956" />
-      <entry key="S60" value="37.47146003265909" />
-      <entry key="M2" value="40.10623071438069" />
-      <entry key="M5" value="42.23004923312637" />
-      <entry key="M10" value="47.12495222710223" />
-      <entry key="M15" value="54.52859582443361" />
-      <entry key="M30" value="74.53964447907462" />
-      <entry key="H1" value="95.51758861455701" />
-      <entry key="H2" value="110.92794295689508" />
-      <entry key="H4" value="120.30008077635263" />
-      <entry key="D1" value="129.11664332395637" />
-      <entry key="W1" value="130.72839003687358" />
+      <entry key="MS100" value="1.3753833898938876" />
+      <entry key="MS500" value="3.6290481430587818" />
+      <entry key="S2" value="7.08451701377984" />
+      <entry key="S5" value="8.638265462195314" />
+      <entry key="S10" value="9.280893764375277" />
+      <entry key="S30" value="9.751193413521024" />
+      <entry key="S60" value="9.8744183681389" />
+      <entry key="M2" value="9.936911486385892" />
+      <entry key="M5" value="9.974692744669767" />
+      <entry key="M10" value="9.987334363650435" />
+      <entry key="M15" value="9.991553571334533" />
+      <entry key="M30" value="9.995775721102447" />
+      <entry key="H1" value="10.004758268115323" />
+      <entry key="H2" value="11.116876702488286" />
+      <entry key="H4" value="24.349355820725208" />
+      <entry key="D1" value="130.777090282285" />
+      <entry key="W1" value="184.06568330368245" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -209,7 +239,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -463,7 +493,10 @@
       <workItem from="1784711530660" duration="3650000" />
       <workItem from="1784847317456" duration="28280000" />
       <workItem from="1785143672734" duration="8742000" />
-      <workItem from="1785754065448" duration="2617000" />
+      <workItem from="1785754065448" duration="7094000" />
+      <workItem from="1785835380457" duration="60000" />
+      <workItem from="1785835487775" duration="14413000" />
+      <workItem from="1786005179220" duration="5816000" />
     </task>
     <servers />
   </component>

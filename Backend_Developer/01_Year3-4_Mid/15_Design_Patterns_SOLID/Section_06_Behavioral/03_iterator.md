@@ -1,5 +1,7 @@
 # Iterator
 
+> Runnable version of this pattern: [`Design_Patterns_Code/17_iterator/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/17_iterator/) — standalone script, `python iterator.py`.
+
 > In Python, this pattern is **mostly invisible** because `__iter__` / `__next__` and generators are first-class. Still asked in interviews.
 
 ## 1. Intent

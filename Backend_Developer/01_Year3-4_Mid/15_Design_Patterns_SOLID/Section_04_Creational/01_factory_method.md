@@ -1,5 +1,7 @@
 # Factory Method
 
+> Runnable version of this pattern: [`Design_Patterns_Code/02_factory/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/02_factory/) — `ChallanFactory` dispatches to the correct challan-type handler (Delivery/Pickup/Inter-Branch/Capital-Purchase/Sales), with a real test suite proving each input resolves to the right subclass.
+
 ## 1. Intent (one line)
 
 Define an *interface* for creating an object, but let **subclasses** decide which concrete class to instantiate.

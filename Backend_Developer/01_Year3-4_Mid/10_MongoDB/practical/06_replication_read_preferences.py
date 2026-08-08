@@ -1,10 +1,25 @@
 """
 MongoDB Replication & Read Preferences — Production Patterns
+
+Run: python 06_replication_read_preferences.py
+Prereq: docker compose up -d   (see docker-compose.yml in this folder)
+
+NOTE: yeh single-node replica set hai — SECONDARY reads actual mein primary
+pe hi fallback karenge (koi real secondary nahi hai). Jo yahan test hota hai
+wo ye ki `read_preference` client config me sahi se SET ho raha hai —
+production multi-node cluster me yehi config secondary nodes ko actually
+route karta.
 """
 
-from pymongo import MongoClient, ReadPreference, WriteConcern, ReadConcern
+import os
+
+from pymongo import MongoClient, ReadPreference, WriteConcern
+from pymongo.read_concern import ReadConcern
+from pymongo.read_preferences import SecondaryPreferred
 from pymongo.errors import AutoReconnect
 from motor.motor_asyncio import AsyncIOMotorClient
+
+MONGO_URI = os.getenv("MONGO_LAB_URI", "mongodb://localhost:27018/?directConnection=true")
 
 
 # ==========================================================================
@@ -49,11 +64,12 @@ global_collection = db.get_collection(
 
 
 # With tag — read from specific region
+# (modern pymongo: with_tag_sets() removed — construct the class directly)
 us_east_only = db.get_collection(
     'data',
-    read_preference=ReadPreference.SECONDARY_PREFERRED.with_tag_sets([
-        {'region': 'us-east'},
-    ]),
+    read_preference=SecondaryPreferred(
+        tag_sets=[{'region': 'us-east'}],
+    ),
 )
 
 
@@ -62,7 +78,7 @@ us_east_only = db.get_collection(
 # ==========================================================================
 
 # Force primary for critical read
-user = db.users.find_one({'_id': user_id})  # default = primary
+# user = db.users.find_one({'_id': user_id})  # default = primary (illustrative — user_id undefined here)
 
 
 # Force secondary
@@ -75,28 +91,29 @@ analytics_data = db.events.with_options(
 # 4. WRITE CONCERNS
 # ==========================================================================
 
-# Write to majority (durable across failover)
-db.orders.with_options(
-    write_concern=WriteConcern('majority', wtimeout=10000, j=True),
-).insert_one({...})
+# Write to majority (durable across failover) — illustrative, {...} is a
+# placeholder document, not runnable as-is
+# db.orders.with_options(
+#     write_concern=WriteConcern('majority', wtimeout=10000, j=True),
+# ).insert_one({...})
 
 
 # Fire and forget (only primary ack)
-db.metrics.with_options(
-    write_concern=WriteConcern(w=1),
-).insert_one({...})
+# db.metrics.with_options(
+#     write_concern=WriteConcern(w=1),
+# ).insert_one({...})
 
 
 # Wait for all replicas
-db.critical.with_options(
-    write_concern=WriteConcern(w='all', wtimeout=30000),
-).insert_one({...})
+# db.critical.with_options(
+#     write_concern=WriteConcern(w='all', wtimeout=30000),
+# ).insert_one({...})
 
 
 # Disable acknowledgement entirely (DANGEROUS for non-trivial data)
-db.logs.with_options(
-    write_concern=WriteConcern(w=0),
-).insert_one({...})
+# db.logs.with_options(
+#     write_concern=WriteConcern(w=0),
+# ).insert_one({...})
 
 
 # ==========================================================================
@@ -326,3 +343,84 @@ mongodb://host1,host2,host3/?
     &heartbeatFrequencyMS=10000
     &appName=myapp
 """
+
+
+# ==========================================================================
+# 14. LAB DRIVER — build the RIGHT client for the scenario
+# ==========================================================================
+
+def build_client_for_critical_checkout() -> MongoClient:
+    """
+    Reference example (already correct — read this before doing the TODO):
+    checkout balance check — staleness NOT acceptable, must hit primary.
+    """
+    return MongoClient(MONGO_URI, read_preference=ReadPreference.PRIMARY)
+
+
+def build_client_for_analytics_dashboard() -> MongoClient:
+    """
+    Scenario: internal analytics dashboard queries orders/events for a
+    report. Staleness of a few seconds is FINE — nobody's making a
+    financial decision off it in real time. Goal: keep this traffic OFF
+    the primary so it doesn't compete with checkout writes.
+    """
+    # ─────────────────────────────────────────────────────────────
+    # TODO 2: is scenario ke liye sahi ReadPreference choose karo.
+    #   "staleness OK, primary ka load kam karna hai" — konsa mode?
+    #   Hint: ReadPreference.SECONDARY_PREFERRED (secondary available na ho
+    #   to primary pe automatically fallback bhi kar deta hai — PRIMARY ki
+    #   tarah hard-fail nahi hota).
+    chosen_pref = ReadPreference.PRIMARY  # <-- WRONG placeholder, fix karo
+    # ─────────────────────────────────────────────────────────────
+    return MongoClient(MONGO_URI, read_preference=chosen_pref)
+
+
+def main() -> None:
+    print("MongoDB Read Preference Lab — right client for the right scenario")
+
+    print("\n[1] Reference client — critical checkout (must be PRIMARY)")
+    checkout_client = build_client_for_critical_checkout()
+    checkout_client.admin.command('ping')
+    print(f"    read_preference = {checkout_client.read_preference.name}")
+
+    print("\n[2] TODO'd client — analytics dashboard (should be SECONDARY_PREFERRED)")
+    analytics_client = build_client_for_analytics_dashboard()
+    analytics_client.admin.command('ping')
+    print(f"    read_preference = {analytics_client.read_preference.name}")
+
+    print("\n" + "─" * 60)
+    checkout_ok = checkout_client.read_preference == ReadPreference.PRIMARY
+    analytics_ok = analytics_client.read_preference == ReadPreference.SECONDARY_PREFERRED
+
+    if checkout_ok and analytics_ok:
+        print("✅ PASS — checkout client PRIMARY hai (staleness zero-tolerance), "
+              "analytics client SECONDARY_PREFERRED hai (staleness OK, primary "
+              "ka load bachaya).")
+    elif not analytics_ok:
+        print(f"❌ FAIL — analytics_client.read_preference = "
+              f"'{analytics_client.read_preference.name}', expected "
+              "'SecondaryPreferred'. TODO 2 abhi bhi unfilled hai — "
+              "chosen_pref ko ReadPreference.SECONDARY_PREFERRED set karo.")
+    else:
+        print(f"❌ FAIL — checkout_client.read_preference = "
+              f"'{checkout_client.read_preference.name}', expected 'Primary'.")
+
+    print(f"""
+SOCH (bolke jawab do):
+  1. SECONDARY (hard) vs SECONDARY_PREFERRED (soft fallback) — agar poora
+     replica set ka sirf 1 node bacha (jaise abhi is lab me), dono me se
+     kaunsa error dega aur kaunsa chalega?
+  2. NEAREST kab use karoge jo SECONDARY_PREFERRED na kare? (Hint: multi-
+     region deployment, latency > freshness priority)
+  3. Causal consistency session (section 5, upar) SECONDARY read ke saath
+     "apni hi write dikhna" kaise guarantee karta hai, jabki secondary
+     technically stale ho sakta hai?
+  4. Is lab me sirf 1 node hai to SECONDARY_PREFERRED bhi PRIMARY se hi
+     serve hota hai — production multi-node cluster me farak kaise
+     dikhega? Kaise verify karoge ki reads actually secondary se aa rahe hain?
+     (Hint: $readPreference in profiler / mongostat per-node query counts)
+""")
+
+
+if __name__ == "__main__":
+    main()

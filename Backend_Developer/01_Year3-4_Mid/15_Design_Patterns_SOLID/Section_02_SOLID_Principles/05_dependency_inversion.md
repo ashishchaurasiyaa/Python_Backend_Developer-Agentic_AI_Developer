@@ -1,5 +1,7 @@
 # D — Dependency Inversion Principle (DIP)
 
+> Runnable version of DIP applied via Dependency Injection: [`Design_Patterns_Code/14_dependency_injection/`](../../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/14_dependency_injection/) — `PaymentService` depends only on the abstract `PaymentGateway` interface; `DIContainer` binds Razorpay/PayU/Mock at runtime. 14 passing tests prove swapping the injected gateway changes nothing inside `PaymentService`.
+
 ## Statement
 
 > *High-level modules should not depend on low-level modules. Both should depend on abstractions.*

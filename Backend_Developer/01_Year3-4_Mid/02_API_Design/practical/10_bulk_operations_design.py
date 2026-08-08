@@ -508,3 +508,114 @@ LIMITS_CONFIG = """
 # 3. Endpoint validators: max_length=1000 on list
 # 4. Per-user job quota in DB
 """
+
+
+# ==========================================================================
+# RUNNABLE LAB — Partial-Mode Bulk Create with Real Duplicate Detection
+# ==========================================================================
+"""
+LAB OBJECTIVE: Section 2 (bulk_create_partial) has the duplicate-SKU check
+commented out (`# if await Product.objects.filter(sku=item.sku).aexists()`)
+because it needs a real DB. This lab implements that check for real against
+a plain in-memory dict, so the actual point of 207 Multi-Status is provable:
+ONE batch, SOME items succeed, SOME fail — same response, no DB/Redis needed.
+
+TASK:
+  1. TODO: `bulk_create_partial_inmemory()` — each item is independent:
+     - SKU already exists (in the store, or earlier in THIS batch) → skip
+       it, status=400, error='SKU already exists', keep going
+     - otherwise → insert it, status=201
+  2. Run: python3 10_bulk_operations_design.py
+"""
+
+_products_db: dict[str, dict] = {}
+
+
+def bulk_create_partial_inmemory(items: list[dict]) -> dict:
+    """items: [{'sku': ..., 'name': ..., 'price': ...}, ...]"""
+    results = []
+    succeeded = failed = 0
+
+    for i, item in enumerate(items):
+        sku = item['sku']
+
+        # ─────────────────────────────────────────────────────
+        # TODO: duplicate check + insert.
+        #   if sku in _products_db:
+        #       results.append({'index': i, 'status': 400, 'sku': sku,
+        #                        'error': 'SKU already exists'})
+        #       failed += 1
+        #   else:
+        #       _products_db[sku] = item
+        #       results.append({'index': i, 'status': 201, 'sku': sku,
+        #                        'id': len(_products_db)})
+        #       succeeded += 1
+        #
+        # WRONG placeholder below: inserts EVERY item under a fake-unique
+        # key (sku + index), so duplicates inside the same batch silently
+        # "succeed" instead of being rejected — exactly the bug that a
+        # real unique-SKU constraint in prod would catch (and reject) for
+        # you, but this in-memory version currently doesn't.
+        if sku in _products_db:
+            results.append({'index': i, 'status': 400, 'sku': sku,
+                             'error': 'SKU already exists'})
+            failed += 1
+        else:
+            _products_db[sku] = item
+            results.append({'index': i, 'status': 201, 'sku': sku,
+                             'id': len(_products_db)})
+            succeeded += 1
+        # ─────────────────────────────────────────────────────
+
+    return {
+        'summary': {'total': len(items), 'succeeded': succeeded, 'failed': failed},
+        'items': results,
+    }
+
+
+def main() -> None:
+    _products_db.clear()
+    batch = [
+        {'sku': 'SKU-001', 'name': 'Widget', 'price': 9.99},
+        {'sku': 'SKU-002', 'name': 'Gadget', 'price': 19.99},
+        {'sku': 'SKU-001', 'name': 'Widget Duplicate', 'price': 9.99},  # dup WITHIN batch
+        {'sku': 'SKU-003', 'name': 'Gizmo', 'price': 29.99},
+    ]
+
+    print(f"\n[batch] {len(batch)} items — SKU-001 appears at index 0 AND index 2 (duplicate)")
+    result = bulk_create_partial_inmemory(batch)
+
+    for item in result['items']:
+        print(f"  index {item['index']}: status={item['status']}, sku={item.get('sku')}, "
+              f"error={item.get('error', '-')}")
+    print(f"  summary: {result['summary']}")
+
+    print("\n" + "─" * 55)
+    expected_statuses = [201, 201, 400, 201]
+    got_statuses = [r['status'] for r in result['items']]
+    expected_summary = {'total': 4, 'succeeded': 3, 'failed': 1}
+
+    if got_statuses == expected_statuses and result['summary'] == expected_summary:
+        print("✅ PASS — index 2 (duplicate SKU-001 within batch) rejected with 400, "
+              "the other 3 items succeeded with 201 = correct 207 Multi-Status semantics")
+    else:
+        print(f"❌ FAIL — expected per-item statuses {expected_statuses}, got {got_statuses}")
+        print(f"   expected summary {expected_summary}, got {result['summary']}")
+        print("   TODO block bharo — duplicate SKU check missing lagta hai "
+              "(placeholder sab kuch 201 kar deta hai, dupes bhi silently pass ho jaate hain).")
+
+    print("""
+SOCH:
+  1. 'partial' mode me ek item fail hua par baaki 3 succeed hue — response
+     status 207 hi kyu (na 200, na 400)? Client isse kaise handle karega?
+  2. 'atomic' mode (Section 3, bulk_create_atomic) me yehi duplicate hota
+     to kya hona chahiye tha? (Hint: Section 3 ka phase 1 / phase 2 comment
+     padho — validate-all-first vs partial ka farak kya hai?)
+  3. Idempotency-Key (Section 4) already is response ko 24h cache karta hai —
+     agar client retry kare same key ke saath, duplicate check dobara
+     chalega ya cached result seedha wapas aayega? Yeh kyu zaroori hai?
+""")
+
+
+if __name__ == "__main__":
+    main()
