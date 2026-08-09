@@ -18,6 +18,7 @@ hai jahan zaroori hai (subsets/permutations wale problems).
 """
 
 import sys
+import copy
 import time
 import importlib.util
 from pathlib import Path
@@ -195,6 +196,12 @@ PROBLEMS = {
     "redundant_connection": ("15_Advanced_Graphs", [  # LC 684
         (([[1, 2], [1, 3], [2, 3]],), [2, 3]),
         (([[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]],), [1, 4]),
+        # ↓ DSU-forcing case. "pehla edge jiske dono ends pehle dekhe ja chuke hain"
+        #   wala shortcut yahan [2,3] return karega — GALAT. [2,3] do alag
+        #   components (1-2 aur 3-4) ko JODTA hai, cycle nahi banata.
+        #   Sahi jawab [1,4] hai. Ye case sirf tab pass hoga jab tum actually
+        #   union-find (ya DFS-per-edge) se connectivity track kar rahe ho.
+        (([[1, 2], [3, 4], [2, 3], [1, 4]],), [1, 4]),
     ], None),
 
     # ── Dijkstra ──
@@ -202,6 +209,11 @@ PROBLEMS = {
         (([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2), 2),
         (([[1, 2, 1]], 2, 1), 1),
         (([[1, 2, 1]], 2, 2), -1),                    # node 1 unreachable
+        # ↓ WEIGHT-forcing cases. Upar wale sab edges weight=1 hain, isliye
+        #   plain BFS (hop count) bhi pass ho jata tha. Yahan weights alag hain:
+        #   BFS bolega 1 hop, Dijkstra bolega 2 — sirf sahi answer pass hoga.
+        (([[1, 2, 1], [2, 3, 1], [1, 3, 4]], 3, 1), 2),   # 1→2→3 (2) beats 1→3 (4)
+        (([[1, 2, 10], [1, 3, 1], [3, 2, 1]], 3, 1), 2),  # detour sasta hai
     ], None),
 
     # ── Monotonic Queue ──
@@ -230,6 +242,13 @@ PROBLEMS = {
         (([1, 2, 0],), 3),
         (([3, 4, -1, 1],), 2),
         (([7, 8, 9, 11, 12],), 1),
+        # ↓ DUPLICATE cases. Cyclic sort ka sabse common bug: swap loop me
+        #   `nums[v-1] != v` guard bhool jana → duplicates pe INFINITE LOOP.
+        #   Upar wale teeno cases me saare numbers distinct the, isliye bug
+        #   pakda hi nahi jata tha. Ye teen use pakadte hain.
+        (([1, 1],), 2),
+        (([2, 2, 2, 2],), 1),
+        (([1, 1, 2, 2],), 3),
     ], None),
 }
 
@@ -392,9 +411,11 @@ def run(selected: str | None = None) -> None:
         if fn is None:
             continue
 
-        # "pass"-only body → not attempted
+        # "pass"-only body → not attempted.
+        # deepcopy zaroori hai: in-place solutions (cyclic sort, sort colors)
+        # warna PROBLEMS ka input mutate kar dete hain aur agla run galat hota hai.
         try:
-            probe = fn(*cases[0][0])
+            probe = fn(*copy.deepcopy(cases[0][0]))
         except NotImplementedError:
             probe = None
         except Exception as exc:                       # real attempt that crashed
@@ -411,7 +432,7 @@ def run(selected: str | None = None) -> None:
         start = time.perf_counter()
         for args, expected in cases:
             try:
-                got = fn(*args)
+                got = fn(*copy.deepcopy(args))   # har case fresh input pe chale
             except Exception as exc:
                 ok, detail = False, f"{args} → raised {type(exc).__name__}: {exc}"
                 break

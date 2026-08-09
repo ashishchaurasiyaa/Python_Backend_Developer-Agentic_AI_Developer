@@ -12,13 +12,44 @@
 ## Pehle yeh 3 baatein (ek baar padho, phir bhool jao)
 
 **1. Yeh repo padhne ke liye nahi hai — karne ke liye hai.**
-1266 .md files hain. Tumhe saari nahi padhni. Yeh roadmap sirf wahi 120-odd cheezein sequence karta hai jo interview + job ke liye zaroori hain. Baaki files **reference** hain — tab kholna jab lab me atko.
+1390+ .md files hain. Tumhe saari nahi padhni. Yeh roadmap sirf wahi 120-odd cheezein sequence karta hai jo interview + job ke liye zaroori hain. Baaki files **reference** hain — tab kholna jab lab me atko.
 
 **2. Lab pehle, theory baad me.**
 Purana tareeka: theory padho → lab karo. Isse boredom aata hai aur yaad nahi rehta. Yahan ulta hai: lab shuru karo → jahan atko wahi theory file kholo → wapas lab pe. Isse har theory ka **matlab** samajh aata hai.
 
 **3. Har raat [MY_PROGRESS.md](MY_PROGRESS.md) me 3 line.**
 Agar "Kiya" wali line khaali hai to us din progress zero tha — chahe kitna padha ho.
+
+---
+
+## 🚨 RUKO — interview N din me hai?
+
+**Interview scheduled hai to yeh roadmap PAUSE karo.** Yeh 8-hafte ka skill-building sequence hai,
+interview prep nahi. Interview ke 3-5 din pehle sequence chhodo, prep pe jao, phir wapas isi din pe aa jao.
+
+| Interview | Kab | Kya kholo |
+|---|---|---|
+| 🔴 **GenAI Developer (Azure)** | **2026-08-11** | [Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md](Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md) — JD→repo gap map + day-wise plan |
+| Koi bhi naya | — | [INTERVIEW_PREP_COMPANIES.md](INTERVIEW_PREP_COMPANIES.md) me add karo, phir uska prep doc banao |
+
+**General interview-week formula** (roadmap ki jagah):
+1. JD ke top-5 keywords nikalo → repo me unki files kholo (poora topic nahi, sirf 🔴 section)
+2. Har topic **bolke** samjhao — 2 min, bina file dekhe. Atko to wahi padho.
+3. [COMPULSORY_TOPICS.md](COMPULSORY_TOPICS.md) se apne tier-🔴 pe self-check
+4. Ek DSA problem roz (streak) — [`harness.py`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/)
+5. Interview ke baad: outcome [JOB_TRACKER.md](JOB_TRACKER.md) me likho, aur jo nahi aaya wo agla topic
+
+---
+
+## 🔁 Roz ka parallel track (har din, upar wale kaam ke saath)
+
+Yeh 3 cheezein **kisi bhi din ke kaam ke saath** chalti hain — inka apna din nahi hota:
+
+| Kya | Time | Kahan | Kyun roz |
+|---|---|---|---|
+| 🗣️ **English speaking** | 30 min | [english_speaking/README.md](english_speaking/README.md) | **Asli gap yahi hai.** Tech aata hai, bolna nahi aata — interview isi pe rukta hai. System-design drill *bolke* karo to dono ek saath ho jate hain. |
+| 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Coding round pehla filter hai. Streak mat todo — 1 problem bhi chalega. |
+| 💼 **Apply** | 15 min | [JOB_TRACKER.md](JOB_TRACKER.md) | Padhai khatam hone ka wait mat karo. Apply karte raho, jo reject hota hai wahi agla topic batata hai. |
 
 ---
 
@@ -149,8 +180,8 @@ Agar "Kiya" wali line khaali hai to us din progress zero tha — chahe kitna pad
 # ⏱️ Roz ka parallel track (Day 1 se hi shuru, 20 min)
 
 - [ ] DSA: `cd Backend_Developer/03_Interview_AnyYear/01_DSA/practice && python3 harness.py`
-      Roz **1 problem**, order me. 28 problems = 28 din. Week 5 tak khatam ho jayenge.
-      Target: Day 28 tak 28/28 attempted, Day 42 tak 28/28 passing.
+      Roz **1 problem**, order me. 35 problems = 35 din. Week 5-6 tak khatam ho jayenge.
+      Target: Day 35 tak 35/35 attempted, Day 49 tak 35/35 passing.
 
 ---
 

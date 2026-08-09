@@ -1,6 +1,8 @@
 # ✅ COMPULSORY TOPICS CHECKLIST — Python Backend + Agentic AI (Product Companies)
 
-> **Purpose:** The single "what MUST I know" surface for the 3-month switch. Not a daily plan (that's [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md)) — this is the *coverage map*. If a topic here is 🔴 and you can't explain it out loud in English in 2 minutes, it's a hole to close before you interview.
+> **Purpose:** The single "what MUST I know" surface for the 3-month switch. This is the *coverage map* — a checklist of **topics**.
+> **Kaunsi FILES padhni hain** wo alag file me hai → [SENIOR_MUST_READ.md](SENIOR_MUST_READ.md) (60 files, priority order me).
+> Daily plan yahan nahi hai → [ROADMAP.md](ROADMAP.md). If a topic here is 🔴 and you can't explain it out loud in English in 2 minutes, it's a hole to close before you interview.
 >
 > **Created 2026-07-15.** Priority tiers:
 > - 🔴 **COMPULSORY** — every product-company interview touches this. No exceptions. Must be able to *speak* it, not just recognize it.

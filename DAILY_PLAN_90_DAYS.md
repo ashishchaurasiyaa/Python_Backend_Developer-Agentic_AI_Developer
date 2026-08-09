@@ -1,5 +1,20 @@
 # 📅 90-DAY DAY-BY-DAY PLAN (12 weeks × 6 study days, Mon–Sat, Sunday rest)
 
+> # ⚠️ YEH DAILY DRIVER NAHI HAI — dates ignore karo
+> **Superseded for day-to-day use on 2026-08-08 by [`ROADMAP.md`](ROADMAP.md).**
+> Is file ki calendar dates (Week 5 = Aug 05–11, etc.) ab ROADMAP se **match nahi karti** —
+> ROADMAP 2026-08-08 ko Day 1 se shuru karta hai (lab-first), yeh file Day 28 dikhata hai.
+> **Do calendars follow mat karo.** Roz ka kaam sirf [`ROADMAP.md`](ROADMAP.md) se lo.
+>
+> **Yeh file kis liye ab bhi useful hai:**
+> - 🎯 **Job-hunt track** (resume → apply → project) — wo ab bhi valid hai, dates ke bina → [neeche dekho](#-job-hunt-track-runs-in-parallel-with-the-study-weeks--read-this-first)
+> - 🏢 **Office-theory vs personal-practice** split ka idea (kaam ke beech kya padha ja sakta hai)
+> - Long-range 12-week map, agar ROADMAP ke 8 hafte khatam ho jayein
+>
+> Applications track karne ke liye: [`JOB_TRACKER.md`](JOB_TRACKER.md)
+
+---
+
 > Derived from [00_START_HERE.md](00_START_HERE.md) PATH A (10-week sprint) + 2 buffer weeks + daily English.
 > **Restarted from Day 1 on 2026-07-08** (no `MY_PROGRESS.md` entries existed yet, so this is a clean start — dates below are real calendar dates, Sunday = rest/catch-up, not listed).
 >

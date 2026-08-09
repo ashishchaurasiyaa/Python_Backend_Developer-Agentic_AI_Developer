@@ -2,24 +2,27 @@
 
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
-**Last updated:** 2026-08-03 (added Modern Topics 23 Claude Agent SDK + Skills, 24 OpenAI AgentKit)
-**Combined roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) (single phase-wise plan)
+**Last updated:** 2026-08-08 (Azure OpenAI + Azure AI Search, context engineering, voice practical, GRPO/RFT; index reconciled with disk)
+**Roz ka kaam:** [`../ROADMAP.md`](../ROADMAP.md) — daily driver · **Topic scope:** [`../STUDY_PLAN.md`](../STUDY_PLAN.md)
 
 ---
 
-## 🎉 Status Refresh (2026-05-27)
+## 📊 Status (2026-08-08)
 
 ```
-✅ ALL HIGH priority gaps:    FILLED (10 docs)
-✅ ALL MEDIUM priority gaps:  FILLED (9 docs added today)
-✅ ALL Modern Topics:          FILLED (25 docs, 00–24)
+✅ Levels 1-8:        complete (most docs have a _practical.py; ~15 concept-only
+                      docs don't — index tables mark those with '—')
+✅ Modern Topics:     26 docs (00–24 + coverage analysis)
+✅ Classical ML/DL:   12 docs (pre-transformer foundations)
+✅ Azure track:       Azure OpenAI + Azure AI Search + Cosmos DB (backend track)
 ✅ ZERO blocking gaps for Backend+AI senior interviews
 
-Current total: 101 markdown docs across 8 levels + Modern + Projects + Interview Prep
-
-For combined Backend + Agentic AI plan, see:
-   → ../00_START_HERE.md
+Current total: 170 markdown docs (levels + Modern + Projects + Interview Prep)
+             + my-agentic-ai-project/ (~435 files: 2 full Udemy courses with runnable labs)
 ```
+
+> ⚠️ **Content complete hai — labs pending hain.** Padhne se resume verify nahi hota.
+> Roz ka kaam [`../ROADMAP.md`](../ROADMAP.md) me hai, log [`../MY_PROGRESS.md`](../MY_PROGRESS.md) me.
 
 ---
 
@@ -93,6 +96,8 @@ LevelN_Topic/
 | 8 | RNN Limits & Rise of Transformers ⭐ | [08](Level1_LLM_Foundations/Classical_ML_DL_Foundations/08_rnn_limits_transformer_rise.md) | (bridges to Deep_Architecture) |
 | 9 | Transfer Learning (→ LoRA/QLoRA) | [09](Level1_LLM_Foundations/Classical_ML_DL_Foundations/09_transfer_learning.md) | (concepts) |
 | 10 | GANs & Diffusion Models (DALL-E/Stable Diffusion/Midjourney) | [10](Level1_LLM_Foundations/Classical_ML_DL_Foundations/10_gans_diffusion_image_gen.md) | (concepts) |
+| 11 | Classical ML Algorithms (trees, SVM, ensembles) | [11](Level1_LLM_Foundations/Classical_ML_DL_Foundations/11_classical_ml_algorithms.md) | [✅ practical.py](Level1_LLM_Foundations/Classical_ML_DL_Foundations/11_classical_ml_algorithms_practical.py) |
+| 12 | Classical NLP Pipeline (tokenize → TF-IDF → word2vec) | [12](Level1_LLM_Foundations/Classical_ML_DL_Foundations/12_classical_nlp_pipeline.md) | [✅ practical.py](Level1_LLM_Foundations/Classical_ML_DL_Foundations/12_classical_nlp_pipeline_practical.py) |
 
 **Mastery check:** Explain backprop via chain rule. Why transformers replaced RNNs (2 specific reasons). Why LoRA works (transfer-learning theory).
 
@@ -153,6 +158,7 @@ LevelN_Topic/
 | 3.8 | Instructor (Structured) | ✅ [08_instructor_library.md](Level3_LLM_APIs_SDKs/08_instructor_library.md) | ✅ [practical](Level3_LLM_APIs_SDKs/08_instructor_library_practical.py) |
 | 3.9 | Sampling Parameters | [✅ 09_sampling_parameters.md](Level3_LLM_APIs_SDKs/09_sampling_parameters.md) | [✅ practical](Level3_LLM_APIs_SDKs/09_sampling_parameters_practical.py) |
 | 3.10 | **Cost Tracking & Optimization** | [✅ 10_cost_optimization.md](Level3_LLM_APIs_SDKs/10_cost_optimization.md) | [✅ practical](Level3_LLM_APIs_SDKs/10_cost_optimization_practical.py) |
+| 3.11 | **Azure OpenAI** 🔴 *(NEW)* — deployments, Entra ID, quota/TPM, PTU, content filters | [✅ 11_azure_openai.md](Level3_LLM_APIs_SDKs/11_azure_openai.md) | [✅ practical](Level3_LLM_APIs_SDKs/11_azure_openai_practical.py) |
 
 **Mastery check:** Streaming chatbot, OpenAI↔Claude swap, structured JSON via Instructor, token tracking.
 
@@ -193,7 +199,8 @@ LevelN_Topic/
 | 5.7 | **Reranking** ⭐ | [✅ 07_reranking.md](Level5_RAG_Vector_Databases/07_reranking.md) | [✅ practical](Level5_RAG_Vector_Databases/07_reranking_practical.py) |
 | 5.8 | Query Transformation (HyDE) | [✅ 08_query_transformation.md](Level5_RAG_Vector_Databases/08_query_transformation.md) | [✅ practical](Level5_RAG_Vector_Databases/08_query_transformation_practical.py) |
 | 5.9 | **RAGAS Evaluation** ⭐ | [✅ 09_ragas_evaluation.md](Level5_RAG_Vector_Databases/09_ragas_evaluation.md) | [✅ practical](Level5_RAG_Vector_Databases/09_ragas_evaluation_practical.py) |
-| 5.10 | **Contextual Retrieval (Anthropic)** ⭐ *(NEW)* | [✅ 10_contextual_retrieval.md](Level5_RAG_Vector_Databases/10_contextual_retrieval.md) | — |
+| 5.10 | **Contextual Retrieval (Anthropic)** ⭐ | [✅ 10_contextual_retrieval.md](Level5_RAG_Vector_Databases/10_contextual_retrieval.md) | — |
+| 5.11 | **Azure AI Search** 🔴 *(NEW)* — vector + hybrid RRF + semantic ranker, integrated vectorization | [✅ 11_azure_ai_search.md](Level5_RAG_Vector_Databases/11_azure_ai_search.md) | [✅ practical](Level5_RAG_Vector_Databases/11_azure_ai_search_practical.py) |
 
 **Mastery check:** RAG over 1000 docs with hybrid search, reranking, RAGAS metrics > 0.85.
 
@@ -215,7 +222,9 @@ LevelN_Topic/
 | 6.8 | Routing & Classification | [✅ 08_routing.md](Level6_Agent_Patterns/08_routing.md) | [✅ practical](Level6_Agent_Patterns/08_routing_practical.py) |
 | 6.9 | Human-in-the-Loop | [✅ 09_human_in_loop.md](Level6_Agent_Patterns/09_human_in_loop.md) | [✅ practical](Level6_Agent_Patterns/09_human_in_loop_practical.py) |
 | 6.10 | **Agent Evaluation** ⭐ | [✅ 10_agent_evaluation.md](Level6_Agent_Patterns/10_agent_evaluation.md) | [✅ practical](Level6_Agent_Patterns/10_agent_evaluation_practical.py) |
-| 6.12 | **Agent Harness Engineering** ⭐ *(NEW)* | [✅ 12_agent_harness_engineering.md](Level6_Agent_Patterns/12_agent_harness_engineering.md) | — |
+| 6.11 | **Swarm Agents** (decentralized handoff) | [✅ 11_swarm_agents.md](Level6_Agent_Patterns/11_swarm_agents.md) | — |
+| 6.12 | **Agent Harness Engineering** ⭐ | [✅ 12_agent_harness_engineering.md](Level6_Agent_Patterns/12_agent_harness_engineering.md) | — |
+| 6.13 | **Context Engineering** ⭐ *(NEW)* — context budgets, compaction, sub-agent isolation | [✅ 13_context_engineering.md](Level6_Agent_Patterns/13_context_engineering.md) | — |
 
 ---
 
@@ -271,6 +280,10 @@ Portfolio building. **Yahi hain interview ka real weapon.**
 | 2 | RAG Document Q&A System | [📄](Projects/02_project2_rag_document_qa.md) | ⬜ Build |
 | 3 | Multi-Agent Code Review | [📄](Projects/03_project3_multiagent_code_review.md) | ⬜ Build |
 | 4 | Production AI SaaS | [📄](Projects/04_project4_production_ai_saas.md) | ⬜ Build |
+| 5 | Wedding Transformation Agent | [📁](Projects/project5_wedding_transformation_agent/) | 🔨 In progress |
+
+> **Starter code:** projects 1–4 ke starter scaffolds `Projects/` me hain (project 3 sabse zyada bana hua hai —
+> LangGraph nodes/state/graph + MCP server). Spec padh ke shuru mat karo — starter kholo.
 
 ---
 
@@ -280,7 +293,8 @@ Cutting-edge topics beyond original PDF roadmap.
 
 | # | Topic | Doc |
 |---|---|---|
-| 1 | **Voice Agents** (Whisper, Realtime API, ElevenLabs) | [✅ 01_voice_agents.md](Modern_Topics/01_voice_agents.md) |
+| 0 | **AI Tools Landscape** — kaunsa tool kis kaam ka | [✅ 00_ai_tools_landscape.md](Modern_Topics/00_ai_tools_landscape.md) |
+| 1 | **Voice Agents** (Whisper, Realtime API, ElevenLabs) — + [runnable pipeline practical](Modern_Topics/01_voice_agents_practical.py) *(NEW)* | [✅ 01_voice_agents.md](Modern_Topics/01_voice_agents.md) |
 | 2 | **Computer Use** (Claude Desktop Control) | [✅ 02_computer_use.md](Modern_Topics/02_computer_use.md) |
 | 3 | **Local Serving** (Ollama, vLLM) | [✅ 03_local_serving.md](Modern_Topics/03_local_serving.md) |
 | 4 | **Memory Frameworks** (Mem0, Zep) | [✅ 04_memory_frameworks.md](Modern_Topics/04_memory_frameworks.md) |
@@ -318,6 +332,7 @@ Final-week polish.
 | 2 | Coding Patterns | [📄](Interview_Prep/02_coding_patterns.md) |
 | 3 | Behavioral Questions | [📄](Interview_Prep/03_behavioral_questions.md) |
 | 4 | Key Technical Concepts | [📄](Interview_Prep/04_key_technical_concepts.md) |
+| 5 | 🔴 **GenAI Developer (Azure role) prep** *(NEW)* — JD→repo gap map + day-wise plan | [📄](Interview_Prep/05_genai_developer_azure_role_prep.md) |
 
 ---
 
@@ -384,6 +399,27 @@ If you have only 5 weeks (not 10-12):
 | OpenAI API | [platform.openai.com/docs](https://platform.openai.com/docs) |
 | RAGAS | [docs.ragas.io](https://docs.ragas.io) |
 | Eugene Yan's blog | [eugeneyan.com](https://eugeneyan.com) (production LLM systems) |
+
+---
+
+---
+
+## 🎓 `my-agentic-ai-project/` — course notes + runnable labs (~435 files)
+
+> **Yeh index me pehle tha hi nahi** — sabse bada practical hissa yahi hai. Levels 1–8 *theory* hain;
+> yahan **per-lecture notes + chalne wale labs** hain (OpenAI Agents SDK, CrewAI, LangGraph, AutoGen, MCP, deployment).
+
+| Folder | Kya hai | Kab kholo |
+|---|---|---|
+| [`Udemy_EdDonner_Course/`](my-agentic-ai-project/Udemy_EdDonner_Course/) | ~131 lectures — per-lecture Hinglish notes + labs (OpenAI Agents SDK, CrewAI, LangGraph, AutoGen, MCP) | Framework hands-on chahiye |
+| [`Udemy_EdDonner_ProductionTrack/`](my-agentic-ai-project/Udemy_EdDonner_ProductionTrack/) | ~124 lectures — multi-agent, observability, AgentCore, cloud deploy | Production/LLMOps ka practical |
+| [`KrishNaik_AgenticAI_NewTopics/`](my-agentic-ai-project/KrishNaik_AgenticAI_NewTopics/) | N01 LangChain v1 · N02 Vectorless RAG · N03 Deep Agents · N04 LLM Gateways | 2026 ke naye topics |
+| [`generativeai/`](my-agentic-ai-project/generativeai/) | uv-managed workspace — labs yahan chalte hain | Code likhte waqt |
+| [`COMPLETE_SEQUENCE.md`](my-agentic-ai-project/COMPLETE_SEQUENCE.md) · [`4_DAY_PRACTICE_PLAN.md`](my-agentic-ai-project/4_DAY_PRACTICE_PLAN.md) · [`NOTES.md`](my-agentic-ai-project/NOTES.md) | Course ka apna sequence + practice plan | Yahan se shuru karo |
+
+```bash
+cd my-agentic-ai-project && uv sync    # labs chalane ke liye
+```
 
 ---
 

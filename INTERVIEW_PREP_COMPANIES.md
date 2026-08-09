@@ -1,28 +1,43 @@
-# 🎯 COMPANY-WISE INTERVIEW PREP — Infosys + Deloitte
+# 🎯 COMPANY-WISE INTERVIEW PREP
 
-> Do active opportunities hain, dono ka stack alag hai — isliye prep bhi alag priority mein.
-> Ye [`JULY_SPRINT.md`](JULY_SPRINT.md) ka **company-specific filter layer** hai — sprint wahan hai, "kaunsa topic kis company ke liye zaroori hai" yahan hai.
+> Per-company **filter layer**: "kaunsa topic kis company ke liye zaroori hai."
+> Roz ka kaam [`ROADMAP.md`](ROADMAP.md) me hai · har application [`JOB_TRACKER.md`](JOB_TRACKER.md) me likho.
+>
+> **Niyam:** interview ho jaye to usi din outcome yahan likho. Dead deadline ko URGENT dikhte rehna sabse bada confusion hai.
 
 ---
 
-## 📌 STATUS SNAPSHOT
+## 🔴 ABHI LIVE
+
+| | GenAI Developer (Azure) |
+|---|---|
+| Interview | **2026-08-11** 🔴 (3 din) |
+| Stack | **Azure OpenAI + Azure AI Search** + Python backend · Cosmos DB named |
+| Prep doc | [`05_genai_developer_azure_role_prep.md`](Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md) — JD→repo gap map + day-wise plan |
+| Repo coverage | ✅ [Azure OpenAI](Agentic_AI/Level3_LLM_APIs_SDKs/11_azure_openai.md) · ✅ [Azure AI Search](Agentic_AI/Level5_RAG_Vector_Databases/11_azure_ai_search.md) · ✅ [Cosmos DB](Backend_Developer/01_Year3-4_Mid/10_MongoDB/theory/10_cosmos_db_azure.md) |
+| Baaki gap | Cosmos DB **hands-on** nahi hai — honest pivot bolna ("MongoDB deep hai, Cosmos ka Mongo API + RU/partition-key model padha hai") |
+
+**Ab priority yahi hai.** Teen din: Azure OpenAI practical chalao → AI Search hybrid+semantic ranker → Cosmos RU/partition-key + consistency levels.
+
+---
+
+## ✅ CLOSED
 
 | | Infosys | Deloitte |
 |---|---|---|
 | Role | Python Django Developer | T&T \| Python Developer (Consultant) |
 | Job ID | INFSYS-EXTERNAL-248140 | 106165 |
-| Location | Bangalore | Bangalore |
-| Experience | 2-5 yrs | 3+ yrs |
-| Stack | **Django + PostgreSQL** (Rust/Angular/React = good-to-have) | **FastAPI/Flask/Django + AI/ML/GenAI** (RAG, embeddings, vector DBs, LLM) |
-| Interview mode | AI-recorded (Glider.ai), 60 min | Not scheduled yet |
-| Deadline | Window: 1 Jul 10PM – **5 Jul 11:50PM** 🔴 URGENT | Unknown — "kabhi bhi lag sakti hai" |
-| Depth | Straightforward backend, no AI ask | Senior-ish, GenAI-heavy |
+| Window | 1 Jul – 5 Jul 2026 — **closed** | Never scheduled |
+| Status | ⬜ **Outcome record karo** (gaya tha ya nahi?) → [JOB_TRACKER](JOB_TRACKER.md) | 💤 Dormant — koi movement nahi |
 
-**Priority right now: Infosys first (deadline paas hai), Deloitte prep parallel/background mein chalta rahe.**
+> Neeche in dono ki topic-priority tables **reference ke liye** rakhi hain — Django/PostgreSQL aur GenAI/RAG ki prep
+> kisi bhi similar JD pe dobara kaam aayegi. Dates ignore karo, mapping useful hai.
 
 ---
 
-## 🔴 INFOSYS — Python Django Developer (URGENT, deadline 5 Jul)
+## 📦 (Closed) INFOSYS — Python Django Developer
+
+> Window 5 Jul 2026 ko band ho gaya. Neeche ka topic-map **Django + PostgreSQL** wale kisi bhi JD ke liye reference hai.
 
 **Must-have filter:** Strong Python + Django + PostgreSQL. Baaki (Rust/Angular/React) sirf good-to-have — skip karo, time nahi hai.
 
@@ -51,7 +66,9 @@
 
 ---
 
-## 🟡 DELOITTE — T&T Python Developer / AI Solutions (no deadline yet, prep parallel)
+## 📦 (Dormant) DELOITTE — T&T Python Developer / AI Solutions
+
+> Kabhi schedule nahi hui. Neeche ka topic-map **GenAI/RAG-heavy** JD ke liye reference hai.
 
 **Must-have filter:** Python backend (FastAPI/Flask/Django) + OOP/SOLID/design patterns + NumPy/Pandas/SQL + **GenAI exposure** (RAG, embeddings, vector DBs, LLM workflows).
 

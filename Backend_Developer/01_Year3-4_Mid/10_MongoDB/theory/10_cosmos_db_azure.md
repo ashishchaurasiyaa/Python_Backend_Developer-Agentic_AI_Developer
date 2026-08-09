@@ -23,7 +23,7 @@ yeh transfer explicitly dikhana hi strategy hai.
 | Shard key | Partition key | `04_sharding_aggregation_advanced.md` |
 | mongos + shards + chunks | Logical/physical partitions (fully managed) | `04_...` |
 | Read/write concerns, read preference | 5 consistency levels (account-level) | `06_replication_read_preferences.md` |
-| Change streams (oplog tail) | Change feed (persisted log) | `07_change_streams.md`, `practical/07_change_streams.py` |
+| Change streams (oplog tail) | Change feed (persisted log) | `07_change_streams.md`, `../practical/07_change_streams.py` |
 | WiredTiger + you manage ops | ARS engine + fully managed, SLA-backed | — |
 | Query planner + explain() | RU charge per operation | this lesson |
 
@@ -111,7 +111,7 @@ RU budget cross kiya → request reject with **HTTP 429 (TooManyRequests)** +
 `retry-after` hint. **MongoDB API me yeh error code `16500` ke roop me
 aata hai** — yeh Cosmos-Mongo ka sabse famous production error hai.
 SDKs kuch retries khud karte hain; sustained overload me app-level
-backoff chahiye (practical `09_cosmos_db_emulator.py` me retry decorator
+backoff chahiye (`../practical/09_cosmos_db_emulator.py` me retry decorator
 hai).
 
 > **Senior Tip:** RU model ka real-world sting: **provisioned RU/s
@@ -262,7 +262,7 @@ write = AP-leaning with tunable consistency; MongoDB replica set = CP-leaning.)
 ## 6. Change Feed vs MongoDB Change Streams
 
 Tumne change streams deeply cover kiye hain (`07_change_streams.md` +
-`practical/07_change_streams.py` — resume tokens, at-least-once,
+`../practical/07_change_streams.py` — resume tokens, at-least-once,
 ES-sync pattern). Cosmos ka equivalent **change feed** hai — same job
 (react to data changes), different mechanics:
 

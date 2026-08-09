@@ -1,6 +1,19 @@
 # 🚀 START HERE — Backend → AI Engineer · Complete Roadmap
 
-> **Yeh ek file = poora repo ka map.** Kahan kya hai, kahan se start karna hai, kaunsa sequence follow karna hai — sab idhar. Baaki saare roadmap/gap/plan docs ignore karo (neeche "SKIP" section).
+> # ⛔ SUPERSEDED — yeh ab daily driver NAHI hai
+> **Status:** superseded on **2026-08-08** · originally written June 2026
+> **Aaj ka kaam yahan hai → [`ROADMAP.md`](ROADMAP.md)** (din-ba-din, exact file path ke saath)
+>
+> Yeh file ab sirf **repo ka inventory map** hai — "kahan kya hai" dekhna ho to kaam ki hai.
+> Iske **plan / sequence / 5h-din / SKIP-DELETE** wale section **purane** hain, unhe follow mat karo.
+> Neeche ke counts bhi ab stale hain (asli: HLD_Theory **67**, HLD_Problems **37**, LLD_Problems **20**, Senior_Leadership **12** files).
+>
+> **Nav order:** [`ROADMAP.md`](ROADMAP.md) roz → [`MY_PROGRESS.md`](MY_PROGRESS.md) raat ko → [`STUDY_PLAN.md`](STUDY_PLAN.md) jab topic ka scope dekhna ho.
+
+---
+
+> **Yeh ek file = poora repo ka map.** Kahan kya hai, kahan se start karna hai, kaunsa sequence follow karna hai — sab idhar.
+> *(Historical note: pehle yeh line kehti thi "baaki saare roadmap/plan docs ignore karo" — ab wo galat hai. Asli daily driver ROADMAP.md hai.)*
 >
 > **Tera profile:** ~4 yr Python backend dev · 🎯 Target: Backend + AI Engineer / Senior roles
 > **Repo size:** Backend ~1300 files · Agentic ~600 files · 256 Udemy lectures · 50+ runnable labs

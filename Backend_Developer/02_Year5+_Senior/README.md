@@ -9,23 +9,23 @@ This section targets engineers operating at the senior / principal level. The ma
 ```
 02_Year5+_Senior/
 ├── 01_System_Design/
-│   ├── HLD_Theory/          # 58 topic notes — core theory for every HLD interview and design review
+│   ├── HLD_Theory/          # 67 topic notes — core theory for every HLD interview and design review
 │   ├── HLD_Code/            # Runnable Django/Python implementations of key HLD concepts
-│   ├── HLD_Problems/        # 40+ end-to-end system design walkthroughs (famous products + infrastructure)
-│   ├── LLD_Theory/          # 27 notes covering GoF patterns, SOLID, OOP, concurrency, CQRS and more
-│   ├── LLD_Problems/        # 21 structured class-design problems with model answers
-│   └── Design_Patterns_Code/# 16 runnable Django projects, one per design pattern
+│   ├── HLD_Problems/        # 37 end-to-end system design walkthroughs (famous products + infrastructure)
+│   ├── LLD_Theory/          # 28 notes covering GoF patterns, SOLID, OOP, concurrency, CQRS and more
+│   ├── LLD_Problems/        # 20 structured class-design problems with model answers
+│   └── Design_Patterns_Code/# 10 runnable Django projects + 6 standalone pattern scripts
 ├── 02_Architecture_Patterns/# 10 progressive sections from foundations to cloud-native
-└── 03_Senior_Leadership/    # 10 files on hiring, strategy, FinOps, DORA metrics, mentorship
+└── 03_Senior_Leadership/    # 12 files on hiring, strategy, FinOps, DORA metrics, mentorship
 ```
 
 ---
 
 ## 01\_System\_Design
 
-### HLD\_Theory (58 topics)
+### HLD\_Theory (67 topics)
 
-Comprehensive theory notes numbered `01` through `58`. Topics progress from architectural foundations through distributed systems internals:
+Comprehensive theory notes numbered `01` through `67`. Topics progress from architectural foundations through distributed systems internals:
 
 | Range | Theme |
 |-------|-------|
@@ -35,6 +35,7 @@ Comprehensive theory notes numbered `01` through `58`. Topics progress from arch
 | 31 – 40 | Back-of-envelope estimation, CDN, API Gateway, circuit breaker, service discovery, RBAC, observability, sharding, zero-downtime deployment, webhooks |
 | 41 – 50 | Data pipelines, Bloom filters, geohashing, consistent hashing, Quad/KD trees, vector clocks + CRDTs, multi-tenancy, HTTP versions, TCP/UDP deep dive, DNS |
 | 51 – 58 | Idempotency tokens, serialization, big-data / distributed processing, heartbeat & failure detection, stateful vs stateless, serverless, read-heavy vs write-heavy, data compression & deduplication |
+| 59 – 67 | Saga pattern, two-phase commit, read replicas & WAL, Raft/Paxos consensus, GraphQL vs REST vs gRPC, feature flags & A/B testing, dead-letter queues, Dynamo-style consistency, probabilistic data structures |
 
 ### HLD\_Code (5 implementations)
 
@@ -48,12 +49,16 @@ Working Python/Django code for concepts that benefit from concrete implementatio
 | `04_rate_limiter` | Token-bucket / sliding-window rate limiter |
 | `05_consistent_hashing` | Consistent hashing ring |
 
-### HLD\_Problems (40 problems)
+### HLD\_Problems (37 problems)
 
 End-to-end design documents for real-world and interview-canonical systems. Grouped loosely below for orientation:
 
-**Classic interview targets**
-`URL_Shortener`, `Pastebin`, `Rate_Limiter`, `Notification_System`, `Payment_System`, `File_Storage_System`, `Task_Queue_Job_Scheduler`, `Ride_Booking_System`
+**Classic interview targets (in `HLD_Problems/`)**
+`URL_Shortener`, `Pastebin`, `Design_Payment_Gateway` (UPI-scale)
+
+> ⚠️ `Rate_Limiter`, `Notification_System`, `Payment_System`, `File_Storage_System`, `Task_Queue_Job_Scheduler`
+> and `Ride_Booking_System` are **class-design problems and live in [`LLD_Problems/`](01_System_Design/LLD_Problems/)**, not here.
+> For the HLD-scale payment question use [`HLD_Problems/Design_Payment_Gateway.md`](01_System_Design/HLD_Problems/Design_Payment_Gateway.md).
 
 **Consumer products**
 `Design_YouTube`, `Design_Netflix`, `Design_Spotify`, `Design_Twitter_X`, `Design_Instagram_NewsFeed`, `Design_WhatsApp_Chat`, `Design_Slack`, `Design_Tinder`, `Design_Reddit`, `Design_Quora`
@@ -70,7 +75,7 @@ End-to-end design documents for real-world and interview-canonical systems. Grou
 **AI / modern systems**
 `Design_ChatGPT_Backend`, `Design_RAG_System`, `Design_Agent_Orchestration`, `Design_Multi_Tenant_SaaS`
 
-### LLD\_Theory (27 notes)
+### LLD\_Theory (28 notes)
 
 | Note | Topic |
 |------|-------|
@@ -78,13 +83,13 @@ End-to-end design documents for real-world and interview-canonical systems. Grou
 | 10 – 21 | UML class diagrams, Dependency Injection / Repository / State Machine, Prototype, Facade, Iterator, Mediator, Visitor, Chain of Responsibility, State, Memento, Bridge, Interpreter |
 | Standalone | Command / Composite / Proxy / Flyweight, Concurrency & thread safety, Database design, Event Sourcing + CQRS, OOP fundamentals, SOLID principles, Resume-based LLD interview prep |
 
-### LLD\_Problems (21 problems)
+### LLD\_Problems (20 problems)
 
-Structured class-design problems covering: `ATM_System`, `Booking_System`, `Elevator_System`, `File_Storage_System`, `Food_Delivery_System`, `LRU_Cache`, `Library_Management_System`, `Login_System`, `Notification_System`, `Online_Shopping_Cart`, `Parking_Lot_System`, `Payment_System`, `Rate_Limiter`, `Ride_Booking_System`, `Splitwise`, `Stock_Trading_System`, `Task_Queue_Job_Scheduler`, `Tic_Tac_Toe_Chess`, `URL_Shortener`, `Vending_Machine`, `Zoom_Video_Call`
+Structured class-design problems covering: `ATM_System`, `Booking_System`, `Elevator_System`, `File_Storage_System`, `Food_Delivery_System`, `LRU_Cache`, `Library_Management_System`, `Login_System`, `Notification_System`, `Online_Shopping_Cart`, `Parking_Lot_System`, `Payment_System`, `Rate_Limiter`, `Ride_Booking_System`, `Splitwise`, `Stock_Trading_System`, `Task_Queue_Job_Scheduler`, `Tic_Tac_Toe_Chess`, `Vending_Machine`, `Zoom_Video_Call`
 
-### Design\_Patterns\_Code (16 Django projects)
+### Design\_Patterns\_Code (10 Django projects + 6 standalone scripts)
 
-Each folder is a self-contained Django project demonstrating the pattern in an enterprise/ERP context (SAP integrations, order events, document routing, etc.):
+Folders 01-14 are self-contained Django projects (10 of them); folders 15-20 (prototype, facade, iterator, mediator, visitor, chain_of_responsibility) are standalone Python scripts — run them with `python <file>.py`, not `manage.py` demonstrating the pattern in an enterprise/ERP context (SAP integrations, order events, document routing, etc.):
 
 `01_singleton`, `02_factory`, `03_abstract_factory`, `04_observer`, `06_builder`, `09_template_method`, `11_command`, `12_repository`, `13_service_layer`, `14_dependency_injection`, `15_prototype`, `16_facade`, `17_iterator`, `18_mediator`, `19_visitor`, `20_chain_of_responsibility`
 
@@ -125,6 +130,8 @@ Soft and strategic skills that separate senior engineers from principal / staff 
 | `08_pep_703_nogil_deep.md` | Python 3.13 free-threaded mode; implications for backend services |
 | `09_ai_llm_integration_backend.md` | Integrating LLMs and AI pipelines into production backend systems |
 | `10_mentorship_coaching.md` | Structured mentorship, growth frameworks, giving effective feedback |
+| `11_rfc_adr_writing.md` | RFCs and Architecture Decision Records — how staff engineers propose and record decisions |
+| `12_mental_models_decision_making.md` | Mental models for making technical decisions under uncertainty |
 
 ---
 
@@ -135,7 +142,7 @@ The sequence below is optimised for interview preparation and practical depth. F
 ### Phase 1 — HLD Foundations (weeks 1–2)
 
 1. `HLD_Theory` files `01` through `31` — cover every first-principles topic that appears in HLD interviews.
-2. `HLD_Theory` files `32` through `58` — advanced distributed systems topics; read in order.
+2. `HLD_Theory` files `32` through `67` — advanced distributed systems topics; read in order.
 
 ### Phase 2 — LLD Foundations (week 3)
 
@@ -150,8 +157,8 @@ The sequence below is optimised for interview preparation and practical depth. F
 
 ### Phase 4 — Problem Practice (weeks 5–6)
 
-8. `LLD_Problems/` — attempt each problem independently before reading the model answer. Start with `LRU_Cache`, `Parking_Lot_System`, `URL_Shortener`, then work through the full list.
-9. `HLD_Problems/` — work the classic interview targets first (`URL_Shortener`, `Rate_Limiter`, `Notification_System`, `Payment_System`), then consumer products, then infrastructure and AI systems.
+8. `LLD_Problems/` — attempt each problem independently before reading the model answer. Start with `LRU_Cache`, `Parking_Lot_System`, `Splitwise`, then work through the full list.
+9. `HLD_Problems/` — work the classic interview targets first (`URL_Shortener`, `Pastebin`, `Design_Payment_Gateway`), then consumer products, then infrastructure and AI systems.
 
 ### Phase 5 — Architecture Depth (week 7)
 

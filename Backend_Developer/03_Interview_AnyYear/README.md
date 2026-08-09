@@ -22,11 +22,26 @@ Each topic lives in its own folder and contains exactly two files:
 - `theory.py` — annotated reference implementations, complexity analysis, and pattern notes
 - `problems.py` — curated problems with solutions and explanation comments
 
-An additional cross-cutting reference is provided at the top level:
+Additional cross-cutting references at the top level:
 
-- `00_Coding_Patterns_Index.md` — pattern-recognition lens across all 28 topics (sliding window, top-K, two-pointer, etc.)
+- [`00_Coding_Patterns_Index.md`](01_DSA/00_Coding_Patterns_Index.md) — pattern-recognition lens across all 28 topics (33 patterns with canonical LeetCode problems and "when to use" triggers)
+- [`TOP_INTERVIEW_QUESTIONS.md`](01_DSA/TOP_INTERVIEW_QUESTIONS.md) — **90 curated problems** (Blind 75 / Grind 75 / Top 150 overlap), organised topic → approach → difficulty
 - `2_Month_DSA_5_Problems_Per_Day.docx` — structured 2-month daily practice schedule
 - `2_Month_DSA_5_Problems_Per_Day_WITH_LINKS_AND_COMPANY_TAGS.docx` — same schedule with LeetCode links and company frequency tags
+
+### 🔴 `practice/` — write-and-verify harness (this is the actual practice loop)
+
+Reading solutions builds false confidence. [`01_DSA/practice/`](01_DSA/practice/) makes you **write** the code and
+tests it against real cases — **35 problems** covering every major pattern (trie, union-find, Dijkstra,
+monotonic queue, two-heaps median, k-way merge, cyclic sort included).
+
+```bash
+cd 01_DSA/practice
+python harness.py --list          # what's available
+python harness.py --stats         # your progress
+```
+
+See [`practice/README.md`](01_DSA/practice/README.md) for the timed-practice protocol.
 
 ### Topic List
 
@@ -77,6 +92,11 @@ An additional cross-cutting reference is provided at the top level:
 | `10_behavioral_backend.md` | Behavioral Interview — STAR Templates | Pre-written STAR stories covering conflict, ownership, technical leadership, failure recovery, and cross-functional collaboration. |
 | `11_resume_walkthrough_prep.md` | Resume Walkthrough Prep | Frameworks for narrating past projects to sound senior — impact quantification, technical depth cues, and how to handle gaps or pivots. |
 | `12_negotiation_offer.md` | Offer Negotiation Guide | Salary anchoring, competing-offer leverage, counter-offer scripts, and how to handle stock vs. cash trade-offs for backend engineer roles. |
+| [`INFOSYS_QUICK_REVISION.md`](02_Interview_Prep/INFOSYS_QUICK_REVISION.md) | Service-company rapid revision | Condensed Python/Django/SQL revision sheet built for a short-notice service-company screen. Useful for any quick refresher round. |
+
+> **GenAI / LLM interview questions** (RAG design, agent orchestration, eval) live in the agentic track:
+> [`Agentic_AI/Interview_Prep/`](../../Agentic_AI/Interview_Prep/).
+> **System design drills** (timed, with rubric) live in [`02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md`](../02_Year5%2B_Senior/01_System_Design/PRACTICE_DRILLS.md).
 
 ---
 
@@ -96,6 +116,20 @@ Ten end-to-end backend projects with full tech-stack definitions, architecture n
 | 8 | `08_FastAPI_OpenAI_RAG_Backend.md` | FastAPI + OpenAI RAG Backend | FastAPI, Postgres + pgvector, OpenAI/Claude, Redis, Celery, Cohere Rerank |
 | 9 | `09_Realtime_AI_Chat_App.md` | Real-Time AI Chat App (ChatGPT-style) | FastAPI, WebSocket/SSE, Postgres, Redis, Anthropic, OpenAI, Stripe |
 | 10 | `10_MCP_Server_FastAPI.md` | MCP Server for FastAPI (AI Tool Platform) | FastAPI, Python MCP SDK, Starlette, Postgres, OAuth 2.1, Cloudflare |
+
+### 🏗️ Starter scaffolds — don't start from an empty folder
+
+Every spec has a matching **`<same-name>_starter/`** directory (e.g. `01_FastAPI_Multi_Tenant_SaaS.md`
+→ [`01_FastAPI_Multi_Tenant_SaaS_starter/`](03_Projects/01_FastAPI_Multi_Tenant_SaaS_starter/)) with a
+README, entry point, and dependency file so you can begin immediately.
+
+[`08_FastAPI_OpenAI_RAG_Backend_starter/`](03_Projects/08_FastAPI_OpenAI_RAG_Backend_starter/) is the most
+developed (config, db, routers, retrieval packages) — the best one to harden first if you want a single
+strong portfolio project.
+
+> **Pick ONE and go deep.** Ten half-built projects are worth less in an interview than one that is
+> tested, observable, and deployed. [DAILY_PLAN_90_DAYS.md](../../DAILY_PLAN_90_DAYS.md) recommends
+> hardening project 01 as the proof-project.
 
 ---
 

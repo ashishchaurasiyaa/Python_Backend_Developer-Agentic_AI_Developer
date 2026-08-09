@@ -5,7 +5,8 @@
 > That file owns the Strategy-pattern gateway classes, the in-process state machine,
 > the wallet/ledger objects, and retry-with-backoff code. This file owns everything
 > the LLD cannot see: scale numbers, service boundaries, NPCI/bank hops, reconciliation,
-> ledger sharding, and PSP routing. Interviewer "design Razorpay" bole to yahi file hai.
+> ledger sharding, PSP routing, PCI scope, and the dispute/settlement risk that only shows up
+> at company level. Interviewer "design Razorpay" bole to yahi file hai.
 
 ---
 
@@ -540,7 +541,69 @@ Checkout (browser)                    CDE = Cardholder Data Environment
 
 ---
 
-## 13. Storage Choices
+## 13. Storage Choices & Core Data Model
+
+### The payments side (ledger schema is in §7)
+
+```sql
+-- Shard key: merchant_id (Vitess vindex). Money is BIGINT paise — never DECIMAL, never float.
+
+CREATE TABLE orders (                              -- the intent: "merchant wants 1500 rupees"
+    order_id        CHAR(20) PRIMARY KEY,          -- 'order_Nx7...', Snowflake-backed
+    merchant_id     BIGINT      NOT NULL,          -- shard key
+    amount_paise    BIGINT      NOT NULL CHECK (amount_paise > 0),
+    currency        CHAR(3)     NOT NULL DEFAULT 'INR',
+    amount_paid     BIGINT      NOT NULL DEFAULT 0,
+    status          TEXT        NOT NULL,          -- created | attempted | paid
+    receipt         TEXT,                          -- merchant's own reference
+    idempotency_key TEXT        NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL,
+    UNIQUE (merchant_id, idempotency_key)          -- Layer-1 guarantee (§5)
+);
+
+CREATE TABLE payments (                            -- one row per ATTEMPT on an order
+    payment_id      CHAR(20) PRIMARY KEY,
+    order_id        CHAR(20)    NOT NULL,
+    merchant_id     BIGINT      NOT NULL,          -- denormalized: shard key + every read path
+    amount_paise    BIGINT      NOT NULL,
+    method          TEXT        NOT NULL,          -- upi | card | netbanking | wallet
+    status          TEXT        NOT NULL,          -- PENDING|SUCCESS|FAILED|EXPIRED|REVERSED
+    txn_ref         TEXT        NOT NULL,          -- OUR ref, minted before the PSP call (§5 L2)
+    psp_name        TEXT,                          -- whichever the router picked (§10)
+    psp_ref_id      TEXT,                          -- RRN / bank reference (§5 L3)
+    issuer_bank     TEXT,                          -- feeds routing stats + breaker keys
+    instrument_ref  TEXT,                          -- VPA or vault token — NEVER a PAN (§12)
+    error_code      TEXT,
+    idempotency_key TEXT        NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL,
+    updated_at      TIMESTAMPTZ NOT NULL,
+    UNIQUE (merchant_id, idempotency_key),
+    UNIQUE (txn_ref),
+    UNIQUE (psp_ref_id)                            -- NULL until the callback lands; dedups it
+);
+
+CREATE INDEX ON payments (merchant_id, created_at DESC);        -- dashboard + list API
+CREATE INDEX ON payments (status, updated_at) WHERE status = 'PENDING';  -- sweeper work queue
+
+CREATE TABLE payment_events (                      -- append-only audit of every transition
+    event_id        BIGINT PRIMARY KEY,
+    payment_id      CHAR(20)    NOT NULL,
+    from_status     TEXT,
+    to_status       TEXT        NOT NULL,
+    source          TEXT        NOT NULL,          -- callback | inquiry | recon | manual
+    raw_payload     JSONB,                         -- exact bytes the PSP sent, for disputes
+    created_at      TIMESTAMPTZ NOT NULL
+);
+```
+
+Two lines worth pointing at in the interview:
+- The **partial index on `PENDING`** *is* the status-inquiry job's queue. No separate queue system:
+  the sweeper reads `WHERE status='PENDING' AND updated_at < now()-15s`, and the queue drains
+  itself as rows transition out. Rows that never transition are exactly the recon backlog (§9).
+- `payment_events` stores the **raw provider payload**, not a parsed summary. Four months later,
+  in a chargeback fight, "what exactly did the bank tell us at 21:14:03" is the whole case (§15).
+
+### Store selection
 
 | Data | Store | Why |
 |---|---|---|
@@ -559,7 +622,92 @@ timelines in `Design_Twitter_X.md`, different domain.
 
 ---
 
-## 14. Failure Scenarios
+## 14. Observability: The Metrics That Actually Matter
+
+In most systems monitoring tells you the system is slow. In payments, monitoring is how you
+discover **money is missing** — and you must discover it before the merchant does.
+
+| Metric | Why it is the one that matters | Alert |
+|---|---|---|
+| Success rate per `(psp, issuer_bank, method)`, 1-min buckets | The core business metric AND the router's input (§10) | Deviation from *this hour's historical baseline*, not a fixed threshold |
+| Time-in-PENDING, P99 | Callback chain health (§11). Rising P99 = NPCI/PSP notification lagging | P99 > 60s for 5 min |
+| **Ledger drift**: `SUM(debits) − SUM(credits)` per shard | Must be exactly 0. Any other value = corruption | `!= 0` → P0, page immediately |
+| Outbox depth + oldest unpublished row age | Leading indicator of a money black hole (§6) | Oldest row > 60s |
+| Ledger consumer lag behind Kafka | Payments succeeding but not posting | Lag > 5 min blocks settlement |
+| Suspense account balance + oldest open item (§9) | Unexplained rupees, quantified | Any item > 48h |
+| Recon match rate by T+1 noon | Settlement gate | < 99.9% matched → settlement holds |
+| Webhook DLQ depth per merchant | Merchant integration broken | Any DLQ growth → merchant dashboard banner |
+| Detokenize call rate per service (§12) | Exfiltration canary | Any spike, or any *new* caller |
+
+**Fixed thresholds are the classic mistake.** UPI success rate at 3 AM is legitimately lower
+(bank batch windows) and the method mix differs. Alert on deviation from the same slot last week,
+otherwise you either page every night or miss a real 4 PM outage.
+
+**Tracing and logging discipline:**
+- `txn_ref` is the trace correlation ID across merchant → us → PSP → recon. One ID, whole lifetime.
+- **Never log**: PAN, CVV, UPI PIN, full VPA in plaintext analytics, `Authorization` headers.
+  Log `instrument_ref` (token) and last-4 only. A log pipeline that ingests PAN just dragged
+  Splunk/Datadog into PCI scope (§12) — an expensive accident.
+- Every state transition writes to `payment_events` regardless of source, so "why is this
+  payment SUCCESS?" is answerable months later without archaeology.
+
+---
+
+## 15. Disputes, Chargebacks & Settlement Risk
+
+Settlement is T+1. A card chargeback can arrive **120 days later**. That gap is the gateway's
+actual business risk, and it is where "design Razorpay" interviews separate ops-aware
+candidates from the rest.
+
+### Card chargeback lifecycle
+
+```
+T+0    customer pays ₹1,500                      → merchant settled T+1
+T+95   customer disputes with their bank ("I didn't do this")
+       issuer raises chargeback → network (Visa/MC) → acquirer → US → merchant
+       Money is pulled back from us NOW; we have a deadline (typically 7-15 days)
+       to submit evidence on the merchant's behalf.
+  ├─ merchant provides proof (delivery receipt, 3DS auth log, IP/device) → REPRESENTMENT
+  │     └─ issuer accepts → funds return.  issuer rejects → PRE-ARBITRATION → ARBITRATION
+  └─ merchant does nothing / accepts → we debit the merchant, dispute closed against them
+```
+
+Ledger treatment — never edit history, only add entries (§7):
+
+```
+chargeback raised:   D merchant:8812        150000    C dispute_liability   150000
+chargeback won:      D dispute_liability    150000    C merchant:8812       150000
+chargeback lost:     D dispute_liability    150000    C customer_escrow     150000
+                     (+ separate entry for the network's chargeback fee, D merchant / C fees_income)
+```
+
+### UPI is different
+
+UPI disputes run through NPCI's dispute-redressal flow (URCS / online dispute management),
+not card-network arbitration. Adjustments — chargebacks, `TCC` (transaction credit confirmation),
+`RET` (return) — arrive **as rows inside the daily settlement file**, so the recon job (§9) is
+also the dispute-ingestion path. Deemed-approved late successes (§11) show up the same way.
+Practical consequence: your recon pipeline must parse adjustment record types, not just captures.
+
+### Settlement risk controls
+
+| Control | What it is | When you apply it |
+|---|---|---|
+| **Rolling reserve** | Hold 5-10% of settlement for 90-180 days | New merchants, high-chargeback categories (travel, gaming, ed-tech with long fulfilment) |
+| **Merchant risk tiers** | Underwriting at onboarding sets settlement cycle (T+1 / T+3 / T+7) | Category + vintage + observed chargeback ratio |
+| **Negative balance recovery** | Chargebacks exceed pending settlement → recover from future settlements, then collections | Always; a merchant who churns with a negative balance is a direct loss |
+| **Instant settlement is a credit product** | We front our own money before funds arrive from the bank | Priced as a fee; underwritten like a loan, because it is one |
+| **Nodal/escrow segregation** | Customer money sits in an RBI-mandated nodal account, not our operating account | Regulatory, non-negotiable (see Q15) |
+
+**Chargeback ratio is existential, not cosmetic:** card networks put acquirers into monitoring
+programmes above ~0.9% chargebacks-to-transactions, with fines and eventual loss of the acquiring
+relationship. So the gateway polices its own merchants — risk scoring at onboarding, velocity
+checks, and killing merchants whose ratio trends up. This is why "just onboard everyone" is the
+wrong answer when an interviewer asks how you grow the merchant base.
+
+---
+
+## 16. Failure Scenarios
 
 | Scenario | Handling |
 |---|---|
@@ -576,7 +724,7 @@ timelines in `Design_Twitter_X.md`, different domain.
 
 ---
 
-## 15. Trade-offs
+## 17. Trade-offs
 
 | Decision | Trade-off |
 |---|---|
@@ -590,7 +738,7 @@ timelines in `Design_Twitter_X.md`, different domain.
 
 ---
 
-## 16. Related Material (this repo)
+## 18. Related Material (this repo)
 
 - **LLD ground (don't repeat in interview if asked HLD):**
   [`../LLD_Problems/Payment_System.md`](../LLD_Problems/Payment_System.md) — gateway Strategy
@@ -606,7 +754,7 @@ timelines in `Design_Twitter_X.md`, different domain.
 
 ---
 
-## 17. Interview Questions
+## 19. Interview Questions
 
 **Q1: How do you guarantee a customer is never double-charged?**
 > Three idempotency layers, one per trust boundary. Merchant→us: `Idempotency-Key` header, Redis atomic claim for the fast path, `UNIQUE(merchant_id, idempotency_key)` in the DB as the actual guarantee. Us→bank: our `txn_ref` is minted and persisted *before* the PSP call and reused verbatim on retries, so the PSP dedups; on timeout we status-inquire, never re-initiate blind. Bank→us: `UNIQUE(psp_ref_id)` on callbacks plus a CAS-guarded transition, and duplicates get HTTP 200 so the bank stops retrying. Any single layer can fail; the composition holds.
@@ -643,3 +791,12 @@ timelines in `Design_Twitter_X.md`, different domain.
 
 **Q12: Refund flow — what's different from payment flow?**
 > Refund is a new money movement referencing the original, never a mutation of it: SUCCESS payment → REVERSED via a fresh reversing journal entry (never edit postings). Partial refunds must satisfy `SUM(refunds) <= captured amount`, enforced with the same CAS/version discipline as wallet debits. Refunds ride the original rail (UPI refund to the same VPA via RRN reference), can fail independently, and have their own recon stream in the T+1 files. Also, refunds pay out of *our* settled pool before we recover from the merchant's next settlement — a working-capital detail interviewers at gateways love to hear you know.
+
+**Q13: You settled a merchant on T+1. A chargeback lands on day 95. Who eats the loss and how does your system handle it?**
+> The gateway is on the hook to the network first — funds get pulled from us immediately — and we recover from the merchant. Mechanically: a chargeback entry debits the merchant and credits a `dispute_liability` account, never touching the original postings; we notify the merchant with the evidence deadline; representment either reverses that entry or converts it into a real loss against escrow, plus a network fee entry. If the merchant's balance goes negative, we recover from future settlements and then from collections. The structural defenses are underwriting-driven settlement cycles and a rolling reserve (5-10% held 90-180 days) on risky categories — because the exposure window is 120 days and the settlement window is one day. Also, we police our own chargeback ratio: past roughly 0.9%, card networks put the acquirer into monitoring programmes with fines and eventual loss of the acquiring relationship.
+
+**Q14: How do you know the system is broken before merchants tell you?**
+> Three classes of signal. Business: success rate per (psp, issuer_bank, method) in 1-minute buckets, alerted against the same slot last week rather than a fixed threshold — 3 AM UPI is legitimately worse, so a static threshold either pages nightly or misses a real 4 PM outage. Correctness: ledger drift (`SUM(debits) − SUM(credits)` per shard) must be exactly zero, and anything else is a P0 page; suspense items older than 48h; recon match rate gating settlement. Pipeline: outbox oldest-unpublished-row age and ledger consumer lag, which are the leading indicators of a money black hole — the payment looks fine while the ledger never hears about it. Plus P99 time-in-PENDING as the health signal for the callback chain, since that's the first thing to degrade when NPCI or a PSP starts dropping notifications.
+
+**Q15: Why can't you just hold merchant funds in your own bank account until settlement?**
+> Because it isn't your money and the regulator says so. In India, payment aggregators must keep collected funds in an RBI-mandated **nodal/escrow account** — segregated from operating funds, with permitted credits and debits defined and settlement timelines specified. You cannot earn float on it, you cannot use it for working capital, and you cannot let it commingle with company money. The design consequences are concrete: the ledger models the nodal account as a real account (`customer_escrow_*`) rather than an abstraction, recon reconciles against the actual nodal bank statement (not just the PSP file), and instant settlement is funded from a *separate* operating pool because it's us lending our own money ahead of the escrow inflow. Getting this wrong isn't a bug, it's a licence problem — which is exactly why the interviewer asks.

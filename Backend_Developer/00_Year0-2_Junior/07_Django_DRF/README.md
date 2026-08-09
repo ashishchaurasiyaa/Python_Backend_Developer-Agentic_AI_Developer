@@ -2,7 +2,7 @@
 
 > Django aur Django REST Framework ka full backend coverage — basics se le kar internals, scaling, aur production hardening tak. Files number order me hain; neeche **theme-wise** group kiye hain.
 >
-> **Study order:** pehli baar 00→09 sequence me (core + ORM + DRF basics), fir topic-wise deep dive. Har `.md` ke saath uska code [`practical/`](practical/) me hai.
+> **Study order:** pehli baar 00→09 sequence me (core + ORM + DRF basics), fir topic-wise deep dive. Files 01–44 me har `.md` ke saath uska code [`practical/`](practical/) me hai (file `00` intro hai, uska practical nahi).
 >
 > Parent: [00_Year0-2_Junior](../) · Related: [FastAPI](../06_FastAPI/) · [Database_SQL](../04_Database_SQL/)
 

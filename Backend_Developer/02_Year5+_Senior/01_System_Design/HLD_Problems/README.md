@@ -1,4 +1,4 @@
-# 🏗️ HLD Problems — Mini-Index (36 designs)
+# 🏗️ HLD Problems — Mini-Index (37 designs)
 
 > System Design ke **practice problems** — har file ek complete "design X" walkthrough. Theory se alag: yahan tu **bolke design karna** practice karta hai (requirements → estimation → API → data model → scaling → bottlenecks).
 >
@@ -15,6 +15,7 @@
 | [Pastebin](Design_Pastebin.md) | text storage, expiry, read-heavy |
 | [Search Autocomplete](Design_Search_Autocomplete.md) | typeahead, tries, ranking |
 | [Web Crawler](Design_Web_Crawler.md) | BFS at scale, dedup, politeness |
+| [Payment Gateway](Design_Payment_Gateway.md) 🔴 | UPI-scale — idempotency, double-entry ledger, T+1 reconciliation, PSP routing. India fintech loops (Razorpay/PhonePe/Juspay) isko poochte hain. |
 
 ## 2. Infrastructure & Platform 🔴
 | Design | |
@@ -82,4 +83,4 @@
 
 ---
 
-*36 designs grouped into 9 categories. Interview prep order: Group 1 (warm-ups) → 3 (social/feed) → 2 (infra) → 9 (AI, agar AI role ho). Group 4's Google Docs (OT/CRDT) aur Group 7's BookMyShow/Stock Exchange (concurrency) sabse zyada distinguishing hote hain senior interviews me.*
+*37 designs grouped into 9 categories. Interview prep order: Group 1 (warm-ups) → 3 (social/feed) → 2 (infra) → 9 (AI, agar AI role ho). Group 4's Google Docs (OT/CRDT) aur Group 7's BookMyShow/Stock Exchange (concurrency) sabse zyada distinguishing hote hain senior interviews me.*

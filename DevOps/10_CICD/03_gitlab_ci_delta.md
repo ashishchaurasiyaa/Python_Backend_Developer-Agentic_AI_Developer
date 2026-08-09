@@ -49,6 +49,9 @@ YAML keys, plus the handful of things GitLab genuinely does better
 | Secrets | repo/org/environment secrets, `${{ secrets.X }}` | CI/CD variables (masked/protected flags), external Vault/OIDC |
 | Registry | GHCR (separate product, `docker/login-action`) | built-in per-project registry, `$CI_REGISTRY_IMAGE`, auto-auth |
 | Manual gate | environment `required reviewers` | `when: manual` on a job + protected environment approvals |
+| Fan-out testing | `strategy: matrix:` (+ `fail-fast`, `include`/`exclude`) | `parallel: matrix:` (no `exclude`; list the combos you want) |
+| Cancel stale runs | `concurrency:` + `cancel-in-progress: true` | `interruptible: true` + project "auto-cancel redundant pipelines" |
+| Serialize deploys | omit `cancel-in-progress` so runs queue | `resource_group:` — a named lock only one job holds at a time |
 
 The mental shift from GHA: **steps become shell lines**. There's no marketplace of composable Actions — a GitLab job is `image:` + `script:` and you write the commands yourself (or `include:` a template that does).
 
@@ -96,6 +99,35 @@ deploy-prod:
 ```
 
 Rules evaluate top-down, **first match wins**. One list controls whether the job exists in the pipeline at all, whether it's automatic/manual, and even `allow_failure` — where GHA splits this across `on:`, `if:`, and environment protection settings.
+
+### The two deltas people miss: matrix and concurrency
+
+GHA's `strategy: matrix:` becomes `parallel: matrix:` — same fan-out, and the values land in plain env vars (not a `matrix.*` context), so `script:` just reads `$PY_VERSION`:
+
+```yaml
+test:
+  stage: test
+  image: python:$PY_VERSION
+  parallel:
+    matrix:
+      - PY_VERSION: ["3.11", "3.12"]
+        DJANGO: ["4.2", "5.0"]     # 2x2 = 4 parallel jobs
+  script: [pytest]
+```
+
+No `exclude:` here — you enumerate the combinations you actually want (multiple list entries under `matrix:` union together). `fail-fast` has no per-job equivalent either; a failing leg doesn't kill its siblings by default, which is GHA's `fail-fast: false` behaviour.
+
+GHA's `concurrency` block splits into two GitLab knobs:
+
+```yaml
+test:
+  interruptible: true      # this job MAY be cancelled by a newer pipeline
+
+deploy-prod:
+  resource_group: production   # only one job in this group runs at a time
+```
+
+`interruptible: true` + the project's *auto-cancel redundant pipelines* setting ≈ `cancel-in-progress: true` — a newer push on the same ref cancels the older pipeline. `resource_group:` is the other half of 02's warning: deploys should **queue, not cancel**, and a named resource group is the lock that guarantees two deploy jobs never touch production concurrently.
 
 ---
 
@@ -203,6 +235,7 @@ deploy-prod:
     AWS_OIDC_TOKEN:             # GitLab mints a short-lived JWT into this var
       aud: https://gitlab.example.com
   variables:
+    AWS_DEFAULT_REGION: ap-south-1                               # sts/ecs calls fail without a region
     AWS_ROLE_ARN: arn:aws:iam::123456789012:role/gitlab-deploy   # trusts GitLab's OIDC provider
   script:
     - >
@@ -264,6 +297,9 @@ Shared vs specific is WHO owns/scopes the runner (GitLab's SaaS fleet for everyo
 
 **Q: "How would you deploy a preview of every merge request, and clean it up on merge?"**
 Review apps: a deploy job with `environment: name: review/$CI_COMMIT_REF_SLUG`, `url:` pointing at a per-branch host, and `on_stop:` referencing a teardown job (`when: manual`, `environment: action: stop`). GitLab links the live URL in the MR and auto-triggers the stop job when the branch is deleted/merged. In GHA you'd hand-roll all of this with deploy/comment/cleanup workflows.
+
+**Q: "In GHA you'd add a `concurrency` block to cancel stale runs. What's the GitLab equivalent?"**
+Two knobs instead of one. `interruptible: true` marks a job as safe to kill, and the project's *auto-cancel redundant pipelines* setting then cancels an older pipeline when a newer commit lands on the same ref — that's `cancel-in-progress: true`. For the opposite need, `resource_group: production` on the deploy job acts as a named lock so deploys **queue** and run one at a time instead of being cancelled mid-flight. Same tradeoff as [`02_github_actions.md`](02_github_actions.md): cancel test runs, serialize deploys.
 
 **Q: "Your `.gitlab-ci.yml` is 600 lines and three teams keep stepping on each other — what do you do?"**
 Split with `include:` — per-concern files (`ci/lint.yml`, `ci/deploy.yml`) or a central pipeline-templates project that service repos include with a pinned ref (the reusable-workflow pattern). Shared job skeletons become hidden base jobs (`.base-python:`) that concrete jobs `extends:`. In a monorepo, go further: parent-child pipelines with `trigger:` + `rules: changes:` so each service's child pipeline only runs when its directory changed.

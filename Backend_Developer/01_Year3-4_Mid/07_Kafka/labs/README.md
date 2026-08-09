@@ -24,6 +24,14 @@ Cleanup: `docker compose down -v`
 | 3 | [03_ordering_keys](03_ordering_keys.py) | Key → partition mapping, per-key ordering | Ek `order_id` ke saare events ek hi partition me, sahi order me |
 | 4 | [04_manual_commit_redelivery](04_manual_commit_redelivery.py) | At-least-once, crash-before-commit → redelivery | Crash simulate karo, restart pe wahi message dobara aaye |
 | 5 | [05_consumer_lag](05_consumer_lag.py) | Lag measure karna, slow consumer ka effect | Fast producer + slow consumer → lag badhta dikhe |
+| 6 | [06_schema_registry_evolution](06_schema_registry_evolution.py) | Avro + Schema Registry, compatibility modes, schema evolution bina consumer toड़े | Backward-compatible field add ho jaye; incompatible change reject ho |
+
+> **Lab 6 ko Schema Registry chahiye** — base `docker-compose.yml` me sirf kafka + kafka-ui hain.
+> Registry ke saath chalane ke liye:
+> ```bash
+> docker compose -f docker-compose.yml -f docker-compose.schema-registry.yml up -d
+> ```
+> Phir `pip install "confluent-kafka[avro]"` karo.
 
 Har file me **TODO** blocks hain — pehle khud bharo, phir `python 0N_....py` chalao. Har lab apna verification khud print karta hai (✅/❌).
 

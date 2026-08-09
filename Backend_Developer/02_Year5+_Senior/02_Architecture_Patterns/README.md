@@ -97,6 +97,7 @@ Toh **yeh notes course-specific aur architecture-thinking pe focus karte hain**,
 | 3 | Modular Monoliths & Migration Strategy | [03_Modular_Monoliths_Migration.md](Section_03_Distributed_Systems/03_Modular_Monoliths_Migration.md) | [03_Practical_Hands_On.md](Section_03_Distributed_Systems/03_Practical_Hands_On.md) |
 | 4 | Micro-frontends & UI Composition | [04_Micro_Frontends_UI_Composition.md](Section_03_Distributed_Systems/04_Micro_Frontends_UI_Composition.md) | [04_Practical_Hands_On.md](Section_03_Distributed_Systems/04_Practical_Hands_On.md) |
 | 5 | Real-World Use Cases for Distributed Styles | [05_Real_World_Use_Cases.md](Section_03_Distributed_Systems/05_Real_World_Use_Cases.md) | [05_Practical_Hands_On.md](Section_03_Distributed_Systems/05_Practical_Hands_On.md) |
+| 6 | Sidecar & Ambassador Patterns | [06_Sidecar_Ambassador_Patterns.md](Section_03_Distributed_Systems/06_Sidecar_Ambassador_Patterns.md) | — |
 
 ---
 

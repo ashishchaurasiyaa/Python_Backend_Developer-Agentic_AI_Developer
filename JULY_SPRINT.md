@@ -1,5 +1,17 @@
 # 🚀 JULY SPRINT — Senior Backend + Agentic AI (28 June → 31 July 2026)
 
+> # 📦 CLOSED / EXPIRED — archive only
+> **Sprint window:** 28 Jun → 31 Jul 2026 · **Closed on:** 2026-08-08 · **Outcome:** 0/10 items checked
+>
+> **Retro (ek line):** plan theek tha, execution nahi hua — poore sprint me content likha gaya, labs nahi kiye.
+> Yahi RCA [`MY_PROGRESS.md`](MY_PROGRESS.md) me note hai: *"audit loop comfortable hai, labs karna uncomfortable hai."*
+> Isi wajah se naya driver [`ROADMAP.md`](ROADMAP.md) **lab-first** hai (theory tab kholo jab lab me atko).
+>
+> **Aaj ka kaam → [`ROADMAP.md`](ROADMAP.md).** Yeh file sirf reference ke liye rakhi hai —
+> priority order (English → DSA → System Design → Backend) aaj bhi sahi hai, dates nahi.
+
+---
+
 > **Ek hi maqsad:** 31 July tak interview-ready hona.
 >
 > **Priority order (yahi follow karo, is order me):**

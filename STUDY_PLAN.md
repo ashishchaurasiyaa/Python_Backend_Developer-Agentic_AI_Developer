@@ -1,6 +1,6 @@
 # 🎯 MERA STUDY PLAN — Backend Revision + Agentic AI
 
-> **Yeh ek hi file hai jisse tujhe roz start karna hai.** Confusion ho to bas yahin wapas aa.
+> **Yeh reference view hai — roz ka driver [ROADMAP.md](ROADMAP.md) hai.** Yahan topic ka poora scope dekhne aao, aaj kya karna hai wo ROADMAP batata hai.
 > Do track hain: **🏛️ Backend Revision** aur **🤖 Agentic AI**. Dono ko roz thoda-thoda chalaate hain.
 >
 > **😵 Confuse ho? Toh yeh file mat kholo — [ROADMAP.md](ROADMAP.md) kholo.** Wahan din-ba-din ek hi line hai: jahan `- [ ]` mila wahi aaj ka kaam. Yeh file (STUDY_PLAN) topic-wise *reference view* hai — jab kisi topic ka poora scope dekhna ho tab kaam aati hai.
@@ -8,14 +8,18 @@
 > **Kaam karne ka tarika:** har track me items **upar se neeche** order me hain. Jo `- [ ]` khaali hai wahi tera "next" hai. Khatam hote hi `- [x]` kar de.
 >
 > **Legend:** 🔴 must (pakka karo) · 🟡 should (kar lo to accha) · ⚪ skim (sirf jhaank lo)
+> **📄 = content ready, padha nahi.** Yeh files repo me likhi ja chuki hain — par tumne padhi/ki nahi.
+> Sirf `- [x]` ka matlab hai *maine kiya*. (Pehle yeh dono mix ho gaye the: files likhne ko "done" mark kar diya tha —
+> isse lagta tha K8s/Terraform ho chuka hai jabki [MY_PROGRESS](MY_PROGRESS.md) me 0 labs the. Ab saaf hai.)
 > Tu 4-saal ka backend dev hai + Udemy agentic 100% done — isliye basics = skim, senior/system-design + agent-patterns = deep.
 >
+> **🎓 Senior ke liye kya PADHNA hi hai (60 files):** [SENIOR_MUST_READ.md](SENIOR_MUST_READ.md)
 > **📋 Kya-kya COMPULSORY hai (poori topic list):** [COMPULSORY_TOPICS.md](COMPULSORY_TOPICS.md) — Python/Django/DRF/REST/FastAPI/DB + AI, tier-wise (🔴/🟡/⚪). Interview se pehle isse check kar.
 > **🎯 Job-hunt track (resume + apply + project):** [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md#-job-hunt-track-runs-in-parallel-with-the-study-weeks--read-this-first)
 
 ---
 
-## ⏱️ AAJ KYA KARUN? (roz ~3–4 ghante)
+## ⏱️ TOPIC-WISE VIEW (reference — aaj ka kaam [ROADMAP.md](ROADMAP.md) me hai)
 
 Har din yeh 3 block kar — har track ka "next unchecked item" utha:
 
@@ -50,26 +54,26 @@ Index: [01_Year3-4_Mid/README.md](Backend_Developer/01_Year3-4_Mid/README.md)
 - [ ] 🔴 **API Design** — REST maturity, versioning, idempotency, pagination, webhooks → [02_API_Design](Backend_Developer/01_Year3-4_Mid/02_API_Design)
 - [ ] 🔴 **Security** — JWT/OAuth2/RBAC, OWASP Top 10, secrets, crypto → [03_Security](Backend_Developer/01_Year3-4_Mid/03_Security)
 - [ ] 🔴 **DevOps/SRE** — Docker, CI/CD, AWS, Prometheus/Grafana → [04_DevOps](Backend_Developer/01_Year3-4_Mid/04_DevOps)
-- [x] 🔴 **Kubernetes + Helm** (Senior must-have) → [06_kubernetes_helm](Backend_Developer/01_Year3-4_Mid/04_DevOps/06_kubernetes_helm.md)
-- [x] 🔴 **OpenTelemetry + Distributed Tracing** — Spans, Trace IDs, Jaeger, Correlation IDs, Sampling *(NEW)* → [19_opentelemetry_distributed_tracing](Backend_Developer/01_Year3-4_Mid/04_DevOps/19_opentelemetry_distributed_tracing.md)
-- [x] 🟡 **Terraform + GitOps** — IaC, ArgoCD, Flux → [07_terraform](Backend_Developer/01_Year3-4_Mid/04_DevOps/07_terraform.md) · [13_gitops_argocd_flux](Backend_Developer/01_Year3-4_Mid/04_DevOps/13_gitops_argocd_flux.md)
-- [x] 🟡 **AWS Managed Services** — Lambda, API Gateway, EventBridge, CloudWatch, Secrets Manager, ECS vs EKS *(NEW)* → [22_aws_managed_services](Backend_Developer/01_Year3-4_Mid/04_DevOps/22_aws_managed_services.md)
+- [ ] 📄 🔴 **Kubernetes + Helm** (Senior must-have) → [06_kubernetes_helm](Backend_Developer/01_Year3-4_Mid/04_DevOps/06_kubernetes_helm.md)
+- [ ] 📄 🔴 **OpenTelemetry + Distributed Tracing** — Spans, Trace IDs, Jaeger, Correlation IDs, Sampling *(NEW)* → [19_opentelemetry_distributed_tracing](Backend_Developer/01_Year3-4_Mid/04_DevOps/19_opentelemetry_distributed_tracing.md)
+- [ ] 📄 🟡 **Terraform + GitOps** — IaC, ArgoCD, Flux → [07_terraform](Backend_Developer/01_Year3-4_Mid/04_DevOps/07_terraform.md) · [13_gitops_argocd_flux](Backend_Developer/01_Year3-4_Mid/04_DevOps/13_gitops_argocd_flux.md)
+- [ ] 📄 🟡 **AWS Managed Services** — Lambda, API Gateway, EventBridge, CloudWatch, Secrets Manager, ECS vs EKS *(NEW)* → [22_aws_managed_services](Backend_Developer/01_Year3-4_Mid/04_DevOps/22_aws_managed_services.md)
 - [ ] 🔴 **Microservices** — decomposition, CQRS, event sourcing, outbox, saga → [05_Microservices](Backend_Developer/01_Year3-4_Mid/05_Microservices)
 - [ ] 🔴 **Design Patterns + SOLID** — GoF in Python + interview drills → [15_Design_Patterns_SOLID](Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/README.md)
 - [ ] 🟡 **Kafka** — topics/partitions, exactly-once, streams → [07_Kafka](Backend_Developer/01_Year3-4_Mid/07_Kafka)
 - [ ] 🟡 **gRPC / GraphQL / Elasticsearch** — JD ke hisaab se 1–2 chuno → [06_gRPC](Backend_Developer/01_Year3-4_Mid/06_gRPC) · [12_GraphQL](Backend_Developer/01_Year3-4_Mid/12_GraphQL) · [11_Elasticsearch](Backend_Developer/01_Year3-4_Mid/11_Elasticsearch)
 - [ ] ⚪ **RabbitMQ / Celery / MongoDB / WebSocket** — gap ho to hi → [01_Year3-4_Mid](Backend_Developer/01_Year3-4_Mid)
 - [ ] 🟡 **Quick core refresh** — FastAPI + Redis + Caching + pytest (Year0-2 me hai, sirf weak spots) → [06_FastAPI](Backend_Developer/00_Year0-2_Junior/06_FastAPI) · [08_Redis](Backend_Developer/00_Year0-2_Junior/08_Redis)
-- [x] 🔴 **PostgreSQL Deep Dive** — Query Planner, EXPLAIN ANALYZE, Index internals (BTree/GIN/BRIN), Locking, Partitioning, Replication, pgBouncer — already in `04_Database_SQL/` (30 files!) → [07_postgresql_internals](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/07_postgresql_internals.md) · [20_advanced_indexing](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/20_advanced_indexing.md) · [11_pgbouncer_connection_pooling](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/11_pgbouncer_connection_pooling.md) · [19_optimistic_pessimistic_locking](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/19_optimistic_pessimistic_locking.md) · [10_postgresql_partitioning_sharding](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/10_postgresql_partitioning_sharding.md)
+- [ ] 📄 🔴 **PostgreSQL Deep Dive** — Query Planner, EXPLAIN ANALYZE, Index internals (BTree/GIN/BRIN), Locking, Partitioning, Replication, pgBouncer — already in `04_Database_SQL/` (30 files!) → [07_postgresql_internals](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/07_postgresql_internals.md) · [20_advanced_indexing](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/20_advanced_indexing.md) · [11_pgbouncer_connection_pooling](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/11_pgbouncer_connection_pooling.md) · [19_optimistic_pessimistic_locking](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/19_optimistic_pessimistic_locking.md) · [10_postgresql_partitioning_sharding](Backend_Developer/00_Year0-2_Junior/04_Database_SQL/10_postgresql_partitioning_sharding.md)
 
 ## Phase A2 — System Design (SENIOR KA TAAJ 👑) 🔴
 *(Sabse interview-critical. Theory pehle, problems baad me.)*
 Index: [02_Year5+_Senior/README.md](Backend_Developer/02_Year5+_Senior/README.md)
 
 - [ ] 🔴 **HLD Theory 01–31** (foundations: architecture, latency/throughput, CAP, caching, DB, auth, LB, SLA) — 1–2/din, **order me** → [HLD_Theory](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory)
-- [ ] 🔴 **HLD Theory 32–58** (advanced: sharding, circuit breaker, consistent hashing, CRDTs, idempotency, serverless) → [HLD_Theory](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory)
+- [ ] 🔴 **HLD Theory 32–67** (advanced: sharding, circuit breaker, consistent hashing, CRDTs, idempotency, serverless, saga, 2PC, Raft/Paxos, DLQ) → [HLD_Theory](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory)
 - [ ] 🔴 **LLD Theory** — OOP + SOLID pehle, fir GoF patterns → [LLD_Theory](Backend_Developer/02_Year5+_Senior/01_System_Design/LLD_Theory)
-- [ ] 🔴 **HLD Problems — classics** — URL Shortener, Rate Limiter, Notification, Payment, Pastebin (bolke design karo) → [HLD_Problems](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems)
+- [ ] 🔴 **HLD Problems — classics** — URL Shortener, Pastebin, Payment Gateway, Web Crawler (bolke design karo; Rate Limiter/Notification LLD_Problems me hain) → [HLD_Problems](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems)
 - [ ] 🔴 **HLD Problems — products** — YouTube, Netflix, Instagram Feed, Twitter (highest interview frequency) → [HLD_Problems](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems)
 - [ ] 🟡 **HLD Problems — AI/modern** — ChatGPT Backend, RAG System, Agent Orchestration, API Gateway → [HLD_Problems](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems)
 - [ ] 🔴 **LLD Problems** — LRU Cache, Parking Lot, Rate Limiter, URL Shortener pehle; fir Elevator, Payment, Booking → [LLD_Problems](Backend_Developer/02_Year5+_Senior/01_System_Design/LLD_Problems)
@@ -77,7 +81,7 @@ Index: [02_Year5+_Senior/README.md](Backend_Developer/02_Year5+_Senior/README.md
 - [ ] 🟡 **HLD Code** — CQRS+event sourcing, saga, circuit breaker, rate limiter, consistent hashing → [HLD_Code](Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Code)
 - [ ] 🟡 **Architecture Patterns** — Sections 1–6 must (foundations→event-driven), 7–9 should → [Architecture_Patterns](Backend_Developer/02_Year5+_Senior/02_Architecture_Patterns/README.md)
 - [ ] 🟡 **Senior Leadership** — staff/principal track ke liye: leadership, tech strategy, AI integration → [03_Senior_Leadership](Backend_Developer/02_Year5+_Senior/03_Senior_Leadership)
-- [x] 🟡 **RFC + ADR Writing** — technical proposals + architecture decision records *(NEW)* → [11_rfc_adr_writing](Backend_Developer/02_Year5+_Senior/03_Senior_Leadership/11_rfc_adr_writing.md)
+- [ ] 📄 🟡 **RFC + ADR Writing** — technical proposals + architecture decision records *(NEW)* → [11_rfc_adr_writing](Backend_Developer/02_Year5+_Senior/03_Senior_Leadership/11_rfc_adr_writing.md)
 
 ## Phase A3 — DSA (ROZ, parallel) 🔴
 *(Daily 1–2 problem. Pattern-by-pattern, na ki random.)*
@@ -118,7 +122,7 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 ## Phase B2 — Core Agentic (DEEP — interview-critical) 🔴
 - [ ] 🔴 **Level 5 — RAG & Vector DBs** — chunking, embeddings, hybrid search, reranking, RAGAS eval → [Level5_RAG_Vector_Databases](Agentic_AI/Level5_RAG_Vector_Databases)
 - [ ] 🔴 **Level 6 — Agent Patterns** — ReAct, Plan-Execute, Reflection, Multi-agent supervisor, Routing, Human-in-loop → [Level6_Agent_Patterns](Agentic_AI/Level6_Agent_Patterns)
-- [x] 🟡 **Swarm Agents** — decentralized handoff pattern, context variables, Swarm vs Supervisor *(NEW)* → [11_swarm_agents](Agentic_AI/Level6_Agent_Patterns/11_swarm_agents.md)
+- [ ] 📄 🟡 **Swarm Agents** — decentralized handoff pattern, context variables, Swarm vs Supervisor *(NEW)* → [11_swarm_agents](Agentic_AI/Level6_Agent_Patterns/11_swarm_agents.md)
 - [ ] 🔴 **Level 7 — Frameworks** — LangGraph + MCP must; LangChain, CrewAI, LlamaIndex, PydanticAI → [Level7_Frameworks](Agentic_AI/Level7_Frameworks)
 - [ ] 🔴 **Level 8 — Production LLMOps** — observability, guardrails, prompt versioning, cost, fine-tuning → [Level8_Production_LLMOps](Agentic_AI/Level8_Production_LLMOps)
 
@@ -126,8 +130,8 @@ Index: [03_Interview_AnyYear/README.md](Backend_Developer/03_Interview_AnyYear/R
 - [ ] 🔴 **1 capstone project banao** — RAG Document Q&A *ya* Multi-Agent Code Review (LangGraph + Claude/OpenAI, GitHub pe deploy) → [Projects](Agentic_AI/Projects)
 - [ ] 🟡 **AI Interview Prep** — agent orchestration, RAG optimization, LLMOps system-design Qs → [Interview_Prep](Agentic_AI/Interview_Prep)
 - [ ] 🟡 **Modern Topics** — start: [AI tools landscape (master map)](Agentic_AI/Modern_Topics/00_ai_tools_landscape.md) · then [AI coding tools](Agentic_AI/Modern_Topics/07_ai_coding_tools.md) + [Playwright](Agentic_AI/Modern_Topics/06_playwright_browser_automation.md); ⚪ voice/multimodal/computer-use role-specific ho to → [Modern_Topics](Agentic_AI/Modern_Topics)
-- [x] 🔴 **MCP Advanced — Server Development** — custom MCP server banana, Transport (stdio/SSE/HTTP), Security, Deployment *(NEW)* → [08_mcp_advanced_server_dev](Agentic_AI/Modern_Topics/08_mcp_advanced_server_dev.md)
-- [x] 🔴 **AI Security** — Prompt Injection, Jailbreak, Tool Poisoning, Data Leakage, OWASP LLM Top 10, AI Threat Modeling *(NEW)* → [09_ai_security_threats](Agentic_AI/Modern_Topics/09_ai_security_threats.md)
+- [ ] 📄 🔴 **MCP Advanced — Server Development** — custom MCP server banana, Transport (stdio/SSE/HTTP), Security, Deployment *(NEW)* → [08_mcp_advanced_server_dev](Agentic_AI/Modern_Topics/08_mcp_advanced_server_dev.md)
+- [ ] 📄 🔴 **AI Security** — Prompt Injection, Jailbreak, Tool Poisoning, Data Leakage, OWASP LLM Top 10, AI Threat Modeling *(NEW)* → [09_ai_security_threats](Agentic_AI/Modern_Topics/09_ai_security_threats.md)
 - [ ] 🟡 **AI Ethics & Responsible AI** — Bias/fairness testing, model cards, hallucination-as-ethics-issue, copyright/provenance, EU AI Act *(NEW)* → [10_ai_ethics_responsible_ai](Agentic_AI/Modern_Topics/10_ai_ethics_responsible_ai.md)
 - [ ] 🔴 **Claude Agent SDK + Agent Skills** — Claude Code as a library (built-in tools, hooks, subagents, permissions), SKILL.md format, vs Tool Runner/Managed Agents; doubles as padha→kiya project candidate *(NEW)* → [23_claude_agent_sdk_skills](Agentic_AI/Modern_Topics/23_claude_agent_sdk_skills.md)
 - [ ] 🟡 **OpenAI AgentKit** — Agent Builder, ChatKit, Connector Registry, trace-grading Evals; OpenAI agent stack layers *(NEW)* → [24_openai_agentkit](Agentic_AI/Modern_Topics/24_openai_agentkit.md)

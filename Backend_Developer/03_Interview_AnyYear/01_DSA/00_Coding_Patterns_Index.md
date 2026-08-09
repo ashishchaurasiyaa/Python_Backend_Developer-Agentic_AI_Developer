@@ -124,13 +124,15 @@
 **Kab:** array me 1..n range ke numbers, "missing/duplicate find".
 **Trick:** har number ko apni index `nums[i]==i+1` pe swap karo.
 
-| Problem | LC# | Diff |
-|---|---|---|
-| Missing Number | 268 | 🟢 |
-| Find All Numbers Disappeared | 448 | 🟢 |
-| Set Mismatch | 645 | 🟢 |
-| Find All Duplicates | 442 | 🟡 |
-| First Missing Positive | 41 | 🔴 |
+| Problem | LC# | Diff | Code kahan hai |
+|---|---|---|---|
+| Missing Number | 268 | 🟢 | *(khud likho — 2 min ka hai: XOR ya sum-formula, ya cyclic sort)* |
+| Find All Numbers Disappeared | 448 | 🟢 | `08_Sorting_Algorithms/problems.py` (P13) |
+| Set Mismatch | 645 | 🟢 | `08_Sorting_Algorithms/problems.py` (P12) |
+| Find All Duplicates | 442 | 🟡 | `01_Arrays_Hashing/problems.py` (P12 — index-sign trick) |
+| First Missing Positive | 41 | 🔴 | `08_Sorting_Algorithms/problems.py` (P11) |
+
+> 🧪 **Khud likh ke check karo:** `cd practice && python harness.py first_missing_positive`
 
 ## 8. Stack & Monotonic Stack → `04`
 **Kab:** matching/nesting; "next greater/smaller element".

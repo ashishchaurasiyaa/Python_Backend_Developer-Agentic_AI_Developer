@@ -2,7 +2,7 @@
 Azure Cosmos DB via MongoDB API — Wire-Compatibility Practical
 ===============================================================
 Point: SAME pymongo code, different connection string → Cosmos DB.
-Yeh file theory/10_cosmos_db_azure.md ke concepts ko runnable banati hai.
+Yeh file ../theory/10_cosmos_db_azure.md ke concepts ko runnable banati hai.
 
 Run: python 09_cosmos_db_emulator.py
 
@@ -356,7 +356,7 @@ def run_mock():
 
 def main() -> None:
     print("Cosmos DB via MongoDB API — wire-compatibility practical")
-    print(f"(theory: theory/10_cosmos_db_azure.md | mode auto-detected)")
+    print("(theory: ../theory/10_cosmos_db_azure.md | mode auto-detected)")
 
     mode, client = detect_mode()
 

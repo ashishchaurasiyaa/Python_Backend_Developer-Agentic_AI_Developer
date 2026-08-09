@@ -191,6 +191,11 @@ Downstream consumers:
 
 ## Schema Registry
 
+> Summary only. Deep dive — wire format (magic byte + schema id), all
+> compatibility modes with evolve-a-field walkthroughs, subject naming
+> strategies, schema references, and production Python serializers — is in
+> [10_schema_registry_avro.md](10_schema_registry_avro.md).
+
 Confluent Schema Registry: central schema management for Kafka.
 
 ```
@@ -231,6 +236,20 @@ Schema Registry enforces compatibility:
 - FULL: both.
 
 Reject incompatible changes → safe schema evolution.
+
+Converters are where Connect meets the registry — `AvroConverter` on
+`key.converter`/`value.converter` makes every connector schema-aware:
+
+```json
+"value.converter": "io.confluent.connect.avro.AvroConverter",
+"value.converter.schema.registry.url": "http://schema-registry:8081",
+"key.converter": "org.apache.kafka.connect.storage.StringConverter"
+```
+
+This is the single biggest producer of registry subjects in most clusters —
+Debezium registers a schema per captured table. See
+[10_schema_registry_avro.md](10_schema_registry_avro.md) for what those bytes
+look like and how to evolve them safely.
 
 ---
 
@@ -379,7 +398,7 @@ Tools: Confluent Control Center, Datadog, Grafana with Kafka exporter.
 - Source connectors pull data into Kafka.
 - Sink connectors push data out.
 - Debezium (CDC) is the most important source connector.
-- Use Schema Registry for safe schema evolution.
+- Use Schema Registry for safe schema evolution ([deep dive](10_schema_registry_avro.md)).
 - Run via Strimzi on K8s or managed service.
 - DLQ for failed messages.
 - 80% of "Kafka pipelines" should use Connect, not custom code.

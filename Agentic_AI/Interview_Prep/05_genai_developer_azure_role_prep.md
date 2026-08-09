@@ -16,10 +16,10 @@ presentation, not capability. Two real gaps below, everything else is recall + f
 |---|---|---|
 | OpenAI API | [`Level3_LLM_APIs_SDKs/01_openai_api_complete.md`](../Level3_LLM_APIs_SDKs/01_openai_api_complete.md) | ✅ strong |
 | Claude / Gemini | [`02_claude_api_complete.md`](../Level3_LLM_APIs_SDKs/02_claude_api_complete.md), `03_ai_apis.md`, `04_litellm_complete.md` (multi-provider abstraction) | ✅ strong |
-| **Azure OpenAI specifically** | Infra-level only (Week3 Azure Container Apps/Terraform deploys) — no `AzureOpenAI` client SDK usage | 🟡 **quick gap — see §4 cheat sheet** |
+| **Azure OpenAI specifically** | ✅ **Ab covered** — [Level3/11_azure_openai.md](../Level3_LLM_APIs_SDKs/11_azure_openai.md) + [practical](../Level3_LLM_APIs_SDKs/11_azure_openai_practical.py) (deployments vs models, Entra ID, quota/TPM, PTU, content filters) | 🟢 padho + practical chalao (§4 cheat sheet = quick recall) |
 | Prompt engineering | `Level2_Prompt_Engineering/` (full folder) | ✅ strong |
 | RAG architecture | `Level5_RAG_Vector_Databases/01_rag_complete.md`, `02_rag_advanced.md`, `08_query_transformation.md`, `10_contextual_retrieval.md` | ✅ strong |
-| Vector DBs: Pinecone/Chroma/Weaviate/FAISS/Azure AI Search | Deep on **pgvector + Qdrant** (`03_vector_databases.md`); others not hands-on | 🟡 concept transfers — frame honestly (see §5 Q6) |
+| Vector DBs: Pinecone/Chroma/Weaviate/FAISS/Azure AI Search | Deep on **pgvector + Qdrant** (`03_vector_databases.md`) + ✅ **Azure AI Search ab covered** — [Level5/11_azure_ai_search.md](../Level5_RAG_Vector_Databases/11_azure_ai_search.md) + [practical](../Level5_RAG_Vector_Databases/11_azure_ai_search_practical.py) (hybrid RRF, semantic ranker, integrated vectorization) | 🟢 Azure AI Search padho; baaki pe concept-transfer framing (§5 Q6) |
 | Chunking / embeddings / hybrid search / reranking | `04_chunking_strategies.md`, `05_embedding_models.md`, `06_hybrid_search.md`, `07_reranking.md` | ✅ strong |
 | RAG evaluation | `09_ragas_evaluation.md` | ✅ strong |
 | LangChain | `Level7_Frameworks/01_langchain_complete.md` | ✅ strong |
@@ -34,10 +34,18 @@ presentation, not capability. Two real gaps below, everything else is recall + f
 | REST APIs / microservices / cloud-native | Backend_Developer repo (your actual production experience) | ✅ real experience |
 | ML/NLP fundamentals | `Level1_LLM_Foundations/Classical_ML_DL_Foundations/11_*`, `12_*` | ✅ covered |
 | Cloud: Azure/AWS/GCP | `my-agentic-ai-project/Udemy_EdDonner_ProductionTrack/Week3_MultiCloud_SageMaker_Pipelines/` (real Azure/GCP/AWS deploy labs) | ✅ real lab, not just theory |
-| SQL Server / PostgreSQL / **Cosmos DB** | Postgres = real. Cosmos DB = not touched anywhere | 🔴 **true gap — don't claim it, see §4** |
+| SQL Server / PostgreSQL / **Cosmos DB** | Postgres = real (production). Cosmos DB = ✅ **theory ab covered** — [10_cosmos_db_azure.md](../../Backend_Developer/01_Year3-4_Mid/10_MongoDB/theory/10_cosmos_db_azure.md) (RU/s, partition keys, 5 consistency levels, Mongo-API gotchas) — **hands-on nahi** | 🟡 **honest pivot bolo, claim mat karo** — see §4 |
 | Git / DevOps / Agile | Daily practice | ✅ real |
 
-**Two things to actually fix before Tuesday:** Azure OpenAI client syntax (30 min), Semantic Kernel — run the practical once so it's not purely theoretical (45 min). Everything else is rehearsal, not learning.
+**Status update (2026-08-08):** teeno content gaps ab repo me bhar diye gaye hain — Azure OpenAI, Azure AI Search, Cosmos DB.
+Ab yeh **padhne + chalane** ka kaam hai, likhne ka nahi.
+
+**Tuesday se pehle 3 cheezein (priority order):**
+1. **Azure OpenAI practical chalao** (30 min) — [`11_azure_openai_practical.py`](../Level3_LLM_APIs_SDKs/11_azure_openai_practical.py). Client syntax haath se likho.
+2. **Azure AI Search practical chalao** (45 min) — [`11_azure_ai_search_practical.py`](../Level5_RAG_Vector_Databases/11_azure_ai_search_practical.py). Bina key ke bhi chalta hai (mock mode) — hybrid RRF score aur semantic reranking apni aankh se dekho.
+3. **Cosmos DB ka honest pivot rehearse karo** (20 min) — RU/s + partition key + consistency levels bol ke samjha do; "used in production" mat bolo.
+
+Semantic Kernel ka koi runnable practical repo me **nahi** hai — sirf theory doc hai ([Level7/09_semantic_kernel.md](../Level7_Frameworks/09_semantic_kernel.md)). Agar SK JD me strongly aata hai to 20 min me uska Kernel + plugin + planner mental model padh lo, aur interview me honest raho: "padha hai, production me use nahi kiya." Baaki sab rehearsal hai, learning nahi.
 
 ---
 

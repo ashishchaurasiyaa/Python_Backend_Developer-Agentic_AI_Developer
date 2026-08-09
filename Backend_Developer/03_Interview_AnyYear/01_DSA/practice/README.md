@@ -10,7 +10,7 @@ python harness.py              # pehli baar: attempts.py auto-ban jaata hai
 # attempts.py kholo, kisi ek function ka `pass` hatao, solution likho
 python harness.py two_sum      # sirf wahi problem test karo
 python harness.py              # sab attempted problems
-python harness.py --list       # 28 problems, topic-wise
+python harness.py --list       # 35 problems, topic-wise
 ```
 
 `attempts.py` gitignored hai — tumhari personal working file hai, commit nahi hoti.
@@ -62,14 +62,14 @@ python harness.py     # niche summary aati hai:
 ```
 
 **Target ladder:**
-- **Week 1:** 28/28 attempted (chahe kuch fail ho) — coverage pehle
-- **Week 2:** 28/28 passing — correctness
+- **Week 1:** 35/35 attempted (chahe kuch fail ho) — coverage pehle
+- **Week 2:** 35/35 passing — correctness
 - **Week 3:** har problem blank file se 20 min ke andar — recall
 - **Week 4:** [TOP_INTERVIEW_QUESTIONS.md](../TOP_INTERVIEW_QUESTIONS.md) + company-tagged list se aage badho
 
 ## Yeh harness kya NAHI hai
 
-Yeh LeetCode ka replacement nahi hai — 28 problems interview ke liye kaafi nahi (~150 chahiye). Yeh **pattern-coverage smoke test** hai: har pattern ka ek representative problem, tez feedback loop ke saath. Patterns solid hone ke baad volume LeetCode/company-tagged list se karo — [2_Month_DSA_5_Problems_Per_Day_WITH_LINKS_AND_COMPANY_TAGS.docx](../2_Month_DSA_5_Problems_Per_Day_WITH_LINKS_AND_COMPANY_TAGS.docx) wahi plan hai.
+Yeh LeetCode ka replacement nahi hai — 35 problems interview ke liye kaafi nahi (~150 chahiye). Yeh **pattern-coverage smoke test** hai: har pattern ka ek representative problem, tez feedback loop ke saath. Patterns solid hone ke baad volume LeetCode/company-tagged list se karo — [2_Month_DSA_5_Problems_Per_Day_WITH_LINKS_AND_COMPANY_TAGS.docx](../2_Month_DSA_5_Problems_Per_Day_WITH_LINKS_AND_COMPANY_TAGS.docx) wahi plan hai.
 
 ## Naya problem add karna
 

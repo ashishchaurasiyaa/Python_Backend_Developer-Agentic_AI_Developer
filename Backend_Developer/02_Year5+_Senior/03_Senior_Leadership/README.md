@@ -23,6 +23,8 @@
 | 08 | `08_pep_703_nogil_deep.md` | Python no-GIL future |
 | 09 | `09_ai_llm_integration_backend.md` | LLM integration in 2026 |
 | 10 | `10_mentorship_coaching.md` | Growing other engineers |
+| 11 | [`11_rfc_adr_writing.md`](11_rfc_adr_writing.md) | RFCs + Architecture Decision Records — how staff engineers propose and record decisions |
+| 12 | [`12_mental_models_decision_making.md`](12_mental_models_decision_making.md) | Mental models for technical decisions under uncertainty |
 
 ## How to Use
 
@@ -40,6 +42,7 @@ These skills separate:
 ## Career Tracks
 
 ### IC Track (Staff → Principal)
+*(11 RFC/ADR aur 12 mental models dono track ke liye hain — staff-level ka asli differentiator likhna hai.)*
 Focus: 01, 02, 05, 08, 09, 10
 
 ### Manager Track

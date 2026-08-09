@@ -1,10 +1,14 @@
-# ⚡ FastAPI — Mini-Index (42 topics)
+# ⚡ FastAPI — Mini-Index (43 topics)
 
 > FastAPI ka full backend coverage — routing basics se le kar ASGI internals, realtime, security, performance, aur LLM/AI backends tak. Files number order me hain; neeche **theme-wise** group kiye hain.
 >
-> **Study order:** pehli baar 01→13 sequence me (core → data → security → architecture → internals), fir topic-wise. Har `.md` ke saath code [`practical/`](practical/) me hai.
+> **Study order:** pehli baar 01→13 sequence me (core → data → security → architecture → internals), fir topic-wise.
+> Zyadatar `.md` ke saath code [`practical/`](practical/) me hai *(41 aur 42 ke practicals nahi hain — wo config/deployment topics hain)*.
 >
-> Parent: [00_Year0-2_Junior](../) · Related: [Django_DRF](../07_Django_DRF/) · [Database_SQL](../04_Database_SQL/)
+> ## 🧪 Labs — [`labs/`](labs/)
+> Padhne se kaam nahi banega. [`labs/`](labs/) me **5 TODO-stub exercises** hain (khud likho, self-verify hota hai) — [labs/README.md](labs/README.md) padho.
+>
+> Parent: [00_Year0-2_Junior](../) · Related: [Django_DRF](../07_Django_DRF/) · [Database_SQL](../04_Database_SQL/) · [Testing](../10_Testing/)
 
 ---
 
@@ -89,7 +93,11 @@
 |---|---|
 | 38 | [Payment Gateway — Stripe & Ledger](38_payment_gateway_stripe_ledger.md) |
 | 40 | [Request Body Advanced — gaps](40_request_body_advanced_gaps.md) |
+| 43 | [Flask essentials vs FastAPI](43_flask_essentials_vs_fastapi.md) |
+
+> **43 kyun padho:** bahut se India JDs me Flask likha hota hai, aur screener ka stock question hai
+> *"FastAPI over Flask — kyun?"*. Us jawab ko specifics ke saath dena isi file me hai.
 
 ---
 
-*42 topics grouped into 10 themes. Interview ke liye groups 1 (Core), 3 (Security), 6 (Architecture) aur 7 (Performance/Internals) sabse zyada matter karte hain; group 9 (AI backends) tere agentic-AI track se seedha connect hota hai. Runnable code → [`practical/`](practical/).*
+*43 topics grouped into 10 themes. Interview ke liye groups 1 (Core), 3 (Security), 6 (Architecture) aur 7 (Performance/Internals) sabse zyada matter karte hain; group 9 (AI backends) tere agentic-AI track se seedha connect hota hai. Runnable code → [`practical/`](practical/).*

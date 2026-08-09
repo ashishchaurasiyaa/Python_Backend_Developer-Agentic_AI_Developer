@@ -1,6 +1,6 @@
 # 📓 MY PROGRESS — Daily Log
 
-> **Roz 3 line likhni hain. Bas.** Content ab complete hai ([RCA](STUDY_PLAN.md)) — ab sirf **kiya kya** track karna hai, padha kya nahi.
+> **Roz 3 line likhni hain. Bas.** Content ab complete hai ([RCA neeche padho](#why-this-file-exists)) — ab sirf **kiya kya** track karna hai, padha kya nahi.
 >
 > Format: `kya padha / kya CODE ya LAB kiya / kal kya`
 > Rule: agar "kiya" wali line khaali hai, to us din ka progress **zero** hai — chahe kitna bhi padha ho.
@@ -42,11 +42,12 @@
 | Metric | Target | Abhi | Note |
 |---|---|---|---|
 | DevOps labs done | 20 | 0 | [DevOps/*/practical/](DevOps/) |
-| DSA harness attempted | 28 | 0 | `python harness.py --stats` |
+| DSA harness attempted | 35 | 0 | `python harness.py --stats` |
 | System Design drills | 12 | 0 | [PRACTICE_DRILLS.md](Backend_Developer/02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md) |
 | Kafka/Celery labs | 9 | 0 | [Kafka](Backend_Developer/01_Year3-4_Mid/07_Kafka/labs/) · [Celery](Backend_Developer/01_Year3-4_Mid/09_Celery/labs/) |
 | English speaking sessions | daily | 0 | SD drills bolke karo = dono ek saath |
 | Capstone deployed | 1 | 0 | Terraform + K8s + evals/cost metrics |
+| Jobs applied | 5/week | 0 | [JOB_TRACKER.md](JOB_TRACKER.md) |
 
 ---
 
@@ -58,4 +59,4 @@ Resume ki jo lines abhi **unverified** hain (Kubernetes, Terraform, Prometheus/G
 
 ---
 
-**Related:** [STUDY_PLAN.md](STUDY_PLAN.md) (daily entry point) · [JULY_SPRINT.md](JULY_SPRINT.md) · [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md)
+**Related:** [ROADMAP.md](ROADMAP.md) (daily driver) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic reference) · [JULY_SPRINT.md](JULY_SPRINT.md) · [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md)
