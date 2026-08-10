@@ -127,6 +127,7 @@
 > "Build a working web API."
 > Location: `Backend_Developer/00_Year0-2_Junior/`
 
+- [ ] `04_Database_SQL/00_postgresql_start_here.md` — READ THIS FIRST: PostgreSQL not MySQL ← NEW GAP FILLED
 - [ ] `06_FastAPI/practical/` — routes, request/response, path/query params
 - [ ] `02_Python_Daily/Day44_FastAPI/` — FastAPI day-specific exercises
 - [ ] `02_Python_Daily/Day45_SQLAlchemy_Alembic/` — ORM, migrations
@@ -296,10 +297,15 @@
 - [ ] `DevOps/07_Cloud_AWS/04_containers_ecs_eks.md` — ECS, EKS, Fargate
 - [ ] `DevOps/07_Cloud_AWS/05_monitoring_messaging_secrets.md` — CloudWatch, SQS, Secrets Manager
 - [ ] `DevOps/07_Cloud_AWS/practical/01_aws_lab.md` — **HANDS-ON LAB**
+- [ ] `DevOps/07_Cloud_Azure/01_azure_fundamentals.md` — Azure vs AWS, VMs, AKS, Blob, PostgreSQL, Key Vault ← NEW GAP FILLED
+- [ ] `DevOps/07_Cloud_Azure/02_azure_devops_python.md` — FastAPI on Azure, Azure Functions, Terraform for Azure ← NEW
+- [ ] `DevOps/07_Cloud_Azure/practical/01_azure_lab.md` — **Azure HANDS-ON LAB** ← NEW
 - [ ] `DevOps/10_CICD/01_jenkins.md` — pipelines, stages, agents
 - [ ] `DevOps/10_CICD/02_github_actions.md` — workflows, jobs, secrets, matrix
 - [ ] `DevOps/10_CICD/03_gitlab_ci_delta.md` — .gitlab-ci.yml
+- [ ] `DevOps/10_CICD/04_gitops_argocd.md` — GitOps principles, ArgoCD, Flux, secrets in GitOps ← NEW GAP FILLED
 - [ ] `DevOps/10_CICD/practical/01_cicd_lab.md` — **HANDS-ON LAB**
+- [ ] `DevOps/10_CICD/practical/02_gitops_lab.md` — **ArgoCD HANDS-ON LAB** ← NEW
 - [ ] `DevOps/08_Terraform/01_terraform_iac.md` — providers, resources, state, modules
 - [ ] `DevOps/08_Terraform/practical/01_terraform_lab.md` — **HANDS-ON LAB**
 - [ ] `DevOps/09_Ansible/01_ansible_config_mgmt.md` — playbooks, roles, inventory
