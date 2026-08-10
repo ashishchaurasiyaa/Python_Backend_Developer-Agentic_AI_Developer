@@ -1,0 +1,6 @@
+# Traces grow without bound; reports are committed as evidence, traces are not.
+traces/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

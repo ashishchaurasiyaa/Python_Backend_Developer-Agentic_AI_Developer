@@ -1,3 +1,7 @@
+# The agent + eval harness needs only these three:
+#     pip install anthropic pydantic pytest
+# Everything else below is for the SaaS milestones that are not built yet.
+
 # Core framework
 fastapi>=0.115.0
 uvicorn[standard]>=0.32.0
