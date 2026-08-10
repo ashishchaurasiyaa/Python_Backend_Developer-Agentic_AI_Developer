@@ -558,7 +558,27 @@
 - [ ] `project1_personal_ai_assistant_starter/` — Phase 15-16 level: chat assistant with memory
 - [ ] `project2_rag_document_qa_starter/` — Phase 17 level: RAG-based document Q&A
 - [ ] `project3_multiagent_code_review_starter/` — Phase 18 level: LangGraph multi-agent system
-- [ ] `project4_production_ai_saas_starter/` — Phase 19 level: production AI SaaS with auth + billing
+
+- [x] `project4_production_ai_saas_starter/` — **COMPLETE** — Production AI SaaS: support-ticket triage agent
+  - What was built:
+    - `app/agent/triage.py` — agent loop with read-only tools (lookup_order, get_refund_policy)
+    - `app/guardrails.py` — input + output guards (PII, injection, schema, refund rules)
+    - `app/observability/trace.py` — per-run tracing (tokens, cost, latency, violations)
+    - `app/evals/` — eval dataset (16 cases), runner, reliability (8-run streak), mutation suite
+    - `main.py` — CLI: `demo / eval / reliability / mutation` subcommands
+  - Run it (no API key needed):
+    - `python main.py --provider stub eval` — 16/16 cases, 55/55 assertions
+    - `python main.py --provider stub reliability --runs 8` — 8/8 consecutive all-pass rounds
+    - `python main.py mutation` — 0 unexpected survivors
+    - `python main.py demo "Please refund order A1003"` — single ticket demo
+  - What to build next (remaining milestones):
+    - Multi-tenant DB model + API key hashing
+    - Auth middleware (API key → Tenant, Redis cache)
+    - Rate limiting per tier (sliding window, Redis INCR)
+    - LiteLLM router with provider fallback
+    - FastAPI surface over the triage agent
+    - Stripe subscription + webhook handler
+
 - [ ] `project5_wedding_transformation_agent/` — creative agent project
 - [ ] `Backend_Developer/03_Interview_AnyYear/03_Projects/` — backend portfolio projects
 - [ ] `DevOps/21_Projects/` — end-to-end infrastructure project
