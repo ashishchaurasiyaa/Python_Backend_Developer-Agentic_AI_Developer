@@ -22,6 +22,69 @@ There is a lighter Git primer at `Backend_Developer/00_Year0-2_Junior/01_Foundat
 
 ---
 
+## Git Internals — How Git Actually Stores Data
+
+Understanding this section makes EVERY git command make sense instead of
+feeling like magic.
+
+```
+Git stores four types of objects in .git/objects/:
+
+  blob    = the raw content of ONE file (no filename, no path, no metadata)
+  tree    = a directory listing — maps filenames to blob SHAs or other tree SHAs
+  commit  = points to ONE root tree + has parent commit SHA(s) + author/date/message
+  tag     = annotated tag object — points to a commit with its own message
+
+A commit SHA is computed by SHA-1 hashing of:
+  - the tree it points to
+  - its parent commit SHA
+  - author name + email + timestamp
+  - committer name + email + timestamp
+  - the commit message
+
+This is why rebase CHANGES commit hashes even if the code diff is identical:
+  The parent SHA changes → input to the hash function changes → new hash.
+  C' and D' are brand-new commit objects, just with the same code diff as C and D.
+```
+
+```bash
+# Explore the object database yourself:
+git cat-file -t HEAD              # type of the HEAD object → "commit"
+git cat-file -p HEAD              # contents: tree SHA + parent SHA + author + message
+git cat-file -p HEAD^{tree}       # the tree the commit points to: filenames + blob SHAs
+git cat-file -p <blob-sha>        # the raw file content
+```
+
+```
+.git/ directory structure:
+  .git/HEAD              → "ref: refs/heads/main" (what branch is checked out)
+  .git/refs/heads/main   → the SHA of the latest commit on main
+  .git/refs/heads/feature/login → SHA of latest commit on that branch
+  .git/refs/remotes/origin/main → what we LAST FETCHED from origin/main
+  .git/ORIG_HEAD         → the HEAD before the last merge/rebase/reset
+                           (used by git reset ORIG_HEAD to undo a merge)
+  .git/MERGE_HEAD        → during a merge conflict: the SHA of the incoming branch
+  .git/index             → the staging area (binary file, not human-readable directly)
+  .git/objects/          → all blobs, trees, commits, tags
+
+Branch = a file containing ONE SHA. That's all. "main" = a text file
+with a 40-char SHA in it. Moving a branch pointer = rewriting that file.
+Delete a branch = delete that file. Branches are cheap because of this.
+```
+
+```
+Why commit hashes are the foundation of Git's trustworthiness:
+  Any change to any file, in any commit, anywhere in history, changes that
+  commit's SHA. That change propagates through every subsequent commit's SHA
+  (because each commit includes its parent's SHA in its hash input).
+  Result: the current HEAD SHA is a cryptographic fingerprint of the ENTIRE
+  history — you cannot silently modify history without changing the HEAD SHA.
+  This is why GitOps (ArgoCD, Flux) pins deployments to commit SHAs, not
+  branch names — a SHA is immutable evidence, a branch name is just a pointer.
+```
+
+---
+
 ## Why This Matters for Backend/DevOps Work
 
 ```
@@ -106,6 +169,67 @@ git rm --cached file.py         # unstage/untrack it, but KEEP the file on disk
                                    # (the correct fix for "I added a file to git before adding it to .gitignore")
 git mv old_name.py new_name.py     # rename/move + stage the rename, in one step —
                                      # equivalent to `mv` + `git rm` + `git add`, done atomically
+```
+
+---
+
+## `git restore` and `git clean` — Modern "Undo Working Directory" Commands
+
+`git restore` was introduced in Git 2.23 to separate two distinct jobs that `git checkout` used to conflate: "switch branches" and "restore file contents." You will see both in the wild — knowing both prevents confusion.
+
+```bash
+# Discard UNSTAGED changes to a file (restore from the last commit)
+git restore file.py                    # modern
+git checkout -- file.py                  # old equivalent (still works)
+
+# Discard changes to ALL tracked files at once
+git restore .
+
+# Unstage a file (move it back from staging area to working directory)
+git restore --staged file.py           # modern
+git reset HEAD file.py                   # old equivalent
+
+# Restore a file from a SPECIFIC commit (not just HEAD)
+git restore --source=HEAD~3 file.py    # get file.py as it was 3 commits ago
+git restore --source=abc1234 file.py   # from a specific commit SHA
+
+# Restore a file that was deleted (recover it from the last commit)
+git restore deleted_file.py
+```
+
+```
+git restore vs git reset for unstaging:
+  git restore --staged file.py    → unstages the file, keeps working dir content
+  git reset HEAD file.py           → same effect, just older syntax
+  Both are safe — neither deletes your work.
+
+git restore (without --staged) vs git reset --hard:
+  git restore file.py      → discards changes to ONE file
+  git restore .             → discards changes to ALL files
+  git reset --hard HEAD     → discards ALL changes (all files, staged and unstaged)
+  All three discard LOCAL, UNCOMMITTED changes — they are NOT recoverable via reflog.
+```
+
+```bash
+# git clean — remove UNTRACKED files (not in staging, not in history)
+git clean -n           # dry run — SHOW what would be deleted, delete nothing
+                          # ALWAYS run -n first before any clean
+git clean -f           # actually delete untracked files
+git clean -fd          # also delete untracked DIRECTORIES
+git clean -fdx         # also delete files that .gitignore would normally ignore
+                          # (build artifacts, __pycache__, node_modules)
+git clean -fdxn        # dry run of the most aggressive clean
+```
+
+```
+When to use git clean:
+  After a build that scattered output files everywhere:
+    git clean -fd       # remove output files (not in .gitignore)
+  To reproduce a "fresh checkout" state (for debugging "works on my machine"):
+    git clean -fdx      # removes EVERYTHING not tracked, including ignored files
+    git restore .        # discard any modified tracked files
+    # Now the repo looks exactly as if you cloned it fresh
+  NEVER run git clean -fdx without -n first — you can lose hours of untracked work.
 ```
 
 ---
@@ -300,6 +424,171 @@ Three-way merge (both branches have new commits):
    main:     A---B-------E
    feature:       \--C---D
    after merge: A---B-------E---M   (M = new merge commit, TWO parents: E and D)
+```
+
+---
+
+## Detached HEAD — What It Is and How to Escape
+
+This confuses nearly every developer the first time they see it.
+
+```
+HEAD normally points to a BRANCH NAME (indirect reference):
+  HEAD → refs/heads/main → abc1234
+
+Detached HEAD: HEAD points DIRECTLY to a commit SHA (no branch):
+  HEAD → abc1234
+
+You are "detached" — not on any named branch.
+```
+
+**How you get into detached HEAD state:**
+
+```bash
+git checkout v1.2.3          # checking out a tag → detached HEAD
+git checkout abc1234           # checking out a specific commit SHA → detached HEAD
+git checkout origin/main         # checking out a remote-tracking branch → detached HEAD
+                                    # (remote-tracking branches are read-only pointers)
+git bisect start                     # bisect moves HEAD to test commits → detached HEAD
+```
+
+**What detached HEAD looks like:**
+
+```bash
+git status
+# HEAD detached at abc1234
+# nothing to commit, working tree clean
+
+git log --oneline | head -3
+# abc1234 (HEAD) add payment validation
+# def5678 fix null check in user service
+# ...
+```
+
+**The danger: making commits while detached**
+
+```
+If you make commits while detached, they are NOT on any branch.
+Once you checkout a different branch, those commits become ORPHANED
+— they have no branch pointing to them and Git will garbage-collect
+them eventually.
+
+They're not immediately gone (reflog keeps them ~90 days) but they're
+easy to lose if you don't know they're there.
+```
+
+**How to escape detached HEAD:**
+
+```bash
+# Option 1: You just wanted to look around, go back to your branch
+git checkout main            # or git switch main
+git checkout feature/login   # go back to wherever you were
+
+# Option 2: You made commits while detached and want to KEEP them
+git checkout -b recovery-branch    # create a NEW branch at current HEAD
+                                      # now HEAD → recovery-branch → your commit
+
+# Option 3: You made commits while detached but already switched away
+git reflog                           # find the SHA of your detached commits
+# abc1234 HEAD@{3}: commit: my important work
+git checkout -b recovery-branch abc1234   # create branch at that SHA
+```
+
+---
+
+## `git push` — All the Flags You Actually Need
+
+```bash
+git push origin main                  # push local main to origin/main
+git push -u origin feature/login        # --set-upstream: link local branch to remote
+                                           # after this, plain `git push` works (no origin + branch needed)
+git push                                     # push current branch to its tracked remote
+                                                # (only works after -u is set)
+
+git push --tags                              # push all local tags to remote
+git push origin v1.2.3                         # push a single tag
+git push origin --delete feature/old-branch      # delete a branch on the remote
+git push origin --delete v1.0.0                    # delete a tag on the remote
+
+# Pushing when the remote has diverged (dangerous zone):
+git push --force-with-lease          # SAFER force push — fails if remote has
+                                        # commits you haven't fetched yet
+                                        # (protects against clobbering a teammate's push)
+git push --force                       # DANGEROUS — overwrites unconditionally
+                                          # Never use on shared branches (main, develop)
+```
+
+```
+The --force-with-lease vs --force distinction:
+
+Scenario: you rebase your feature branch and need to force-push.
+  git push --force          → even if Alice pushed to the same branch while
+                              you were rebasing, her commits are silently gone.
+  git push --force-with-lease → checks that origin/feature-branch matches what
+                               you last fetched. If Alice pushed in the meantime,
+                               this REFUSES the push → you fetch first, see her
+                               commits, and incorporate them. Fails safe.
+
+Rule: force-with-lease always, bare --force never on shared branches.
+```
+
+```bash
+# See tracking configuration (which remote branch does this local branch push to?)
+git branch -vv
+# * feature/login  abc1234 [origin/feature/login] add login form
+#   main           def5678 [origin/main] merge PR #42
+
+# The [origin/feature/login] tells you: push goes there, pull comes from there
+
+# Change the tracking target for a branch:
+git branch --set-upstream-to=origin/main main
+```
+
+---
+
+## Submodules — What They Are and Why They Cause Pain
+
+```
+A submodule is a Git repo EMBEDDED inside another Git repo.
+The outer repo stores a pointer to a specific COMMIT SHA in the inner repo.
+The inner repo's content is NOT copied — only the SHA pointer is stored.
+```
+
+```bash
+git submodule add https://github.com/org/library.git lib/library
+# Creates .gitmodules file + records the SHA pointer
+# The library/ directory is a separate git repo inside this one
+
+git submodule init       # initialize .gitmodules config after cloning
+git submodule update     # checkout the correct commit in each submodule
+git clone --recurse-submodules <url>   # clone + all submodules in one step
+                                          # without this flag, submodules stay EMPTY after clone
+```
+
+```
+Why submodules cause so much pain:
+
+1. Cloning without --recurse-submodules → subdirectory is empty directory
+   Fix: git submodule update --init --recursive
+
+2. Submodule points to a commit that was force-pushed away:
+   The outer repo's pointer is now a SHA that doesn't exist on the remote.
+   Fix: the inner repo needs to preserve that commit (never force-push past
+   a submodule reference).
+
+3. "Detached HEAD" in every submodule:
+   Submodules always check out in detached HEAD state (they're pinned to
+   a SHA, not a branch). Making commits inside a submodule requires
+   extra steps to ensure those commits get pushed.
+
+4. Merge conflicts involving submodules:
+   Conflicts show as a single line in the outer repo ("both sides modified
+   the submodule pointer") — you must manually decide which SHA to use.
+
+Alternatives to consider before adding submodules:
+  - pip/npm/go.mod package managers — for library dependencies
+  - git subtree — simpler integration, no .gitmodules file
+  - Docker image references — for entire services
 ```
 
 ---

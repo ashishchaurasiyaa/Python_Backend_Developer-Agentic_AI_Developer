@@ -28,22 +28,22 @@
 > "Before writing code, know the machine you are sitting on."
 > Location: `DevOps/`
 
-- [ ] `DevOps/01_Linux/01_linux_basics.md` — what is Linux, file system, users
-- [ ] `DevOps/01_Linux/02_essential_commands.md` — ls, cd, cat, grep, find, chmod
-- [ ] `DevOps/01_Linux/03_file_compression.md` — tar, zip, gzip
-- [ ] `DevOps/01_Linux/04_process_management.md` — ps, kill, top, htop
-- [ ] `DevOps/01_Linux/05_disk_management.md` — df, du
-- [ ] `DevOps/01_Linux/06_networking_commands.md` — ping, curl, netstat, ss
-- [ ] `DevOps/01_Linux/07_services_systemd.md` — start/stop/enable services
-- [ ] `DevOps/01_Linux/practical/01_linux_lab.md` — **HANDS-ON LAB**
+- [x] `DevOps/01_Linux/01_linux_basics.md` — what is Linux, file system, users
+- [x] `DevOps/01_Linux/02_essential_commands.md` — ls, cd, cat, grep, find, chmod
+- [x] `DevOps/01_Linux/03_file_compression.md` — tar, zip, gzip
+- [x] `DevOps/01_Linux/04_process_management.md` — ps, kill, top, htop
+- [x] `DevOps/01_Linux/05_disk_management.md` — df, du
+- [x] `DevOps/01_Linux/06_networking_commands.md` — ping, curl, netstat, ss
+- [x] `DevOps/01_Linux/07_services_systemd.md` — start/stop/enable services
+- [x] `DevOps/01_Linux/practical/01_linux_lab.md` — **HANDS-ON LAB**
 
-- [ ] `DevOps/03_Networking/01_osi_tcpip_fundamentals.md` — how internet works, OSI layers
-- [ ] `DevOps/03_Networking/02_protocols.md` — HTTP, HTTPS, TCP, UDP, DNS
-- [ ] `DevOps/03_Networking/03_web_concepts.md` — request/response, ports, status codes
-- [ ] `DevOps/03_Networking/practical/01_networking_lab.md` — **HANDS-ON LAB**
+- [x] `DevOps/03_Networking/01_osi_tcpip_fundamentals.md` — how internet works, OSI layers
+- [x] `DevOps/03_Networking/02_protocols.md` — HTTP, HTTPS, TCP, UDP, DNS
+- [x] `DevOps/03_Networking/03_web_concepts.md` — request/response, ports, status codes
+- [x] `DevOps/03_Networking/practical/01_networking_lab.md` — **HANDS-ON LAB**
 
-- [ ] `DevOps/04_Git/01_git_deep_dive.md` — init, add, commit, push, pull, branch, merge
-- [ ] `DevOps/04_Git/practical/01_git_lab.md` — **HANDS-ON LAB**
+- [x] `DevOps/04_Git/01_git_deep_dive.md` — init, add, commit, push, pull, branch, merge
+- [x] `DevOps/04_Git/practical/01_git_lab.md` — **HANDS-ON LAB**
 
 **Phase 0 Done When:** You can navigate the terminal, understand what HTTP is, and commit code to git.
 
