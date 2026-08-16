@@ -1,6 +1,11 @@
 # UNIFIED STUDY PLAN — Zero to Advanced
 # Backend Developer + DevOps + Agentic AI
 
+> 🔴 **ACTIVE INTERVIEW — PwC Senior Associate, GenAI Developer (Kolkata) — Tue 18 Aug 2026.**
+> Aaj se 18 tak normal phase plan **paused**. Follow the 6-day plan in
+> [`Agentic_AI/Interview_Prep/06_pwc_genai_senior_associate_prep.md`](Agentic_AI/Interview_Prep/06_pwc_genai_senior_associate_prep.md)
+> (read [`05_genai_developer_azure_role_prep.md`](Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md) first).
+
 > **This is your ONE file. Open this every day. Start where you left off.**
 > Rule: `[ ]` = not done yet. `[x]` = done. Always pick the FIRST unchecked item in your current phase.
 > Never jump ahead. Each phase builds on the previous one.
@@ -603,6 +608,7 @@
 - [ ] `Agentic_AI/Interview_Prep/03_behavioral_questions.md`
 - [ ] `Agentic_AI/Interview_Prep/04_key_technical_concepts.md`
 - [ ] `Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md`
+- [ ] `Agentic_AI/Interview_Prep/06_pwc_genai_senior_associate_prep.md`
 
 ---
 

@@ -11,9 +11,18 @@
 ## Interview Questions & Answers
 
 ### Q1: Gemini API — Google ka LLM kaise use karte hain?
-**Answer:**
+
+> ⚠️ **PADHNE SE PEHLE:** neeche wala code **legacy SDK** (`google-generativeai`) hai.
+> Google ne ise **deprecate** kar diya hai — naya unified SDK **`google-genai`** hai
+> (`from google import genai`). Legacy padhna abhi bhi useful hai kyunki purane
+> codebases aur tutorials isi me hain, par **interview me aur naye code me Q1b wala
+> pattern use karo.** Agar interviewer purana SDK likhe dekhe to yeh bolna —
+> *"yeh legacy SDK hai, naya `google-genai` unified client hai jo Gemini Developer API
+> aur Vertex AI dono ko same interface se handle karta hai"* — yeh currency dikhata hai.
+
+**Answer (legacy SDK — recognition ke liye):**
 ```python
-# pip install google-generativeai
+# pip install google-generativeai   # <-- DEPRECATED, Q1b dekho
 
 import google.generativeai as genai
 import os
@@ -114,6 +123,160 @@ async def async_gemini():
     response = await model.generate_content_async("Hello!")
     return response.text
 ```
+
+---
+
+### Q1b: Gemini — **current** SDK (`google-genai`) — yeh likhna interview me
+
+**Answer:**
+```python
+# pip install google-genai
+
+from google import genai
+from google.genai import types
+import os
+
+# ===== CLIENT (do modes — yehi naye SDK ka asli fayda hai) =====
+# Mode 1: Gemini Developer API (API key)
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Mode 2: Vertex AI (enterprise — GCP project, IAM auth, data residency)
+client = genai.Client(
+    vertexai=True,
+    project=os.getenv("GCP_PROJECT"),
+    location="us-central1",
+)
+# INTERVIEW: SAME code dono me chalta hai, sirf client init badalta hai.
+# Yeh bilkul wahi pattern hai jo OpenAI -> AzureOpenAI me hai:
+#   consumer API vs enterprise (IAM/VPC/residency) — client swap, business logic same.
+
+# ===== BASIC =====
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",              # flash = fast/sasta, pro = reasoning-heavy
+    contents="Explain Python async/await",
+)
+print(resp.text)
+print(resp.usage_metadata)
+
+# ===== SYSTEM INSTRUCTION + SAMPLING (ab config object me) =====
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents="Review this function",
+    config=types.GenerateContentConfig(
+        system_instruction="You are a senior Python developer. Return production-ready code.",
+        temperature=0.2,
+        max_output_tokens=1024,
+    ),
+)
+
+# ===== CHAT (multi-turn, history managed) =====
+chat = client.chats.create(model="gemini-2.5-flash")
+chat.send_message("My name is Ashish.")
+print(chat.send_message("What's my name?").text)
+
+# ===== STREAMING =====
+for chunk in client.models.generate_content_stream(
+    model="gemini-2.5-flash", contents="Write a FastAPI hello world"
+):
+    print(chunk.text, end="", flush=True)
+
+# ===== STRUCTURED OUTPUT (Pydantic schema — enforced, parse nahi karna padta) =====
+from pydantic import BaseModel
+
+class CodeReview(BaseModel):
+    issues: list[str]
+    severity: str
+    fixed_code: str
+
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents="Review this code: def get_user(id): ...",
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json",
+        response_schema=CodeReview,
+    ),
+)
+review: CodeReview = resp.parsed          # <-- already-parsed object milta hai
+
+# ===== TOOL / FUNCTION CALLING =====
+def get_weather(city: str) -> str:
+    """Get current weather for a city."""
+    return f"{city}: 31C, humid"
+
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents="Kolkata ka mausam kaisa hai?",
+    config=types.GenerateContentConfig(
+        tools=[get_weather],              # plain Python function -> schema auto
+    ),
+)
+# INTERVIEW: docstring + type hints se schema banta hai — bilkul Semantic Kernel ke
+# @kernel_function aur LangChain ke @tool jaisa. Har SDK me same idea hai.
+
+# ===== THINKING BUDGET (2.5 series ka naya knob) =====
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents="Solve this step by step: ...",
+    config=types.GenerateContentConfig(
+        thinking_config=types.ThinkingConfig(thinking_budget=0),   # 0 = thinking off (sasta/fast)
+    ),
+)
+# INTERVIEW: reasoning models me thinking tokens BILL hote hain. Simple tasks pe
+# budget 0 karke cost bacha sakte ho — yeh cost-optimization ka concrete example hai.
+
+# ===== MULTIMODAL =====
+from pathlib import Path
+resp = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=[
+        types.Part.from_bytes(data=Path("diagram.png").read_bytes(),
+                              mime_type="image/png"),
+        "What does this architecture diagram show?",
+    ],
+)
+
+# ===== FILES API (bade PDF/video ke liye — inline bytes limit se bacho) =====
+f = client.files.upload(file="large_report.pdf")
+resp = client.models.generate_content(
+    model="gemini-2.5-pro", contents=[f, "Summarize the key risks"])
+
+# ===== ASYNC =====
+import asyncio
+async def main():
+    r = await client.aio.models.generate_content(
+        model="gemini-2.5-flash", contents="Hello!")
+    return r.text
+
+# ===== EMBEDDINGS =====
+emb = client.models.embed_content(
+    model="text-embedding-004",
+    contents=["chunk one", "chunk two"],
+)
+```
+
+**Legacy → current migration cheat sheet:**
+
+| Legacy (`google-generativeai`) | Current (`google-genai`) |
+|---|---|
+| `genai.configure(api_key=...)` | `client = genai.Client(api_key=...)` |
+| `genai.GenerativeModel("m")` | model ek **parameter** hai, object nahi |
+| `model.generate_content(x)` | `client.models.generate_content(model="m", contents=x)` |
+| `model.start_chat()` | `client.chats.create(model="m")` |
+| `genai.GenerationConfig(...)` | `types.GenerateContentConfig(...)` |
+| `system_instruction=` model pe | `config.system_instruction` |
+| `generate_content_async` | `client.aio.models.generate_content` |
+| Vertex AI ke liye alag SDK | same client, `vertexai=True` |
+
+**Interview points:**
+- Naye SDK me **model stateless parameter** hai — matlab ek client se multiple models
+  switch karna trivial hai (routing/fallback pattern ke liye ideal)
+- **Gemini Developer API vs Vertex AI** = consumer vs enterprise. Vertex me IAM,
+  VPC-SC, data residency, CMEK milte hain — bilkul **OpenAI vs Azure OpenAI** wali
+  hi story. Yeh parallel bolna, dono cloud samajhna dikhta hai.
+- **Thinking budget** = reasoning models ka cost knob. Simple task pe 0 karo.
+- Gemini ka USP: **long context (1M+)** aur native multimodal — isliye "poora contract
+  PDF daal do" wale use-case me RAG se pehle long-context try karna valid option hai
+  (trade-off: cost per call zyada, latency zyada, par pipeline simple)
 
 ---
 

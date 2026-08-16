@@ -404,6 +404,89 @@ results = index.query(vector=query_embedding, namespace="user-123", top_k=5)
 
 ---
 
+### Q3b: Weaviate — schema-first vector DB (JDs me aksar naam aata hai)
+
+**Answer:**
+```python
+# pip install weaviate-client   (v4 client — v3 se API COMPLETELY badal gaya hai)
+
+import weaviate
+import weaviate.classes as wvc
+
+# ===== CONNECT =====
+client = weaviate.connect_to_local()                       # docker run -p 8080:8080 ...
+# client = weaviate.connect_to_weaviate_cloud(
+#     cluster_url=WCD_URL, auth_credentials=wvc.init.Auth.api_key(WCD_KEY))
+
+# ===== COLLECTION (schema-first — yeh Weaviate ka differentiator hai) =====
+docs = client.collections.create(
+    name="Document",
+    properties=[
+        wvc.config.Property(name="content", data_type=wvc.config.DataType.TEXT),
+        wvc.config.Property(name="topic",   data_type=wvc.config.DataType.TEXT),
+        wvc.config.Property(name="year",    data_type=wvc.config.DataType.INT),
+    ],
+    # Option A: apna vector do (bring your own embeddings)
+    vectorizer_config=wvc.config.Configure.Vectorizer.none(),
+    # Option B: Weaviate KHUD embed kare — "modules" ka concept
+    # vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_openai(),
+    # generative_config=wvc.config.Configure.Generative.openai(),   # RAG in-DB
+    vector_index_config=wvc.config.Configure.VectorIndex.hnsw(
+        distance_metric=wvc.config.VectorDistances.COSINE,
+        ef_construction=128, max_connections=32,
+    ),
+)
+
+# ===== INSERT =====
+with docs.batch.dynamic() as batch:
+    for d in documents:
+        batch.add_object(properties={"content": d["text"], "topic": d["topic"],
+                                     "year": d["year"]},
+                         vector=d["embedding"])
+
+# ===== VECTOR SEARCH + FILTER =====
+res = docs.query.near_vector(
+    near_vector=query_embedding, limit=5,
+    filters=wvc.query.Filter.by_property("topic").equal("python")
+          & wvc.query.Filter.by_property("year").greater_or_equal(2023),
+    return_metadata=wvc.query.MetadataQuery(distance=True),
+)
+for o in res.objects:
+    print(o.properties["content"], o.metadata.distance)
+
+# ===== HYBRID SEARCH (BM25 + vector, built-in — alpha se weight) =====
+res = docs.query.hybrid(query="python async", vector=query_embedding,
+                        alpha=0.5, limit=5)   # alpha=0 pure BM25, 1 pure vector
+
+# ===== GENERATIVE SEARCH (RAG DB ke ANDAR — yeh unique hai) =====
+res = docs.generate.near_vector(
+    near_vector=query_embedding, limit=3,
+    grouped_task="Answer the question using only these documents: {question}",
+)
+print(res.generated)
+
+client.close()
+```
+
+**Weaviate vs baaki — kya alag hai (yeh bolna, syntax nahi):**
+- **Schema-first** — properties + types pehle declare karte ho (Pinecone/Qdrant me
+  metadata schemaless hai). Fayda: typed filters, validation. Nuksan: schema migration
+  ka kaam aata hai.
+- **Modules** — vectorizer aur generative model DB ke andar plug ho sakte hain, matlab
+  *"text daalo, embedding Weaviate khud banayega"* aur *"RAG ka generation bhi DB kar
+  dega"*. Yeh Pinecone/Qdrant nahi karte.
+  > Trade-off bolna: yeh convenient hai par **DB me vendor lock-in** aa jaata hai aur
+  > embedding model version DB ke saath couple ho jaata hai. Main production me
+  > embeddings apne pipeline me rakhta hoon taaki model upgrade karna DB migration na bane.
+- **Hybrid search first-class** — `alpha` parameter se BM25 vs vector weight, built-in.
+- **Cross-references** — objects ke beech graph-style links (GraphQL API isi wajah se hai).
+
+> **v3 → v4 gotcha:** purane blogs/tutorials me `client.query.get(...).with_near_vector(...)`
+> wala GraphQL-builder style dikhega — wo **v3** hai. v4 me sab `collections.*` ke neeche
+> typed API hai. Agar interviewer purana syntax bole to yeh clarify karna currency dikhata hai.
+
+---
+
 ### Q4: HNSW vs IVFFlat — index comparison?
 **Answer:**
 ```

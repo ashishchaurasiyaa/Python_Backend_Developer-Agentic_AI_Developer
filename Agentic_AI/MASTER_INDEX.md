@@ -318,6 +318,8 @@ Cutting-edge topics beyond original PDF roadmap.
 | 22 | **TruLens** (LLM observability, RAG Triad, feedback functions) *(NEW)* | [✅ 22_trulens_evaluation.md](Modern_Topics/22_trulens_evaluation.md) · [🐍 practical](Modern_Topics/22_trulens_evaluation_practical.py) |
 | 23 | **Claude Agent SDK + Agent Skills** (Claude Code as a library: built-in tools, hooks, subagents; SKILL.md progressive disclosure) *(NEW)* | [✅ 23_claude_agent_sdk_skills.md](Modern_Topics/23_claude_agent_sdk_skills.md) |
 | 24 | **OpenAI AgentKit** (Agent Builder, ChatKit, Connector Registry, trace-grading Evals; vs Agents SDK) *(NEW)* | [✅ 24_openai_agentkit.md](Modern_Topics/24_openai_agentkit.md) |
+| 25 | 🔴 **Azure AI Foundry + Prompt Flow** (hierarchy, deployment types, DAG + variants, azure-ai-evaluation, OTel tracing, Agent Service, Content Safety) *(NEW)* | [✅ 25_azure_ai_foundry_promptflow.md](Modern_Topics/25_azure_ai_foundry_promptflow.md) |
+| 26 | 🔴 **Azure AI Services (AI-900/AI-102 scope)** (Document Intelligence layout→Markdown, AI Language PII/CLU, Speech, Vision, Responsible AI 6) *(NEW)* | [✅ 26_azure_ai_services_ai102.md](Modern_Topics/26_azure_ai_services_ai102.md) |
 | — | **📊 Complete Coverage Analysis** (all 43 tools + 12 terms mapped) | [✅ COVERAGE_ANALYSIS.md](Modern_Topics/COVERAGE_ANALYSIS.md) |
 
 ---
@@ -332,7 +334,8 @@ Final-week polish.
 | 2 | Coding Patterns | [📄](Interview_Prep/02_coding_patterns.md) |
 | 3 | Behavioral Questions | [📄](Interview_Prep/03_behavioral_questions.md) |
 | 4 | Key Technical Concepts | [📄](Interview_Prep/04_key_technical_concepts.md) |
-| 5 | 🔴 **GenAI Developer (Azure role) prep** *(NEW)* — JD→repo gap map + day-wise plan | [📄](Interview_Prep/05_genai_developer_azure_role_prep.md) |
+| 5 | 🔴 **GenAI Developer (Azure role) prep** — JD→repo gap map + day-wise plan | [📄](Interview_Prep/05_genai_developer_azure_role_prep.md) |
+| 6 | 🔴 **PwC Senior Associate GenAI prep — interview Tue 18 Aug 2026** *(NEW)* — gap audit, 6-day plan, consulting behavioral, honest-answer scripts, one-page recall card | [📄](Interview_Prep/06_pwc_genai_senior_associate_prep.md) |
 
 ---
 
