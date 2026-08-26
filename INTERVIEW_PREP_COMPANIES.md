@@ -1,7 +1,7 @@
 # 🎯 COMPANY-WISE INTERVIEW PREP
 
 > Per-company **filter layer**: "kaunsa topic kis company ke liye zaroori hai."
-> Roz ka kaam [`ROADMAP.md`](ROADMAP.md) me hai · har application [`JOB_TRACKER.md`](JOB_TRACKER.md) me likho.
+> Roz ka kaam [`STUDY_PLAN.md`](STUDY_PLAN.md) (Part A) me hai · har application [`JOB_TRACKER.md`](JOB_TRACKER.md) me likho.
 >
 > **Niyam:** interview ho jaye to usi din outcome yahan likho. Dead deadline ko URGENT dikhte rehna sabse bada confusion hai.
 
@@ -91,7 +91,7 @@
 
 ### Prep angle
 - Deloitte GenAI-heavy hai — **1-page project story** ready rakho: RAG document Q&A ya multi-agent code review starter (dono already scaffolded in `Agentic_AI/Projects/`) — "maine ye banaya, ye architecture, ye trade-off" bolke explain karne layak.
-- System-design angle: agar system design round aaye, "Design a RAG system for enterprise" type question expect karo — `JULY_SPRINT.md` (deleted — see [ROADMAP.md](ROADMAP.md)) Week 3 mein already covered hai.
+- System-design angle: agar system design round aaye, "Design a RAG system for enterprise" type question expect karo — `JULY_SPRINT.md` (deleted, folded into [STUDY_PLAN.md](STUDY_PLAN.md)) Week 3 mein already covered hai.
 
 ---
 

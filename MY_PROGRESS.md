@@ -84,4 +84,4 @@ Resume ki jo lines abhi **unverified** hain (Kubernetes, Terraform, Prometheus/G
 
 ---
 
-**Related:** [ROADMAP.md](ROADMAP.md) (daily driver) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic reference) · [JOB_TRACKER.md](JOB_TRACKER.md)
+**Related:** [STUDY_PLAN.md](STUDY_PLAN.md) (single study plan — daily sprint + full reference) · [JOB_TRACKER.md](JOB_TRACKER.md)

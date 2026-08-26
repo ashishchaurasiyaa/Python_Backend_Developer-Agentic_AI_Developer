@@ -61,4 +61,4 @@
 
 Runnable reference code: [`practical/`](practical/) (11 files)
 
-**Related:** [full DevOps track](../../../DevOps/README.md) · [05_Microservices](../05_Microservices/README.md) · [ROADMAP Week 1-4](../../../ROADMAP.md) (yahi labs sequence me hain)
+**Related:** [full DevOps track](../../../DevOps/README.md) · [05_Microservices](../05_Microservices/README.md) · [STUDY_PLAN.md Part A, Week 1-4](../../../STUDY_PLAN.md) (yahi labs sequence me hain)

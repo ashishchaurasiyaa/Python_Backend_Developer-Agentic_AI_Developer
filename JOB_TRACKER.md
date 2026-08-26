@@ -1,6 +1,6 @@
 # 💼 JOB TRACKER — Application Pipeline
 
-> **Kyun:** [ROADMAP.md](ROADMAP.md) ka daily parallel-track bolta hai *"~5 apps/day, referrals first, track every app here."*
+> **Kyun:** [STUDY_PLAN.md](STUDY_PLAN.md) ka daily parallel-track bolta hai *"~5 apps/day, referrals first, track every app here."*
 > Padhna aur apply karna **parallel** chalta hai — study khatam hone ka wait mat karo.
 >
 > **Niyam:** har application isi din likho. Baad me yaad nahi rahega ki kis JD pe kya bola tha.
@@ -68,4 +68,4 @@
 
 ---
 
-**Related:** [ROADMAP.md](ROADMAP.md) (roz ka kaam) · [MY_PROGRESS.md](MY_PROGRESS.md) (study log) · [INTERVIEW_PREP_COMPANIES.md](INTERVIEW_PREP_COMPANIES.md)
+**Related:** [STUDY_PLAN.md](STUDY_PLAN.md) (roz ka kaam) · [MY_PROGRESS.md](MY_PROGRESS.md) (study log) · [INTERVIEW_PREP_COMPANIES.md](INTERVIEW_PREP_COMPANIES.md)

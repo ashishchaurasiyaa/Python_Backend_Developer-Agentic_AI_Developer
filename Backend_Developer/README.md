@@ -20,7 +20,7 @@ Backend_Developer/
 │
 └── README.md                 ← (yeh file) master index + priority map
 
-(Roadmap / study-plan → repo root: ../00_START_HERE.md)
+(Roadmap / study-plan → repo root: ../STUDY_PLAN.md)
 ```
 
 **Do dimensions naam me encoded hain:**
@@ -116,9 +116,9 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 | **Year 0-2 (Junior)** | `00_Year0-2_Junior/01_Foundations` → `02_Python_Daily` → core stack (04–10) |
 | **Year 3-4 (Mid)** | `01_Year3-4_Mid/` (especially 02, 03, 04, 14) + `03_Interview_AnyYear/01_DSA` |
 | **Year 5+ (Senior)** | `02_Year5+_Senior/` (all 3) + `03_Interview_AnyYear/02_Interview_Prep` |
-| **Interview mode** | `03_Interview_AnyYear/` + [`../00_START_HERE.md`](../00_START_HERE.md) |
+| **Interview mode** | `03_Interview_AnyYear/` + [`../STUDY_PLAN.md`](../STUDY_PLAN.md) |
 
-**Detailed roadmap:** [`../00_START_HERE.md`](../00_START_HERE.md) — single phase-wise plan (5h/day, interview-focused).
+**Detailed roadmap:** [`../STUDY_PLAN.md`](../STUDY_PLAN.md) — single study plan (daily sprint + full phase-wise reference).
 
 ---
 

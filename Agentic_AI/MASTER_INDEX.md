@@ -3,7 +3,7 @@
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
 **Last updated:** 2026-08-08 (Azure OpenAI + Azure AI Search, context engineering, voice practical, GRPO/RFT; index reconciled with disk)
-**Roz ka kaam:** [`../ROADMAP.md`](../ROADMAP.md) — daily driver · **Topic scope:** [`../STUDY_PLAN.md`](../STUDY_PLAN.md)
+**Roz ka kaam + poora topic scope:** [`../STUDY_PLAN.md`](../STUDY_PLAN.md) — single file, Part A (daily sprint) + Part B (full reference)
 
 ---
 
@@ -22,7 +22,7 @@ Current total: 170 markdown docs (levels + Modern + Projects + Interview Prep)
 ```
 
 > ⚠️ **Content complete hai — labs pending hain.** Padhne se resume verify nahi hota.
-> Roz ka kaam [`../ROADMAP.md`](../ROADMAP.md) me hai, log [`../MY_PROGRESS.md`](../MY_PROGRESS.md) me.
+> Roz ka kaam [`../STUDY_PLAN.md`](../STUDY_PLAN.md) me hai, log [`../MY_PROGRESS.md`](../MY_PROGRESS.md) me.
 
 ---
 

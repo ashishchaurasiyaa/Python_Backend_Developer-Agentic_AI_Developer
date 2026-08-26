@@ -4,7 +4,7 @@
 > mutation testing aur LLM/RAG backends bhi hain — 4-saal wale ke liye yeh **refresh + gap-fill layer** hai,
 > beginner course nahi.
 >
-> **Tumhare liye kaise use karna hai:** poora mat padho. [ROADMAP.md](../../ROADMAP.md) jahan bhejta hai wahi file kholo,
+> **Tumhare liye kaise use karna hai:** poora mat padho. [STUDY_PLAN.md](../../STUDY_PLAN.md) jahan bhejta hai wahi file kholo,
 > ya interview se pehle apne weak module ka 🔴 section utha lo.
 
 ---
@@ -50,4 +50,4 @@
 | [Redis](08_Redis/labs/) | 5 exercises | `docker compose up -d` |
 
 **Agla track:** [01_Year3-4_Mid](../01_Year3-4_Mid/) → [02_Year5+_Senior](../02_Year5%2B_Senior/) → [03_Interview_AnyYear](../03_Interview_AnyYear/)
-**Roz ka kaam:** [ROADMAP.md](../../ROADMAP.md) · **Log:** [MY_PROGRESS.md](../../MY_PROGRESS.md)
+**Roz ka kaam:** [STUDY_PLAN.md](../../STUDY_PLAN.md) · **Log:** [MY_PROGRESS.md](../../MY_PROGRESS.md)

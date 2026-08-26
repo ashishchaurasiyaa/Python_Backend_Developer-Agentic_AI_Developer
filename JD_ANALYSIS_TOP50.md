@@ -2,7 +2,7 @@
 
 > Refreshed **26 Aug 2026**, all-India scope, three sources: **Indeed** (full JD text — ~40 postings fetched), **Naukri** (card-level: skill tags + snippet, ~35 postings), **LinkedIn** (title + company + location only, two search-result pages, no login, no detail-page clicks — genuinely the weakest-depth source here, treat it as a cross-reference list, not a JD source).
 > Location scope this time: Bangalore, Pune, Hyderabad, Mumbai, Chennai, Delhi/NCR/Gurugram/Noida, Remote — plus tier-2 spillover that showed up naturally in Naukri/LinkedIn results (Bhopal, Rajkot, Jaipur, Kochi, Indore, Dehradun, Navi Mumbai, Ahmedabad). The **5 Jul 2026** pull (Bangalore/Pune/Hyderabad/Remote only, Indeed-only) is kept below as a comparison baseline, not deleted — the deltas are the interesting part.
-> Goal unchanged: turn "what companies actually ask for" into a frequency-ranked prep list, so [`ROADMAP.md`](ROADMAP.md) time goes to what's asked most, not what's trendiest.
+> Goal unchanged: turn "what companies actually ask for" into a frequency-ranked prep list, so [`STUDY_PLAN.md`](STUDY_PLAN.md) time goes to what's asked most, not what's trendiest.
 > Companion file: [`JOB_TRACKER.md`](JOB_TRACKER.md) — no active application pipeline as of this pull (see that file), so this is pure market radar this round, not tied to a specific interview.
 
 ---
@@ -173,7 +173,7 @@ Two things worth flagging even at this shallow depth: **AgentOps and AI Red Team
 7. **Staffing/recruiting intermediaries are a bigger visible share of GenAI-titled postings** — ClanX itself is a recruiter, plus Naukri Assist, Saaki Argus & Averil, Rupa Career Solutions, hirezy.ai, and Weekday all showed up posting GenAI/Agentic roles on behalf of undisclosed or third-party clients. Worth remembering: raw posting counts overstate unique open roles when multiple staffing firms re-post the same underlying req.
 
 **Confirmed / unchanged from July:**
-1. **RAG + LangChain/LangGraph remain table stakes** for Track B — still true, still worth the dedicated prep time [`ROADMAP.md`](ROADMAP.md) already allocates.
+1. **RAG + LangChain/LangGraph remain table stakes** for Track B — still true, still worth the dedicated prep time [`STUDY_PLAN.md`](STUDY_PLAN.md) already allocates.
 2. **Django is not dead.** Still shows up across Track A in this broader, later pull (Siemens, Infosys ×3, Colan Infotech, Umruz, Aviso AI) — the January-side worry that FastAPI would fully displace it hasn't materialized.
 3. **FastAPI remains the default choice for new backend work and virtually all Agentic/GenAI service layers** — unchanged.
 4. **Senior/architect-level "Agentic AI Engineer" roles still diverge sharply from mid-level ones** — mid-level wants hands-on LangChain+RAG+prompt engineering; senior/architect wants agent evaluation, HITL design, AI governance. This pull adds "Forward Deployed" and "AI-first engineering leadership" as two more flavors of that same senior-level divergence, not a reversal of it.
@@ -190,4 +190,4 @@ Two things worth flagging even at this shallow depth: **AgentOps and AI Red Team
 
 ---
 
-> Cross-reference: [`JOB_TRACKER.md`](JOB_TRACKER.md) for the active application pipeline (currently empty — see that file) · [`ROADMAP.md`](ROADMAP.md) for the daily study schedule · [`STUDY_PLAN.md`](STUDY_PLAN.md) for the topic-wise entry point.
+> Cross-reference: [`JOB_TRACKER.md`](JOB_TRACKER.md) for the active application pipeline (currently empty — see that file) · [`STUDY_PLAN.md`](STUDY_PLAN.md) for the daily sprint + full topic reference (single file, both live there now).
