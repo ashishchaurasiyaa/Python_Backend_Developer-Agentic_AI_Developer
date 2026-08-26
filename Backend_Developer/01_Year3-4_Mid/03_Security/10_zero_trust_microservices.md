@@ -11,6 +11,41 @@
 - **Workload Attestation** = Proving a workload is who it claims
 - **Service Mesh** = Infrastructure layer for service-to-service comm (Istio, Linkerd)
 
+---
+
+## Andar kya hota hai — SPIFFE/SPIRE Ka Identity Issue Mechanism + mTLS Handshake
+
+### SPIRE — cert issue karne se PEHLE workload ko ATTEST karta hai
+
+```
+1. SPIRE Agent (har node pe chalta hai) ek workload (pod/process) se
+   identity maangi jaane par PEHLE ATTESTATION karta hai — "kya yeh
+   workload genuinely wahi hai jo claim kar raha hai?" (jaise: Kubernetes
+   ServiceAccount token verify karo, ya cloud instance-metadata check karo
+   — yeh workload SACH ME us authorized node/pod pe chal raha hai)
+2. Attestation PASS hone par, SPIRE ek SHORT-LIVED X.509 certificate
+   (SVID — SPIFFE Verifiable Identity Document) issue karta hai
+3. SVID mein ek SPIFFE ID hota hai — ek URI jaisa: spiffe://trust-domain/
+   payment-service — yehi "cryptographic identity" hai us service ki
+```
+
+### mTLS — DONO taraf verify hoti hain, sirf server nahi
+
+Normal HTTPS (browser↔server): sirf SERVER apna cert deta hai, client
+(browser) uska CA se verify karta hai — client authenticate NAHI hota.
+
+mTLS: TLS handshake ke dauraan DONO sides apna cert present karte hain —
+Service A, Service B ka cert verify karta hai (trust-domain CA se) AUR
+Service B, Service A ka cert verify karta hai. Matlab dono taraf
+authenticate ho rahi hain, ek-dusre ko cryptographically prove karke ki
+"main wahi hoon jo main claim kar raha hoon" — is baat ke against ki koi
+BEECH mein trust kar raha ho ki "network ke andar hai to safe hai" (Zero
+Trust ka poora point yehi hai: network location trust ka proof nahi hai).
+
+---
+
+## Interview Questions & Answers
+
 **WHY zero trust:**
 - Traditional: "Inside network = trusted" → one breach = lateral movement
 - Zero trust: Every request authenticated, regardless of network

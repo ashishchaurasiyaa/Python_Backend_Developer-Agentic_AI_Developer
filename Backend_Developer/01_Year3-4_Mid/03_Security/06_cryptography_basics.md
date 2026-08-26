@@ -10,6 +10,36 @@
 - **HMAC** = Hash-based MAC for authentication (webhook signing)
 - **TLS** = Transport encryption (HTTPS) — uses symmetric + asymmetric
 
+---
+
+## Andar kya hota hai — Hash Reverse Kyun Nahi Hota, TLS Dono Types Kyun Use Karta Hai
+
+### Hashing "one-way" kyun hai — koi key hi nahi hai reverse karne ke liye
+
+Encryption reversible hai kyunki ek KEY hoti hai jo decrypt kar sake.
+Hashing mein koi key hoti hi nahi — function (SHA-256 jaisा) input ko
+FIXED-SIZE output mein compress karta hai, is process mein INFORMATION
+LOSS hota hai (bahut saare possible inputs same-length output share karte
+hain) — reverse karne ka koi mathematical rasta nahi, sirf BRUTE-FORCE
+guess karke check karna (isiliye passwords SLOW hash functions — bcrypt/
+argon2 — se hash hote hain, taaki brute-force guessing slow ho jaaye).
+
+### TLS handshake — asymmetric SIRF ek chhote se step ke liye, baaki sab symmetric
+
+```
+1. Client + Server "hello" exchange karte hain
+2. ASYMMETRIC crypto (jaise ECDHE key exchange) SIRF isliye use hota hai —
+   dono milke ek SHARED SYMMETRIC SESSION KEY securely agree kar len,
+   bina us key ko kabhi plain-text mein network pe bheje
+3. Us point ke baad, POORI conversation ka data SYMMETRIC cipher (AES) se
+   encrypt/decrypt hota hai
+```
+
+Asymmetric crypto SLOW hai (RSA/ECDSA operations symmetric AES se ~100-1000x
+slow) — poori HTTP conversation ko asymmetric se encrypt karna impractical
+hoga. Isliye asymmetric sirf "ek symmetric key safely agree karne" ke liye
+use hota hai, actual bulk data transfer hamesha fast symmetric cipher se.
+
 **WHY senior engineers MUST know:**
 - ❌ Wrong hashing algorithm = passwords cracked
 - ❌ No HMAC = webhook can be forged

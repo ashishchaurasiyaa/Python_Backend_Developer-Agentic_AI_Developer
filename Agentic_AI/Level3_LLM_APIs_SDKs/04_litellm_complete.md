@@ -9,6 +9,52 @@
 
 ---
 
+## Andar kya hota hai — "Unified Interface" Ek Translation Layer Hai, Magic Nahi
+
+### Request/response TRANSFORM hota hai, har provider ke liye
+
+```python
+response = litellm.completion(model="claude-3-5-sonnet", messages=[...])
+# yeh OpenAI-format messages/response use karta hai — Claude ka NATIVE
+# format nahi. LiteLLM ANDAR yeh karta hai:
+#
+# 1. Tumhara OpenAI-shape request leta hai
+# 2. model="claude-..." dekh ke Anthropic ka ADAPTER function chalata hai
+# 3. Adapter OpenAI-shape ko Anthropic ke ACTUAL wire format mein transform
+#    karta hai (messages array → Anthropic ka system+messages split,
+#    max_tokens required field jo OpenAI mein optional tha, etc.)
+# 4. Real Anthropic API ko call karta hai
+# 5. Anthropic ka response (named-events ya JSON) WAPAS OpenAI-shape
+#    response object mein transform karta hai
+```
+
+Har supported provider ke liye LiteLLM ke paas apna DEDICATED
+transform-in/transform-out adapter hai — "universal interface" ka matlab
+hai LiteLLM ne yeh translation kaam pehle se kar rakha hai, koi provider
+khud OpenAI-compatible nahi ban gaya.
+
+### Fallback — exception TYPE dekh ke decide hota hai, blind retry nahi
+
+```python
+litellm.completion(model="gpt-4o", fallbacks=["claude-3-5-sonnet"], messages=[...])
+```
+
+`Router` internally specific EXCEPTION TYPES catch karta hai — rate limit
+(`RateLimitError`), timeout, 5xx server error — aur INHI cases mein next
+provider try karta hai. Ek genuine `400 Bad Request` (galat input tumhara)
+pe fallback NAHI chalega — woh error tumhara hai, doosra provider bhi wahi
+reject karega, retry karne ka fayda nahi.
+
+### Load balancing — per-deployment usage TRACK hota hai
+
+Router har deployment (ek hi model, multiple API keys/regions ho sakte)
+ka rolling-window mein tokens/requests usage track karta hai — naya call
+aane par LEAST-LOADED (ya weighted-random, config ke hisaab se) deployment
+choose karta hai. Yeh ek simple round-robin nahi hai — actual load-aware
+routing decision hai, current usage state ke against.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: LiteLLM kya hai? Kyu use karte hain?

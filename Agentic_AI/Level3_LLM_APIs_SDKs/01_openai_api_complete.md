@@ -9,6 +9,69 @@
 
 ---
 
+## Andar kya hota hai — SSE Streaming Parse + Batch API ka Real Mechanism
+
+### `stream=True` — ek HTTP response, `text/event-stream` format mein
+
+Non-streaming call ek single JSON blob wapas deta hai. Streaming call ka response
+`Content-Type: text/event-stream` hota hai — body mein baar-baar yeh lines aati
+hain:
+
+```
+data: {"choices":[{"delta":{"content":"Hello"}}]}
+
+data: {"choices":[{"delta":{"content":" world"}}]}
+
+data: [DONE]
+```
+
+SDK ka stream iterator har `data:` line ko parse karta hai, JSON decode karta
+hai, ek chunk object yield karta hai — poora text tumhe SDK JOD KE nahi deta,
+**tumhe khud** `delta.content` fragments ko accumulate karna padta hai (`full_text
++= chunk.choices[0].delta.content`). Literal string `[DONE]` stream ka end
+signal hai, koi JSON nahi.
+
+### Streaming ke saath tool calls — sabse tricky part
+
+```python
+# Ek tool call ka "arguments" JSON string MULTIPLE chunks mein TOOTA hua aata hai:
+chunk1: delta.tool_calls[0] = {index: 0, function: {name: "get_weather", arguments: '{"ci'}}
+chunk2: delta.tool_calls[0] = {index: 0, function: {arguments: 'ty": "Mu'}}
+chunk3: delta.tool_calls[0] = {index: 0, function: {arguments: 'mbai"}'}}
+```
+
+`arguments` khud ek STRING hai jo character-by-character split ho ke aati hai —
+`index` se pata chalta hai kaunsa tool-call fragment hai (parallel tool calls
+ke case mein). Poora `arguments` string ban jaane TAK JSON parse mat karo — beech
+mein parse karoge to `JSONDecodeError` milega (incomplete JSON).
+
+### Batch API — alag model nahi, ek ASYNC QUEUE hai
+
+```
+1. JSONL file upload karo — har line = ek independent request, apna custom_id
+2. POST /v1/batches → batch_id milta hai
+3. Poll GET /v1/batches/{id} — status: validating → in_progress → completed
+4. completed hone par ek OUTPUT JSONL download hoti hai — har line ka
+   custom_id INPUT ke custom_id se match karke result wapas map karo
+```
+
+50% cheaper isliye hai kyunki OpenAI ise apni SPARE CAPACITY pe schedule karta
+hai (24h SLA, real-time guarantee nahi) — same model, alag scheduling priority.
+
+### Rate limits — response HEADERS mein hi bata diye jaate hain
+
+```
+x-ratelimit-remaining-tokens: 45000
+x-ratelimit-reset-tokens: 12s
+x-ratelimit-remaining-requests: 480
+```
+
+Har response ye headers carry karta hai — production backoff logic ko blind
+fixed-exponential-backoff guess karne ke bajaye INHI headers se "kitna wait
+karna hai" directly padhna chahiye.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: OpenAI Chat Completions API advanced usage?

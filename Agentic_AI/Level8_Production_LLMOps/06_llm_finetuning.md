@@ -9,6 +9,47 @@
 
 ---
 
+## Andar kya hota hai — LoRA Ka Actual Math + QLoRA Memory Trick
+
+### LoRA — poora weight matrix train NAHI karta, ek LOW-RANK decomposition add karta hai
+
+```
+Full fine-tuning: W (d×d matrix, HUGE — jaise 4096×4096) ko poora
+  update karo — millions of trainable parameters, poora gradient +
+  optimizer state (Adam ke 2 extra copies) store karna padta
+
+LoRA: W ko FREEZE karo (touch hi nahi karte), iske bajaye:
+  ΔW = B · A
+  jahan B hai (d × r), A hai (r × d), aur r << d (jaise r=8, d=4096)
+
+  Training sirf A aur B ke chhote matrices update karti hai —
+  parameters count ~100-1000x kam training ke liye
+```
+
+Inference time pe do options: (1) `ΔW` ko `W` mein MERGE kar do (`W_new =
+W + B·A`) — zero extra latency, ek hi normal forward pass; (2) ALAG rakho —
+multiple LoRA adapters ek hi base model pe SWAP kar sakte ho runtime pe
+(different task ke liye different adapter load karo, base model wahi rahe).
+
+### QLoRA — 4-bit BASE model, higher-precision ADAPTER
+
+```
+Base model weights (W)     → 4-bit quantized (NF4 format), disk/memory
+                              mein bahut kam jagah
+LoRA adapters (A, B)        → higher precision (16-bit) rakhte hain
+
+Forward/backward pass: 4-bit weights ko ON-THE-FLY dequantize karke
+  compute karte hain, phir wapas discard — memory mein hamesha 4-bit hi
+  rehta hai
+```
+
+Isiliye QLoRA se ek 70B model consumer GPU (24GB VRAM) pe FINE-TUNE ho
+sakta hai — base weights 4-bit hone se memory drastically kam, par
+adapter (jo actually training/learning kar raha hai) higher precision
+mein rehne se training quality maintain hoti hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: RAG vs Fine-tuning — kab kya choose karte hain?

@@ -9,6 +9,40 @@
 
 ---
 
+## Andar kya hota hai — Semantic Cache Ka Real Algorithm + Trace Propagation
+
+### Semantic caching — exact-string match nahi, NEAREST-NEIGHBOR match hai
+
+```
+1. Naya query aaya → uska embedding compute karo
+2. Cache (ek vector store) mein PAST queries ke embeddings ke against
+   nearest-neighbor search karo (cosine similarity)
+3. Best match ka similarity score > THRESHOLD (jaise 0.95)?
+     HAAN → us past query ka CACHED response seedha return karo,
+            LLM ko CALL hi nahi kiya — poora cost+latency saved
+     NAHI → normal LLM call karo, response ko naye embedding ke
+            saath cache mein ADD kar do (future queries ke liye)
+```
+
+Threshold tuning ek REAL trade-off hai: threshold LOOSE (0.85) rakho to
+alag-alag matlab ke queries bhi "similar" maan ke GALAT cached answer serve
+ho sakta hai; threshold TIGHT (0.99) rakho to cache kabhi hit hi nahi hoga,
+fayda khatam. Production mein per-use-case tune karna padta hai, ek fixed
+number nahi hota.
+
+### Observability — trace ek TREE hai, flat log list nahi
+
+Ek user request ke andar Planner → Tool-call → Sub-agent → LLM-call — sab
+NESTED calls hain. Observability tools (Langfuse/LangSmith) har call ko ek
+**span** ki tarah record karte hain — har span ka apna ID + PARENT span ID
+(jis call ne isse trigger kiya). Poori tree ek SINGLE trace_id se judi hoti
+hai. Isi parent-child linking se UI mein "yeh 3-second-wala slow call kis
+bade request ke andar tha" jaisa sawaal answerable banta hai — same
+distributed-tracing concept jo `Backend_Developer` ke OpenTelemetry docs
+mein hai, yahan LLM calls pe apply hua.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: LangSmith + Langfuse — LLM observability kaise karte hain?

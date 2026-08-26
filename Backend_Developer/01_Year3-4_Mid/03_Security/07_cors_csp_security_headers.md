@@ -11,6 +11,40 @@
 - **Permissions-Policy** = Control browser features
 - **SRI** = Subresource Integrity (third-party script verification)
 
+---
+
+## Andar kya hota hai — CORS BROWSER Enforce Karta Hai, Server Nahi
+
+### Server request ko process to KARTA HAI — CORS sirf JS ko response PADHNE se rokta hai
+
+```
+Browser JS: fetch("https://api.other-site.com/data")
+Server: request receive karta hai, PROCESS karta hai, response bhej deta hai
+        (server ko koi fark nahi padta CORS ka — woh hamesha kaam karta hai)
+
+Browser: response aane ke BAAD check karta hai — response headers mein
+         "Access-Control-Allow-Origin" hai jo is calling-page ke origin
+         ko allow karta hai?
+           HAAN → JS ko response data milta hai
+           NAHI → JS ko response BLOCKED dikhta hai (network tab mein
+                  response aaya tha, par JS use READ nahi kar sakta)
+```
+
+Yehi wajah hai `curl`/Postman/server-to-server calls CORS se kabhi affect
+nahi hote — CORS ek BROWSER-ONLY enforcement hai, server-side protection
+nahi. Server apni taraf se hamesha request process karta hai; CORS sirf
+decide karta hai ki JAVASCRIPT us response ko dekh sakta hai ya nahi.
+
+### Preflight — "non-simple" requests ke liye ek EXTRA round-trip
+
+Custom headers, JSON content-type, ya GET/POST/HEAD ke alawa method wali
+request "non-simple" maani jaati hai — browser pehle ek `OPTIONS` request
+(preflight) khud-ba-khud bhejta hai, poochta hai "kya yeh actual request
+allowed hai?" (`Access-Control-Allow-Methods`/`-Headers` check karke). Sirf
+preflight response allow kare TABHI browser ASLI request bhejta hai — yehi
+wajah hai custom-header wali API calls mein ek EXTRA network round-trip
+dikhta hai jo simple GET requests mein nahi hota.
+
 **WHY security headers critical:**
 - Most are browser-enforced (server just sets them)
 - One missing header = XSS, clickjacking, MITM possible

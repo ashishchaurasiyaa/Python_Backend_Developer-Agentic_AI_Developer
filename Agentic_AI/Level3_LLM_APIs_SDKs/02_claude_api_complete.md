@@ -9,6 +9,58 @@
 
 ---
 
+## Andar kya hota hai — Named SSE Events + Cache Kaise Match Hoti Hai
+
+### Streaming — OpenAI se structurally alag hai
+
+OpenAI ka stream sirf "delta chunks" ka flat sequence hai. Claude ka stream
+**named events** hain — har event ka apna type + payload:
+
+```
+event: message_start        → {message: {id, model, ...}}
+event: content_block_start  → {index: 0, content_block: {type: "text"}}
+event: content_block_delta  → {index: 0, delta: {text: "Hello"}}
+event: content_block_delta  → {index: 0, delta: {text: " world"}}
+event: content_block_stop   → {index: 0}
+event: message_delta        → {delta: {stop_reason: "end_turn"}, usage: {...}}
+event: message_stop
+```
+
+Client ko `event:` NAME pe dispatch karna hai, na ki sab kuch ek generic
+"delta" maan lena. `thinking` aur `tool_use` content blocks bhi isi
+start/delta/stop triplet pattern se aate hain — sirf `content_block.type`
+alag hoga — matlab ek response mein MULTIPLE blocks stream ho sakte hain
+(pehle `thinking`, phir `text`), har ek apna independent start/stop pair.
+
+### Prompt caching — PREFIX-exact match hai, semantic-similarity NAHI
+
+```python
+messages=[
+    {"role": "user", "content": [
+        {"type": "text", "text": huge_context, "cache_control": {"type": "ephemeral"}},
+        {"type": "text", "text": actual_question}
+    ]}
+]
+```
+
+`cache_control` marker jahan lagaya, Anthropic us POINT TAK ke poore prefix
+(token sequence) ko cache karta hai — internally ek hash us exact token
+sequence ka. Agle request ka prefix EXACTLY wahi (same breakpoint tak) ho to
+cache-HIT (90% cheaper, faster TTFT) — ek bhi token pehle change hua (system
+prompt me typo fix bhi) to poora cache-MISS, koi partial-credit nahi milta.
+Cache ~5 min TTL rakhta hai, har cache-hit pe TTL refresh hota hai — isiliye
+high-frequency reuse pattern (chatbot with long system prompt) mein genuinely
+kaam karta hai, one-off calls mein nahi.
+
+### Extended thinking — ek ALAG content block hai, hidden magic nahi
+
+`thinking` block normal content block ki tarah hi stream hota hai (apna
+start/delta/stop) — final answer se PEHLE aata hai, alag block index pe.
+Thinking tokens BILL hote hain aur context budget mein count hote hain — yeh
+free-hidden-reasoning nahi hai, ek visible+billed extra generation step hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Claude Messages API basic usage aur model selection?

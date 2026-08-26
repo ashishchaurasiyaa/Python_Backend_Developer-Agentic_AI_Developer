@@ -8,6 +8,50 @@
 
 ---
 
+## Andar kya hota hai — Yeh Chaaro ARCHITECTURALLY Alag Hain, Sirf "Alag API" Nahi
+
+### Groq — GPU nahi, LPU (deterministic dataflow), isiliye itna fast
+
+GPUs dynamically schedule karte hain — batching, memory-access patterns
+runtime pe decide hote hain, isse latency VARIANCE aati hai. Groq ka LPU
+(Language Processing Unit) chip compile-time pe hi POORA dataflow schedule
+kar deta hai — kaunsa compute kab hoga, yeh FIXED hai execution se pehle hi.
+Koi runtime scheduling overhead nahi, koi batching-induced jitter nahi — yehi
+architectural farak hai jo Groq ki speed explain karta hai, "better hardware"
+jaisa vague reason nahi.
+
+### Ollama — local serving, llama.cpp ke upar
+
+```
+Model file (GGUF format, quantized — 4-bit/8-bit weights)
+  → memory-mapped (mmap) load hota hai, poora RAM mein copy nahi
+  → layers CPU/GPU ke beech split ho sakte hain (partial GPU offload)
+  → inference llama.cpp ke optimized C++ kernels se chalta hai
+```
+
+Quantization (GGUF) hi wajah hai ki ek 7B-parameter model tumhare laptop pe
+chal jaata hai — weights ki precision (16-bit → 4-bit) kam karke size/memory
+drastically ghatate hain, thoda accuracy trade-off ke saath.
+
+### HuggingFace Inference API — cold-start behavior samjho
+
+Har model ka apna hamesha-warm server NAHI hota. Kam-used model pe pehla
+request "cold" hota hai — model us waqt pod pe LOAD hota hai (seconds se
+minutes lag sakte), phir kuch der warm pool mein rehta hai agle requests
+fast serve karne ke liye. Production mein isliye "first call slow, phir
+fast" pattern normal hai — retry-with-backoff isi cold-start ko handle
+karne ke liye zaroori hai, error nahi samjhna chahiye.
+
+### Gemini — 1M context ka matlab kya hai practically
+
+Bada context window ka matlab yeh NAHI ki poora context free/fast process
+hota hai — prefill (poore input ko process karna response start karne se
+pehle) context-length ke saath LINEARLY (ya usse zyada) badhta hai. 1M
+tokens ka context bhejna = seconds ka prefill latency + proportionally
+zyada cost, chahe output chhota ho.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Gemini API — Google ka LLM kaise use karte hain?

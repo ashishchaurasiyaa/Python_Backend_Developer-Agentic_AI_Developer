@@ -9,6 +9,45 @@
 
 ---
 
+## Andar kya hota hai — Indexing Pipeline + Local vs Global Search Ka Real Mechanism
+
+### Indexing — 3-stage pipeline, ek baar (expensive) upfront
+
+```
+1. ENTITY+RELATIONSHIP EXTRACTION: har chunk ko ek LLM call se pass karo —
+   "isme kaunse entities hain aur unke beech kya relationships hain?"
+   → ek graph banta hai (nodes = entities, edges = relationships)
+2. COMMUNITY DETECTION: graph pe ek clustering algorithm (typically Leiden
+   algorithm) chalao — densely-connected entity-groups ko "communities" me
+   cluster karta hai, HIERARCHICAL levels mein (chhote tight clusters →
+   bade loose clusters)
+3. COMMUNITY SUMMARIZATION: har community ke liye EK LLM call se ek summary
+   PRE-GENERATE kar lo ("yeh cluster kis baare mein hai") — query time se
+   pehle hi, ek baar
+```
+
+### Query time — LOCAL aur GLOBAL do FUNDAMENTALLY alag algorithms hain
+
+```
+LOCAL search: "X company ka CEO kaun hai?"
+  → specific entity node (X company) dhoondo
+  → us node ke N-hop neighbors traverse karo (graph walk)
+  → un neighbors se linked text gather karke answer banao
+
+GLOBAL search: "is poore corpus mein overall themes kya hain?"
+  → graph traverse NAHI karte — seedha PRE-COMPUTED community summaries
+    retrieve karte hain (jo indexing time pe already ban chuke the)
+  → un summaries pe MAP-REDUCE karte hain (har summary se partial answer,
+    phir sabko combine karke final answer)
+```
+
+Yehi wajah hai vector-RAG structurally GLOBAL questions answer NAHI kar
+sakta — vector similarity search sirf LOCALLY-similar chunks dhoondta hai,
+kabhi poore corpus ko "ek saath" nahi dekhta. GraphRAG ke community
+summaries hi woh mechanism hain jo "zoom out" possible banate hain.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: GraphRAG kya hai aur regular RAG se kaise different hai?

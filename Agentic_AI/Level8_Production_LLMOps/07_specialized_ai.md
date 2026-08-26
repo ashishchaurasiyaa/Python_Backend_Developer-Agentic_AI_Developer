@@ -9,6 +9,43 @@
 
 ---
 
+## Andar kya hota hai — OCR SPATIAL Layout Kyun Khota Hai, Whisper Audio Ko Kaise Padhta Hai
+
+### "OCR phir LLM" tables/forms pe kyun fail hota hai
+
+```
+Plain OCR pipeline:
+  1. Layout/line segmentation (kahan kahan text blocks hain)
+  2. Har line pe character recognition
+  3. Output: ek FLAT TEXT STRING (top-to-bottom, left-to-right)
+```
+
+Ek table ka MATLAB uski COLUMN ALIGNMENT mein hota hai — "yeh number kis
+column ke neeche hai" hi semantic structure hai. Flat text output mein yeh
+spatial info KHO jaati hai — LLM ko sirf jumbled text milta hai, columns
+alag nahi kar paata. Isiliye proper Document-AI tools **layout-aware
+models** (jaise LayoutLM) use karte hain — jo text TOKEN ke saath uski
+BOUNDING-BOX POSITION bhi jointly encode karte hain, taaki "yeh word iss
+x,y position pe tha" model ko pata rahe, sirf text nahi.
+
+### Whisper — audio ko IMAGE ki tarah "dekhta" hai, raw waveform nahi
+
+```
+Raw audio waveform
+  → LOG-MEL SPECTROGRAM mein convert (ek visual-jaisa 2D representation —
+    time pe frequency-energy)
+  → yeh spectrogram ek TRANSFORMER ENCODER ko jaata hai (jaisे image ka
+    patch-sequence Vision Transformer ko jaata)
+  → DECODER text tokens generate karta hai, encoder ke audio-representation
+    pe attention karke
+```
+
+30-second chunks mein process hota hai (Whisper ka fixed context window) —
+lambi audio files internally chunks mein split hoke process hoti hain, phir
+transcripts stitch hote hain.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: PDF processing — text, tables, forms extract karna?

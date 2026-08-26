@@ -9,6 +9,40 @@
 
 ---
 
+## Andar kya hota hai — JWT Signature Verify Kaise Hoti Hai, aur `alg: none` Attack
+
+### Verify — recompute karke COMPARE karna hai, decrypt nahi
+
+```
+JWT = base64url(header) + "." + base64url(payload) + "." + signature
+
+Verify process:
+  1. header + payload ko base64url-decode karo (yeh PLAIN TEXT hain,
+     "encrypted" nahi — koi bhi JWT ko decode karke padh sakta hai,
+     ENCODED hai, ENCRYPTED nahi)
+  2. header ka "alg" field padho (jaise "HS256" ya "RS256")
+  3. USI algorithm se signature RECOMPUTE karo (header.payload string pe)
+  4. recomputed signature == token ka signature? MATCH → valid; MISMATCH → reject
+```
+
+**`alg: none` attack** — agar server BLINDLY token ke apne "alg" header pe
+trust karta hai (bina EXPECTED algorithm enforce kiye), attacker signature
+hata ke header mein `"alg": "none"` likh sakta hai — kuch libraries yeh
+accept kar leti thin (galat implementation). Fix: server hamesha EXPECTED
+algorithm hardcode karke verify kare (`jwt.decode(token, key, algorithms=["HS256"])`),
+token ke apne "alg" field pe kabhi decide na kare.
+
+### RBAC — kis POINT pe enforce hota hai
+
+Role check route HANDLER ke andar nahi, ek DEPENDENCY/MIDDLEWARE mein hona
+chahiye jo handler chalne se PEHLE token ke role-claim ko required-role ke
+against verify kare — yehi pattern `06_security_jwt_rbac.md` (FastAPI) mein
+`Depends(require_role(...))` ki tarah already dikhaya gaya hai. Handler ke
+ANDAR check karna galti-prone hai — ek naya route add karte waqt check
+bhoolna easy hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: JWT kaise kaam karta hai? Access + Refresh token pattern?

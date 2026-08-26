@@ -11,6 +11,54 @@
 - **Fixed window** = count per calendar period (simple but bursty at edges)
 - **429 Too Many Requests** = HTTP status for rate limit hit
 
+---
+
+## Andar kya hota hai — Fixed Window Bursty Kyun Hai, Sliding Window Kaise Fix Karta Hai
+
+### Fixed window — boundary pe DOUBLE burst ho sakta hai
+
+```
+Limit: 100 req/minute, fixed window (e.g. 10:00:00-10:00:59, phir reset)
+
+Attack: user 10:00:59 pe 100 requests bhejta hai (window ke ANT mein, sab
+allowed — count abhi tak 0 tha), phir 10:01:00 pe (naya window shuru) 100
+MORE requests bhejta hai — window reset hote hi count wapas 0.
+
+Result: 2 seconds ke andar 200 requests gaye, chahe "limit" 100/min tha.
+```
+
+### Sliding window — koi FIXED reset boundary hai hi nahi
+
+```
+Sliding window log: har request ka TIMESTAMP ek log mein store karo.
+  Naya request aane par: "last N seconds mein kitne timestamps hain?"
+  count karo (purane timestamps expire/discard karke) — koi ek "window
+  reset" moment nahi, har request apna "trailing N seconds" khud check
+  karta hai.
+
+Sliding window COUNTER (cheaper, approximate): current window ka count +
+  PREVIOUS window ka count × (kitna % overlap abhi bhi "sliding window"
+  mein hai) — poora log store kiye bina, approximately sliding behavior.
+```
+
+Fixed window ka boundary-double-burst bug isliye nahi hota — koi single
+"reset moment" hi nahi hai jispe attacker time kar sake.
+
+### Token bucket — implementation Redis mein ATOMIC hona zaroori hai
+
+```
+Bucket state: {tokens: N, last_refill: timestamp}
+Har request: (1) time-elapsed se naye tokens calculate karke ADD karo
+  (capped at bucket_size), (2) agar tokens >= 1, ek token consume karo aur
+  ALLOW, warna REJECT
+```
+
+Yeh READ-MODIFY-WRITE hai — do concurrent requests agar ek-doosre ke
+BEECH mein "read" kar len to dono ko token available dikh sakta hai jo
+actually ek hi tha (race condition, same TOCTOU bug jo `07_advanced_patterns.md`
+FastAPI file mein cover hua). Production mein yeh ek ATOMIC Lua script se
+Redis mein implement hota hai — poora read+update ek hi atomic operation.
+
 **WHY rate limit:**
 - ✅ Prevent abuse (scraping, brute force)
 - ✅ Protect downstream services

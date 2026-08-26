@@ -9,6 +9,48 @@
 
 ---
 
+## Andar kya hota hai — Mocking Level Matter Karta Hai, Aur "Snapshot" Ka Real Matlab
+
+### Mocking — SDK method vs HTTP layer, dono alag cheez catch karte hain
+
+```
+Option A: mock the SDK client method (client.chat.completions.create ko patch)
+  → Fast, simple. Par tumhare REQUEST-BUILDING code (headers, payload shape,
+    retry logic) kabhi actually EXECUTE hi nahi hote — bug wahan chhup sakta.
+
+Option B: mock at HTTP layer (respx/responses library intercepts the actual
+  outgoing HTTP call, tumhara asli httpx/requests code chalta hai)
+  → Tumhara poora request-construction path genuinely exercise hota hai,
+    sirf actual network call replace hoti hai. Integration bugs yahi
+    pakadta hai jo Option A miss kar deta.
+```
+
+### Snapshot testing — EXACT STRING diff LLM outputs pe kaam nahi karta
+
+LLM output `temperature=0` pe bhi model-version update se, ya minor
+infra-level nondeterminism se, THODA badal sakta hai — agar snapshot test
+EXACT STRING match karega, woh baar-baar false-positive FAIL karega bina
+tumhara code galat hue. Isliye LLM snapshot testing usually STRUCTURE
+compare karta hai (schema match, required fields present) ya ek DOOSRA
+LLM ko "judge" bana ke "kya yeh output pichle wale jaisa hi acceptable
+hai?" poochta hai — exact text diff nahi.
+
+### Golden-dataset eval — RAGAS jaisa metric andar se KAISE compute hota hai
+
+```
+Faithfulness score (example):
+  1. Generated answer se INDIVIDUAL claims extract karo (ek LLM call)
+  2. Har claim ko retrieved CONTEXT ke against verify karo — "kya yeh
+     claim context se support hoti hai?" (ek aur LLM call, PER claim)
+  3. Score = (context-se-supported claims) / (total claims)
+```
+
+Yeh metric khud EK LLM-as-judge pipeline hai — "score 0.85 aaya" ka matlab
+hai 85% claims context se traceable the, judge-LLM ke hisaab se. Isi
+mechanism ka detail `Level6_Agent_Patterns/10_agent_evaluation.md` mein hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: LLM calls ko pytest mein kaise mock karte hain?

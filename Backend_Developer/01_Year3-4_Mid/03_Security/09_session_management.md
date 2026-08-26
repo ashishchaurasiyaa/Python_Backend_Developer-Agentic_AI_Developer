@@ -12,6 +12,47 @@
 - **HttpOnly cookie** = Not accessible via JavaScript (XSS protection)
 - **SameSite cookie** = Cross-site request behavior
 
+---
+
+## Andar kya hota hai — Session Revoke Instant Kyun Hai, JWT Ka Kyun Nahi
+
+### Cookie sirf ek LOOKUP KEY carry karta hai, actual data nahi
+
+```
+Session-based:
+  Cookie = ek RANDOM opaque session_id string (jaise "sess_a8f3...")
+  Actual session data (user_id, roles, etc.) SERVER-SIDE store hota hai
+  (Redis/DB), keyed by session_id
+
+Server logout/revoke: bas Redis/DB se us session_id ka record DELETE
+  kar do — cookie ab kisi kaam ka nahi (server ke paas uska koi data
+  hi nahi bacha), INSTANT revoke.
+
+JWT-based: token khud mein SAARA data carry karta hai (self-contained) —
+  server ke paas "yeh token abhi valid hai ya revoke ho chuka" check
+  karne ke liye KOI centralized record nahi (yehi to JWT ka "stateless"
+  fayda hai). Revoke karne ke liye ek ALAG blocklist/deny-list maintain
+  karni padti hai (jo waapas stateful lookup ban jaata hai — JWT ka
+  stateless fayda partially khatam ho jaata hai agar genuinely revoke
+  karna hai).
+```
+
+### Session fixation — attacker session_id "fix" karta hai LOGIN se PEHLE
+
+```
+1. Attacker khud ek session_id generate karke, victim ko us session_id
+   wale link pe bhejta hai (ya cookie inject karta hai)
+2. Victim us session_id se login karta hai
+3. Agar server login ke BAAD bhi WAHI session_id reuse karta hai (naya
+   generate nahi karta), attacker ke paas ab EXACT wahi session_id hai
+   jo ab AUTHENTICATED ban chuka — attacker use kar sakta hai
+```
+
+**Fix:** login/privilege-change ke turant BAAD server hamesha ek NAYA
+session_id GENERATE kare (purana invalidate karke) — chahe request wahi
+cookie use kar rahi thi. Yeh single-line fix isi poore attack class ko
+rok deta hai.
+
 **WHY session management matters:**
 - ❌ Bad cookies = XSS steals all credentials
 - ❌ No CSRF = attacker forges actions

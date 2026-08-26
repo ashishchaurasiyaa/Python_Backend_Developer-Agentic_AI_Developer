@@ -10,6 +10,49 @@
 
 ---
 
+## Andar kya hota hai — Spark's Lazy DAG + Delta Lake's ACID Trick
+
+### Spark — transformations sirf ek PLAN banate hain, execute nahi hote
+
+```python
+df.filter(...).select(...)     # ← koi computation abhi NAHI hui
+df.collect()                    # ← YAHIN actual execution trigger hoti hai
+```
+
+`.filter()`/`.select()` jaise TRANSFORMATIONS sirf ek LOGICAL PLAN (DAG)
+build karte hain — koi data actually process nahi hota. Sirf ek ACTION
+(`.collect()`, `.write()`, `.show()`) is plan ko trigger karta hai:
+Catalyst optimizer logical plan ko PHYSICAL plan mein convert karta hai,
+har SHUFFLE boundary (data-repartition-across-nodes wala point) pe plan ko
+STAGES mein todta hai, har stage ke andar TASKS executor cores ke across
+distribute hoti hain. Isi wajah se ek avoidable `.collect()` (poora data
+driver node pe khींch lena) ya ek unnecessary `.repartition()` (extra
+shuffle stage add karna) silently poori job ki performance kill kar sakta
+hai — lazy evaluation samajhna hi yeh debug karne ki key hai.
+
+### Delta Lake — ACID bina traditional database engine ke, sirf ek transaction LOG se
+
+```
+Delta table = Parquet FILES + _delta_log/ (JSON transaction log)
+
+Har write: naye Parquet files add karo + _delta_log mein ek naya JSON
+  entry likho ("in files ko add kiya, in files ko remove kiya")
+
+Reader: table ki CURRENT state jaanne ke liye, log ko version N tak
+  replay karta hai — konse files "active" hain abhi
+
+Writer conflict: DO writers same time pe commit try karein → OPTIMISTIC
+  CONCURRENCY — dusra writer check karta hai "kya mere read ke baad koi
+  conflicting commit hua?" agar haan, RETRY karta hai apne changes ko
+  naye state ke upar reapply karke
+```
+
+Yeh mechanism hi hai jo "ACID transactions on cloud object storage" ko
+possible banata hai — koi central database engine nahi, sirf ek append-only
+log jise sab readers/writers consistently interpret karte hain.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: PySpark — DataFrame API basics?
@@ -250,7 +293,7 @@ AI-first products typically don't.
 Reality check (per JD_ANALYSIS_TOP50.md):
   - 5 of 47 JDs named Databricks/Spark/Snowflake explicitly, and only 1 (Warner Bros
     Discovery, Staff MLE) made it central to the role.
-  - Your target roles (per ROADMAP.md / INTERVIEW_PREP_COMPANIES.md) are Python
+  - Your target roles (per STUDY_PLAN.md / INTERVIEW_PREP_COMPANIES.md) are Python
     Backend + Agentic AI at 3-5 yrs — not Data Engineer / Staff MLE.
 
 What's worth knowing (this file's ceiling):

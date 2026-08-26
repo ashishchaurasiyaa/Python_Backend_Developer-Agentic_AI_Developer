@@ -10,6 +10,33 @@
 - **Authorization Server** = Issues tokens (Auth0, Cognito, Keycloak)
 - **Resource Server** = Your API that validates tokens
 - **Client** = Application requesting tokens (web, mobile, SPA, CLI)
+
+---
+
+## Andar kya hota hai — PKCE Authorization-Code Interception Ko Kaise Rokta Hai
+
+```
+1. Client ek RANDOM string banata hai: code_verifier (kisi ko nahi bhejta abhi)
+2. code_challenge = SHA256(code_verifier) — yeh HASH authorization
+   request ke saath Authorization Server ko bhejta hai
+3. User login karta hai, Authorization Server ek "authorization code"
+   client ko redirect karke bhejta hai
+4. Client ab TOKEN maangte waqt DO cheezein bhejta hai:
+     - authorization code (jo mila)
+     - code_verifier (RAW, wahi jo step 1 mein banaya tha)
+5. Authorization Server khud SHA256(received code_verifier) compute
+   karta hai aur check karta hai: kya yeh WAHI code_challenge se match
+   karta hai jo step 2 mein diya tha?
+     MATCH   → token issue karo
+     MISMATCH → reject
+```
+
+**Yeh attack ko kaise rokta hai:** agar koi attacker sirf authorization CODE
+intercept kar le (jaise mobile app ke custom URL scheme redirect se), uske
+paas `code_verifier` NAHI hoga (woh kabhi network pe gaya hi nahi, sirf
+client ke memory mein tha) — isliye token-exchange step pe attacker fail ho
+jaayega, chahe usne code chura liya ho. Yehi wajah hai mobile/SPA (public
+clients, jo client_secret safely store nahi kar sakte) PKCE MANDATORY hai.
 - **PKCE** = Proof Key for Code Exchange (security for public clients)
 
 **WHY OAuth2 over other auth:**

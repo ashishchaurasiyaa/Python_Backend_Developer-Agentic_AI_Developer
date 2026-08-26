@@ -10,6 +10,51 @@
 - **Data Classification** = Public / Internal / Confidential / Restricted
 - **PII** = Personally Identifiable Information
 - **PHI** = Protected Health Information
+
+---
+
+## Andar kya hota hai — "Right to Erasure" Distributed System Mein Kaise Implement Hoti Hai, PCI Tokenization
+
+### GDPR erasure — ek DELETE query kaafi nahi hai
+
+```
+User ka data kahan-kahan hai (production DB ke alawa):
+  - Read replicas (async replicate hoke abhi tak nahi pahuncha ho sakta)
+  - Backups (weekly/daily snapshots — un mein data still exists)
+  - Caches (Redis mein TTL tak reh sakta hai)
+  - Logs (application logs mein PII accidentally print hui ho sakti)
+  - Analytics/data-warehouse pipelines (already copy ho chuka)
+
+Real implementation: (1) production row ko SOFT-DELETE/anonymize turant,
+  (2) ek scheduled JOB jo backups ke restore-time pe bhi erasure re-apply
+  kare (ya backups ki apni retention/expiry policy erasure SLA ke andar
+  ho), (3) cache INVALIDATE karo, (4) DATA MAPPING document rakho (yeh
+  jaanna ki PII kahan-kahan store hoti hai, taaki erasure request aane
+  par SAB jagah pata ho, guess na karna pade)
+```
+
+Isiliye "GDPR compliant hona" ek engineering DESIGN decision hai (data
+mapping + erasure-propagation pipeline pehle se banani padti hai), request
+aane ke baad scramble karna kaam nahi karta.
+
+### PCI-DSS tokenization — ENCRYPTION nahi, kuch aur hai
+
+```
+Encryption: real card number ek KEY se encrypt hota hai — key ho to
+  REVERSE (decrypt) kiya ja sakta hai. Key compromise = data compromise.
+
+Tokenization: real card number PAYMENT PROCESSOR (Stripe/Razorpay) ke
+  paas store hota hai. Tumhare system ko sirf ek TOKEN milta hai (jaise
+  "tok_a1b2c3") jiska real card number se KOI MATHEMATICAL relationship
+  nahi — yeh ek RANDOM reference hai processor ke apne vault mein.
+```
+
+Poora tumhara database breach ho jaaye, tokens kisi kaam ke nahi (koi key
+nahi jo unhe "card number" mein wapas convert kar sake) — yehi wajah hai
+tokenization encryption se STRONGER guarantee deta hai PCI scope ke liye:
+tumhare system mein KABHI real card number aata hi nahi, isliye tumhara
+system PCI audit scope se BAHAR ho sakta hai (processor apna scope khud
+handle karta hai).
 - **Right to be Forgotten** = GDPR Article 17
 
 **WHY compliance matters:**

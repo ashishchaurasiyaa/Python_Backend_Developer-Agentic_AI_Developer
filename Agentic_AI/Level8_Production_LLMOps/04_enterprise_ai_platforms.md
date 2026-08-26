@@ -9,6 +9,43 @@
 
 ---
 
+## Andar kya hota hai — "Data Leaves Nahi" Ka Actual Mechanism
+
+### Network path — VPC endpoint, public internet nahi
+
+Direct OpenAI/Anthropic API call: tumhari request PUBLIC internet se hoke
+provider ke servers tak jaati hai (HTTPS se encrypted, par phir bhi public
+routing). Bedrock/Vertex/Azure OpenAI call: request tumhare CLOUD ACCOUNT
+ke andar hi, ek **VPC endpoint / PrivateLink** ke through jaati hai — kabhi
+public internet pe nikalti hi nahi. Yehi actual technical mechanism hai jo
+"data leaves your network nahi" ka daava sach banata hai, sirf marketing
+nahi.
+
+### Auth — IAM role, bearer API key nahi
+
+```
+Direct API:      Authorization: Bearer sk-xxxxx     (static secret, aap manage karte)
+Bedrock/Vertex:  IAM role assumed via STS (AWS) / Managed Identity (Azure)
+                 — temporary, auto-rotated, scoped by RBAC/IAM policy
+```
+
+Yeh same mechanism hai jo `DevOps/07_Cloud_AWS/01_iam_compute_ec2.md` (STS
+temporary credentials) aur `DevOps/07_Cloud_Azure/01_azure_fundamentals.md`
+(Managed Identity IMDS token flow) mein already explain hua — LLM calls bhi
+usi cloud-native identity system se authenticate hoti hain, koi alag API-key
+secret manage nahi karna padta.
+
+### "No training on your data" — tenant isolation ka matlab
+
+Enterprise platform ka contractual+technical guarantee hai: tumhari request
+ek ISOLATED tenant context mein process hoti hai — provider ke shared
+fine-tuning/RLHF data-collection pipeline mein kabhi feed NAHI hoti (jo
+consumer-facing free-tier APIs ke liye kabhi hota hai, provider ke terms pe
+depend karke). Yeh isolation infrastructure-level guarantee hai, sirf ek
+checkbox setting nahi.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: AWS Bedrock — Claude aur other models kaise use karte hain?

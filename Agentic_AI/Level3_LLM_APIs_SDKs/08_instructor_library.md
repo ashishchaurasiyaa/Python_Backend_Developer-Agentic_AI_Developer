@@ -8,6 +8,50 @@
 
 ---
 
+## Andar kya hota hai — Yehi PydanticAI Wala Validate-Retry Loop Hai, Client-Patch Ki Tarah
+
+### `instructor.from_openai(client)` — client ko PATCH karta hai
+
+```python
+client = instructor.from_openai(OpenAI())
+user = client.chat.completions.create(
+    model="gpt-4o", response_model=User, messages=[...]
+)
+```
+
+Yeh naya client type NAHI hai — `instructor` tumhare EXISTING client object ko
+patch karta hai taaki `response_model=` ek naya accepted parameter ban jaaye.
+Andar se:
+
+```
+1. User (Pydantic model) ki JSON schema nikalta hai (model_json_schema())
+2. Us schema ko ya to provider ke NATIVE structured-output param se, ya
+   ek forced function-calling TOOL definition se model ko bhejta hai
+   (provider capability ke hisaab se dono raaste hain)
+3. Model ka response leta hai, User.model_validate_json() try karta hai
+4. VALIDATION FAIL → automatically ek NAYA message turn banata hai:
+   "yeh tumhara output tha, yeh validation error hai, fix karo" —
+   model ko WAPAS bhejta hai, max_retries tak
+5. VALIDATION PASS → validated Pydantic instance return
+```
+
+Yeh **EXACT wahi validate → fail → auto-retry-with-model loop** hai jo
+`08_pydantic_ai.md` mein PydanticAI's `result_retries` ke naam se already
+documented hai — bas yahan ek agent-framework ke andar nahi, ek CLIENT-PATCHING
+decorator ki tarah implement hua hai. Concept identical, delivery mechanism
+alag.
+
+### Partial streaming — incomplete JSON ko PARTIAL object mein parse karna
+
+`Partial[User]` mode mein instructor ek lenient JSON parser use karta hai jo
+TRUNCATED/incomplete JSON string ko bhi parse kar sakta hai (missing closing
+braces tolerate karta hai) — har naye stream chunk ke saath yeh partial
+parse dobara chalta hai, Pydantic model ke fields jo abhi complete nahi hue
+unhe `Optional`/`None` treat karke ek PROGRESSIVELY-FILLING object return
+karta hai — UI mein "typing" jaisa live-update effect isi se milta hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Instructor kya hai? Basic usage?

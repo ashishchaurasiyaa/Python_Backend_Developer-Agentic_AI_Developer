@@ -11,6 +11,33 @@
 - **HashiCorp Vault** = self-hosted with dynamic secrets
 - **Sealed Secrets / SOPS** = encrypted secrets in Git (GitOps)
 
+---
+
+## Andar kya hota hai — Vault Dynamic Secrets Ek Secret STORE Nahi Karta, GENERATE Karta Hai
+
+```
+Static secret (traditional):
+  Ek DB password kahin STORE hota hai (Vault/Secrets Manager mein), sab
+  applications WAHI password reuse karte hain — leak hui to sabko rotate
+  karna padta hai, aur "kisne kab use kiya" trace karna mushkil.
+
+Vault DYNAMIC secret (database secrets engine):
+  1. App Vault se maangta hai: "mujhe DB credentials chahiye"
+  2. Vault ACTUALLY database se connect hota hai aur ek NAYA temporary
+     DB user CREATE karta hai (unique username/password), ek TTL ke saath
+     (jaise 1 hour)
+  3. Vault yeh fresh credentials app ko deta hai — sirf isi app ke liye,
+     sirf itni der ke liye
+  4. TTL khatam hone par Vault khud us DB user ko REVOKE (DROP) kar deta
+     hai — automatically, koi manual cleanup nahi
+```
+
+Yeh fundamentally DIFFERENT hai "secret ko encrypt karke store karne" se —
+Vault har request pe ek NAYA, uniquely-attributable, auto-EXPIRING
+credential generate karta hai. Agar koi credential leak bhi ho jaaye,
+uski life bahut CHOTI hai (TTL), aur audit log se EXACT pata chalta hai
+kaunsi app ne kab woh specific credential maanga tha.
+
 **WHY secrets management matters:**
 - Hardcoded secrets in code = repo leak = breach
 - Env vars in container = visible in process listing
