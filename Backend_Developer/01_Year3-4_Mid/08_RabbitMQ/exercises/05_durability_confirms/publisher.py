@@ -7,6 +7,24 @@ OBJECTIVE: samjho durability ke teen pillars —
   2. persistent message (delivery_mode=2) — disk pe likha jaaye
   3. durable queue (subscriber.py me) — broker restart survive kare
 
+MECHANISM (andar kya hota hai — teeno ALAG cheezein hain, aksar confuse
+  hoti hain):
+  - `durable=True` (queue/exchange): sirf DEFINITION broker ki apni
+    persistent metadata-store (Mnesia/Khepri) me save hoti hai — taaki
+    restart ke baad queue/exchange dobara ban jaaye. Yeh QUEUE ke ANDAR
+    KE MESSAGES ko persist NAHI karta — khaali durable queue restart ke
+    baad khaali hi milegi agar messages persistent nahi the.
+  - `delivery_mode=2` (per-message property): yeh MESSAGE ko disk pe
+    fsync karta hai. Durable queue + non-persistent message = restart
+    pe message GAYAB; non-durable queue + persistent message = queue
+    khud hi restart pe gayab (message bhi saath).  → dono zaroori hain.
+  - Publisher confirms: broker ek ASYNC confirm frame bhejta hai, jo
+    per-channel ek internal delivery-tag counter se correlate hota hai.
+    Persistent message + durable queue ke liye, confirm TABHI aata hai
+    jab write disk (ya cluster replica) tak pahunch chuki ho — isiliye
+    confirm ek genuine durability guarantee hai, "TCP se broker tak
+    pahunch gaya" jaisa weak signal nahi.
+
 TASK:
   1. TODO 1: publisher confirms ON karo
   2. TODO 2: message ko persistent banao (delivery_mode)

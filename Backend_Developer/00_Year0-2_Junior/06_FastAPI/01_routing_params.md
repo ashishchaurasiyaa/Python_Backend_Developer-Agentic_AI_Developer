@@ -9,6 +9,53 @@
 
 ---
 
+## Andar kya hota hai — Route Matching + Param Resolution
+
+### Routes ek ORDERED LIST hain, hash-map/trie nahi
+
+```python
+@app.get("/users/{user_id}")
+def get_user(user_id: int): ...
+
+@app.get("/users/me")
+def get_current_user(): ...
+```
+
+Startup pe FastAPI (Starlette ke through) har route ko ek COMPILED REGEX bana ke ek
+**list** mein rakhta hai, registration order mein. Har incoming request path ko is
+list ke against **top se neeche, ek-ek karke** try kiya jaata hai — **PEHLA match
+jeetta hai**, best-match ya most-specific-match nahi.
+
+```
+GET /users/me  aaya:
+  1. /users/{user_id} ke regex se match? HAAN — {user_id} = "me" (string, koi type
+     check abhi nahi hui, path param abhi sirf STRING extract hui)
+     → yehi route CHOSEN, /users/me wala route kabhi try hi nahi hoga
+  2. get_current_user() KABHI CALL NAHI HOGA jab tak /users/{user_id} PEHLE
+     registered na ho
+```
+
+**Fix:** specific routes (`/users/me`) generic/parameterized routes
+(`/users/{user_id}`) se PEHLE register karo. Ye ek real production bug pattern hai,
+interview me directly poocha jaata hai.
+
+### Param extraction + validation — tumhare function call hone SE PEHLE
+
+```
+1. Route match ho gaya → regex se named groups nikalte hain (path params, as strings)
+2. Function signature ke type hints padhte hain (`user_id: int`)
+3. Pydantic se COERCE + VALIDATE karte hain (string "42" → int 42; "abc" → 422 error)
+4. Query params bhi isi step mein: URL ke `?skip=0` ko signature ke against validate
+5. Body params: request body ko declared Pydantic model se parse+validate
+6. SAB validate hone ke BAAD hi tumhara function actually call hota hai
+```
+
+Yehi wajah hai galat type wale request ko tumhara function BODY kabhi dekhta hi
+nahi — validation FastAPI ke andar, function call se pehle hi fail ho jaati hai
+(422 response, tumhara code touch nahi hota).
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: FastAPI mein routing kaise kaam karta hai? Path aur Query params ka fark?

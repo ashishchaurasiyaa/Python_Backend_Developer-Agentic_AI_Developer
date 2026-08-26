@@ -5,6 +5,21 @@ OBJECTIVE: ek "remote procedure call" banao — client ek request bhejta
            hai aur uska SAHI response wapas paata hai (na ki kisi aur
            concurrent in-flight call ka response).
 
+MECHANISM (andar kya hota hai): RabbitMQ ko "RPC" ka koi built-in
+  concept NAHI hai — yeh ek CONVENTION hai jo routing se bana hai.
+  `queue_declare(queue='', exclusive=True)` broker se ek UNIQUE
+  auto-generated naam maangta hai (jaisa `amq.gen-XYZ...`) jo connection
+  band hote hi khud delete ho jaata hai — yehi client ka private
+  reply-queue hai. Request publish karte waqt properties me
+  `reply_to=<us queue ka naam>` + ek fresh `correlation_id` (uuid) jaata
+  hai. Server jawaab usi reply_to queue pe bhejta hai, SAME correlation_id
+  wapas attach karke. Client ek hi reply-queue reuse karta hai saare
+  in-flight calls ke liye — agar 3 requests pending hon, teeno ke
+  responses isi ek queue pe aayenge, kis order me pata nahi. MATCHING
+  100% CLIENT-SIDE hai: broker sirf deliver karta hai, "yeh kis request
+  ka jawaab hai" client ko khud correlation_id dekh ke decide karna
+  padta hai (isiliye TODO 2).
+
 TASK:
   1. TODO 1: request bhejte time reply_to + correlation_id set karo
   2. TODO 2: response aane par verify karo ki yeh TUMHARA hi

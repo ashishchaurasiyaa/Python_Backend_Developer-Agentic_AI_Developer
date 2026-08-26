@@ -9,6 +9,69 @@
 
 ---
 
+## Andar kya hota hai — `crew.kickoff()` ke internals
+
+### Sequential — "shared memory object" nahi, context-injection hai
+
+```python
+crew = Crew(agents=[researcher, writer], tasks=[research_task, write_task], process=Process.sequential)
+crew.kickoff()
+```
+
+```
+1. research_task run → output = "Findings: X, Y, Z"
+2. write_task ke liye prompt banate waqt, CrewAI research_task ka output
+   ek "Given the context below, complete your task:\n{research_task.output}"
+   block ke roop mein write_task ke prompt mein LITERALLY inject karta hai
+3. write_task run (is injected context ke saath) → final output
+```
+
+Agar `Task(..., context=[task_a, task_b])` explicitly diya ho, to sirf immediately-previous
+task nahi — un specific tasks ka output inject hota hai. Ye ek **prompt-string concatenation**
+mechanism hai, koi shared-memory Python object nahi jo tasks ke beech pass ho raha ho.
+
+### Hierarchical — manager ek "invisible agent" hai jo workers ko tool ki tarah call karta hai
+
+```python
+crew = Crew(agents=[researcher, writer], tasks=[...], process=Process.hierarchical, manager_llm="gpt-4o")
+```
+
+`manager_llm`/`manager_agent` tumhare `agents` list mein NAHI hai — CrewAI internally ek manager
+LLM inject karta hai jise puri task list + har agent ka role/goal/backstory milta hai, aur har
+worker agent ko ek **callable tool** ki tarah expose kiya jaata hai (`"Delegate to Researcher"`
+jaisa tool schema). Manager har round mein normal function-calling loop se decide karta hai
+"abhi kis worker-tool ko call karna hai" — orchestration bhi wahi ReAct-style tool-calling loop
+hai jo agents khud use karte hain, bas manager ke liye "tools" = "other agents".
+
+### `allow_delegation=True` — agent ka apna decision hai, scheduler ka nahi
+
+```python
+researcher = Agent(role="Researcher", allow_delegation=True, ...)
+```
+
+Ye flag agent ke toolset mein 2 implicit tools add kar deta hai:
+```
+- "Delegate work to coworker"   → args: {task, context, coworker_name}
+- "Ask question to coworker"    → args: {question, context, coworker_name}
+```
+Delegation koi framework-level scheduling decision nahi hai — ye agent ke apne LLM ka normal
+tool-call choice hai, exact wahi mechanism jo koi bhi doosra tool call karne ke liye use hota
+hai. Isiliye ek agent "delegate karega ya khud karega" ye predict karna hard hai — depend karta
+hai LLM us round mein kya sochta hai, deterministic scheduler nahi hai.
+
+### `memory=True` — asal mein ek ChromaDB collection hai
+
+Short-term memory: har task ka output ek embedding ke saath ChromaDB mein store hota hai; baad
+ki koi task jab context build kar rahi ho to semantic-similarity se relevant purane outputs
+retrieve kar sakti hai — Level5 ka wahi RAG retrieval, crew ke apne outputs pe.
+
+**Interview me bolne wali line:** "CrewAI ka 'orchestration' extra scheduler nahi hai — sequential
+mein context string-injection hai, hierarchical mein manager worker-agents ko tools ki tarah
+function-call karta hai, aur delegation agent ke apne tool-choice decision se hoti hai — sab
+same underlying tool-calling loop, sirf roles alag."
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: CrewAI basic setup — agents aur tasks kaise banate hain?

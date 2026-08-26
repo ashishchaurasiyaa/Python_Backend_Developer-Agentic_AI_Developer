@@ -49,7 +49,9 @@ warna silent bug ya hang mil jaata.
 ## Protocol
 
 ```
-1. Exercise folder kholo, har .py file ke docstring me TASK padho
+1. Exercise folder kholo, publisher/client.py ke docstring me pehle
+   MECHANISM padho (broker andar se kya karta hai — hash-map lookup,
+   trie match, x-death header, prefetch — asli AMQP internals), phir TASK
 2. TODO bharo (reference: ../practical/ aur ../theory/)
 3. python verify.py chalao -> ✅ mile to agla exercise; ❌ mile to output
    padho (specific guidance deta hai kaunsa TODO galat hai), fix karo

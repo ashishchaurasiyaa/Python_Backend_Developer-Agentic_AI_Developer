@@ -9,6 +9,82 @@
 
 ---
 
+## Andar kya hota hai — Pregel model, superstep by superstep
+
+LangGraph koi naya invention nahi hai — ye Google ke **Pregel** (2010, large-scale graph
+processing paper) ke **BSP (Bulk Synchronous Parallel)** model ko agent state machines pe reuse
+karta hai. Ye foundational execution model hai — `03_langgraph_advanced.md` ke subgraphs,
+checkpointers, aur parallel `Send` API sab isi model ke upar bane hain.
+
+### Ek "superstep" ka exact loop
+
+```
+1. ACTIVE NODES pata karo   — jin nodes ko is round mein naya message/state-update mila
+2. SAB active nodes RUN karo — conceptually parallel (ek hi superstep ke andar)
+3. Har node ek PARTIAL state update return karta hai (poora state nahi, sirf apna hissa)
+4. Updates CHANNELS mein MERGE hote hain via reducer function
+5. Reducer ke writes se decide hota hai NEXT superstep ke active nodes kaun honge
+   (conditional edges yahin evaluate hote hain)
+6. Agar koi node active nahi bacha → graph HALT, wapas control caller ko
+```
+
+Ye "1 node chala, phir agla" wala mental model nahi hai — ek superstep mein **multiple nodes
+ek saath** active ho sakte hain (parallel branches), aur agla superstep tabhi shuru hota hai jab
+current superstep ke SAARE active nodes complete ho jaayein — isiliye "Bulk **Synchronous**".
+
+### Reducers zaroori kyun hain (state.update() nahi karte, isliye)
+
+```python
+class State(TypedDict):
+    messages: Annotated[list, operator.add]   # reducer = list append
+    score: int                                # reducer = default (last write wins)
+```
+
+Agar ek superstep mein 2 parallel nodes dono `messages` mein likhna chahein, to "last write
+wins" data khoyega. `operator.add` reducer batata hai LangGraph ko: dono writes ko **merge**
+karo (append), overwrite mat karo. Yehi wajah hai ki LangGraph state mutation allow nahi karta —
+har node sirf apna partial update *return* karta hai, engine reducer se merge karta hai.
+
+### Checkpointer — kyun har superstep ke baad, sirf end pe nahi
+
+```
+Superstep 1 complete → FULL state snapshot save (checkpoint 1)
+Superstep 2 complete → FULL state snapshot save (checkpoint 2)
+Superstep 3 complete → FULL state snapshot save (checkpoint 3)
+```
+
+`interrupt_before`/`interrupt_after` koi special bolted-on feature nahi hai — checkpoint har
+superstep boundary pe already ban raha tha, "interrupt" bas graph ko is natural save-point pe
+rok deta hai aur baad mein wahi checkpoint se resume kar deta hai. Human-in-the-loop is wajah se
+"free" feature hai, extra mechanism nahi.
+
+### Trace — support-ticket router (2 nodes)
+
+```
+Input: {"ticket": "Refund not processed", "messages": []}
+
+Superstep 1:
+  active = [classify_node]
+  classify_node runs → returns {"category": "billing"}
+  reducer merges → state.category = "billing"
+  conditional_edge(state) reads category → routes to billing_agent
+
+Superstep 2:
+  active = [billing_agent]
+  billing_agent runs → returns {"messages": [AIMessage("Refund initiated")]}
+  reducer merges (operator.add) → state.messages = [...,  AIMessage(...)]
+  conditional_edge(state) → routes to END
+
+Halt: no active nodes → return final state
+```
+
+**Interview me bolne wali line:** "LangGraph ek Pregel-style BSP engine hai — nodes superstep
+mein parallel chalte hain, partial updates reducers se channels mein merge hote hain, aur har
+superstep boundary automatically ek checkpoint hai. Isi checkpoint mechanism se HITL/resume
+milta hai, alag se implement nahi karna padta."
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: LangGraph basic StateGraph kaise banate hain?

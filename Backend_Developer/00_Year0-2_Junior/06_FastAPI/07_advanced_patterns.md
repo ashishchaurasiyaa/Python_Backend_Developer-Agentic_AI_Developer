@@ -12,6 +12,57 @@
 
 ---
 
+## Andar kya hota hai — Streaming ASGI Level Pe Chunk-by-Chunk Hota Hai
+
+### `StreamingResponse` — poora response memory mein buffer NAHI hota
+
+```python
+async def token_generator():
+    for token in llm_stream():
+        yield token
+
+return StreamingResponse(token_generator(), media_type="text/event-stream")
+```
+
+FastAPI `StreamingResponse` ko poora consume karke ek bada response nahi
+banata. ASGI server (Uvicorn) `send()` ko BAAR-BAAR call karta hai, har `yield`
+pe ek chunk ke saath:
+
+```
+send({"type": "http.response.body", "body": <chunk>, "more_body": True})
+   ... generator se agla token milte hi ...
+send({"type": "http.response.body", "body": <chunk>, "more_body": True})
+   ... jab tak generator exhaust ho ...
+send({"type": "http.response.body", "body": b"", "more_body": False})   # end
+```
+
+Underlying TCP connection is poore waqt OPEN rehta hai — client ko token
+milte hi milna shuru ho jaata hai, poora LLM response generate hone ka wait
+nahi karna padta. Yehi mechanism SSE aur LLM token-streaming dono ka base hai.
+
+### Redis token-bucket rate limiting — race condition ka asli fix
+
+```python
+# GALAT — check aur increment ke beech race condition:
+count = redis.get(key)
+if count > limit: raise ...
+redis.incr(key)                    # <- do concurrent requests dono yahan reach kar sakte
+
+# SAHI — atomic Lua script ya INCR-then-check:
+count = redis.incr(key)            # INCR khud atomic hai
+if count == 1: redis.expire(key, window_seconds)
+if count > limit: raise ...
+```
+
+`GET` + check + `INCR` teen ALAG Redis calls hain — beech mein doosra concurrent
+request wahi purana count dekh sakta hai (classic TOCTOU bug). `INCR` akela
+atomic hai, isiliye limit-check `INCR` ke RETURN VALUE pe honi chahiye, pehle se
+liye gaye `GET` pe nahi.
+
+---
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Cursor vs Offset pagination — kab kya use karte hain?

@@ -11,6 +11,38 @@
 
 ---
 
+## Andar kya hota hai — Handler Resolution MRO se hoti hai, registration order se nahi
+
+```python
+class AppError(Exception): ...
+class UserNotFoundError(AppError): ...
+
+@app.exception_handler(AppError)
+def handle_app_error(request, exc): ...
+
+@app.exception_handler(UserNotFoundError)
+def handle_user_not_found(request, exc): ...
+```
+
+Exception handlers ek dict mein store hote hain, keyed by exception CLASS. Jab
+exception poore middleware stack se hote hue UPAR propagate hoti hai (yehi
+`ExceptionMiddleware` sabse bahar baitha hota hai isi kaam ke liye), woh raised
+exception ki **MRO (Method Resolution Order)** ko walk karta hai — sabse SPECIFIC
+class se shuru karke — aur pehla registered handler jo match kare, wahi chalta
+hai:
+
+```
+raise UserNotFoundError(...) aaya:
+  1. UserNotFoundError ke liye handler registered hai? HAAN → handle_user_not_found() chale
+  2. (agar step 1 na milta) AppError ke liye handler? → handle_app_error() chalega (fallback)
+```
+
+Isiliye ek SPECIFIC handler HAMESHA GENERIC handler se priority leta hai — chahe
+generic wala pehle registered kyun na ho. Registration order sirf tab matter
+karti hai jab dono ke against MRO equally specific ho (rare case).
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Custom exception handler kaise banate hain? Multiple exceptions handle karo.

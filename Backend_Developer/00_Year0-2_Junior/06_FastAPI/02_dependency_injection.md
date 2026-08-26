@@ -9,6 +9,55 @@
 
 ---
 
+## Andar kya hota hai — DI Graph Resolution + Caching
+
+### Per-request ek dependency GRAPH banta hai, function-call chain nahi
+
+```python
+def get_db(): ...
+def get_current_user(db = Depends(get_db)): ...
+def get_orders(user = Depends(get_current_user)): ...
+
+@app.get("/orders")
+def list_orders(user = Depends(get_current_user), orders = Depends(get_orders)): ...
+```
+
+Request aane par FastAPI `list_orders` ke signature ko INSPECT karta hai, dekhta hai
+`Depends()` hai, phir RECURSIVELY us dependency ke apne signature ko bhi inspect
+karta hai (sub-dependency) — poora ek DEPENDENCY GRAPH ban jaata hai, phir usse
+**topologically resolve** karta hai: leaf dependencies (`get_db`) pehle, unpe depend
+karne wali baad mein.
+
+### Caching — same dependency EK BAAR hi call hoti hai per request
+
+```
+list_orders() ko DO dependencies chahiye: get_current_user() AUR get_orders()
+Dono INTERNALLY get_db() pe depend karte hain.
+
+Bina caching: get_db() 3 baar call hota (khud + do jagah se indirectly)
+FastAPI ke saath: get_db() SIRF EK BAAR call hota hai is request ke liye —
+  result callable-identity se CACHE hota hai (`Depends(get_db, use_cache=False)`
+  se yeh disable kar sakte ho agar genuinely fresh call chahiye har jagah)
+```
+
+### `yield` dependency — teardown kab aur kaise chalta hai
+
+```python
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db          # <- yahi tak "setup", db endpoint ko milta hai
+    finally:
+        db.close()         # <- response poori tarah client ko bhej dene ke BAAD chalta hai
+```
+
+`yield` se pehle ka code = setup, resolution ke waqt chalta hai. `yield` ke BAAD ka
+code Starlette ke `AsyncExitStack` mein register hota hai aur **response fully sent
+hone ke baad** finally-block ki tarah chalta hai — chahe endpoint successfully
+return kare ya exception raise kare, cleanup guaranteed chalta hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Dependency Injection kya hai? FastAPI mein kaise kaam karta hai?

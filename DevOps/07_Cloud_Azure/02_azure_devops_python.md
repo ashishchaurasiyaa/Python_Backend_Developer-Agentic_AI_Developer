@@ -63,6 +63,69 @@ kubectl apply -f ingress.yaml  # with nginx-ingress or Azure Application Gateway
 
 ---
 
+## AKS — What's Actually Managed, and What `--attach-acr` Really Does
+
+### Control plane vs node pool — two different billing/ownership models
+
+```
+Control plane (API server, etcd, scheduler, controller-manager)
+  → Azure-managed, you never see a VM for it, free tier available
+  → this is what `kubectl` talks to — it lives outside your subscription's
+    visible compute, Microsoft operates and patches it
+
+Node pool
+  → YOUR VMs, and specifically: an AKS node pool IS an Azure VM Scale Set
+    (VMSS) underneath. `kubectl get nodes` output maps 1:1 to VMSS instances
+    you can also see via `az vmss list`.
+  → this is what you pay for, what Cluster Autoscaler resizes, and where
+    kubelet actually runs
+```
+
+The Kubernetes control-plane theory itself (reconciliation loop, scheduler, watch/diff/act) is
+already covered in the standalone `06_Kubernetes` phase of this track — what's Azure-specific is
+how the control plane and node pool are split across Microsoft's infrastructure vs yours.
+
+### `az aks update --attach-acr` — not a network rule, an RBAC grant
+
+```bash
+az aks update --name myAKSCluster --resource-group myResourceGroup --attach-acr myContainerRegistry
+```
+
+This does **not** open a firewall path. What it actually does: it takes the AKS cluster's
+kubelet managed identity (every AKS cluster has one) and creates an RBAC role assignment —
+**`AcrPull`, scoped to that specific registry** — exactly the Managed Identity + RBAC mechanism
+from `01_azure_fundamentals.md`. When a node's kubelet needs to pull an image, it goes through
+the same IMDS token flow described there: request a token scoped to the ACR resource, present it
+to ACR, ACR checks the kubelet identity's role assignments.
+
+**Debugging consequence:** if a pod is stuck in `ImagePullBackOff` with a 401/403 against ACR,
+the useful question is *"does the kubelet identity have `AcrPull` on this registry"*
+(`az role assignment list --scope <acr-resource-id>`), not "is there a network path from the
+node to the registry" — ACR is a public HTTPS endpoint either way, the failure is almost always
+authorization, not connectivity.
+
+### `type: LoadBalancer` Services — where the actual Azure Load Balancer comes from
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  type: LoadBalancer
+  ...
+```
+
+Applying this manifest doesn't create anything by itself inside Kubernetes' own object model —
+AKS runs Azure's **cloud-controller-manager**, which watches the API server for `Service`
+objects of type `LoadBalancer`. When it sees one, it calls the **ARM API** (the same Resource
+Manager reconciliation engine from `01_azure_fundamentals.md`) to provision a real Azure Load
+Balancer resource + public IP, then writes that IP back into the Service's `status`. The
+Kubernetes control loop and the ARM reconciliation loop are two separate systems here, chained
+together by the cloud-controller-manager watching one and calling the other.
+
+---
+
 ## Azure Functions (Serverless — for background tasks)
 
 ```python

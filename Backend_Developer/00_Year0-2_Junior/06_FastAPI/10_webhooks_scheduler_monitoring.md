@@ -12,6 +12,49 @@
 
 ---
 
+## Andar kya hota hai — BackgroundTasks Ek Alag Worker NAHI Hai
+
+### Same event loop, same process — sirf response ke BAAD
+
+```python
+@app.post("/signup")
+def signup(bg: BackgroundTasks):
+    create_user()
+    bg.add_task(send_welcome_email, user.email)   # ← yeh Celery task NAHI hai
+    return {"status": "ok"}
+```
+
+`BackgroundTasks` Starlette response ka ek WRAPPER hai — response client ko
+POORA bhej diye jaane ke BAAD, tumhara task function isi SAME event loop, isi
+SAME process mein chalta hai. Koi alag worker, koi queue, koi separate process
+NAHI. Isiliye:
+
+```
+send_welcome_email() agar SLOW/blocking hai (jaise real SMTP call jo 3 sec
+lagata hai) — woh us worker ko 3 sec ke liye BLOCK kar deta hai agli
+request handle karne se. BackgroundTasks sirf CHEAP fire-and-forget (log
+line, fast webhook POST) ke liye hai — real heavy work Celery/RQ ki
+zaroorat hai, jahan ALAG process/worker actually kaam karta hai.
+```
+
+### Prometheus — PULL model, kabhi PUSH nahi
+
+```
+Tumhara app: /metrics endpoint bas ABHI ke in-memory counter/gauge values
+  ko text format mein return karta hai (koi network call nahi karta khud se)
+
+Prometheus server: apne interval pe (jaise har 15s) /metrics ko khud SCRAPE
+  (GET request) karta hai, values ko apni time-series DB mein store karta hai
+```
+
+Iska seedha consequence: agar koi spike do scrape-intervals ke BEECH mein
+aake wapas normal ho jaaye, Prometheus ne use KABHI dekha hi nahi — sirf
+scrape ke exact moment ki value visible hai, continuous stream nahi.
+
+---
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Incoming webhook HMAC verification kaise karte hain?

@@ -4,6 +4,14 @@ RabbitMQ Exercise 01 — Fanout Exchange (Publisher)
 OBJECTIVE: ek message bhejo jo SAARE subscribers ko mile — koi routing
            key filtering nahi, sirf broadcast.
 
+MECHANISM (andar kya hota hai): fanout exchange internally bas ek LIST
+  rakhta hai — jo bhi queues bound hain. Publish hote hi broker us
+  poori list pe LOOP karta hai aur har queue ko message ki apni COPY de
+  deta hai — routing_key ko dekhta tak nahi (isiliye fanout publish me
+  routing_key argument diya bhi jaaye to broker use IGNORE karta hai).
+  Cost O(bound queues) hai, O(1) nahi — 50 queues bound hain to har
+  publish 50 copies banata hai, chahe consumer kabhi na sune.
+
 TASK:
   1. TODO 1: EXCHANGE_TYPE bharo (fanout ka matlab kya hai?)
   2. Run: python publisher.py   (subscriber.py pehle 1-2 alag terminals

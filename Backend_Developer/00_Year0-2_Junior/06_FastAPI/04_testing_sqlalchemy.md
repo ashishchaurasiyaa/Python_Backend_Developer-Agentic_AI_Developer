@@ -10,6 +10,39 @@
 
 ---
 
+## Andar kya hota hai — TestClient Asli Network Call NAHI Karta
+
+### In-process ASGI call, koi socket nahi
+
+```python
+from fastapi.testclient import TestClient
+client = TestClient(app)
+response = client.get("/users/1")
+```
+
+Yeh koi real HTTP request bhej ke localhost pe listen nahi kar raha. `TestClient`
+(aur naya `ASGITransport` + `httpx.AsyncClient` pattern) tumhare `app` callable ko
+**seedha ek Python function ki tarah call** karta hai, ASGI protocol simulate
+karke — ek `scope` dict banata hai (method, path, headers), `receive`/`send`
+coroutines simulate karta hai. Koi TCP socket, koi real port bind, koi HTTP
+parsing — sab **in-process**. Isiliye tests itni fast chalti hain.
+
+### `dependency_overrides` — mocking library nahi chahiye, ek dict hai
+
+```python
+app.dependency_overrides[get_db] = get_test_db
+```
+
+FastAPI DI resolution (`02_dependency_injection.md`) ke andar, `get_db` ko call
+karne se PEHLE ek check hota hai: "kya `app.dependency_overrides` dict mein iske
+liye koi replacement hai?" Agar haan, ORIGINAL callable ke bajaye REPLACEMENT
+call hota hai — poora resolution graph automatically test-version use karta hai,
+kyunki override lookup HAR dependency-resolve step pe hota hai, sirf top-level pe
+nahi. Isiliye `unittest.mock.patch` jaisi kisi library ki zaroorat nahi padti —
+DI system khud hi swap-point hai.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: FastAPI testing kaise karte hain (pytest + httpx)?

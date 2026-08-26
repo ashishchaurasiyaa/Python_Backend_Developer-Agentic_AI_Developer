@@ -13,6 +13,22 @@ SCENARIO:
 
 FIX: Idempotent consumer — message_id check karo, already processed? Skip karo.
 
+MECHANISM (andar kya hota hai — WHY yeh consumer ki responsibility hai,
+  broker ki nahi): at-least-once delivery koi bug nahi hai, RabbitMQ ka
+  DELIBERATE design hai. Jab consumer process karke ACK bhejne se
+  PEHLE crash ho jaaye, broker ke paas yeh janne ka koi tareeka nahi ki
+  "processing complete hui thi ya nahi" — sirf itna pata hai ACK nahi
+  aaya. Ambiguity resolve karne ke do options the: silently drop karo
+  (agar processing ho chuki thi to fine, nahi hui thi to message KHO
+  gaya — data loss) ya REDELIVER karo (agar processing ho chuki thi to
+  duplicate — par kam se kam LOSS nahi hota). RabbitMQ hamesha DOOSRA
+  choose karta hai — matlab dedup hamesha CONSUMER ka kaam hai. Dedup
+  key STABLE hona chahiye across redeliveries (publisher-set message_id,
+  ya ek natural business key) — is exercise ka in-memory set sirf ek
+  process-lifetime tak surviv karta hai; production me yeh ek DB unique
+  constraint (ya Redis SETNX) hota hai jo process-restart ke baad bhi
+  yaad rakhe.
+
 TASK:
   Kuch nahi bharna yahan. Subscriber.py ke TODOs bharo.
   publisher.py same message_id se 3 baar "deliver" karta hai.

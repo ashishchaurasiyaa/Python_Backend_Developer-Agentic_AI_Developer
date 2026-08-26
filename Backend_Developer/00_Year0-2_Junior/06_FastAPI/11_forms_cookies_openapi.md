@@ -11,6 +11,29 @@
 
 ---
 
+## Andar kya hota hai — OpenAPI Schema Function Signatures Se Generate Hoti Hai
+
+```
+1. App startup pe (pehli /openapi.json request pe, phir CACHE ho jaata hai),
+   FastAPI HAR registered route ko walk karta hai
+2. Har route ke function SIGNATURE ko inspect karta hai — type hints,
+   Depends()/Body()/Query()/Path()/Cookie() markers sab
+3. Har referenced Pydantic model pe uski apni model_json_schema() call
+   karta hai — yeh JSON Schema components/schemas mein jaata hai
+4. Path parameters, query parameters, request body, response model — sab
+   isi walk se OpenAPI ke "parameters"/"requestBody"/"responses" sections
+   mein assemble hote hain
+```
+
+Yehi wajah hai FastAPI mein **type hints hi tumhara API documentation hai** —
+koi alag docstring-parsing ya swagger-yaml-likhne wala step nahi, jo bhi
+signature mein declare kiya, wahi seedha docs mein reflect hota hai.
+`include_in_schema=False` sirf is WALK se ek route ko SKIP karwa deta hai —
+route khud kaam karta rehta hai, sirf `/docs`/`/openapi.json` mein nahi
+dikhta.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Form data aur file upload FastAPI mein kaise handle karte hain?

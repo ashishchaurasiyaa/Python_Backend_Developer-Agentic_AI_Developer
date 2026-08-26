@@ -8,6 +8,19 @@ OBJECTIVE: samjho ki topic exchange me `*` (exactly ek word) aur `#`
 Routing key shape: "{severity}.{priority}.{action}.{component}"
   e.g. "E.H.A1.C1" = Error, High priority, Action1, Component1
 
+MECHANISM (andar kya hota hai): direct exchange ek simple hash-map
+  lookup hai (03_direct_routing dekho), par topic ko EXACT string match
+  nahi karna — usse PATTERN match karna hai. Internally RabbitMQ
+  bindings ko ek TRIE (segment-by-segment tree) me organize karta hai:
+  har `.`-separated segment ek tree level hai, `*` us level pe "koi bhi
+  ek segment" match karta hai, `#` "zero ya zyada segments" (isiliye
+  `#` beech ke bhi variable-length gaps cover kar sakta hai, `*` sirf
+  exactly ek). Publish hote hi broker routing_key ko segments me todta
+  hai aur trie traverse karta hai — ek publish MULTIPLE bindings match
+  kar sakta hai (jaisa "W.M.A3.C2" neeche do subscribers ko milta hai)
+  kyunki trie traversal saare matching paths collect karta hai, sirf
+  pehla nahi.
+
 TASK:
   1. TODO 1: EXCHANGE_TYPE bharo
   2. errorhandlingsub.py / A3actiontaker.py / allwarningsfromC2.py ke

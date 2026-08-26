@@ -8,6 +8,54 @@
 
 ---
 
+## Andar kya hota hai — Middleware Onion + WebSocket Handshake
+
+### Middleware — LIFO stack hai, "list of functions" nahi
+
+```python
+app.add_middleware(LoggingMiddleware)     # 1st added
+app.add_middleware(AuthMiddleware)        # 2nd added
+app.add_middleware(CORSMiddleware)        # 3rd added (LAST)
+```
+
+Har `add_middleware()` call app ko ek NAYI LAYER se WRAP karta hai — sabse BAAD
+mein add hui middleware sabse BAHAR ki layer banti hai. Request andar jaate waqt
+**last-added-first** chalti hai, response bahar aate waqt **reverse** order mein:
+
+```
+Request  →  CORS  →  Auth  →  Logging  →  [route handler]
+Response ←  CORS  ←  Auth  ←  Logging  ←  [route handler]
+```
+
+Yehi wajah hai CORS middleware ko usually SABSE LAST add karte hain — taaki woh
+sabse PEHLE (outermost) chale aur preflight `OPTIONS` request ko baaki middleware
+tak pahunchne se pehle hi handle kar sake.
+
+### WebSocket — ek HTTP request hi hai, jab tak "Upgrade" na ho
+
+```
+1. Client normal HTTP GET bhejta hai extra headers ke saath:
+     Connection: Upgrade
+     Upgrade: websocket
+     Sec-WebSocket-Key: <random base64>
+
+2. Server 101 Switching Protocols response deta hai:
+     Sec-WebSocket-Accept: <SHA1(key + fixed GUID), base64>
+     (yeh hash prove karta hai server ne genuinely WebSocket samjha, random
+      HTTP server ne accidentally 101 nahi bhej diya)
+
+3. Is point ke baad, SAME TCP connection ab WebSocket FRAMING protocol use
+   karta hai — na ki HTTP request/response. Ab dono directions FULL-DUPLEX
+   hain: server kabhi bhi push kar sakta hai, client kabhi bhi bhej sakta hai,
+   bina naya request banaye.
+```
+
+FastAPI ka `@app.websocket("/ws")` handler yeh handshake khud handle karta hai —
+tumhara code seedha step 3 ke baad start hota hai, `await websocket.accept()` ke
+saath.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Custom middleware kaise likhte hain?

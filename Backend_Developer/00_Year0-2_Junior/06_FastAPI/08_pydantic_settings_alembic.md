@@ -10,6 +10,50 @@
 
 ---
 
+## Andar kya hota hai — Settings Precedence + Autogenerate ka Real Mechanism
+
+### `BaseSettings` — ek field, MULTIPLE sources, fixed precedence order
+
+```python
+class Settings(BaseSettings):
+    database_url: str = "sqlite:///default.db"
+    class Config:
+        env_file = ".env"
+```
+
+Har field ke liye pydantic-settings is ORDER mein check karta hai (pehla jo
+MILE, wahi jeetta hai):
+
+```
+1. Constructor argument   — Settings(database_url="...") seedha pass kiya
+2. Environment variable   — os.environ["DATABASE_URL"] (case-insensitive match)
+3. .env file value        — file mein likha DATABASE_URL=...
+4. Field default          — class mein diya default value
+```
+
+Yehi precedence hai jiski wajah se production deploy pe tum `.env` file EDIT
+kiye bina, sirf ek real environment variable SET karke (Docker `-e`, K8s
+`env:`) `.env` ki value OVERRIDE kar sakte ho — env var `.env` se upar hai.
+
+### Alembic autogenerate — code NAHI padhta, DUA SCHEMAS DIFF karta hai
+
+```
+1. Live DATABASE se connect hota hai, SQLAlchemy ka Inspector use karke
+   CURRENT actual schema introspect karta hai (tables/columns/types jo
+   ABHI DB mein hain)
+2. Tumhare Python models ki MetaData object se DESIRED schema nikalta hai
+3. Dono ko DIFF karta hai — jo columns/tables MetaData mein hain par DB
+   mein nahi, unke liye op.add_column()/op.create_table() generate karta hai
+```
+
+Ye ek STRUCTURAL diff hai, "intent" ka pata nahi — isiliye column RENAME karna
+autogenerate ko `drop_column` + `add_column` dikhta hai (do alag operations,
+data LOSS ho jaayega agar review kiye bina apply kar diya) — koi bhi
+autogenerate migration RUN karne se pehle padhna isiliye zaroori hai, blind
+trust nahi.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: Pydantic Settings kya hai? `os.environ.get()` se better kyu hai?

@@ -11,6 +11,49 @@
 
 ---
 
+## Andar kya hota hai — `OAuth2PasswordBearer` Sirf Ek Header Reader Hai
+
+### Yeh "security" khud kuch verify nahi karta
+
+```python
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])   # verification TUMHARA code hai
+    ...
+```
+
+`OAuth2PasswordBearer` ek `Depends()`-compatible callable hai jo bas
+`Authorization: Bearer <token>` header padhta hai aur raw token STRING return
+karta hai (ya header missing ho to khud 401 raise kar deta hai). Signature
+verify karna, expiry check karna, payload se user nikalna — sab TUMHARA code
+hai, jo isi token string ko sub-dependency ki tarah receive karta hai. OpenAPI
+docs mein "Authorize" button dikhne ka reason bhi yehi class hai — FastAPI ise
+security-scheme metadata ki tarah bhi treat karta hai.
+
+### RBAC — parameterized dependency (function-returning-function)
+
+```python
+def require_role(role: str):
+    def checker(user = Depends(get_current_user)):
+        if user.role != role:
+            raise HTTPException(403)
+        return user
+    return checker
+
+@app.delete("/users/{id}", dependencies=[Depends(require_role("admin"))])
+def delete_user(id: int): ...
+```
+
+`require_role("admin")` **route registration ke time** call hota hai — yeh
+IMMEDIATELY `checker` function return karta hai (closure mein `role="admin"`
+capture kiya hua). FastAPI is returned `checker` ko normal dependency ki tarah
+treat karta hai — yeh REQUEST TIME pe resolve hoga, `get_current_user` sub-dependency
+ke saath. Do alag "call times" hain: outer (`require_role`) import/startup pe,
+inner (`checker`) har request pe — confuse mat karo dono ko.
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: JWT access + refresh token system kaise banate hain?

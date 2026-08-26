@@ -12,6 +12,45 @@
 
 ---
 
+## Andar kya hota hai — Identity Map + Unit of Work
+
+### Ek Session ke andar, same row = SAME Python object
+
+```python
+user1 = session.get(User, 1)
+user2 = session.query(User).filter_by(id=1).one()
+user1 is user2   # True!
+```
+
+SQLAlchemy Session ek **IDENTITY MAP** rakhta hai — key `(class, primary_key)`.
+Ek hi session ke andar wahi row DO baar fetch karo, alag SQL query chal sakti
+hai (agar cache-miss), par Python OBJECT WAHI ek hi milta hai — dono
+references same memory object ko point karte hain. Yehi wajah hai
+`selectinload` vs `joinedload` ka farak sirf **query COUNT/shape** ka hai,
+object IDENTITY ka nahi — dono end mein wahi identity-mapped objects dete hain.
+
+### `session.begin()`/commit — Unit of Work, Active Record nahi
+
+```
+Session ke andar tum objects modify karte ho (in-memory) —
+  user.name = "New Name"
+  session.add(new_order)
+  session.delete(old_item)
+
+Koi SQL abhi tak nahi chali. Session saari changes ko TRACK karta hai
+(dirty/new/deleted sets). Sirf commit() (ya autoflush trigger, jaisे
+ek query) pe — SAARI pending changes ek hi FLUSH mein, ek TRANSACTION
+ke andar, SQL ban ke DB ko jaati hain.
+```
+
+Ye Django ORM ke `.save()`-per-object (Active Record) se fundamentally
+different pattern hai — SQLAlchemy mein tum poori "unit of work" ek saath
+commit karte ho, individual object apna save khud nahi karta.
+
+---
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: N+1 problem kya hai? SQLAlchemy mein kaise fix karte hain?

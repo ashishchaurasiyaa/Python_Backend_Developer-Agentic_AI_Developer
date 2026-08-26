@@ -9,6 +9,88 @@
 
 ---
 
+## Andar kya hota hai — Signature se Prompt kaise banta hai, aur Optimizer kya optimize karta hai
+
+### Signature → actual prompt (jo LLM ko jaata hai)
+
+```python
+qa = dspy.Predict("question -> answer")
+qa(question="What is Contextual Retrieval?")
+```
+
+Ye seedha LLM ko `"question -> answer"` bhej ke nahi call hota. DSPy compile time pe ek fixed
+internal template use karke ye actual prompt banata hai (roughly):
+
+```
+Given the fields `question`, produce the fields `answer`.
+
+---
+
+Follow the following format.
+
+Question: ${question}
+Answer: ${answer}
+
+---
+
+Question: What is Contextual Retrieval?
+Answer:
+```
+
+**`ChainOfThought` magic nahi hai** — ye tumhare signature ko silently
+`"question -> reasoning, answer"` mein rewrite kar deta hai, ek instruction add karta hai
+("Think step by step"), aur bas `answer` field extract karke tumhe deta hai — `reasoning` field
+internally generate hota hai par tumhe seedha nahi dikhta jab tak explicitly access na karo.
+
+### Module = computation graph, jise DSPy trace karta hai
+
+```python
+class RAG(dspy.Module):
+    def __init__(self):
+        self.retrieve = dspy.Retrieve(k=3)
+        self.generate = dspy.ChainOfThought("context, question -> answer")
+
+    def forward(self, question):
+        context = self.retrieve(question).passages
+        return self.generate(context=context, question=question)
+```
+
+Har `forward()` call ke dauraan DSPy ek global **trace** maintain karta hai — kaunsa module,
+kaunsa signature, kya input diya, LLM ne kya output diya — sab record hota hai. Optimizer ko
+yahi trace chahiye hota hai improve karne ke liye.
+
+### Optimizer (Teleprompter) — ye "prompt text pe search" hai, gradient descent NAHI
+
+```python
+from dspy.teleprompt import MIPROv2
+optimizer = MIPROv2(metric=my_accuracy_fn)
+compiled_rag = optimizer.compile(RAG(), trainset=train_examples)
+```
+
+```
+1. RAG() program ko training examples pe RUN karo, har run ka poora trace record karo
+2. Jin traces ka metric() score high aaya, unke (input, reasoning, output) ko
+   candidate FEW-SHOT DEMOS bana lo
+3. Alag-alag demo COMBINATIONS/counts try karo (aur MIPRO ke liye: instruction
+   phrasing bhi ek meta-LLM se generate/propose karo — "isko aise reword karo")
+4. Har candidate combination ko held-out validation set pe evaluate karo (metric() se)
+5. Jo combination sabse high score deta hai, use FINAL prompt mein bake kar do
+6. Return: naya compiled Module — ab uske signature ka prompt template mein
+   optimized instructions + few-shot demos permanently embedded hain
+```
+
+Ye weights update nahi kar raha — DSPy koi neural-net gradient descent nahi kar raha. Ye
+**discrete search over prompt text** hai (kaunse demos, kaunsi instruction wording), scored by
+tumhara metric function. "Self-improving" ka matlab hai: prompt khud better ban raha hai
+data + metric ke against, tum manually prompt-engineer nahi kar rahe.
+
+**Interview me bolne wali line:** "DSPy signature ko ek fixed template se real prompt mein
+compile karta hai, module ka forward() call trace karta hai, aur optimizer us trace pe demo
+combinations aur instruction phrasing search karta hai — ye prompt-text search hai, model
+weights training nahi."
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: DSPy kya hai? Basic usage?

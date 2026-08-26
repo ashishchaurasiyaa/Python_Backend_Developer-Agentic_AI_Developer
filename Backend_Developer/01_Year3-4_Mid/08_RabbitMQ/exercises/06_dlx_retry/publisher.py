@@ -13,6 +13,19 @@ FLOW:
                                   ↓ (after MAX_RETRIES NACKs)
                              dlx_exchange → dead_letter_queue (final DLQ)
 
+MECHANISM (andar kya hota hai): jab bhi RabbitMQ ek message ko dead-letter
+  karta hai (NACK+requeue=False, TTL expiry, ya queue-length-limit), woh
+  message ke properties me ek `x-death` HEADER (array) APPEND karta hai —
+  har entry me `{queue, reason, count, time}` hota hai. `count` field har
+  baar wahi (queue, reason) combo dobara hit hone pe INCREMENT hota hai —
+  isi field se production code "yeh 3rd retry hai" jaisa decide karta hai
+  (subscriber.py me dekhoge). TTL-based retry_queue par koi CONSUMER nahi
+  hai — message sirf apna TTL expire hone ka wait karta hai, phir broker
+  khud use apne dead-letter-exchange config (`x-dead-letter-exchange`)
+  ke through wapas main_exchange pe bhej deta hai. Yeh poora retry
+  mechanism bina kisi extra process/scheduler ke, sirf QUEUE ARGUMENTS
+  se ban raha hai — RabbitMQ khud hi timer + redelivery handle karta hai.
+
 TASK:
   1. TODO 1: main_queue declare karo — DLX arguments ke saath
   2. TODO 2: retry_queue declare karo — TTL + DLX back to main_exchange

@@ -9,6 +9,78 @@
 
 ---
 
+## Andar kya hota hai — Runnable Protocol, step by step
+
+`prompt | model | parser` dekh ke lagta hai jaise koi magic pipe operator hai. Nahi — LangChain
+ke har component (`ChatPromptTemplate`, `ChatOpenAI`, `StrOutputParser`, tools, retrievers, sab)
+ek common interface implement karte hain: the **`Runnable` protocol** — `.invoke()`, `.batch()`,
+`.stream()`, `.ainvoke()`, `.astream()`. `|` sirf Python ka `__or__` operator overload hai.
+
+### `|` karta kya hai (build time, NOT execution)
+
+```python
+chain = prompt | model | parser
+# yeh line koi LLM call NAHI karti. Yeh sirf ek object banati hai:
+#   RunnableSequence(steps=[prompt, model, parser])
+# ek linked-list jaisi pipeline — abhi kuch execute nahi hua.
+```
+
+### `.invoke(input)` karta kya hai (execution time)
+
+```
+RunnableSequence.invoke(input, config):
+    value = input
+    for step in self.steps:                 # [prompt, model, parser]
+        value = step.invoke(value, config)   # output → next step ka input
+    return value
+```
+
+Ek plain Python loop hai — har step ka output seedha agle step ka input ban jaata hai. `config`
+(callbacks, run_id, tags) **har step ko thread ho ke jaata hai** — isi wajah se ek chain ke beech
+mein LangSmith tracing ya token-counting callback lagane ke liye tumhe manually kuch pass nahi
+karna padta; `RunnableSequence` khud propagate karta hai.
+
+### Trace — "Explain LCEL" jaise sawaal ke liye
+
+```
+Input: {"question": "What is Contextual Retrieval?"}
+
+Step 1 (prompt.invoke):  ChatPromptTemplate formats → ChatPromptValue
+                          (system + human messages ban gaye)
+Step 2 (model.invoke):   ChatOpenAI ko messages bheje → AIMessage(content="...")
+Step 3 (parser.invoke):  StrOutputParser → AIMessage se .content nikal ke plain str return
+
+Output: "Contextual Retrieval is..."
+```
+
+### `.batch()` aur `.stream()` — ye "for loop N baar" nahi hain
+
+- `.batch([in1, in2, in3])` — har `Runnable` apni khud ki batching implement karta hai. Model
+  wrapper ke liye ye ek single concurrent-request-pool bana sakta hai (thread pool ya async
+  gather), sequential invoke() calls nahi. Batching per-step decide hota hai, poori chain ke
+  across nahi.
+- `.stream()` — pura chain **tabhi** end-to-end stream karega jab **har** step `.transform()`
+  implement karta ho (generator-friendly ho). Beech mein ek non-streaming step (jaise koi custom
+  function jo pehle poora input collect karta hai) pura streaming break kar dega — silent
+  gotcha, production me isko test karna zaroori hai.
+
+### Memory — decorator pattern hai, magic nahi
+
+```python
+chain_with_history = RunnableWithMessageHistory(chain, get_session_history, ...)
+```
+
+Ye ek **wrapper Runnable** hai: `.invoke()` call hone se pehle session history fetch karke
+input mein inject karta hai, aur call ke baad naya turn history store mein append karta hai —
+yaani `invoke()` ke around ek before/after hook, chain ke andar koi special memory-object nahi
+ghoom raha.
+
+**Interview me bolne wali line:** "LCEL ek pipe syntax nahi hai, ek uniform `Runnable` interface
+hai jispe `invoke/batch/stream` sab components consistently implement karte hain — `|` sirf ek
+`RunnableSequence` banata hai jo un steps ko loop mein call karta hai."
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: LCEL (LangChain Expression Language) kya hai? Basic usage?

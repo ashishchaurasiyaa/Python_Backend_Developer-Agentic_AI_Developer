@@ -827,6 +827,72 @@ DECISION FLOWCHART:
 
 ---
 
+## Andar kya hota hai — `agent.run()` ka actual loop
+
+### Tool schemas — Pydantic type hints se, FastAPI jaisa hi mechanism
+
+```python
+@agent.tool
+def get_order_status(ctx: RunContext[Deps], order_id: str) -> str:
+    ...
+```
+
+`@agent.tool` decorator function signature ke type hints se ek JSON schema generate karta hai —
+**wahi Pydantic introspection mechanism jo FastAPI request-body validation ke liye use hota
+hai**, bas yahan LLM tool-calling schema banane ke liye reuse ho raha hai. `result_type` diya ho
+to uska Pydantic schema bhi model ko bheja jaata hai as the expected final-output shape.
+
+### `run()` ka loop — tool calls jaisa function-calling hi hai
+
+```
+1. message list banao: system_prompt + history + naya user message
+2. model ko call karo, tool schemas + result_type schema saath bhejo
+3. Agar model TOOL CALL return kare:
+     a. arguments Pydantic se VALIDATE/coerce karo (jaise string "5" → int 5)
+     b. agar tool signature RunContext[Deps] maangta hai, deps inject karo
+     c. function EXECUTE karo, result ko history mein append karo
+     d. loop back to step 2 (yahi ReAct-style loop hai, jo har framework mein hai)
+4. Agar model TEXT/FINAL response de (koi tool call nahi):
+     → step 5 pe jao
+```
+
+### Step 5 — ye part PydanticAI ka asli differentiator hai
+
+```
+5. Final response ko result_type (Pydantic model) ke against VALIDATE karo
+
+   Validation PASS  → result.data mein wahi validated object, run() return
+   Validation FAIL  → CRASH nahi karta. Iske bajaye:
+     a. validation error message ko NAYE turn ki tarah model ko WAPAS bhejo
+        ("Your output didn't match the schema: {error}. Try again.")
+     b. step 2 se loop repeat, max result_retries baar
+     c. saare retries exhaust ho jaayein to hi actual exception raise ho
+```
+
+Ye retry-on-validation-failure loop hi PydanticAI ki asli value hai — "structured output" sirf
+ek `response_format` flag nahi, ek poora automatic repair loop hai jab model schema follow
+nahi karta.
+
+### Trace
+
+```
+Turn 1: model → tool_call: get_order_status(order_id="ORD-4521")
+        → executed → observation: "shipped=false"
+Turn 2: model → text: '{"status": "not shipped", "refund": "yes"}'
+        → result_type validate: FAIL (refund field type mismatch — expected bool, got str)
+        → retry message bhejo model ko
+Turn 3: model → text: '{"status": "not shipped", "refund": true}'
+        → result_type validate: PASS
+        → result.data = OrderStatus(status="not shipped", refund=True)
+```
+
+**Interview me bolne wali line:** "PydanticAI ka tool-calling loop generic hai — har framework
+jaisa. Iska real differentiator step 5 hai: structured output validate hota hai Pydantic se, aur
+fail hone pe crash nahi — validation error ko wapas model ko bhej ke automatically retry karta
+hai, `result_retries` tak."
+
+---
+
 ## Core Architecture Summary
 
 ```

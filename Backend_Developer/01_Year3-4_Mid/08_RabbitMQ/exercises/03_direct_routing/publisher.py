@@ -6,6 +6,16 @@ OBJECTIVE: samjho ki DIRECT exchange sirf EXACT routing_key match
            01_fanout se farak hai (fanout sabko deta hai, key ignore
            karke).
 
+MECHANISM (andar kya hota hai): direct exchange internally ek HASH MAP
+  rakhta hai — `{routing_key_string: [queue1, queue2, ...]}`. Publish
+  hote hi broker is map me EXACT-STRING lookup karta hai — O(1), poori
+  binding list scan nahi karta. Yehi wajah hai direct, topic se FASTER
+  hota hai jab tumhe exact-match hi chahiye: topic ko `.`-separated
+  segments pe pattern-match (trie traversal) karna padta hai, direct ko
+  sirf ek dict lookup. Agar routing_key kisi bhi bound queue se match na
+  kare, message SILENTLY DISCARD ho jaata hai (jab tak `mandatory=True`
+  na ho) — koi error nahi aata, bas kahin nahi pahunchta.
+
 TASK:
   1. TODO 1: EXCHANGE_TYPE bharo
   2. alarmraiser.py / fiewriter.py / screenprinter.py ke apne TODO

@@ -40,6 +40,69 @@ LlamaIndex yahi karta hai but with much richer abstractions.
 
 ---
 
+## Andar kya hota hai — Index build hota kaise hai, aur Query Engine ke andar kya chalta hai
+
+### `VectorStoreIndex.from_documents(docs)` — 4 real steps
+
+```
+1. NodeParser (SentenceSplitter, default)
+   Har Document → chunk karke Node objects (Level5 wali chunking, yahan wrap ki gayi hai)
+
+2. Embedding
+   Har Node.text → configured embed model se call → vector nikalta hai
+
+3. Storage — DO jagah, ek saath
+   a) Vector store: Node.id_ + vector (similarity search ke liye)
+   b) Docstore: Node.id_ + poora text+metadata (retrieval ke baad full content chahiye)
+
+4. Index object ban gaya — dono stores ko point karta hai
+```
+
+### `index.as_query_engine()` = Retriever + ResponseSynthesizer
+
+```
+QueryEngine.query(question):
+    nodes = retriever.retrieve(question)       # default: top-k cosine similarity search
+    response = synthesizer.synthesize(question, nodes)
+    return response
+```
+
+### Response synthesis modes — DIFFERENT ALGORITHMS, ek config-flag nahi
+
+Ye asli interview differentiator hai — "response_mode" sirf ek setting nahi, poora alag execution path hai:
+
+**`compact`** (default) — jitne retrieved nodes ek prompt mein fit ho jaayein, sab ek saath
+stuff karo, **1 LLM call**.
+```
+Prompt: "Context: [node1][node2][node3]\nQuestion: {q}\nAnswer:"
+→ 1 LLM call
+```
+
+**`refine`** — nodes ko ONE AT A TIME process karo, sequentially:
+```
+node1 → LLM call 1: "Answer using this context: {node1}"        → initial_answer
+node2 → LLM call 2: "Existing answer: {initial_answer}
+                      New context: {node2}
+                      Refine the answer if needed:"              → refined_answer
+node3 → LLM call 3: "Existing answer: {refined_answer}
+                      New context: {node3}
+                      Refine the answer if needed:"              → final_answer
+```
+N nodes = N sequential LLM calls. Zyada accurate (har node explicitly consider hota hai) par
+slower + costlier — production mein latency/cost trade-off explicitly justify karna padega.
+
+**`tree_summarize`** — nodes ko tree mein bottom-up combine karo (map-reduce style): pehle
+groups mein summarize, phir un summaries ko aur summarize, jab tak ek final answer na bache.
+Bahut zyada retrieved nodes (jaise 50+) ke liye best — `refine` sequential O(n) LLM calls se
+better scale karta hai.
+
+**Interview me bolne wali line:** "Index build ek 3-step pipeline hai — parse, embed, dual
+storage (vector + docstore). Query engine ek retriever + synthesizer hai, aur response_mode
+sirf setting nahi — compact ek call, refine N sequential calls jo pichla answer refine karte
+hain, tree_summarize map-reduce tree — teeno ka cost/accuracy trade-off alag hai."
+
+---
+
 ## Interview Questions & Answers
 
 ### Q1: LlamaIndex kya hai? Basic Document -> Index -> Query flow?
