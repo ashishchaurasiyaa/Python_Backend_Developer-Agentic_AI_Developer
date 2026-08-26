@@ -6,6 +6,33 @@ Yeh full track hai: **Basic → Intermediate → Advanced**. Har topic Hindi/Hin
 
 ---
 
+## 📊 Daily practice workbook (Excel)
+
+Dono reference PDFs se banaya gaya ek hi file — **roz isi se padho**:
+
+**➡️ [English_Daily_Practice.xlsx](English_Daily_Practice.xlsx)**
+
+| Sheet | Kya hai |
+|-------|---------|
+| START HERE | Roz ka 30-min routine + har sheet ka matlab |
+| Daily Plan | 97 din ka schedule — roz kya padhna hai, sab likha hai |
+| **Core Words** | **209 words jo tum sach mein bologe** — 7 roz = **30 din**. Yahin se shuru karo. |
+| Vocabulary | Poori **966-word** list — meaning, Hinglish, pronunciation, root, 2 example sentences, aur "kab bolna hai" |
+| Word Roots | **295 roots/prefixes/suffixes** + memory hooks |
+| Sentence Models | **145 grammar patterns** — formula + Indian-English galti + 6 sentences each |
+| Model Sentences | 870 sentences, ek row mein ek — drilling ke liye |
+| Speaking Sentences | **1,038 ready sentences** — standup, meeting, interview, phone, daily life |
+| Irregular Verbs | 116 verbs ke V1/V2/V3 + sentences |
+| Revision Tracker | Spaced repetition (next day → +3 din → +1 week → +1 month) |
+
+> **Total 4,188 practice sentences.**
+>
+> **Shuru kahan se karein:** `Core Words` sheet se. Ye 966 mein se sirf wo 209 hain jo office aur daily life mein sach mein bolne kaam aate hain — 30 din mein khatam. Baaki 757 words (`good` / `rare`) reference hain; unhe baad mein ya sirf pehchanne ke liye padho.
+
+PDFs ka detailed analysis: **[PDF_ANALYSIS.md](PDF_ANALYSIS.md)**
+
+---
+
 ## 📌 Sabse pehle padho ye 3 rules
 
 1. **Roz bolo, zor se (out loud).** Sirf padhna kaafi nahi. Har lesson ke "🎤 Practice" section ko awaaz mein bolo.

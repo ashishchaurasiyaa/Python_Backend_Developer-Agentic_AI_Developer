@@ -113,3 +113,79 @@ def apply_tax(price: float, rate: float = 0.18) -> float:
 @app.task
 def summarize(prices: list) -> dict:
     return {"count": len(prices), "total": round(sum(prices), 2)}
+
+
+# ══════════════════════════════════════════
+# Lab 05 — idempotency
+# ══════════════════════════════════════════
+@app.task
+def process_payment_naive(order_id: int, amount: float) -> dict:
+    """NOT idempotent — har call pe naya tx_id banta hai."""
+    time.sleep(0.3)
+    tx_id = random.randint(10000, 99999)
+    return {"order_id": order_id, "charged": amount, "tx_id": tx_id}
+
+
+@app.task(bind=True, max_retries=5)
+def process_payment_idempotent(self, order_id: int, amount: float, idempotency_key: str) -> dict:
+    """
+    Idempotent payment — Redis mein result cache karo.
+    Same idempotency_key pe dobara call → cached result wapas.
+
+    Lab 05 TODOs yahan hain:
+      TODO A: existing result check karo (r.get)
+      TODO B: result store karo with 24h TTL (r.setex)
+    """
+    import redis as _redis
+    r = _redis.Redis(host="localhost", port=6379, db=2, decode_responses=True)
+    cache_key = f"payment_idem:{idempotency_key}"
+
+    # ── TODO A: check if already processed ────────────────────────────────
+    # existing = r.get(cache_key)
+    # if existing:
+    #     return {"order_id": order_id, "tx_id": existing, "idempotent": True,
+    #             "status": "ALREADY_PROCESSED"}
+    existing = None   # ← TODO A: isse badlo
+    # ──────────────────────────────────────────────────────────────────────
+
+    if existing:
+        return {"order_id": order_id, "tx_id": existing, "idempotent": True,
+                "status": "ALREADY_PROCESSED"}
+
+    time.sleep(0.3)                        # external payment API simulate
+    tx_id = str(random.randint(10000, 99999))
+
+    # ── TODO B: result store karo ─────────────────────────────────────────
+    # r.setex(cache_key, 86400, tx_id)     # 24h TTL
+    pass                                   # ← TODO B: isse badlo
+    # ──────────────────────────────────────────────────────────────────────
+
+    return {"order_id": order_id, "charged": amount, "tx_id": tx_id,
+            "idempotent": False, "status": "CHARGED"}
+
+
+# ══════════════════════════════════════════
+# Lab 07 — chunking / parallel processing
+# ══════════════════════════════════════════
+@app.task
+def process_batch(batch: list) -> dict:
+    """Ek batch of record IDs ko process karo."""
+    time.sleep(0.05 * len(batch))          # simulate real work
+    return {
+        "count": len(batch),
+        "batch_sum": sum(batch),
+        "min": min(batch),
+        "max": max(batch),
+    }
+
+
+@app.task
+def aggregate_results(results: list) -> dict:
+    """Chord callback — saare batch results merge karo."""
+    total = sum(r["batch_sum"] for r in results)
+    count = sum(r["count"] for r in results)
+    return {
+        "total_records": count,
+        "grand_sum": total,
+        "batches_processed": len(results),
+    }

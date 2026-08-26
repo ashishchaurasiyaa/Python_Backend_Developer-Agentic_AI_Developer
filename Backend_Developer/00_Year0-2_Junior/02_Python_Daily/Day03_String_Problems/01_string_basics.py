@@ -1,3 +1,5 @@
+from pandas._libs.tslibs import ccalendar
+
 name = "Ashish Chaurasiya"
 print(name)
 print(name[0])
@@ -36,3 +38,25 @@ print(name.find("kumar"))    # index kahan hai
 print(name.strip())          # spaces hatao
 print(name.startswith("ash")) # True/False
 print(name.endswith("iya"))   # True/False
+
+# s = "A man, a plan, a canal: Panama"
+# s = " "
+s = "race a car"
+print(s.split())
+
+s = "0P"
+clean = ""
+for ch in s:
+    if ('a' <= ch <= 'z') or ('A' <= ch <= 'Z') or ('0' <= ch <= '9'):
+        clean += ch.lower()
+
+left = 0
+right = len(clean) -1
+while left < right:
+    if clean[left] != clean[right]:
+        print(False)
+        break
+    left += 1
+    right -= 1
+else:
+    print(True)

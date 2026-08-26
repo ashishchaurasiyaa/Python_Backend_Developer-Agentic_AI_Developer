@@ -68,9 +68,16 @@ TOPICS = [
         ("29", "datetime_zoneinfo",                  "UTC discipline: now(utc) vs naive utcnow() footgun, ZoneInfo, naive-vs-aware TypeError"),
         ("30", "hashlib_hmac_secrets",               "password hashing (scrypt+salt), HMAC webhook verify (Exotel-style), secrets vs random"),
     ]),
+    ("CPython INTERNALS (deep-dive complete)", [
+        ("31", "dict_internals_and_hash_tables",     "compact dict architecture, hash/eq contract, collision, resize, O(1) proof"),
+        ("32", "import_system",                      "sys.modules cache, meta_path finders, importlib, circular imports, __all__"),
+        ("33", "copy_deepcopy",                      "shallow vs deep semantics, __copy__/__deepcopy__, cyclic refs, when to use which"),
+        ("34", "enum_deep_dive",                     "IntEnum/StrEnum/Flag, auto(), _missing_, functional API, state machine pattern"),
+        ("35", "bytecode_and_dis_module",            "dis.dis(), code objects (co_consts/co_varnames), LOAD_FAST, peephole optimizer, AST"),
+    ]),
 ]
 
-SUGGESTED_ORDER = "09 14 11 15 18 19 22 05 03 23 30 28  ->  phir baaki apni marzi se"
+SUGGESTED_ORDER = "09 14 11 15 18 19 22 05 03 23 30 28 31 32 33 34 35  ->  phir baaki apni marzi se"
 
 
 def main() -> None:
