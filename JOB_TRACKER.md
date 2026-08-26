@@ -1,6 +1,6 @@
 # 💼 JOB TRACKER — Application Pipeline
 
-> **Kyun:** [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md) W5 se bolta hai *"~5 apps/day, referrals first, track every app here."*
+> **Kyun:** [ROADMAP.md](ROADMAP.md) ka daily parallel-track bolta hai *"~5 apps/day, referrals first, track every app here."*
 > Padhna aur apply karna **parallel** chalta hai — study khatam hone ka wait mat karo.
 >
 > **Niyam:** har application isi din likho. Baad me yaad nahi rahega ki kis JD pe kya bola tha.
@@ -10,11 +10,11 @@
 
 ## 🔴 ACTIVE — abhi chal rahe hain
 
-> Sabse upar wahi jiska next step sabse jaldi hai. **Neeche wali row asli hai** (2026-08-11 ka Azure interview) — company ka naam bhar do.
+> Koi active pipeline nahi hai abhi (2026-08-26). PwC Senior Associate withdraw ho gaya tha 16 Aug ko, Azure GenAI referral reject/ghosted ho gaya (neeche closed). **Isi wajah se funnel table sab 0 dikha raha hai — ab naye applications daalne ka waqt hai.**
 
 | Company | Role | Applied | Source | Stage | Next step + kab | Notes |
 |---|---|---|---|---|---|---|
-| _(company name bharo)_ | GenAI Developer (Azure) | 2026-08-06 | Referral — <name> | 🎤 Interview 2026-08-11 | Azure prep → [05_genai_developer_azure_role_prep](Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md) | Azure OpenAI + AI Search core; Cosmos DB honest-pivot |
+| | | | | | | |
 
 **Stage legend:** 📤 Applied · 👀 Recruiter screen · 💻 Coding round · 🏛️ System design · 🎤 Interview · 🤝 Final/HR · 💰 Offer · ❌ Rejected · 👻 Ghosted
 
@@ -25,6 +25,8 @@
 | Company | Role | Applied | Outcome | Kya seekha (1 line) |
 |---|---|---|---|---|
 | Infosys | Python Backend | 2026-07-02 | _(outcome likho — window 5 Jul thi)_ | — |
+| _(company name bharo)_ | GenAI Developer (Azure) | 2026-08-06 | ❌ Reject/Ghosted (interview 2026-08-11) | _(kis round me gaya, kya nahi aaya — ek line likho)_ |
+| PwC | Senior Associate, GenAI Developer | — | Withdrawn by candidate 2026-08-16 | Not a rejection — user withdrew before the 18 Aug interview |
 
 > **Rejection = data.** Har ❌ ke saath ek line likho: *kis round me gaya, kya nahi aaya.*
 > Wahi line agle hafte ka study topic ban jayegi.
@@ -66,4 +68,4 @@
 
 ---
 
-**Related:** [ROADMAP.md](ROADMAP.md) (roz ka kaam) · [MY_PROGRESS.md](MY_PROGRESS.md) (study log) · [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md#-job-hunt-track-runs-in-parallel-with-the-study-weeks--read-this-first) (job-hunt track) · [INTERVIEW_PREP_COMPANIES.md](INTERVIEW_PREP_COMPANIES.md)
+**Related:** [ROADMAP.md](ROADMAP.md) (roz ka kaam) · [MY_PROGRESS.md](MY_PROGRESS.md) (study log) · [INTERVIEW_PREP_COMPANIES.md](INTERVIEW_PREP_COMPANIES.md)

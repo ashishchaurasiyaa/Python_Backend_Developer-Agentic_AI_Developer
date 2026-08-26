@@ -28,10 +28,9 @@ Confusion ho to bas yahin wapas aao — aur kahin mat jao.
 | **Job apply** karte waqt | [`JOB_TRACKER.md`](JOB_TRACKER.md) | Application pipeline tracker |
 | Company-specific prep | [`INTERVIEW_PREP_COMPANIES.md`](INTERVIEW_PREP_COMPANIES.md) | Live interview pipeline + per-company prep |
 | Market kya maang raha hai | [`JD_ANALYSIS_TOP50.md`](JD_ANALYSIS_TOP50.md) | 47 real JDs, frequency-ranked |
-| 12-week calendar view | [`DAILY_PLAN_90_DAYS.md`](DAILY_PLAN_90_DAYS.md) | Long-range plan + job-hunt track |
 
-> 📦 **Superseded (mat kholo):** [`00_START_HERE.md`](00_START_HERE.md) (June ka phase-map) aur [`JULY_SPRINT.md`](JULY_SPRINT.md) (expire ho chuka).
-> Dono me banner laga hai. Daily driver sirf **ROADMAP.md** hai.
+> 📦 **Superseded (mat kholo):** [`00_START_HERE.md`](00_START_HERE.md) (June ka phase-map, banner laga hai).
+> Daily driver sirf **ROADMAP.md** hai. `DAILY_PLAN_90_DAYS.md` aur `JULY_SPRINT.md` dono delete ho chuke hain — job-hunt track ab [`JOB_TRACKER.md`](JOB_TRACKER.md) me hai.
 
 ---
 
@@ -44,8 +43,8 @@ PythonRevision/
 ├── STUDY_PLAN.md               ← topic-wise reference view
 ├── SENIOR_MUST_READ.md         ← 60 must-read files (reading list)
 ├── COMPULSORY_TOPICS.md · JOB_TRACKER.md · INTERVIEW_PREP_COMPANIES.md
-├── JD_ANALYSIS_TOP50.md · DAILY_PLAN_90_DAYS.md
-├── 00_START_HERE.md · JULY_SPRINT.md   (superseded — banner lagi hai)
+├── JD_ANALYSIS_TOP50.md
+├── 00_START_HERE.md   (superseded — banner lagi hai)
 │
 ├── Backend_Developer/          ← Python backend (Fresher → Senior)
 │   ├── 00_Year0-2_Junior/        Foundations, Python Daily, Tooling, SQL/PostgreSQL,
@@ -81,7 +80,7 @@ PythonRevision/
 ├── english_speaking/           ← 🗣️ roz 30 min (interview ka asli gap)
 │   └── 01_Basics → 02_Intermediate → 03_Advanced + practice/
 │
-└── coding_practic/             ← scratch pad (asli DSA practice harness me hai)
+└── Backend_Developer/coding_laps/  ← scratch pad (asli DSA practice harness me hai)
 ```
 
 ---

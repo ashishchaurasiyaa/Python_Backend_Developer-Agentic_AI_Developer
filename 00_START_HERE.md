@@ -277,19 +277,10 @@ Ye sirf tab choose karo jab interview deadline na ho. Order:
 - **Cloud deploys** (Production Track labs Week 1-4) — labs locally free, par real AWS deploy karoge toh **Terraform destroy** + **AWS Budget alert** zaroor. SageMaker endpoint per-hour bill karta hai, bhool gaye toh $5-10/day silent burn.
 - **`__pycache__/`, `build/`, `_data/`** — labs run karne pe ye dirs bante hain, `.gitignore` mein add karo ya periodically clean.
 
-### 🗑️ DELETE candidates (clutter, ab safe hai)
+### 🗑️ DELETE candidates — ✅ DONE (deleted, this section is now history only)
 
-Root pe ye old planning docs ab obsolete hain (sab is file me consolidated):
-- `Master_Plan_Complete.html` (20KB)
-- `Priority_Map_Complete.html` (30KB)
-- `Topic_Coverage_Audit_Complete.html` (195KB)
-- `Resume_Review_Complete.html` (57KB)
-- `Resume_Interview_Prep_Complete.html` (585KB)
-- `Agentic_AI/AGENTIC_AI_CURRICULUM.md`
-- `Agentic_AI/00_LEARNING_ROADMAP.md`
-- `Agentic_AI/Agentic_AI_Gap_Analysis_Complete.html`
-
-**Total ~900KB clutter.** Jab chaho bolo, delete kar dunga ek command me.
+All 8 files below were deleted during the Aug 2026 restructure — listing kept only as a record, don't look for them:
+`Master_Plan_Complete.html` · `Priority_Map_Complete.html` · `Topic_Coverage_Audit_Complete.html` · `Resume_Review_Complete.html` · `Resume_Interview_Prep_Complete.html` · `Agentic_AI/AGENTIC_AI_CURRICULUM.md` · `Agentic_AI/00_LEARNING_ROADMAP.md` · `Agentic_AI/Agentic_AI_Gap_Analysis_Complete.html`
 
 ---
 

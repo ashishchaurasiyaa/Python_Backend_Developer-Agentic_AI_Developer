@@ -91,7 +91,7 @@
 
 ### Prep angle
 - Deloitte GenAI-heavy hai — **1-page project story** ready rakho: RAG document Q&A ya multi-agent code review starter (dono already scaffolded in `Agentic_AI/Projects/`) — "maine ye banaya, ye architecture, ye trade-off" bolke explain karne layak.
-- System-design angle: agar system design round aaye, "Design a RAG system for enterprise" type question expect karo — [`JULY_SPRINT.md`](JULY_SPRINT.md) Week 3 mein already covered hai.
+- System-design angle: agar system design round aaye, "Design a RAG system for enterprise" type question expect karo — `JULY_SPRINT.md` (deleted — see [ROADMAP.md](ROADMAP.md)) Week 3 mein already covered hai.
 
 ---
 

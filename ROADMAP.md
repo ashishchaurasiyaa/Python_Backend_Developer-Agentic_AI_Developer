@@ -29,7 +29,7 @@ interview prep nahi. Interview ke 3-5 din pehle sequence chhodo, prep pe jao, ph
 
 | Interview | Kab | Kya kholo |
 |---|---|---|
-| 🔴 **GenAI Developer (Azure)** | **2026-08-11** | [Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md](Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md) — JD→repo gap map + day-wise plan |
+| _(koi active interview nahi hai abhi — 11 Aug Azure aur 18 Aug PwC dono closed, [JOB_TRACKER.md](JOB_TRACKER.md) dekho)_ | — | Naya schedule ho to yahan row daalo |
 | Koi bhi naya | — | [INTERVIEW_PREP_COMPANIES.md](INTERVIEW_PREP_COMPANIES.md) me add karo, phir uska prep doc banao |
 
 **General interview-week formula** (roadmap ki jagah):
@@ -47,7 +47,7 @@ Yeh 3 cheezein **kisi bhi din ke kaam ke saath** chalti hain — inka apna din n
 
 | Kya | Time | Kahan | Kyun roz |
 |---|---|---|---|
-| 🗣️ **English speaking** | 30 min | [english_speaking/README.md](english_speaking/README.md) | **Asli gap yahi hai.** Tech aata hai, bolna nahi aata — interview isi pe rukta hai. System-design drill *bolke* karo to dono ek saath ho jate hain. |
+| 🗣️ **English speaking** | 30 min | [english_speaking/README.md](english_speaking/README.md) + [awalenglish.com](https://www.awalenglish.com/) course | **Asli gap yahi hai.** Tech aata hai, bolna nahi aata — interview isi pe rukta hai. Internal curriculum + workbook (`English_Daily_Practice.xlsx`) grammar/vocab base deta hai; awalenglish course speaking practice/feedback deta hai — dono complement karte hain, ek dusre ko replace nahi. System-design drill *bolke* karo to dono ek saath ho jate hain. |
 | 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Coding round pehla filter hai. Streak mat todo — 1 problem bhi chalega. |
 | 💼 **Apply** | 15 min | [JOB_TRACKER.md](JOB_TRACKER.md) | Padhai khatam hone ka wait mat karo. Apply karte raho, jo reject hota hai wahi agla topic batata hai. |
 
@@ -208,4 +208,4 @@ Tab tak tumhe pata hoga kis role pe interviews aa rahe hain:
 
 ---
 
-**Related:** [MY_PROGRESS.md](MY_PROGRESS.md) (roz 3 line) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic-wise view) · [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md) (job-hunt track)
+**Related:** [MY_PROGRESS.md](MY_PROGRESS.md) (roz 3 line) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic-wise view) · [JOB_TRACKER.md](JOB_TRACKER.md) (job-hunt track)

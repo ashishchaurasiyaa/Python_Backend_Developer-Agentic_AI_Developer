@@ -128,8 +128,8 @@ developed (config, db, routers, retrieval packages) — the best one to harden f
 strong portfolio project.
 
 > **Pick ONE and go deep.** Ten half-built projects are worth less in an interview than one that is
-> tested, observable, and deployed. [DAILY_PLAN_90_DAYS.md](../../DAILY_PLAN_90_DAYS.md) recommends
-> hardening project 01 as the proof-project.
+> tested, observable, and deployed. [ROADMAP.md](../../ROADMAP.md) Week 4 (Capstone Deploy) walks through
+> hardening one project as the proof-project.
 
 ---
 

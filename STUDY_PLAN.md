@@ -1,10 +1,7 @@
 # UNIFIED STUDY PLAN — Zero to Advanced
 # Backend Developer + DevOps + Agentic AI
 
-> 🔴 **ACTIVE INTERVIEW — PwC Senior Associate, GenAI Developer (Kolkata) — Tue 18 Aug 2026.**
-> Aaj se 18 tak normal phase plan **paused**. Follow the 6-day plan in
-> [`Agentic_AI/Interview_Prep/06_pwc_genai_senior_associate_prep.md`](Agentic_AI/Interview_Prep/06_pwc_genai_senior_associate_prep.md)
-> (read [`05_genai_developer_azure_role_prep.md`](Agentic_AI/Interview_Prep/05_genai_developer_azure_role_prep.md) first).
+> **Day-by-day driver ab [ROADMAP.md](ROADMAP.md) hai** (koi active interview nahi hai abhi — PwC 16 Aug ko withdraw ho gaya tha, Azure GenAI referral 11 Aug wala reject/ghosted ho gaya, dono [JOB_TRACKER.md](JOB_TRACKER.md) me closed hain). Yeh file topic-wise reference ke liye hai; roz kya karna hai wo ROADMAP.md batata hai.
 
 > **This is your ONE file. Open this every day. Start where you left off.**
 > Rule: `[ ]` = not done yet. `[x]` = done. Always pick the FIRST unchecked item in your current phase.

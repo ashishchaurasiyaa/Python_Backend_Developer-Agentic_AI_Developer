@@ -170,8 +170,8 @@ Not a folder — the delivery layer. For **every** 🔴 topic above, you must be
 ---
 
 ## How to use this file
-1. **Weekly:** scan the 🔴 list. Any sub-topic you can't say out loud → schedule it in [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md).
+1. **Weekly:** scan the 🔴 list. Any sub-topic you can't say out loud → schedule it in [ROADMAP.md](ROADMAP.md).
 2. **Before each interview:** read the target JD, promote any ⚪ items it names to 🔴 for that week, skim the matching folder.
 3. **"Done" test:** you can explain it in 2 min, in English, with an example — not "I read the file".
 
-> Related: [STUDY_PLAN.md](STUDY_PLAN.md) (daily entry) · [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md) (12-week schedule + Job-Hunt Track) · [MASTER_INDEX.md](Agentic_AI/MASTER_INDEX.md) (Agentic full index)
+> Related: [ROADMAP.md](ROADMAP.md) (daily driver) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic reference) · [MASTER_INDEX.md](Agentic_AI/MASTER_INDEX.md) (Agentic full index)

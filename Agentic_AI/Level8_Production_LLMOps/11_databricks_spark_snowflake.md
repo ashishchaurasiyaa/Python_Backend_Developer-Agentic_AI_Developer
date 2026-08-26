@@ -250,7 +250,7 @@ AI-first products typically don't.
 Reality check (per JD_ANALYSIS_TOP50.md):
   - 5 of 47 JDs named Databricks/Spark/Snowflake explicitly, and only 1 (Warner Bros
     Discovery, Staff MLE) made it central to the role.
-  - Your target roles (per JULY_SPRINT.md / INTERVIEW_PREP_COMPANIES.md) are Python
+  - Your target roles (per ROADMAP.md / INTERVIEW_PREP_COMPANIES.md) are Python
     Backend + Agentic AI at 3-5 yrs — not Data Engineer / Staff MLE.
 
 What's worth knowing (this file's ceiling):

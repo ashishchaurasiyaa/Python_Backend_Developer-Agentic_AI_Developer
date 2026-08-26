@@ -30,6 +30,31 @@
 
 <!-- Naya entry YAHAN, sabse upar -->
 
+### 2026-08-26
+- **Padha:** —
+- **Kiya:** Gap-check session — STUDY_PLAN.md ka stale PwC banner hataya, JOB_TRACKER.md me Azure (reject/ghosted) + PwC (withdrawn) closed kiye, ROADMAP.md ka dead `DAILY_PLAN_90_DAYS.md` link fix kiya. **awalenglish.com** speaking course join kiya — ROADMAP ke daily parallel-track me wire kiya (internal `english_speaking/` curriculum ke saath, replace nahi).
+- **Kal:** ⚠️ Neeche 17–25 Aug ka gap khaali hai — `git status` me bahut sara uncommitted kaam pada hai (Day14 async practicals, DB_SQL labs, FastAPI labs 06-10, RabbitMQ exercises, DevOps AWS deep-dives 23-28, Redis theory 20-23, coding_laps DSA files). **Pehle commit karo, phir yahan 17-25 Aug ki asli entries likho** — maine fabricate nahi ki kyunki mujhe exact din-wise breakdown nahi pata.
+
+### 2026-08-16
+- **Padha:** —
+- **Kiya:** Interview Prep deep-dive guides (AI/LLM, frameworks, databases, async, cloud, APIs, Python) + STUDY_PLAN/MASTER_INDEX accuracy pass, stale xlsx/coding_practic files removed. (commits `4d70f81`, `af5278a`)
+- **Kal:** Phase 1+ backend basics ya DSA daily streak
+
+### 2026-08-11
+- **Padha:** —
+- **Kiya:** Phase 0 complete — Linux, Networking, Git theory + labs deep-expanded. (commit `effbf43`)
+- **Kal:** project4 ka run-through + resume update
+
+### 2026-08-10
+- **Padha:** —
+- **Kiya:** project4 triage agent build (eval harness + guardrails + observability), 3 market gaps fill (GitOps/ArgoCD, Azure, PostgreSQL priority), fragmented plans replace karke single zero-to-advanced STUDY_PLAN + naya `ROADMAP.md` bana. (commits `db4deb6`, `3d84776`, `c164623`, `8a52d4b`, `5264121`)
+- **Kal:** Phase 0 Linux/Networking/Git
+
+### 2026-08-09
+- **Padha:** —
+- **Kiya:** Content gap-fill + repo-wide index accuracy pass; Django CI workflow add karke same window me remove kiya. (commits `0da4cfd`, `cc47c7f`, `5f74ef1`)
+- **Kal:** project4 build shuru
+
 ### 2026-08-04
 - **Padha:** —
 - **Kiya:** Repo audit complete (20+ sweeps, 19 commits) — content + practice infra 100%
@@ -59,4 +84,4 @@ Resume ki jo lines abhi **unverified** hain (Kubernetes, Terraform, Prometheus/G
 
 ---
 
-**Related:** [ROADMAP.md](ROADMAP.md) (daily driver) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic reference) · [JULY_SPRINT.md](JULY_SPRINT.md) · [DAILY_PLAN_90_DAYS.md](DAILY_PLAN_90_DAYS.md)
+**Related:** [ROADMAP.md](ROADMAP.md) (daily driver) · [STUDY_PLAN.md](STUDY_PLAN.md) (topic reference) · [JOB_TRACKER.md](JOB_TRACKER.md)
