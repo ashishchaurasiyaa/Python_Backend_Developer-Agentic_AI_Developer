@@ -1,6 +1,12 @@
 # Cloud (AWS) — Hands-On Lab
 **DevOps Track · Phase 7 Practical**
 
+> **No AWS account? See [`../labs/`](../labs/)** — 5 TODO-stub labs (SQS
+> DLQ redrive, SNS→SQS filter policies, DynamoDB conditional writes,
+> Secrets Manager versioning, S3 event notifications) that run entirely
+> against LocalStack, free and local. The 4 labs below need a real AWS
+> account (EC2/VPC/ALB/ASG aren't things a free emulator does well).
+
 ## Prerequisites
 
 Be honest with yourself about cost here: most of these labs use AWS Free Tier-eligible resources, but a few (NAT Gateway, RDS Multi-AZ left running, ALB idle time) accrue small hourly charges even on Free Tier if you forget to tear them down. **Every lab ends with a teardown step — actually run it.**

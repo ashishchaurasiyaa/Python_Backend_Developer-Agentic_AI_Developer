@@ -58,4 +58,4 @@
 | [08](08_api_security_hardening.md) | API security hardening | [`08_...py`](practical/08_api_security_hardening.py) |
 | [13](13_api_monitoring_slo.md) | Monitoring + SLOs | [`13_...py`](practical/13_api_monitoring_slo.py) |
 
-**Related:** [03_Security](../03_Security/README.md) · [12_GraphQL](../12_GraphQL/README.md) · [06_gRPC](../06_gRPC/README.md) · [FastAPI](../../00_Year0-2_Junior/06_FastAPI/) · [HLD_Theory](../../02_Year5%2B_Senior/01_System_Design/HLD_Theory/)
+**Related:** [03_Security](../03_Security/README.md) · [12_GraphQL](../12_GraphQL/README.md) · [06_gRPC](../06_gRPC/README.md) · [FastAPI](../../00_Year0-2_Junior/06_FastAPI/) · [HLD_Theory](../../02_Year5+_Senior/01_System_Design/HLD_Theory/)

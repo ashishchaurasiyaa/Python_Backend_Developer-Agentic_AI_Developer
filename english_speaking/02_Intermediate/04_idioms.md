@@ -52,6 +52,8 @@ Interviews aur office conversations ke liye sabse useful set.
 | ballpark figure | approx andaaza | Can you give me a ballpark figure for the timeline? |
 | crunch time | bahut pressure/deadline ka time | It's crunch time before the release. |
 | burn the midnight oil | raat-raat bhar kaam karna | We burned the midnight oil to fix the production bug. |
+| nip it in the bud | shuruaat mein hi rok dena, badhne se pehle | We must nip the problem in the bud before it affects the release. |
+| worth its/one's salt | apne kaam mein yogya, competent | Any engineer worth their salt writes tests before shipping. |
 
 ---
 

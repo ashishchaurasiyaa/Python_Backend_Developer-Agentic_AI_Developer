@@ -6,6 +6,11 @@ still works on run number eight**.
 
 Spec file: [../04_project4_production_ai_saas.md](../04_project4_production_ai_saas.md)
 
+**Deploying this:** [labs/README.md](labs/README.md) — 6-lab build plan (FastAPI
+surface → auth/rate-limit → live evals/cost endpoint → Docker → Fly.io deploy
+→ predeploy quality gate). Trimmed-MVP scope, deliberately skips the spec's
+multi-tenant/Stripe/semantic-cache milestones — see that file for why.
+
 ---
 
 ## Why this shape

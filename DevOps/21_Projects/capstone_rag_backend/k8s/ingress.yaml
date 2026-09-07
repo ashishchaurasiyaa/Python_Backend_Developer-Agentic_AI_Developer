@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rag-backend
+  annotations:
+    # CHANGE-ME: swap for your actual ingress controller's annotations
+    # (nginx-ingress shown here; EKS + ALB Ingress Controller uses a
+    # different annotation set — alb.ingress.kubernetes.io/*).
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - CHANGE-ME.example.com
+      secretName: rag-backend-tls
+  rules:
+    - host: CHANGE-ME.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rag-backend
+                port:
+                  number: 80

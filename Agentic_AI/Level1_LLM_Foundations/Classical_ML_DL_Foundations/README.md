@@ -3,6 +3,8 @@
 > **Why this folder exists:** `Level1_LLM_Foundations` and `Deep_Architecture/` start at the transformer/attention level. This folder fills the layer BEFORE that — classical machine learning and deep learning (linear regression → perceptron → MLP → CNN → RNN/LSTM), ending with an explicit bridge into the Transformer you already know, plus transfer learning and GANs/diffusion. Gap identified 2026-07-04 while cross-checking the repo against an external Agentic AI bootcamp syllabus's "Foundations of Neural Networks and Transformers" module.
 >
 > **Docs 11–12 added 2026-07-18:** classical ML breadth (supervised/unsupervised algorithms + the full data-science pipeline) and classical NLP (BoW→TF-IDF→Word2Vec). These fill the two genuine content gaps found when mapping the repo against Tutedude's "90-Day GenAI" Modules 12 (ML) & 13 (NLP) — the only parts of that course not already covered (deeper) elsewhere in this repo.
+>
+> **Doc 13 added 2026-09-07:** PyTorch fundamentals — tensors, autograd, `nn.Module`, the training loop, `DataLoader`, device management, `state_dict` save/load. Gap identified while comparing this repo against a marketing bootcamp's topic list ("Python, PyTorch, LangChain, LangGraph, FastAPI, Gemini API, OpenAI") — everything else on that list was already covered (Gemini API turned out to already be covered in depth in `Level3_LLM_APIs_SDKs/03_ai_apis.md`, both legacy and current `google-genai` SDK). PyTorch was the one real gap: docs 1-12 taught the math with pure numpy by design (doc 4 says so explicitly), so there was no doc showing the actual library. Doc 13 is the deliberate bridge from "derived backprop by hand" to "can read a real training script."
 
 ---
 
@@ -22,6 +24,7 @@
 | 10 | [10_gans_diffusion_image_gen.md](10_gans_diffusion_image_gen.md) | GANs, diffusion models, DALL-E/Stable Diffusion/Midjourney foundations | (concepts) |
 | 11 | [11_classical_ml_algorithms.md](11_classical_ml_algorithms.md) 🆕 | **Classical ML breadth** — SVM/KNN/NB/Trees/RF, K-Means/DBSCAN, DS pipeline, metrics, bias-variance | [✅ practical.py](11_classical_ml_algorithms_practical.py) — sklearn model bake-off + clustering |
 | 12 | [12_classical_nlp_pipeline.md](12_classical_nlp_pipeline.md) 🆕 | **Classical NLP** — cleaning, BoW → TF-IDF → N-grams → Word2Vec, cosine similarity | [✅ practical.py](12_classical_nlp_pipeline_practical.py) — TF-IDF spam clf + mini embedding |
+| 13 | [13_pytorch_fundamentals.md](13_pytorch_fundamentals.md) 🆕 | **PyTorch** — tensors, autograd, `nn.Module`, training loop, `DataLoader`, device mgmt, `state_dict` | [✅ practical.py](13_pytorch_fundamentals_practical.py) — proves autograd == doc 4's manual gradients |
 
 ---
 
@@ -45,6 +48,7 @@
 ✅ The exact 2 things Transformers fixed that RNNs couldn't (distance + parallelization)
 ✅ Why LoRA works: it's classical "feature extraction" transfer learning, applied to LLMs
 ✅ How Stable Diffusion actually turns noise + a text prompt into an image
+✅ How to read/write real PyTorch — tensors, autograd, `nn.Module`, training loops, `DataLoader`, `state_dict` — the tool version of everything above
 
 ---
 
@@ -61,6 +65,7 @@
 9. What TWO specific problems did the Transformer solve that RNNs couldn't?
 10. Why is LoRA so parameter-efficient — connect it to transfer learning theory.
 11. How does a diffusion model generate an image from a text prompt?
+12. What does `requires_grad=True` do, and how does `.backward()` relate to doc 4's manual chain rule?
 
 ---
 

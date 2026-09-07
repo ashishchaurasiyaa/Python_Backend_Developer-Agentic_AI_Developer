@@ -1,6 +1,12 @@
 # Docker — Hands-On Lab
 **DevOps Track · Phase 5 Practical**
 
+> **Want a self-checking version instead of reading solutions inline?** See
+> [`../labs/`](../labs/) — 5 TODO-stub labs on different ground than the
+> 4 below (build-secret leakage, deeper privilege-drop enforcement, restart
+> policy semantics, read-only rootfs hardening, BuildKit cache mounts), each
+> with a `verify.sh` that tells you PASS/FAIL.
+
 ## Prerequisites
 
 - Docker installed and running locally — Docker Desktop (macOS/Windows) or Docker Engine (Linux). Verify with `docker version` and `docker run hello-world`.

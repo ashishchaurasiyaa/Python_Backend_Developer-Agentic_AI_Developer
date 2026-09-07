@@ -1,0 +1,61 @@
+# Full local stack: app (built from ./Dockerfile) + Postgres + Redis.
+#
+# Usage:
+#   docker compose up -d --build
+#   docker compose logs -f app
+#   docker compose down            # add -v to also drop volumes
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"   # 8000/8001 already used by other projects in this repo's Docker setups
+    environment:
+      ENVIRONMENT: development
+      DEBUG: "true"
+      DATABASE_URL: postgresql+asyncpg://shortener:dev@postgres:5432/shortenerdb
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: change-me-dev-only
+      BASE_DOMAIN: localhost:8002
+      WORKER_ID: "1"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: shortener
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: shortenerdb
+    ports:
+      - "5433:5432"   # 5432 already used by other projects in this repo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shortener -d shortenerdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"   # 6379 already used by other projects in this repo
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

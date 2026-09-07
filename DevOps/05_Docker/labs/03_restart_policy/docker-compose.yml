@@ -1,0 +1,17 @@
+# TODO lab: a container that crashes needs a POLICY about what happens
+# next, and "no policy" (the default) means "give up after one failure,
+# forever" -- just as dangerous in the opposite direction as "always retry
+# forever" is for something permanently broken. `restart: on-failure:N`
+# retries up to N times (with Docker's own growing backoff between
+# attempts) and then genuinely stops -- the container sits there Exited,
+# not looping, once it's clearly not going to succeed.
+#
+# YOUR TASK: this service is deliberately, permanently broken (`exit 1`
+# always) and currently has `restart: "no"` -- it fails once and never
+# tries again. Change it to `restart: on-failure:3` so Docker retries up to
+# 3 times before giving up.
+services:
+  flaky:
+    image: alpine:3.20
+    command: ["sh", "-c", "echo 'this always fails'; exit 1"]
+    restart: "no"

@@ -17,7 +17,7 @@ python harness.py --list       # 35 problems, topic-wise
 
 ## Kya cover hota hai
 
-28 canonical problems, har major pattern se kam se kam ek:
+35 canonical problems, har major pattern se kam se kam ek:
 
 | Pattern | Problems |
 |---|---|
@@ -58,7 +58,7 @@ Linked-list aur tree problems me nodes banane ke helpers (`build_list`, `build_t
 
 ```bash
 python harness.py     # niche summary aati hai:
-# Attempted 12/28   ✅ 10   ❌ 2   ⬜ not-started 16
+# Attempted 12/35   ✅ 10   ❌ 2   ⬜ not-started 23
 ```
 
 **Target ladder:**

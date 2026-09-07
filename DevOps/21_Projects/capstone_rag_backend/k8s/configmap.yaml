@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rag-backend-config
+  labels:
+    app: rag-backend
+data:
+  # Non-sensitive config only — DB/JWT secrets live in secret.yaml, never here.
+  ENVIRONMENT: "production"
+  DEBUG: "false"
+  EMBEDDING_MODEL: "text-embedding-3-small"
+  LLM_MODEL: "claude-sonnet-5"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+  JWT_ALGORITHM: "HS256"

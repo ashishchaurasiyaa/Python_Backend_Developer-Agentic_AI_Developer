@@ -463,6 +463,8 @@ Solutions:
    (Used by Cloudflare, Google DNS 8.8.8.8)
 ```
 
+**Mental model:** don't picture "Load Balancer" as one box in the diagram = one VM. A public IP/hostname is a front door, not a machine — `api.example.com` → `my-app.elb.amazonaws.com` can resolve to one address while AWS runs a whole cluster of LB nodes behind it (same reason `google.com`'s IP isn't "one Google computer" — see [`50_DNS_Deep.md`](50_DNS_Deep.md#an-ip-address-is-an-entry-point-not-a-machine)). Backend servers behind the LB sit on private IPs (`10.0.1.x`) — only the LB's public IP needs to be internet-reachable.
+
 ---
 
 ### 2.5 Real Project Answer

@@ -93,12 +93,12 @@ If any answer is no — skip the pattern, write the boring code.
 [09 When patterns become the problem](Section_09_Anti_Patterns/01_when_patterns_become_the_problem.md) — over-engineering
 [10 Comparisons and drills](Section_10_Interview_Drills/01_comparisons_and_drills.md) 🔴 — **interview drills, yahi last me revise karo**
 
-> **22 GoF patterns hain yahan** (Interpreter senior track me hai → [21_Interpreter_Pattern.md](../../02_Year5%2B_Senior/01_System_Design/LLD_Theory/21_Interpreter_Pattern.md)).
+> **22 GoF patterns hain yahan** (Interpreter senior track me hai → [21_Interpreter_Pattern.md](../../02_Year5+_Senior/01_System_Design/LLD_Theory/21_Interpreter_Pattern.md)).
 
 ## Cross-references
 
 - SOLID drives most patterns → [02 SOLID](Section_02_SOLID_Principles/)
 - Code smells trigger pattern adoption → [03 Smells](Section_03_Code_Smells_Refactoring/)
-- Architecture-level patterns (CQRS, Event Sourcing, Saga) live one tier up → [`02_Architecture_Patterns/`](../../02_Year5%2B_Senior/02_Architecture_Patterns/README.md)
-- Patterns ko **chala ke** dekhna hai → [`Design_Patterns_Code/`](../../02_Year5%2B_Senior/01_System_Design/Design_Patterns_Code/) (10 Django projects + 6 scripts)
-- Machine-coding drill → [`LLD_Problems/`](../../02_Year5%2B_Senior/01_System_Design/LLD_Problems/README.md)
+- Architecture-level patterns (CQRS, Event Sourcing, Saga) live one tier up → [`02_Architecture_Patterns/`](../../02_Year5+_Senior/02_Architecture_Patterns/README.md)
+- Patterns ko **chala ke** dekhna hai → [`Design_Patterns_Code/`](../../02_Year5+_Senior/01_System_Design/Design_Patterns_Code/) (10 Django projects + 6 scripts)
+- Machine-coding drill → [`LLD_Problems/`](../../02_Year5+_Senior/01_System_Design/LLD_Problems/README.md)

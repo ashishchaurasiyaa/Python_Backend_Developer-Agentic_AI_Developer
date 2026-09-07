@@ -1,0 +1,56 @@
+# TODO lab: a container that goes OVER its MEMORY limit gets KILLED
+# (OOMKilled, exit code 137) — the process is forcibly terminated, no
+# graceful shutdown, no signal it can catch. A container that goes over its
+# CPU limit is NEVER killed for that reason — it just gets throttled
+# (slowed down) by the kernel's CFS scheduler and keeps running exactly as
+# before. Same "resources.limits" block, two completely different failure
+# modes depending on which resource you're limiting.
+#
+# `stress` (image polinux/stress) is a real memory/CPU load generator, not a
+# toy — this is the exact pattern the official Kubernetes docs use to
+# demonstrate OOM behavior.
+#
+# YOUR TASK: mem-hog's memory LIMIT below is set far too generously (500Mi)
+# for a container that deliberately allocates 150M via `stress --vm-bytes`
+# — so right now it does NOT get OOMKilled. Lower `resources.limits.memory`
+# to something BELOW 150M (try 100Mi) so the allocation actually exceeds the
+# limit and the container gets killed.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mem-hog
+  namespace: k8s-labs
+spec:
+  restartPolicy: Never
+  containers:
+    - name: stress
+      image: polinux/stress
+      command: ["stress"]
+      args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
+      resources:
+        requests:
+          memory: "50Mi"
+        limits:
+          memory: "500Mi"  # TODO: lower this below 150M so the OOM killer actually fires
+---
+# cpu-hog needs no TODO — it's here purely as the CONTRAST case. It
+# deliberately tries to use more CPU than its limit allows and should stay
+# Running (never OOMKilled, never restarted) the entire time verify.sh
+# watches it — throttling is silent and non-fatal by design.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-hog
+  namespace: k8s-labs
+spec:
+  restartPolicy: Never
+  containers:
+    - name: stress
+      image: polinux/stress
+      command: ["stress"]
+      args: ["--cpu", "1"]
+      resources:
+        requests:
+          cpu: "50m"
+        limits:
+          cpu: "100m"

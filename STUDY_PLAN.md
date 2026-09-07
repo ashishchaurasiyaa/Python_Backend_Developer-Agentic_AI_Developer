@@ -6,12 +6,15 @@
 > are gone — don't look for them, don't recreate them. If you're ever confused about what to study,
 > **open this file and nothing else.**
 >
-> **Two parts:**
-> - **PART A — Current Sprint** — the exact day-by-day plan for right now (Day 1–56). Start here if you've
->   already got backend experience (this assumes ~4 yrs Python backend) and are closing specific gaps.
-> - **PART B — Full Reference Map** — the complete zero-to-advanced phase list (Phase 0–23). Use this if
->   you want the full basic→advanced picture, need to revisit fundamentals, or want to know what comes
->   after the current sprint ends.
+> **Three parts:**
+> - **PART A — Backend Full Walkthrough** *(current driver, as of 31 Aug 2026)* — every `Backend_Developer/`
+>   topic, theory + practical, in folder order (Junior → Mid → Senior), with a review checkpoint after each.
+>   Do this before touching `03_Interview_AnyYear/03_Projects/`.
+> - **PART A-2 — DevOps + Deployment Sprint** — the previous driver (Day 1–56: observability, Kubernetes,
+>   Terraform/AWS, capstone deploy, system design drills, interview polish). Do this after Part A.
+> - **PART B — Full Reference Map** — the complete zero-to-advanced phase list (Phase 0–23), spanning
+>   `DevOps/` and `Agentic_AI/` too. Use this if you want the full basic→advanced picture across the whole
+>   repo, or need to revisit a fundamental.
 >
 > Appendices at the end: a compulsory-topics self-check, and a curated "if you're short on time" reading list.
 
@@ -31,15 +34,127 @@
 
 **Every night, 3 lines in [`MY_PROGRESS.md`](MY_PROGRESS.md).** If the "Kiya" line is empty, that day's progress was zero — no matter how much you read.
 
+**In Part A specifically, a topic isn't "done" on your own say-so.** Finish the practical, then bring it to Claude for review (like a senior engineer reviewing a PR) before checking the box — see "How review checkpoints work" at the top of Part A.
+
 ---
 
-# 🎯 PART A — CURRENT SPRINT (Day 1–56)
+# 🎯 PART A — BACKEND FULL WALKTHROUGH (current driver)
 
-> This is what to actually do, today, in order. It assumes the basics (Part B, Phases 0–10) are already
-> familiar — this sprint targets the real remaining gaps: observability, Kubernetes, Terraform/AWS, a
-> deployed capstone, system design fluency, messaging depth, and interview polish.
+> **Decision (31 Aug 2026):** the previous Day 1–56 sprint is paused and moved to **Part A-2** below. This
+> is the new driver: every topic in `Backend_Developer/`, theory + practical, **in that folder's own order**
+> — `00_Year0-2_Junior` → `01_Year3-4_Mid` → `02_Year5+_Senior`. Nothing from the top-level `DevOps/` folder
+> or `Agentic_AI/` is in scope here — those wait for Part A-2 / Part B. `03_Interview_AnyYear/03_Projects/`
+> (the portfolio starters) comes after this is fully done, not before.
+>
+> Each line below is a **topic** (a folder), not a single file. Most topic folders have their own
+> `README.md` listing the exact files in study order — open that first, then work theory → practical/labs
+> in that folder. Don't re-list every filename here; that already exists per-topic and would drift out of
+> sync with this file if duplicated.
+
+### How review checkpoints work
+
+You're studying solo, but a topic doesn't get checked off on your own say-so. When you finish one:
+
+1. Bring the practical/lab code (or a working demo) + 2–3 lines on what you actually built — not what you read.
+2. Bring it to Claude for review — the same way a senior engineer reviews a junior's PR: read the code, ask the questions an interviewer would ask about that exact topic, flag gaps or sloppy edges.
+3. Only check the box and move to the next topic **after** that review, not before.
+
+This exists because [`MY_PROGRESS.md`](MY_PROGRESS.md) already diagnosed the failure mode once — 21 audit sweeps, 0 labs done. A reading pass alone doesn't clear a checkbox here; only reviewed, working code does.
+
+### 🚨 Interview scheduled mid-walkthrough?
+
+Pause here, don't abandon the sequence. Use the interview-week formula from Part A-2 (below), then resume this walkthrough at the exact topic you paused on.
+
+### 🔁 Daily parallel track (runs underneath every topic below)
+
+| Kya | Time | Kahan | Kyun roz |
+|---|---|---|---|
+| 🗣️ **English speaking** | 30 min | [`english_speaking/README.md`](english_speaking/README.md) + [awalenglish.com](https://www.awalenglish.com/) | Tech aata hai, bolna nahi aata — this is the real gap. |
+| 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Runs in parallel with everything, streak-based — doesn't wait for the walkthrough to finish. |
+| 💼 **Apply** | 15 min | [`JOB_TRACKER.md`](JOB_TRACKER.md) | Don't wait for "done" to start applying. |
+
+---
+
+## 00_Year0-2_Junior (12 topics)
+
+- [ ] **01_Foundations** — Linux/Bash essentials, OS concepts, Git workflows, SQL fundamentals, first API in plain English, Postman, environment setup, reading legacy code
+- [ ] **02_Python_Daily** — 55 days; work through in these blocks (skip nothing, but review can happen block-by-block instead of day-by-day):
+  - [ ] Days 01–07 — variables, control flow, strings, lists, dicts, sets/tuples, functions/recursion
+  - [ ] Days 08–16 — OOP (classes, inheritance, dunder, encapsulation), decorators/generators, algorithms/complexity, exceptions, threading/multiprocessing, async, file I/O, functools/itertools/dataclasses
+  - [ ] Days 17–19, 29–42 — asyncio advanced, ABC, typing deep dive, logging/pathlib/dotenv, context managers, dataclasses advanced, metaclasses/descriptors, profiling/memory, regex, testing basics
+  - [ ] Days 20–28 — arrays/two-pointer/sliding-window through heap/greedy (DSA-pattern intro — lighter pass; full depth comes later in `03_Interview_AnyYear/01_DSA/`)
+  - [ ] Days 43–52 — CLI tools, FastAPI, SQLAlchemy/Alembic, Celery/Redis, Pydantic v2, gRPC/Protobuf, **Docker (Day49 — dockerize something)**, contextvars, senior concurrency, inspect module
+  - [ ] Days 53–55 — gap-fill (core, advanced, concurrency/memory)
+- [ ] **03_Python_Tooling** — poetry/uv, ruff/mypy/pre-commit, pyproject.toml packaging
+- [ ] **04_Database_SQL** — PostgreSQL-focused, 37 topics: joins/subqueries/CTEs → indexing → transactions/locking → partitioning/sharding → pgvector → replication/HA → migrations
+- [ ] **05_MySQL** — CRUD, joins/indexes/transactions, InnoDB internals, replication, SQLAlchemy+FastAPI integration
+- [ ] **06_FastAPI** — 43 topics: routing/DI basics → security/JWT/OAuth2 → SQLAlchemy/Pydantic v2 → WebSockets/SSE → LLM integration → the 5 `labs/` TODO-stubs (self-verify)
+- [ ] **07_Django_DRF** — 44 topics: ORM deep dive → ViewSets/Serializers → N+1 detection → signals/async → multi-tenancy → security hardening
+- [ ] **08_Redis** — CLI/pipelines → pub/sub/streams → Lua scripting → cluster/sentinel → rate limiting/distributed locks
+- [ ] **09_Caching** — caching patterns, cache stampede, eviction policies, semantic caching for LLMs
+- [ ] **10_Testing** — pytest advanced, snapshot/mutation/contract testing, load testing, testcontainers
+- [ ] **11_File_Handling** — streaming uploads, S3 presigned URLs, image processing, PDF/Excel generation
+- [ ] **12_Email_Notifications** — SMTP, transactional email providers, push notifications, notification system design
+
+**Done when:** you've built and can defend a working FastAPI or Django CRUD API with auth, caching, and a test suite — from memory, no copy-paste, and it survives a senior-style review.
+
+---
+
+## 01_Year3-4_Mid (15 topics)
+
+- [ ] **01_Python_Advanced** — the biggest module (~47k lines). Priority 6 first: memory/GIL, async concurrency deep dive, concurrency decision framework, metaclasses/descriptors, race conditions/deadlocks, modern Python 3.11–13. Then the rest.
+- [ ] **02_API_Design** — versioning, pagination, rate limiting, idempotency, webhooks, HATEOAS, BFF pattern
+- [ ] **03_Security** — JWT/OAuth2/RBAC, OWASP Top 10, secrets management, zero trust, DPDP/GDPR compliance
+- [ ] **04_DevOps** *(Backend_Developer's own — 28 topics, distinct from the top-level `DevOps/` folder)* — Docker multistage/nginx → CI/CD → Kubernetes/Helm → Terraform → Prometheus/Grafana → ELK → deployment decision frameworks specifically for Django/FastAPI
+- [ ] **05_Microservices** — decomposition, API gateway, outbox pattern, event sourcing/CQRS, service mesh, DDD
+- [ ] **06_gRPC** — Protobuf, unary/streaming RPC, interceptors, mTLS, production deployment
+- [ ] **07_Kafka** — topics/partitions, consumer groups, exactly-once semantics, schema registry, production ops
+- [ ] **08_RabbitMQ** — exchanges/routing, DLX/retry, quorum queues, publisher confirms — the 8 `exercises/` labs
+- [ ] **09_Celery** — task states, retries/backoff, canvas workflows, priority queues, production architecture
+- [ ] **10_MongoDB** — CRUD, aggregation pipeline, sharding, transactions, change streams, data modeling patterns
+- [ ] **11_Elasticsearch** — search queries, aggregations/analyzers, relevance tuning (BM25), cluster architecture
+- [ ] **12_GraphQL** — Strawberry+FastAPI, N+1/DataLoader, subscriptions, federation
+- [ ] **13_WebSocket_SSE** — fundamentals, Redis pub/sub scaling, FastAPI WebSocket deep dive
+- [ ] **14_Engineering_Practices** — code review, incident response/runbooks, post-mortems, ADRs, tech debt management
+- [ ] **15_Design_Patterns_SOLID** — foundations → SOLID → code smells → all creational/structural/behavioral patterns → Python idioms vs GoF → anti-patterns → interview drills (10 sections)
+
+**Done when:** you can build a secure, event-driven, multi-service backend with background processing and deploy it — and explain every trade-off out loud, unprompted.
+
+---
+
+## 02_Year5+_Senior
+
+- [ ] **01_System_Design**
+  - [ ] `HLD_Theory/` — all 67 files, ~2/day
+  - [ ] `LLD_Theory/` — all 28 files (SOLID + every GoF pattern)
+  - [ ] `Design_Patterns_Code/` — run the 16 Django mini-projects, don't just read them
+  - [ ] `HLD_Problems/` — work every design out loud, starting with the warm-ups (URL Shortener, Pastebin, Payment Gateway)
+  - [ ] `LLD_Problems/` — attempt before reading the model answer, starting with LRU Cache + Parking Lot
+  - [ ] `HLD_Code/` — CQRS, saga, circuit breaker, rate limiter, consistent hashing
+  - [ ] `PRACTICE_DRILLS.md` + `SYSTEM_DESIGN_CHECKLIST.md` — timed, self-graded drills, run **in parallel** with the reading above, not after
+- [ ] **02_Architecture_Patterns** — Sections 01–10, foundations through cloud-native, with the practical exercise in each section
+- [ ] **03_Senior_Leadership** — all 12 files: hiring, engineering leadership, FinOps, DORA metrics, RFC/ADR writing, mentorship
+
+**Done when:** you can design any of the 37 HLD problems end-to-end in 45 minutes, out loud, and defend the design under follow-up questions.
+
+---
+
+**When Part A is fully done** → **Part A-2** below (DevOps/deployment sprint — much of its Week 5–7 will already feel like review if you did System Design + Kafka/Celery/Postgres properly above; treat it as drill reinforcement, not first exposure) → then `03_Interview_AnyYear/03_Projects/` — harden 2 starters (see the repo's coverage audit for which two).
+
+---
+
+# 🎯 PART A-2 — DEVOPS + DEPLOYMENT SPRINT (Day 1–56, do after Part A)
+
+> This was the previous driver — kept intact, just resequenced to run after the Backend walkthrough instead
+> of before it. It assumes the basics (Part A above, or Part B Phases 0–10) are already familiar — this
+> sprint targets the resume-facing gaps: observability, Kubernetes, Terraform/AWS, a deployed capstone,
+> system design fluency, messaging depth, and interview polish.
 >
 > **Roz ka time: ~2.5 ghante** (2h main kaam + 20 min DSA + jo bacha). Kam time ho to sirf 🔴 wala karo, 🟡 skip kar do — par order mat todo.
+>
+> **Overlap note:** if Part A's `01_System_Design` and Mid `07_Kafka`/`09_Celery`/`04_Database_SQL` are
+> already done, treat Week 5–7 below as timed drill practice on material you already know, not new reading
+> — the value there is speed and delivery under a clock, not first exposure.
 
 ### Pehle yeh 3 baatein (ek baar padho, phir bhool jao)
 
@@ -212,6 +327,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 - [ ] `02_Python_Daily/Day06_Sets_Tuples/` — all files
 - [ ] `02_Python_Daily/Day07_Functions_Recursion/` — all files
 - [ ] `02_Python_Daily/Complete_Practical/Section_01_Basics/` — 01 through 06 (variables/types → exceptions)
+- [ ] `03_Python_Tooling/` — poetry/uv, ruff/mypy/pre-commit, pyproject.toml packaging (do this once venv basics are comfortable — it's the professional workflow on top of them)
 
 **Done when:** You can write Python scripts to solve basic problems — loops, functions, lists, dicts.
 
@@ -282,7 +398,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 > Location: `Backend_Developer/00_Year0-2_Junior/02_Python_Daily/`
 
 - [ ] `Day17_Asyncio_Advanced_ABC/` through `Day42_Enum_Datetime_OS/` (Day17–42, minus days already covered) — MRO, DSA-pattern intro (Day20-25), Collections/Functools/Itertools, Typing deep dive, Logging/Pathlib/dotenv, context managers, dataclasses advanced, metaclasses/descriptors, profiling/memory
-- [ ] `Day48_gRPC_Protobuf/` · `Day50_Contextvars/` · `Day51_Concurrency_Senior/` · `Day52_Inspect_Module/`
+- [ ] `Day48_gRPC_Protobuf/` · `Day49_Docker/` (dockerize something) · `Day50_Contextvars/` · `Day51_Concurrency_Senior/` · `Day52_Inspect_Module/`
 - [ ] `Day53_GapFill_Core_Part1/` + `Part2` · `Day54_GapFill_Advanced/` · `Day55_GapFill_Concurrency_Memory/`
 - [ ] `Complete_Practical/Section_03_Advanced/` — 01 typing → 02 design patterns → 03 internals/performance
 - [ ] `Complete_Theory/05_...Theory.py` through `10_Regex_Testing_Enum_StdLib_Theory.py`
@@ -295,8 +411,9 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 - [ ] `01_Python_Advanced/theory/` + `practical/` + `Interview_Handson_Practice/` — GIL internals, async deep dive, memory
 - [ ] `02_API_Design/practical/` — versioning, pagination, rate limiting, idempotency, webhooks
 - [ ] `03_Security/practical/` — JWT, OAuth2, RBAC, HTTPS, OWASP Top 10
+- [ ] `04_DevOps/` — Backend_Developer's own 28-topic DevOps module (distinct from the top-level `DevOps/` folder) — Docker multistage/nginx, CI/CD, Kubernetes/Helm, Terraform, Prometheus/Grafana, ELK, Django/FastAPI-specific deployment
 - [ ] `06_gRPC/practical/` + `labs/` — Protocol Buffers, gRPC server/client
-- [ ] `07_Kafka/practical/` + `labs/` — topics, partitions, consumer groups, exactly-once (see Part A Week 7 for the exact lab sequence when you're doing this as part of the sprint)
+- [ ] `07_Kafka/practical/` + `labs/` — topics, partitions, consumer groups, exactly-once (see Part A-2 Week 7 for the exact lab sequence when you're doing this as part of the sprint)
 - [ ] `08_RabbitMQ/theory/` + `practical/` + `exercises/` — exchanges, routing, durability
 - [ ] `09_Celery/theory/` + `practical/` + `labs/` — task queues, beat scheduler, workers
 - [ ] `Backend_Developer/00_Year0-2_Junior/11_File_Handling/practical/` — file uploads, S3 presigned URLs
@@ -324,7 +441,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 **Done when:** You recognise patterns in existing code and write clean, testable, maintainable code.
 
 ## PHASE 11 — DevOps Advanced (Kubernetes + AWS + Terraform + CI/CD)
-> Location: `DevOps/` — **this is Part A's Weeks 1–3 in full reference form; if you're mid-sprint, use Part A's day-by-day version instead.**
+> Location: `DevOps/` — **this is Part A-2's Weeks 1–3 in full reference form; if you're mid-sprint, use Part A-2's day-by-day version instead.**
 
 - [ ] `DevOps/06_Kubernetes/01` through `06` (architecture/objects → networking/ingress → storage/config/secrets → scaling/RBAC → Helm → Karpenter autoscaling) + `practical/01_kubernetes_lab.md`
 - [ ] `DevOps/07_Cloud_AWS/01` through `05` (IAM/EC2 → storage/DB → networking/DNS/LB → ECS/EKS → monitoring/messaging/secrets) + `practical/01_aws_lab.md`
@@ -336,7 +453,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 **Done when:** You have your app deployed on AWS/EKS with a CI/CD pipeline that auto-deploys on git push.
 
 ## PHASE 12 — DevOps Observability + Security
-> Location: `DevOps/` — **this is Part A's Week 1 in full reference form.**
+> Location: `DevOps/` — **this is Part A-2's Week 1 in full reference form.**
 
 - [ ] `DevOps/11_Monitoring/01_prometheus_grafana_alertmanager.md` + `practical/01_monitoring_lab.md`
 - [ ] `DevOps/12_Logging/01_elk_loki_fluentd.md` + `practical/01_logging_lab.md`
@@ -403,7 +520,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 **Done when:** You can deploy an AI system to production with monitoring, guardrails, and cost controls.
 
 ## PHASE 20 — System Design (Senior Level)
-> Location: `Backend_Developer/02_Year5+_Senior/` — **for the drill-based day-by-day version, use Part A Weeks 5-6.**
+> Location: `Backend_Developer/02_Year5+_Senior/` — **for the topic-by-topic version with review checkpoints, use Part A's `02_Year5+_Senior` section; for timed drill practice on top of that, use Part A-2 Weeks 5-6.**
 
 - [ ] `01_System_Design/HLD_Theory/` — all 67 files in order (2 per day)
 - [ ] `01_System_Design/LLD_Theory/` — SOLID + all design pattern docs
@@ -436,12 +553,12 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 - [ ] `Backend_Developer/03_Interview_AnyYear/03_Projects/` — backend portfolio projects
 - [ ] `DevOps/21_Projects/` — end-to-end infrastructure project
 
-> **The capstone that's actually load-bearing right now:** `Agentic_AI/my-agentic-ai-project/Udemy_EdDonner_ProductionTrack/Week4_MultiAgent_Observability_AgentCore/Practical/` — **ALEX**, the multi-agent financial planner. See its [README](Agentic_AI/my-agentic-ai-project/README.md) for the architecture. It's well-documented but not yet actually deployed with a live eval score + cost number — that's the real remaining execution gap, and it's exactly what Part A Week 4 (Capstone Deploy) is for.
+> **The capstone that's actually load-bearing right now:** `Agentic_AI/my-agentic-ai-project/Udemy_EdDonner_ProductionTrack/Week4_MultiAgent_Observability_AgentCore/Practical/` — **ALEX**, the multi-agent financial planner. See its [README](Agentic_AI/my-agentic-ai-project/README.md) for the architecture. It's well-documented but not yet actually deployed with a live eval score + cost number — that's the real remaining execution gap, and it's exactly what Part A-2 Week 4 (Capstone Deploy) is for.
 
 ## PHASE 23 — Interview Preparation
-> Location: `Backend_Developer/03_Interview_AnyYear/` and `Agentic_AI/Interview_Prep/` — **see Part A Week 8 for the day-by-day version.**
+> Location: `Backend_Developer/03_Interview_AnyYear/` and `Agentic_AI/Interview_Prep/` — **see Part A-2 Week 8 for the day-by-day version.**
 
-- [ ] `Backend_Developer/03_Interview_AnyYear/02_Interview_Prep/` — all 8 files: Python tricky questions, 50 System Design Qs, SQL questions, coding patterns cookbook, behavioral (STAR), resume walkthrough, salary negotiation, mock interview format
+- [ ] `Backend_Developer/03_Interview_AnyYear/02_Interview_Prep/` — all 12 files: core Python/OOP Q&A, Django-FastAPI framework Q&A, DSA round strategy, company research/HR round, 50 System Design Qs, coding patterns cookbook, Python tricky questions, SQL questions, debugging scenarios, behavioral (STAR), resume walkthrough, salary negotiation
 - [ ] `Agentic_AI/Interview_Prep/` — all 12 files: system design (AI), coding patterns, behavioral, key technical concepts, role-specific prep, frameworks, databases, async/queues, cloud/DevOps, APIs/security, Python deep dive
 
 ---
@@ -582,12 +699,13 @@ TOMORROW: Day 4 — the debugging lab
 
 If you feel lost, stuck, or don't know what to do next:
 1. Open **this file**
-2. If mid-sprint: find the first `- [ ]` in Part A
-3. Otherwise: find the first `- [ ]` in your current Part B phase
-4. Do exactly that one thing. Nothing else.
+2. If mid-Backend-walkthrough: find the first `- [ ]` in Part A
+3. If mid-DevOps-sprint: find the first `- [ ]` in Part A-2
+4. Otherwise: find the first `- [ ]` in your current Part B phase
+5. Do exactly that one thing. Nothing else.
 
 **One file. Start to end. No more searching across multiple plans.**
 
 ---
 
-**Related (different purpose, not merged here):** [`MY_PROGRESS.md`](MY_PROGRESS.md) (daily log) · [`JOB_TRACKER.md`](JOB_TRACKER.md) (application pipeline) · [`INTERVIEW_PREP_COMPANIES.md`](INTERVIEW_PREP_COMPANIES.md) (company-specific prep) · [`JD_ANALYSIS_TOP50.md`](JD_ANALYSIS_TOP50.md) (market data) · [`Agentic_AI/MASTER_INDEX.md`](Agentic_AI/MASTER_INDEX.md) (Agentic track full index)
+**Related (different purpose, not merged here):** [`MY_PROGRESS.md`](MY_PROGRESS.md) (daily log) · [`JOB_TRACKER.md`](JOB_TRACKER.md) (application pipeline) · [`WEAK_POINT_TRACKER.md`](WEAK_POINT_TRACKER.md) (self-rate every DSA pattern + LLD pattern + HLD theme — drill until zero 🔴/🟡) · [`INTERVIEW_PREP_COMPANIES.md`](INTERVIEW_PREP_COMPANIES.md) (company-specific prep) · [`JD_ANALYSIS_TOP50.md`](JD_ANALYSIS_TOP50.md) (market data) · [`Agentic_AI/MASTER_INDEX.md`](Agentic_AI/MASTER_INDEX.md) (Agentic track full index)

@@ -113,6 +113,9 @@ class ConsistentHashRing:
 
 Time complexity: `get_node` is O(log V) where V = total virtual nodes.
 
+### Why a sorted structure, not a hash map?
+The lookup isn't "does token 37 exist?" (exact match — what `unordered_map`/dict is built for). It's **"give me the smallest token ≥ 37"** — a successor query, which needs ordering. That's why the ring is a sorted array (`bisect`) or an ordered map (C++ `std::map` + `lower_bound`), not a hash table. If `lower_bound` runs off the end, wrap to the first element — that's the ring's wraparound.
+
 ---
 
 ## The Virtual Nodes Trick (vnodes)
@@ -316,6 +319,25 @@ Hot keys in app-local LRU.
 - Don't move all data immediately (would saturate network).
 - Stream new ownership over hours/days.
 - Old node still serves reads until handoff complete.
+
+### Migration strategy: Background vs Lazy
+Two ways to actually move the data once ring ownership changes (e.g. DB4 joins at token 40, taking range 37-40 away from DB2):
+
+```
+Background migration:
+  A worker/script copies the affected range (37-40) from DB2 → DB4
+  eventually, regardless of traffic.
+  Guarantees everything moves, but a user hitting DB4 before the
+  copy finishes gets a miss.
+
+Lazy migration (read-time fallback):
+  User's key hashes to 38 → ring says DB4.
+  1. Check DB4 → miss (not copied yet)
+  2. Fall back to the previous owner (predecessor on the ring) → DB2
+  3. Found → serve it, and copy that key to DB4 on the way out
+  No request waits on the background job to catch up.
+```
+Production systems usually run **both together**: background migration guarantees eventual completion, lazy fallback means no request ever blocks on it.
 
 ### Topology awareness
 - Place vnodes from different physical nodes in different racks/AZs.

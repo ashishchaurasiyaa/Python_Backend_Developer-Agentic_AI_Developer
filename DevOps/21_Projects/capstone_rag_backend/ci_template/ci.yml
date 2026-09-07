@@ -1,0 +1,101 @@
+# TEMPLATE — this is NOT active. GitHub Actions only runs workflows placed at
+# a repo's real .github/workflows/ directory. This file lives here deliberately
+# so it doesn't silently start firing on every push to this study repo.
+#
+# To activate for real: copy this file to .github/workflows/ci.yml in the
+# actual repo hosting the FastAPI RAG backend app (or split that app into its
+# own repo first — a personal monorepo of study material and a real deployed
+# app's CI probably shouldn't share a root).
+#
+# Path below assumes the app repo root IS the FastAPI starter directory —
+# adjust `working-directory` if you copy this into a different layout.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}/rag-backend
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: rag
+          POSTGRES_PASSWORD: dev
+          POSTGRES_DB: ragdb_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rag -d ragdb_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt ruff pytest
+
+      - name: Lint
+        run: ruff check app/
+
+      - name: Test
+        env:
+          DATABASE_URL: postgresql+asyncpg://rag:dev@localhost:5432/ragdb_test
+        run: pytest -v
+
+  build-and-push:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write   # needed to push to GHCR via GITHUB_TOKEN — no long-lived credentials
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  terraform-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: Format check
+        run: terraform fmt -check -recursive
+        working-directory: ../terraform   # adjust path once this lives in the real app repo
+      - name: Validate
+        run: |
+          terraform init -backend=false
+          terraform validate
+        working-directory: ../terraform

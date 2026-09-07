@@ -20,10 +20,10 @@ Related, narrower DevOps content already exists at [`../Backend_Developer/01_Yea
 | 2 | Bash Scripting | [`02_Bash_Scripting/`](02_Bash_Scripting/) | Variables, loops, functions, arrays, cron, log parsing, backup automation |
 | 3 | Networking | [`03_Networking/`](03_Networking/) | OSI, TCP/IP, subnetting/CIDR, protocols, reverse proxy/CDN/load balancer |
 | 4 | Git | [`04_Git/`](04_Git/) | Branching, rebase, cherry-pick, stash, Git Flow, conflict resolution |
-| 5 | Docker | [`05_Docker/`](05_Docker/) | Images/containers, Dockerfile, Compose, storage, networking, registries |
-| 6 | Kubernetes | [`06_Kubernetes/`](06_Kubernetes/) | Architecture, objects, services, storage, config, scaling, security, Helm, cluster autoscaling/Karpenter |
-| 7 | Cloud (AWS) | [`07_Cloud_AWS/`](07_Cloud_AWS/) | IAM, EC2, S3/EBS/EFS, RDS/DynamoDB, VPC, Route 53, ALB/NLB, ECS/EKS, CloudWatch, SNS/SQS, Secrets Manager |
-| 8 | Terraform (IaC) | [`08_Terraform/`](08_Terraform/) | Providers, state, modules, backends, workspaces |
+| 5 | Docker | [`05_Docker/`](05_Docker/) | Images/containers, Dockerfile, Compose, storage, networking, registries — [✅ 5 hands-on labs](05_Docker/labs/) (build secrets, privilege drop, restart policies, rootfs hardening, cache mounts) |
+| 6 | Kubernetes | [`06_Kubernetes/`](06_Kubernetes/) | Architecture, objects, services, storage, config, scaling, security, Helm, cluster autoscaling/Karpenter — [✅ 5 hands-on labs](06_Kubernetes/labs/) (kind+Calico cluster, TODO-stub manifests, self-verifying) |
+| 7 | Cloud (AWS) | [`07_Cloud_AWS/`](07_Cloud_AWS/) | IAM, EC2, S3/EBS/EFS, RDS/DynamoDB, VPC, Route 53, ALB/NLB, ECS/EKS, CloudWatch, SNS/SQS, Secrets Manager — [✅ 5 hands-on labs](07_Cloud_AWS/labs/) (no AWS account needed — SQS/SNS/DynamoDB/Secrets Manager/S3 via LocalStack) |
+| 8 | Terraform (IaC) | [`08_Terraform/`](08_Terraform/) | Providers, state, modules, backends, workspaces — [✅ 5 hands-on labs](08_Terraform/labs/) (no AWS account needed; LocalStack for the 2 that need real S3/DynamoDB) |
 | 9 | Ansible | [`09_Ansible/`](09_Ansible/) | Inventory, playbooks, roles, vault, Galaxy |
 | 10 | CI/CD | [`10_CICD/`](10_CICD/) | Jenkins pipelines, GitHub Actions workflows/matrix/secrets/runners |
 | 11 | Monitoring | [`11_Monitoring/`](11_Monitoring/) | Prometheus, PromQL, Grafana, Alertmanager |

@@ -80,10 +80,12 @@ See [`practice/README.md`](01_DSA/practice/README.md) for the timed-practice pro
 
 ## 02_Interview_Prep — Flashcards & Cookbooks
 
-> **Note on numbering:** Files in this section are numbered starting at **05**. Files 01–04 existed in an earlier layout and were consolidated or removed during a curriculum restructuring; the gap is intentional and does not indicate missing content.
-
 | File | Title | What It Covers |
 |------|-------|----------------|
+| `01_core_python_oop_qa.md` | Core Python & OOP Interview Q&A | MRO, dunder methods, GIL and concurrency, decorators/generators, exception handling, the type system — condensed from `01_Python_Advanced/` into interview-answer form. |
+| `02_django_fastapi_framework_qa.md` | Django-DRF & FastAPI Framework Q&A | N+1 queries, ORM internals, JWT auth, dependency injection, ASGI vs WSGI, multi-tenancy, plus a head-to-head comparison section. |
+| `03_dsa_round_strategy.md` | DSA Round Strategy | The meta-game, not another problem list — company-tier round formats, the communication protocol, what's actually scored, recovery when stuck. |
+| `04_company_research_hr_round.md` | Company Research & HR Round Playbook | Company research method, core HR-round questions, logistics (notice period, CTC, background checks), red flags to watch for from the other side. |
 | `05_backend_system_design_50q.md` | 50 Backend System Design Questions | Q&A format with short answer, deep explanation, and trade-offs. Covers CAP theorem, database selection, caching, message queues, rate limiting, and more. |
 | `06_backend_coding_round_patterns.md` | Backend Coding Round Patterns | Implementation recipes for common 45-minute backend coding rounds — API design under constraints, DB schema, and algorithmic patterns asked specifically in backend roles. |
 | `07_python_tricky_questions.md` | Python Tricky Interview Questions | Senior-level gotchas: mutable defaults, GIL implications, `__slots__`, descriptors, metaclasses — each with a code snippet, predicted output, and production relevance. |
@@ -96,7 +98,7 @@ See [`practice/README.md`](01_DSA/practice/README.md) for the timed-practice pro
 
 > **GenAI / LLM interview questions** (RAG design, agent orchestration, eval) live in the agentic track:
 > [`Agentic_AI/Interview_Prep/`](../../Agentic_AI/Interview_Prep/).
-> **System design drills** (timed, with rubric) live in [`02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md`](../02_Year5%2B_Senior/01_System_Design/PRACTICE_DRILLS.md).
+> **System design drills** (timed, with rubric) live in [`02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md`](../02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md).
 
 ---
 

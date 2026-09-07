@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-backend
+  labels:
+    app: rag-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rag-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0   # zero dropped capacity during a rollout — DoD requirement
+  template:
+    metadata:
+      labels:
+        app: rag-backend
+    spec:
+      containers:
+        - name: rag-backend
+          # CHANGE-ME: replace with the GHCR image Project 2's CI pipeline pushes,
+          # e.g. ghcr.io/youngmanindia/rag-backend:GIT_SHA — never ':latest' in prod,
+          # it breaks reproducible rollbacks.
+          image: ghcr.io/CHANGE-ME/rag-backend:CHANGE-ME-tag
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: rag-backend-config
+            - secretRef:
+                name: rag-backend-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          # CHANGE-ME: the requests/limits above are placeholders — the project's
+          # own Definition of Done says "based on observed usage, not guesses".
+          # Run `kubectl top pod` under representative load for a week, then set
+          # these to roughly p95 usage + 20% headroom, not before.

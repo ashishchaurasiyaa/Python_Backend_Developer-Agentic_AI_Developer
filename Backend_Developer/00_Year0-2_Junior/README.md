@@ -49,5 +49,5 @@
 | [FastAPI](06_FastAPI/labs/) | 5 TODO-stub exercises | — |
 | [Redis](08_Redis/labs/) | 5 exercises | `docker compose up -d` |
 
-**Agla track:** [01_Year3-4_Mid](../01_Year3-4_Mid/) → [02_Year5+_Senior](../02_Year5%2B_Senior/) → [03_Interview_AnyYear](../03_Interview_AnyYear/)
+**Agla track:** [01_Year3-4_Mid](../01_Year3-4_Mid/) → [02_Year5+_Senior](../02_Year5+_Senior/) → [03_Interview_AnyYear](../03_Interview_AnyYear/)
 **Roz ka kaam:** [STUDY_PLAN.md](../../STUDY_PLAN.md) · **Log:** [MY_PROGRESS.md](../../MY_PROGRESS.md)

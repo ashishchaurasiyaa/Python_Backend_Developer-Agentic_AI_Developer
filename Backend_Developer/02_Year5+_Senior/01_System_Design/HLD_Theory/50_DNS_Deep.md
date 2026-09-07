@@ -56,6 +56,18 @@ Each step: one UDP query (or TCP if response > 512 bytes).
 - **Recursive resolver** (your ISP, Google DNS, Cloudflare 1.1.1.1): does all the work for you.
 - **Iterative resolution**: client gets pointed to next server at each step.
 
+### "Non-authoritative answer" — the `nslookup` gotcha
+```bash
+$ nslookup google.com
+Server:   8.8.8.8
+Address:  8.8.8.8#53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 142.250.190.78
+```
+`8.8.8.8` here is just the **recursive resolver** you asked — it is not the owner of the `google.com` zone. It walked Root → `.com` TLD → `google.com`'s own authoritative name server on your behalf, cached the answer, and handed it back. "Non-authoritative" = "I'm telling you this on someone else's authority, not my own." Only the domain's actual authoritative name server would return an *authoritative* answer.
+
 ---
 
 ## DNS Record Types
@@ -174,6 +186,37 @@ Used by: CDNs, multi-region cloud (Route 53 latency-based routing).
 Auth server probes endpoints, only returns healthy ones.
 
 Provided by: Route 53, Cloudflare, Akamai, NS1.
+
+---
+
+## An IP Address Is an Entry Point, Not a Machine
+
+The most common wrong mental model:
+```
+google.com → 142.250.190.78 → "one Google computer"
+```
+
+Reality:
+```
+142.250.190.78 → a network entry point
+                    ↓
+          Google's frontend infrastructure
+                    ↓
+          internal load balancing
+                    ↓
+          thousands of backend servers
+```
+
+One A record resolving to one IP tells you nothing about how many machines sit behind it. A "Load Balancer" box in a system-design diagram is the same story — in production (AWS ALB, GCP LB) it's rarely a single VM; it's a managed, distributed service that just happens to expose one IP or hostname. Assume a public IP is a *front door*, never a single room.
+
+### Public vs Private IP ranges
+This also clears up a common mixup — not every `192.x.x.x` address is private. The actual RFC 1918 private ranges are:
+```
+10.0.0.0     – 10.255.255.255    (10.0.0.0/8)
+172.16.0.0   – 172.31.255.255    (172.16.0.0/12)
+192.168.0.0  – 192.168.255.255   (192.168.0.0/16)
+```
+So `192.168.1.10` is private, but `192.178.134.102` (a real Google IP) is **not** — `192.178 ≠ 192.168`, and it falls outside all three ranges, so it's publicly routable. This is why backend servers sit on private IPs (`10.0.1.x`) behind a public-facing LB: only the LB's public IP needs to be internet-reachable; the fleet behind it stays isolated, easier to scale/replace, and never directly exposed.
 
 ---
 

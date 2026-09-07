@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="django" name="Django">
+      <configuration>
+        <option name="rootFolder" value="" />
+        <option name="settingsModule" value="" />
+        <option name="manageScript" value="" />
+        <option name="environment" value="&lt;map/&gt;" />
+        <option name="doNotUseTestRunner" value="false" />
+        <option name="trackFilePattern" value="" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/Backend_Developer/00_Year0-2_Junior/07_Django_DRF/practical" isTestSource="false" />
@@ -11,8 +23,18 @@
       <excludeFolder url="file://$MODULE_DIR$/Agentic_AI/Projects/project3_multiagent_code_review_starter/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Agentic_AI/Projects/workspace_demo/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/08_FastAPI_OpenAI_RAG_Backend_starter/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/05_Django_Banking_Fintech_starter/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/PRACTICE_HUB/04_Backend_Projects/Django_Banking_Fintech/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/PRACTICE_HUB/04_Backend_Projects/FastAPI_OpenAI_RAG_Backend/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/PRACTICE_HUB/04_Backend_Projects/FastAPI_URL_Shortener/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/PRACTICE_HUB/05_Agentic_Projects/MultiAgent_Code_Review/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/PRACTICE_HUB/05_Agentic_Projects/Workspace_Demo/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (PythonRevision)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
   </component>
 </module>

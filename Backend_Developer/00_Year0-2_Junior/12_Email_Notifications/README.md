@@ -22,4 +22,4 @@
 - **"Design a notification system"** → [04](04_notification_system_design.md) full HLD: channel abstraction, user preferences, template service, queue + workers, idempotency (ek hi notification do baar na jaye), retry with backoff, per-user rate limit.
 - **"Email bhejte waqt request block hoga?"** → nahi, queue me daalo → [Celery](../../01_Year3-4_Mid/09_Celery/), outbox pattern se guarantee → [outbox](../../01_Year3-4_Mid/05_Microservices/04_outbox_event_sourcing.md)
 
-**Related:** [Celery](../../01_Year3-4_Mid/09_Celery/) · [Microservices outbox](../../01_Year3-4_Mid/05_Microservices/) · [HLD_Problems](../../02_Year5%2B_Senior/01_System_Design/HLD_Problems/) · [WebSocket/SSE (realtime)](../../01_Year3-4_Mid/13_WebSocket_SSE/)
+**Related:** [Celery](../../01_Year3-4_Mid/09_Celery/) · [Microservices outbox](../../01_Year3-4_Mid/05_Microservices/) · [HLD_Problems](../../02_Year5+_Senior/01_System_Design/HLD_Problems/) · [WebSocket/SSE (realtime)](../../01_Year3-4_Mid/13_WebSocket_SSE/)

@@ -64,4 +64,4 @@ Runnable reference: [`practical/`](practical/) (5 files)
 
 Poora comparison → [14_rest_graphql_grpc.md](../02_API_Design/14_rest_graphql_grpc.md)
 
-**Related:** [02_API_Design](../02_API_Design/README.md) · [05_Microservices](../05_Microservices/README.md) · [HLD 63](../../02_Year5%2B_Senior/01_System_Design/HLD_Theory/63_GraphQL_vs_REST_vs_gRPC.md)
+**Related:** [02_API_Design](../02_API_Design/README.md) · [05_Microservices](../05_Microservices/README.md) · [HLD 63](../../02_Year5+_Senior/01_System_Design/HLD_Theory/63_GraphQL_vs_REST_vs_gRPC.md)

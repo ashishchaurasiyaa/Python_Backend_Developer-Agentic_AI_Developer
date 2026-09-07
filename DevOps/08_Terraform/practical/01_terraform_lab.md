@@ -1,6 +1,13 @@
 # Terraform — Hands-On Lab
 **DevOps Track · Phase 8 Practical**
 
+> **Want a self-checking version instead of reading solutions inline?** See
+> [`../labs/`](../labs/) — 5 TODO-stub labs (state surgery via `moved`
+> blocks, `count` vs `for_each`, `create_before_destroy` ordering, a real S3+
+> DynamoDB backend, `terraform import`), each with a `verify.sh` that tells
+> you PASS/FAIL. No AWS account needed — 3 labs run fully offline, 2 run
+> against LocalStack (free, local, no cost).
+
 ## Prerequisites
 
 - Terraform CLI installed (`brew install terraform` or download from hashicorp.com) — verify with `terraform version`, this track assumes >= 1.7.0

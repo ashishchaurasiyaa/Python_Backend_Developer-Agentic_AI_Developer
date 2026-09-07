@@ -84,3 +84,5 @@
 ---
 
 *37 designs grouped into 9 categories. Interview prep order: Group 1 (warm-ups) → 3 (social/feed) → 2 (infra) → 9 (AI, agar AI role ho). Group 4's Google Docs (OT/CRDT) aur Group 7's BookMyShow/Stock Exchange (concurrency) sabse zyada distinguishing hote hain senior interviews me.*
+
+**Concept-wise reverse index (caching, sharding, consistency, rate-limiting, real-time, geospatial...):** [`../00_Pattern_Topic_Index.md`](../00_Pattern_Topic_Index.md) — Part B.

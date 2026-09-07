@@ -65,3 +65,4 @@ Sahi tarika: 45 min timer → khud design karo → phir file kholo → jo miss h
 **Base kamzor lage to:** [`../LLD_Theory/`](../LLD_Theory/README.md) — SOLID + patterns pehle.
 **Timed drill format:** [`../PRACTICE_DRILLS.md`](../PRACTICE_DRILLS.md)
 **Patterns chala ke dekhne hain:** [`../Design_Patterns_Code/`](../Design_Patterns_Code/)
+**Pattern → Problem reverse map:** [`../00_Pattern_Topic_Index.md`](../00_Pattern_Topic_Index.md) — "yeh Strategy hai" jaisa pehchan pattern DSA ki tarah

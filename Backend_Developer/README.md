@@ -127,7 +127,11 @@ Rough mix across repo: 🔴 ~40% · 🟡 ~35% · 🟢 ~25%.
 - **0-2 YOE:** Foundations + core Python + core backend stack — complete
 - **3-4 YOE:** Advanced stack + engineering practices — complete
 - **5+ YOE:** System design + architecture + leadership — complete
-- **Interview:** DSA (28 topics) + HLD/LLD + behavioral — complete
+- **Interview reference:** DSA (28 topics) + HLD/LLD theory + behavioral — complete
+
+**Reading material complete hai — kuch "doing" abhi baaki hai:**
+- `03_Interview_AnyYear/03_Projects/` — 9 of 10 starters TODO scaffolds hain, sirf 08_RAG_Backend built hai
+- LLD ka apna practice harness nahi hai (DSA ka hai — `01_DSA/practice/`)
 
 Pura journey ek repo me: **₹3 LPA fresher → ₹1Cr+ distinguished engineer** tak ka raasta. 🚀
 

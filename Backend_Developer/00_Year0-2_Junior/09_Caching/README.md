@@ -34,4 +34,4 @@
 > **Redis commands + labs** chahiye to [`../08_Redis/`](../08_Redis/) jao — wahan runnable labs hain.
 > Yeh folder **patterns aur decisions** ke liye hai (kya cache karein, kab invalidate karein), Redis API ke liye nahi.
 
-**Related:** [`08_Redis/`](../08_Redis/) · [DevOps caching](../../../DevOps/17_Caching/) · [HLD_Theory caching](../../02_Year5%2B_Senior/01_System_Design/HLD_Theory/) · [Agentic semantic caching](../../../Agentic_AI/Level5_RAG_Vector_Databases/)
+**Related:** [`08_Redis/`](../08_Redis/) · [DevOps caching](../../../DevOps/17_Caching/) · [HLD_Theory caching](../../02_Year5+_Senior/01_System_Design/HLD_Theory/) · [Agentic semantic caching](../../../Agentic_AI/Level5_RAG_Vector_Databases/)

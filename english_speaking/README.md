@@ -84,6 +84,22 @@ Sophisticated English, pronunciation, public speaking, aur interview English.
 |------|-------|
 | [daily_routine.md](practice/daily_routine.md) | 30-day plan + roz ka schedule |
 | [speaking_drills.md](practice/speaking_drills.md) | Shadowing, recording, mirror practice exercises |
+| [daily_communication_lesson_05_08.md](practice/daily_communication_lesson_05_08.md) | Lesson 5–8 (Awal Sir) ke saare points — commas/not/and, is/are, pronouns, WH questions — ek saath real dialogues mein |
+| [daily_communication_lesson_05_10.md](practice/daily_communication_lesson_05_10.md) | **Full combined practice — Lesson 5–10.** Upar wale sab + tag questions, use of 'the', negative sentences (never/none/neither...nor) — sab ek saath dialogues mein |
+| [daily_sentences/README.md](practice/daily_sentences/README.md) | **Complete list — 1,122 daily communication sentences**, 8 categories (phone/calls, fluency connectors, daily life, interviews, meetings, office standup, technical discussion, Lesson 9-10 questions/tags/negatives), Hinglish meaning + tone + trap ke saath |
+| [word_of_the_day.md](practice/word_of_the_day.md) | Roz ka naya word/idiom — running log (date-wise), meaning + Hindi + example |
+
+---
+
+## 🎓 Awal Sir Course Notes (awalenglish.com)
+
+Awal Sir ki class ke slides se banaye gaye notes — jo un lessons mein padhaya gaya uska Hindi/English recap + practice, saath mein internal curriculum ke deep-dive files se cross-linked.
+
+| File | Topic |
+|------|-------|
+| [lesson_05_06_describing_state_is_are.md](Awal_Course_Notes/lesson_05_06_describing_state_is_are.md) | Commas, "not", "and" se describe karna; is/are + contractions (isn't, aren't, I'm not, won't) |
+| [lesson_07_08_pronouns_wh_questions.md](Awal_Course_Notes/lesson_07_08_pronouns_wh_questions.md) | Personal + demonstrative pronouns; 6 WH questions (What/Where/When/Who/How/Why) |
+| [lesson_09_10_tag_questions_negatives.md](Awal_Course_Notes/lesson_09_10_tag_questions_negatives.md) | Yes/No, information & WH questions revision; tag questions (don't you?/isn't she?); use of 'the'; negative sentences (not/no/never/none/neither...nor) |
 
 ---
 

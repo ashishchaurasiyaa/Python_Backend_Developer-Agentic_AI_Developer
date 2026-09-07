@@ -15,7 +15,7 @@
 | [10](10_distributed_systems_theory.md) | **Distributed systems theory** | CAP, consensus, partial failure |
 | [09](09_domain_driven_design.md) | **DDD** | Bounded context = service boundary |
 
-> **Saga pattern** ka dedicated deep-dive senior track me hai → [59_Saga_Pattern.md](../../02_Year5%2B_Senior/01_System_Design/HLD_Theory/59_Saga_Pattern.md)
+> **Saga pattern** ka dedicated deep-dive senior track me hai → [59_Saga_Pattern.md](../../02_Year5+_Senior/01_System_Design/HLD_Theory/59_Saga_Pattern.md)
 
 ---
 
@@ -52,4 +52,4 @@
 | [13](13_serverless_microservices.md) | Serverless microservices | ↑ same |
 | [15](15_temporal_durable_workflows.md) | Temporal — durable workflows | — |
 
-**Related:** [07_Kafka](../07_Kafka/README.md) · [06_gRPC](../06_gRPC/README.md) · [04_DevOps](../04_DevOps/README.md) · [Architecture Patterns](../../02_Year5%2B_Senior/02_Architecture_Patterns/README.md) · [HLD_Theory](../../02_Year5%2B_Senior/01_System_Design/HLD_Theory/)
+**Related:** [07_Kafka](../07_Kafka/README.md) · [06_gRPC](../06_gRPC/README.md) · [04_DevOps](../04_DevOps/README.md) · [Architecture Patterns](../../02_Year5+_Senior/02_Architecture_Patterns/README.md) · [HLD_Theory](../../02_Year5+_Senior/01_System_Design/HLD_Theory/)

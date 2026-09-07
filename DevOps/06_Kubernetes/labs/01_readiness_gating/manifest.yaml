@@ -1,0 +1,57 @@
+# TODO lab: readiness probes control Service ENDPOINTS, not restarts.
+# A failed liveness probe gets a container killed and restarted (you already
+# saw that in ../../practical/01_kubernetes_lab.md Lab 4). A failed READINESS
+# probe does something quieter and, in production, more common: the Pod stays
+# alive and running exactly as before, but Kubernetes pulls it out of the
+# Service's endpoint list so no new traffic reaches it — until it reports
+# Ready again.
+#
+# Each replica serves two files over HTTP on :8080 — /index.html (always
+# present) and /healthz.html (the "am I ready" file). verify.sh will later
+# delete a running Pod's /healthz.html to simulate it going unhealthy WITHOUT
+# crashing or restarting it, and check whether the Service noticed.
+#
+# YOUR TASK: this Deployment currently has NO readinessProbe at all — a Pod
+# is considered Ready the instant its container starts, whether or not
+# /healthz.html actually exists. Add a readinessProbe below so that:
+#   - it's an httpGet probe on path /healthz.html, port 8080
+#   - periodSeconds: 2, failureThreshold: 2   (so it reacts within ~4-6s,
+#     fast enough to verify in a lab instead of waiting minutes)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: k8s-labs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - "mkdir -p /www && echo ok > /www/index.html && echo ok > /www/healthz.html && httpd -f -p 8080 -h /www"
+          ports:
+            - containerPort: 8080
+          # TODO: add readinessProbe here (httpGet /healthz.html on 8080,
+          # periodSeconds: 2, failureThreshold: 2)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: k8s-labs
+spec:
+  selector:
+    app: web
+  ports:
+    - port: 8080
+      targetPort: 8080

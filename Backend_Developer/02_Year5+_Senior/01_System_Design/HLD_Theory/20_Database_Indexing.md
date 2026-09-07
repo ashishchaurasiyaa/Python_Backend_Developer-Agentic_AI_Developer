@@ -84,6 +84,36 @@ CREATE INDEX idx_bookings_date ON bookings(created_at);
 CREATE INDEX idx_packages_price ON packages(price);
 ```
 
+### Why not a plain Binary Search Tree (BST)?
+
+A sorted array already gives O(log n) search — why not just build a BST index instead of a B-Tree? Two reasons, and both come down to **disk I/O, not CPU**:
+
+```
+1. BST CAN DEGENERATE
+   Insert keys in sorted order (1, 2, 3, 4, 5...) → BST collapses into
+   a linked list → O(n), not O(log n). (Plain BST has no self-balancing
+   guarantee — AVL/Red-Black trees fix this in memory, but that's not
+   what databases use either.)
+
+2. BST IS TOO DEEP FOR DISK
+   Each BST node = 1 key = potentially 1 disk read (if the tree doesn't
+   fit in memory, which it won't for 1M+ rows).
+   1,000,000 rows, BST (2 children/node):
+     height ≈ log₂(1,000,000) ≈ 20  →  worst case 20 disk seeks
+
+   B-TREE IS WIDE, NOT DEEP — because a node is sized to match a disk
+   page (4KB/8KB), so one node holds hundreds of keys, not one:
+     1,000,000 rows, B-Tree (~500 keys/node):
+       height ≈ log₅₀₀(1,000,000) ≈ 3  →  ~3 disk reads
+
+   B-Tree trades "more comparisons per node" (cheap, in-memory, once
+   the page is loaded) for "far fewer nodes visited" (expensive disk
+   seeks) — the opposite of what a CPU-bound in-memory structure
+   would optimize for.
+```
+
+**Rule of thumb:** BST = memory-optimized (minimize comparisons). B-Tree = disk-optimized (minimize page reads), and self-balancing by construction: on insert, a full node **splits** in two and pushes its middle key up to the parent (recursively, up to the root if needed — this is the only way a B-Tree's height grows); on delete, an underflowed node **borrows** a key from a sibling or **merges** with one. Either way, every leaf stays at the same depth — unlike a plain BST, which has no such guarantee.
+
 ---
 
 ### 1.3 Hash Index

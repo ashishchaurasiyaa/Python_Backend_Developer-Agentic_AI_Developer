@@ -87,4 +87,4 @@
 - [`practical/02_redis_practical.py`](practical/02_redis_practical.py) is folder me **galat jagah** hai (Redis ka asli ghar [`../08_Redis/`](../08_Redis/) hai). Historical reasons se yahan pada hai — Redis padhna ho to wahan jao.
 - **SQL query-writing drill karni hai?** → [`03_Interview_AnyYear/02_Interview_Prep/08_sql_interview_questions.md`](../../03_Interview_AnyYear/02_Interview_Prep/08_sql_interview_questions.md) (~46 LeetCode-style problems solutions ke saath).
 
-**Related:** [`05_MySQL/`](../05_MySQL/) · [`09_Caching/`](../09_Caching/) · [`08_Redis/`](../08_Redis/) · [Mid-track MongoDB](../../01_Year3-4_Mid/10_MongoDB/) · [HLD_Theory DB sections](../../02_Year5%2B_Senior/01_System_Design/HLD_Theory/)
+**Related:** [`05_MySQL/`](../05_MySQL/) · [`09_Caching/`](../09_Caching/) · [`08_Redis/`](../08_Redis/) · [Mid-track MongoDB](../../01_Year3-4_Mid/10_MongoDB/) · [HLD_Theory DB sections](../../02_Year5+_Senior/01_System_Design/HLD_Theory/)

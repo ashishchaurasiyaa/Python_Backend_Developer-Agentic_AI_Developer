@@ -1,0 +1,18 @@
+# TODO lab: `read_only: true` makes a container's entire root filesystem
+# read-only -- if it's ever compromised, an attacker can't drop a malicious
+# binary, modify an installed one, or persist anything to disk. The catch:
+# most real apps need to write SOMEWHERE (temp files, a cache, a socket).
+# `tmpfs` mounts give you a scratch space that's writable in memory, without
+# reopening the whole filesystem.
+#
+# YOUR TASK: this container is already hardened with `read_only: true`, but
+# has NO tmpfs mount at all -- meaning even /tmp is read-only, which breaks
+# anything needing scratch space. Add a tmpfs mount for /tmp:
+#
+#   tmpfs:
+#     - /tmp
+services:
+  app:
+    image: alpine:3.20
+    command: ["sleep", "3600"]
+    read_only: true

@@ -35,7 +35,7 @@ This section covers the skills and knowledge expected of a mid-level backend eng
 | 12 | `12_GraphQL` | GraphQL fundamentals, Strawberry + FastAPI, DataLoader (N+1 fix), real-time subscriptions, schema federation, and security hardening. |
 | 13 | `13_WebSocket_SSE` | WebSocket fundamentals, Server-Sent Events, scaling with Redis Pub/Sub, and deep-dive FastAPI WebSocket patterns. |
 | 14 | `14_Engineering_Practices` | Code review skills, sprint planning/estimation, incident response runbooks, post-mortem writing, Architecture Decision Records (ADRs), and tech-debt management. |
-| 15 | [`15_Design_Patterns_SOLID`](15_Design_Patterns_SOLID/README.md) | SOLID principles and 22 of the 23 GoF patterns in Python across creational/structural/behavioural sections (Interpreter is covered in the senior track's [LLD_Theory](../02_Year5%2B_Senior/01_System_Design/LLD_Theory/21_Interpreter_Pattern.md)), plus code smells and interview drills mapping each pattern to real backend use. |
+| 15 | [`15_Design_Patterns_SOLID`](15_Design_Patterns_SOLID/README.md) | SOLID principles and 22 of the 23 GoF patterns in Python across creational/structural/behavioural sections (Interpreter is covered in the senior track's [LLD_Theory](../02_Year5+_Senior/01_System_Design/LLD_Theory/21_Interpreter_Pattern.md)), plus code smells and interview drills mapping each pattern to real backend use. |
 
 ---
 

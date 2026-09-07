@@ -1,8 +1,53 @@
-# Local infra for the RAG backend: Postgres (with pgvector) + Redis.
-# Usage:  docker compose up -d   (needs Docker Desktop installed)
+# Full local stack: the app itself (built from ./Dockerfile) + Postgres
+# (with pgvector) + Redis, wired together with named volumes and
+# health-checked dependencies.
+#
+# Usage:
+#   docker compose up -d --build   # first run / after Dockerfile changes
+#   docker compose up -d           # subsequent runs
+#   docker compose logs -f app
+#   docker compose down            # stop (add -v to also drop volumes)
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      # Host port 8001, not 8000 — 8000 is commonly already bound by other local
+      # dev servers (confirmed conflicting with a running php process on this
+      # machine). Container's internal port stays 8000; only the host mapping changed.
+      - "8001:8000"
+    environment:
+      ENVIRONMENT: development
+      DEBUG: "true"
+      DATABASE_URL: postgresql+asyncpg://rag:dev@postgres:5432/ragdb
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: change-me-dev-only
+      JWT_ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      EMBEDDING_MODEL: text-embedding-3-small
+      LLM_MODEL: claude-sonnet-5
+      # Provider keys are NOT set here — pass them via `docker compose --env-file .env up`
+      # if you need live embedding/LLM calls. Health/CRUD endpoints work without them.
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   postgres:
-    image: pgvector/pgvector:pg16
+    # pgvector/pgvector:pg16 (bare tag) has a broken arm64 manifest as of Aug 2026 —
+    # `exec format error` on Apple Silicon even though `docker inspect` reports
+    # arm64/linux correctly. The -trixie variant is confirmed working. If this
+    # breaks again on amd64/other hosts, `docker run --rm <tag> postgres --version`
+    # is the fast way to confirm before assuming it's this compose file's fault.
+    image: pgvector/pgvector:pg16-trixie
     environment:
       POSTGRES_USER: rag
       POSTGRES_PASSWORD: dev
@@ -20,7 +65,10 @@ services:
       retries: 10
 
   redis:
-    image: redis:7
+    # redis:7 (bare/debian-based tag) hit the same broken-manifest exec format
+    # error as pgvector/pgvector:pg16 above on this host — redis:7-alpine is
+    # confirmed working. Same diagnostic: `docker run --rm <tag> redis-server --version`.
+    image: redis:7-alpine
     ports:
       - "6379:6379"
     healthcheck:

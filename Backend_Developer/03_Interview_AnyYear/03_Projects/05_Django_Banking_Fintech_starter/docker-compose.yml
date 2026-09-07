@@ -1,0 +1,63 @@
+# Full local stack: app (built from ./Dockerfile) + Postgres + Redis.
+#
+# Usage:
+#   docker compose up -d --build
+#   docker compose logs -f app
+#   docker compose down            # add -v to also drop volumes
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8000"   # 8001/8002 already used by other projects in this repo's Docker setups
+    environment:
+      DJANGO_DEBUG: "true"
+      DJANGO_SECRET_KEY: change-me-dev-only
+      DJANGO_ALLOWED_HOSTS: "*"
+      POSTGRES_DB: bankingdb
+      POSTGRES_USER: banking
+      POSTGRES_PASSWORD: dev
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: banking
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: bankingdb
+    ports:
+      - "5434:5432"   # 5432/5433 already used by other projects in this repo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U banking -d bankingdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6381:6379"   # 6379/6380 already used by other projects in this repo
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

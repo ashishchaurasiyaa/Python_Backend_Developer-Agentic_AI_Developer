@@ -1,6 +1,12 @@
 # Kubernetes — Hands-On Lab
 **DevOps Track · Phase 6 Practical**
 
+> **Want a self-checking version instead of reading solutions inline?** See
+> [`../labs/`](../labs/) — 5 TODO-stub labs (readiness gating, ConfigMap
+> hot-reload, OOMKill vs throttling, NetworkPolicy, Job backoffLimit), each
+> with a `verify.sh` that tells you PASS/FAIL against a real cluster instead
+> of showing you the answer up front.
+
 ## Prerequisites
 
 You need a real cluster — reading YAML without applying it doesn't build the debugging instinct this phase is about. All options below are free:

@@ -2,22 +2,23 @@
 
 > **Tumhari complete navigation map.** Yahaan se start karo — har level, har topic, theory + practical sab listed hai with status.
 
-**Last updated:** 2026-08-08 (Azure OpenAI + Azure AI Search, context engineering, voice practical, GRPO/RFT; index reconciled with disk)
+**Last updated:** 2026-09-01 (Level8's last gap filled — Databricks/Spark/Snowflake practical. Level1-8 now 100% practical-paired, zero remaining gaps. Prior day: Level1 ×7, Level5 ×1, Level6 ×3, Level7 ×3, Modern_Topics ×15 practicals filled, 2 new Interview_Prep files closed the 06/07 gap, false ✅ claims + stale doc count fixed)
 **Roz ka kaam + poora topic scope:** [`../STUDY_PLAN.md`](../STUDY_PLAN.md) — single file, Part A (daily sprint) + Part B (full reference)
 
 ---
 
-## 📊 Status (2026-08-08)
+## 📊 Status (2026-09-01)
 
 ```
-✅ Levels 1-8:        complete (most docs have a _practical.py; ~15 concept-only
-                      docs don't — index tables mark those with '—')
-✅ Modern Topics:     26 docs (00–24 + coverage analysis)
+✅ Levels 1-8:        100% practical-paired, zero gaps — every single doc
+                      across all 8 levels has a _practical.py
+✅ Modern Topics:     26 docs (00–24 + coverage analysis), all 25 numbered
+                      topics have a _practical.py
 ✅ Classical ML/DL:   12 docs (pre-transformer foundations)
 ✅ Azure track:       Azure OpenAI + Azure AI Search + Cosmos DB (backend track)
 ✅ ZERO blocking gaps for Backend+AI senior interviews
 
-Current total: 170 markdown docs (levels + Modern + Projects + Interview Prep)
+Current total: 181 markdown docs (levels + Modern + Projects + Interview Prep)
              + my-agentic-ai-project/ (~435 files: 2 full Udemy courses with runnable labs)
 ```
 
@@ -71,14 +72,14 @@ LevelN_Topic/
 
 | # | Topic | Theory | Practical |
 |---|---|---|---|
-| 1.1 | What is an LLM? | [✅ 01_what_is_an_llm.md](Level1_LLM_Foundations/01_what_is_an_llm.md) | (concepts) |
-| 1.2 | Tokens & Embeddings | [✅ 02_tokens_embeddings.md](Level1_LLM_Foundations/02_tokens_embeddings.md) | tiktoken playground |
-| 1.3 | History of LLMs | [✅ 03_history_of_llms.md](Level1_LLM_Foundations/03_history_of_llms.md) | (reading only) |
-| 1.4 | Attention & Transformers | [✅ 04_attention_transformers.md](Level1_LLM_Foundations/04_attention_transformers.md) | (intuition only) |
-| 1.5 | Models Landscape | [✅ 05_models_landscape.md](Level1_LLM_Foundations/05_models_landscape.md) | (reference) |
-| 1.6 | Dev Environment Setup | [✅ 06_dev_environment_setup.md](Level1_LLM_Foundations/06_dev_environment_setup.md) | (setup guide) |
+| 1.1 | What is an LLM? | [✅ 01_what_is_an_llm.md](Level1_LLM_Foundations/01_what_is_an_llm.md) | [✅ practical.py](Level1_LLM_Foundations/01_what_is_an_llm_practical.py) |
+| 1.2 | Tokens & Embeddings | [✅ 02_tokens_embeddings.md](Level1_LLM_Foundations/02_tokens_embeddings.md) | [✅ practical.py](Level1_LLM_Foundations/02_tokens_embeddings_practical.py) |
+| 1.3 | History of LLMs | [✅ 03_history_of_llms.md](Level1_LLM_Foundations/03_history_of_llms.md) | [✅ practical.py](Level1_LLM_Foundations/03_history_of_llms_practical.py) |
+| 1.4 | Attention & Transformers | [✅ 04_attention_transformers.md](Level1_LLM_Foundations/04_attention_transformers.md) | [✅ practical.py](Level1_LLM_Foundations/04_attention_transformers_practical.py) — numpy self-attention from scratch |
+| 1.5 | Models Landscape | [✅ 05_models_landscape.md](Level1_LLM_Foundations/05_models_landscape.md) | [✅ practical.py](Level1_LLM_Foundations/05_models_landscape_practical.py) |
+| 1.6 | Dev Environment Setup | [✅ 06_dev_environment_setup.md](Level1_LLM_Foundations/06_dev_environment_setup.md) | [✅ practical.py](Level1_LLM_Foundations/06_dev_environment_setup_practical.py) — environment doctor script |
 | 1.7 | First API Calls | [✅ 07_first_api_calls.md](Level1_LLM_Foundations/07_first_api_calls.md) | [✅ practical.py](Level1_LLM_Foundations/07_first_api_calls_practical.py) |
-| 1.8 | **World Models & Theory of Mind** ⭐ *(NEW)* | [✅ 08_world_models_theory_of_mind.md](Level1_LLM_Foundations/08_world_models_theory_of_mind.md) | — |
+| 1.8 | **World Models & Theory of Mind** ⭐ *(NEW)* | [✅ 08_world_models_theory_of_mind.md](Level1_LLM_Foundations/08_world_models_theory_of_mind.md) | [✅ practical.py](Level1_LLM_Foundations/08_world_models_theory_of_mind_practical.py) |
 | 🔬 | **Deep Architecture (Internal Working)** | [✅ Deep_Architecture/README.md](Level1_LLM_Foundations/Deep_Architecture/README.md) | [✅ visualize_internals.py](Level1_LLM_Foundations/Deep_Architecture/10_visualize_internals_practical.py) |
 | 🧠 | **Classical ML/DL Foundations (Before Transformers)** | [✅ Classical_ML_DL_Foundations/README.md](Level1_LLM_Foundations/Classical_ML_DL_Foundations/README.md) | [✅ 4 numpy-from-scratch practicals](Level1_LLM_Foundations/Classical_ML_DL_Foundations/04_gradient_descent_backprop_practical.py) |
 
@@ -98,6 +99,7 @@ LevelN_Topic/
 | 10 | GANs & Diffusion Models (DALL-E/Stable Diffusion/Midjourney) | [10](Level1_LLM_Foundations/Classical_ML_DL_Foundations/10_gans_diffusion_image_gen.md) | (concepts) |
 | 11 | Classical ML Algorithms (trees, SVM, ensembles) | [11](Level1_LLM_Foundations/Classical_ML_DL_Foundations/11_classical_ml_algorithms.md) | [✅ practical.py](Level1_LLM_Foundations/Classical_ML_DL_Foundations/11_classical_ml_algorithms_practical.py) |
 | 12 | Classical NLP Pipeline (tokenize → TF-IDF → word2vec) | [12](Level1_LLM_Foundations/Classical_ML_DL_Foundations/12_classical_nlp_pipeline.md) | [✅ practical.py](Level1_LLM_Foundations/Classical_ML_DL_Foundations/12_classical_nlp_pipeline_practical.py) |
+| 13 | PyTorch Fundamentals (tensors, autograd, nn.Module, training loop) | [13](Level1_LLM_Foundations/Classical_ML_DL_Foundations/13_pytorch_fundamentals.md) | [✅ practical.py](Level1_LLM_Foundations/Classical_ML_DL_Foundations/13_pytorch_fundamentals_practical.py) — proves autograd == doc 4's manual gradients |
 
 **Mastery check:** Explain backprop via chain rule. Why transformers replaced RNNs (2 specific reasons). Why LoRA works (transfer-learning theory).
 
@@ -199,7 +201,7 @@ LevelN_Topic/
 | 5.7 | **Reranking** ⭐ | [✅ 07_reranking.md](Level5_RAG_Vector_Databases/07_reranking.md) | [✅ practical](Level5_RAG_Vector_Databases/07_reranking_practical.py) |
 | 5.8 | Query Transformation (HyDE) | [✅ 08_query_transformation.md](Level5_RAG_Vector_Databases/08_query_transformation.md) | [✅ practical](Level5_RAG_Vector_Databases/08_query_transformation_practical.py) |
 | 5.9 | **RAGAS Evaluation** ⭐ | [✅ 09_ragas_evaluation.md](Level5_RAG_Vector_Databases/09_ragas_evaluation.md) | [✅ practical](Level5_RAG_Vector_Databases/09_ragas_evaluation_practical.py) |
-| 5.10 | **Contextual Retrieval (Anthropic)** ⭐ | [✅ 10_contextual_retrieval.md](Level5_RAG_Vector_Databases/10_contextual_retrieval.md) | — |
+| 5.10 | **Contextual Retrieval (Anthropic)** ⭐ | [✅ 10_contextual_retrieval.md](Level5_RAG_Vector_Databases/10_contextual_retrieval.md) | [✅ practical](Level5_RAG_Vector_Databases/10_contextual_retrieval_practical.py) |
 | 5.11 | **Azure AI Search** 🔴 *(NEW)* — vector + hybrid RRF + semantic ranker, integrated vectorization | [✅ 11_azure_ai_search.md](Level5_RAG_Vector_Databases/11_azure_ai_search.md) | [✅ practical](Level5_RAG_Vector_Databases/11_azure_ai_search_practical.py) |
 
 **Mastery check:** RAG over 1000 docs with hybrid search, reranking, RAGAS metrics > 0.85.
@@ -222,9 +224,9 @@ LevelN_Topic/
 | 6.8 | Routing & Classification | [✅ 08_routing.md](Level6_Agent_Patterns/08_routing.md) | [✅ practical](Level6_Agent_Patterns/08_routing_practical.py) |
 | 6.9 | Human-in-the-Loop | [✅ 09_human_in_loop.md](Level6_Agent_Patterns/09_human_in_loop.md) | [✅ practical](Level6_Agent_Patterns/09_human_in_loop_practical.py) |
 | 6.10 | **Agent Evaluation** ⭐ | [✅ 10_agent_evaluation.md](Level6_Agent_Patterns/10_agent_evaluation.md) | [✅ practical](Level6_Agent_Patterns/10_agent_evaluation_practical.py) |
-| 6.11 | **Swarm Agents** (decentralized handoff) | [✅ 11_swarm_agents.md](Level6_Agent_Patterns/11_swarm_agents.md) | — |
-| 6.12 | **Agent Harness Engineering** ⭐ | [✅ 12_agent_harness_engineering.md](Level6_Agent_Patterns/12_agent_harness_engineering.md) | — |
-| 6.13 | **Context Engineering** ⭐ *(NEW)* — context budgets, compaction, sub-agent isolation | [✅ 13_context_engineering.md](Level6_Agent_Patterns/13_context_engineering.md) | — |
+| 6.11 | **Swarm Agents** (decentralized handoff) | [✅ 11_swarm_agents.md](Level6_Agent_Patterns/11_swarm_agents.md) | [✅ practical.py](Level6_Agent_Patterns/11_swarm_agents_practical.py) — manual handoff impl, no `swarm` package dependency |
+| 6.12 | **Agent Harness Engineering** ⭐ | [✅ 12_agent_harness_engineering.md](Level6_Agent_Patterns/12_agent_harness_engineering.md) | [✅ practical.py](Level6_Agent_Patterns/12_agent_harness_engineering_practical.py) — real agent loop, permission model, context management |
+| 6.13 | **Context Engineering** ⭐ *(NEW)* — context budgets, compaction, sub-agent isolation | [✅ 13_context_engineering.md](Level6_Agent_Patterns/13_context_engineering.md) | [✅ practical.py](Level6_Agent_Patterns/13_context_engineering_practical.py) — budget framework, cache-killer linter, priority-ordered compaction |
 
 ---
 
@@ -242,9 +244,9 @@ LevelN_Topic/
 | 7.6 | DSPy | ✅ [06_dspy_complete.md](Level7_Frameworks/06_dspy_complete.md) | ✅ [practical](Level7_Frameworks/06_dspy_complete_practical.py) |
 | 7.7 | LlamaIndex | [✅ 07_llamaindex.md](Level7_Frameworks/07_llamaindex.md) | [✅ practical](Level7_Frameworks/07_llamaindex_practical.py) |
 | 7.8 | Pydantic AI | [✅ 08_pydantic_ai.md](Level7_Frameworks/08_pydantic_ai.md) | [✅ practical](Level7_Frameworks/08_pydantic_ai_practical.py) |
-| 7.9 | Semantic Kernel (Azure/.NET shops) | [✅ 09_semantic_kernel.md](Level7_Frameworks/09_semantic_kernel.md) | — |
-| 7.10 | **A2A Protocol (Agent2Agent interop)** ⭐ *(NEW)* | [✅ 10_a2a_protocol.md](Level7_Frameworks/10_a2a_protocol.md) | — |
-| 7.11 | Haystack (deepset) *(NEW)* | [✅ 11_haystack.md](Level7_Frameworks/11_haystack.md) | — |
+| 7.9 | Semantic Kernel (Azure/.NET shops) | [✅ 09_semantic_kernel.md](Level7_Frameworks/09_semantic_kernel.md) | [✅ practical.py](Level7_Frameworks/09_semantic_kernel_practical.py) — falls back to manual DI-container demo if SDK not installed |
+| 7.10 | **A2A Protocol (Agent2Agent interop)** ⭐ *(NEW)* | [✅ 10_a2a_protocol.md](Level7_Frameworks/10_a2a_protocol.md) | [✅ practical.py](Level7_Frameworks/10_a2a_protocol_practical.py) — Agent Card + task lifecycle state machine |
+| 7.11 | Haystack (deepset) *(NEW)* | [✅ 11_haystack.md](Level7_Frameworks/11_haystack.md) | [✅ practical.py](Level7_Frameworks/11_haystack_practical.py) — falls back to manual type-checked pipeline if SDK not installed |
 
 ⭐ = Must-master
 
@@ -266,7 +268,7 @@ LevelN_Topic/
 | 8.8 | **Observability (LangSmith/Langfuse)** ⭐ | [✅ 08_observability.md](Level8_Production_LLMOps/08_observability.md) | [✅ practical](Level8_Production_LLMOps/08_observability_practical.py) |
 | 8.9 | **Guardrails & Safety** ⭐ | [✅ 09_guardrails.md](Level8_Production_LLMOps/09_guardrails.md) | [✅ practical](Level8_Production_LLMOps/09_guardrails_practical.py) |
 | 8.10 | **Cost Optimization (Advanced)** | [✅ 10_cost_optimization_advanced.md](Level8_Production_LLMOps/10_cost_optimization_advanced.md) | [✅ practical](Level8_Production_LLMOps/10_cost_optimization_advanced_practical.py) |
-| 8.11 | Databricks/Spark/Snowflake (enterprise data plane) | [✅ 11_databricks_spark_snowflake.md](Level8_Production_LLMOps/11_databricks_spark_snowflake.md) | — |
+| 8.11 | Databricks/Spark/Snowflake (enterprise data plane) | [✅ 11_databricks_spark_snowflake.md](Level8_Production_LLMOps/11_databricks_spark_snowflake.md) | [✅ practical](Level8_Production_LLMOps/11_databricks_spark_snowflake_practical.py) |
 
 ---
 
@@ -293,33 +295,33 @@ Cutting-edge topics beyond original PDF roadmap.
 
 | # | Topic | Doc |
 |---|---|---|
-| 0 | **AI Tools Landscape** — kaunsa tool kis kaam ka | [✅ 00_ai_tools_landscape.md](Modern_Topics/00_ai_tools_landscape.md) |
+| 0 | **AI Tools Landscape** — kaunsa tool kis kaam ka | [✅ 00_ai_tools_landscape.md](Modern_Topics/00_ai_tools_landscape.md) · [🐍 practical](Modern_Topics/00_ai_tools_landscape_practical.py) |
 | 1 | **Voice Agents** (Whisper, Realtime API, ElevenLabs) — + [runnable pipeline practical](Modern_Topics/01_voice_agents_practical.py) *(NEW)* | [✅ 01_voice_agents.md](Modern_Topics/01_voice_agents.md) |
-| 2 | **Computer Use** (Claude Desktop Control) | [✅ 02_computer_use.md](Modern_Topics/02_computer_use.md) |
-| 3 | **Local Serving** (Ollama, vLLM) | [✅ 03_local_serving.md](Modern_Topics/03_local_serving.md) |
-| 4 | **Memory Frameworks** (Mem0, Zep) | [✅ 04_memory_frameworks.md](Modern_Topics/04_memory_frameworks.md) |
-| 5 | **Multi-modal Agents** (Vision + Audio + Text) | [✅ 05_multimodal_agents.md](Modern_Topics/05_multimodal_agents.md) |
+| 2 | **Computer Use** (Claude Desktop Control) | [✅ 02_computer_use.md](Modern_Topics/02_computer_use.md) · [🐍 practical](Modern_Topics/02_computer_use_practical.py) |
+| 3 | **Local Serving** (Ollama, vLLM) | [✅ 03_local_serving.md](Modern_Topics/03_local_serving.md) · [🐍 practical](Modern_Topics/03_local_serving_practical.py) |
+| 4 | **Memory Frameworks** (Mem0, Zep) | [✅ 04_memory_frameworks.md](Modern_Topics/04_memory_frameworks.md) · [🐍 practical](Modern_Topics/04_memory_frameworks_practical.py) |
+| 5 | **Multi-modal Agents** (Vision + Audio + Text) | [✅ 05_multimodal_agents.md](Modern_Topics/05_multimodal_agents.md) · [🐍 practical](Modern_Topics/05_multimodal_agents_practical.py) |
 | 6 | **Playwright / Browser Automation** | [✅ 06_playwright_browser_automation.md](Modern_Topics/06_playwright_browser_automation.md) |
-| 7 | **AI Coding Tools** (Claude Code, Copilot, Cursor) | [✅ 07_ai_coding_tools.md](Modern_Topics/07_ai_coding_tools.md) |
-| 8 | **MCP Advanced Server Dev** (transports, auth, hardening) | [✅ 08_mcp_advanced_server_dev.md](Modern_Topics/08_mcp_advanced_server_dev.md) |
-| 9 | **AI Security Threats** (OWASP LLM Top 10, prompt injection) | [✅ 09_ai_security_threats.md](Modern_Topics/09_ai_security_threats.md) |
-| 10 | **AI Ethics & Responsible AI** (bias, fairness, governance, EU AI Act) | [✅ 10_ai_ethics_responsible_ai.md](Modern_Topics/10_ai_ethics_responsible_ai.md) |
-| 11 | **Coding Agent Harness Deep Dive** (diff-editing, verification loops, sandboxing) *(NEW)* | [✅ 11_coding_agent_harness_deep_dive.md](Modern_Topics/11_coding_agent_harness_deep_dive.md) |
-| 12 | **OpenAI Responses API** (2025 agentic API: stateful, hosted tools, agent loop) *(NEW)* | [✅ 12_openai_responses_api.md](Modern_Topics/12_openai_responses_api.md) |
-| 13 | **Gemini Live API** (real-time bidirectional multimodal, barge-in, voice+vision) *(NEW)* | [✅ 13_gemini_live_api.md](Modern_Topics/13_gemini_live_api.md) |
+| 7 | **AI Coding Tools** (Claude Code, Copilot, Cursor) | [✅ 07_ai_coding_tools.md](Modern_Topics/07_ai_coding_tools.md) · [🐍 practical](Modern_Topics/07_ai_coding_tools_practical.py) |
+| 8 | **MCP Advanced Server Dev** (transports, auth, hardening) | [✅ 08_mcp_advanced_server_dev.md](Modern_Topics/08_mcp_advanced_server_dev.md) · [🐍 practical](Modern_Topics/08_mcp_advanced_server_dev_practical.py) |
+| 9 | **AI Security Threats** (OWASP LLM Top 10, prompt injection) | [✅ 09_ai_security_threats.md](Modern_Topics/09_ai_security_threats.md) · [🐍 practical](Modern_Topics/09_ai_security_threats_practical.py) |
+| 10 | **AI Ethics & Responsible AI** (bias, fairness, governance, EU AI Act) | [✅ 10_ai_ethics_responsible_ai.md](Modern_Topics/10_ai_ethics_responsible_ai.md) · [🐍 practical](Modern_Topics/10_ai_ethics_responsible_ai_practical.py) |
+| 11 | **Coding Agent Harness Deep Dive** (diff-editing, verification loops, sandboxing) *(NEW)* | [✅ 11_coding_agent_harness_deep_dive.md](Modern_Topics/11_coding_agent_harness_deep_dive.md) · [🐍 practical](Modern_Topics/11_coding_agent_harness_deep_dive_practical.py) |
+| 12 | **OpenAI Responses API** (2025 agentic API: stateful, hosted tools, agent loop) *(NEW)* | [✅ 12_openai_responses_api.md](Modern_Topics/12_openai_responses_api.md) · [🐍 practical](Modern_Topics/12_openai_responses_api_practical.py) |
+| 13 | **Gemini Live API** (real-time bidirectional multimodal, barge-in, voice+vision) *(NEW)* | [✅ 13_gemini_live_api.md](Modern_Topics/13_gemini_live_api.md) · [🐍 practical](Modern_Topics/13_gemini_live_api_practical.py) |
 | 14 | **Data Extraction** (Crawl4AI, FireCrawl, ScrapeGraphAI, Docling, LlamaParse, MegaParser, ExtractThinker) — architecture + practical *(NEW)* | [✅ 14_data_extraction.md](Modern_Topics/14_data_extraction.md) · [🐍 practical](Modern_Topics/14_data_extraction_practical.py) |
 | 15 | **Cassandra / Astra vector store** (masterless ring, SAI + JVector ANN, CQL) *(NEW)* | [✅ 15_cassandra_vector_store.md](Modern_Topics/15_cassandra_vector_store.md) · [🐍 practical](Modern_Topics/15_cassandra_vector_store_practical.py) |
 | 16 | **Txtai** (all-in-one embeddings DB + pipelines + workflows) *(NEW)* | [✅ 16_txtai.md](Modern_Topics/16_txtai.md) · [🐍 practical](Modern_Topics/16_txtai_practical.py) |
 | 17 | **Giskard** (LLM/RAG red-teaming, scan, RAGET, CI gate) *(NEW)* | [✅ 17_giskard_evaluation.md](Modern_Topics/17_giskard_evaluation.md) · [🐍 practical](Modern_Topics/17_giskard_evaluation_practical.py) |
-| 18 | **Model training internals** (RLHF/PPO/DPO, Distillation, Validation Loss) — concept level *(NEW)* | [✅ 18_model_training_internals.md](Modern_Topics/18_model_training_internals.md) |
+| 18 | **Model training internals** (RLHF/PPO/DPO, Distillation, Validation Loss) — concept level *(NEW)* | [✅ 18_model_training_internals.md](Modern_Topics/18_model_training_internals.md) · [🐍 practical](Modern_Topics/18_model_training_internals_practical.py) |
 | 19 | **Milvus** (cloud-native, billion-scale, disaggregated, GPU ANN) *(NEW)* | [✅ 19_milvus_vector_db.md](Modern_Topics/19_milvus_vector_db.md) · [🐍 practical](Modern_Topics/19_milvus_vector_db_practical.py) |
 | 20 | **OpenSearch vectors** (k-NN + BM25 hybrid, HNSW/Faiss) *(NEW)* | [✅ 20_opensearch_vector.md](Modern_Topics/20_opensearch_vector.md) · [🐍 practical](Modern_Topics/20_opensearch_vector_practical.py) |
 | 21 | **Together AI** (hosted open-weight models, OpenAI-compatible, FT) *(NEW)* | [✅ 21_together_ai.md](Modern_Topics/21_together_ai.md) · [🐍 practical](Modern_Topics/21_together_ai_practical.py) |
 | 22 | **TruLens** (LLM observability, RAG Triad, feedback functions) *(NEW)* | [✅ 22_trulens_evaluation.md](Modern_Topics/22_trulens_evaluation.md) · [🐍 practical](Modern_Topics/22_trulens_evaluation_practical.py) |
-| 23 | **Claude Agent SDK + Agent Skills** (Claude Code as a library: built-in tools, hooks, subagents; SKILL.md progressive disclosure) *(NEW)* | [✅ 23_claude_agent_sdk_skills.md](Modern_Topics/23_claude_agent_sdk_skills.md) |
-| 24 | **OpenAI AgentKit** (Agent Builder, ChatKit, Connector Registry, trace-grading Evals; vs Agents SDK) *(NEW)* | [✅ 24_openai_agentkit.md](Modern_Topics/24_openai_agentkit.md) |
-| 25 | 🔴 **Azure AI Foundry + Prompt Flow** (hierarchy, deployment types, DAG + variants, azure-ai-evaluation, OTel tracing, Agent Service, Content Safety) *(NEW)* | [✅ 25_azure_ai_foundry_promptflow.md](Modern_Topics/25_azure_ai_foundry_promptflow.md) |
-| 26 | 🔴 **Azure AI Services (AI-900/AI-102 scope)** (Document Intelligence layout→Markdown, AI Language PII/CLU, Speech, Vision, Responsible AI 6) *(NEW)* | [✅ 26_azure_ai_services_ai102.md](Modern_Topics/26_azure_ai_services_ai102.md) |
+| 23 | **Claude Agent SDK + Agent Skills** (Claude Code as a library: built-in tools, hooks, subagents; SKILL.md progressive disclosure) *(NEW)* | [✅ 23_claude_agent_sdk_skills.md](Modern_Topics/23_claude_agent_sdk_skills.md) · [🐍 practical](Modern_Topics/23_claude_agent_sdk_skills_practical.py) |
+| 24 | **OpenAI AgentKit** (Agent Builder, ChatKit, Connector Registry, trace-grading Evals; vs Agents SDK) *(NEW)* | [✅ 24_openai_agentkit.md](Modern_Topics/24_openai_agentkit.md) · [🐍 practical](Modern_Topics/24_openai_agentkit_practical.py) |
+| 25 | 🔴 **Azure AI Foundry + Prompt Flow** (hierarchy, deployment types, DAG + variants, azure-ai-evaluation, OTel tracing, Agent Service, Content Safety) | ⬜ TODO — planned, not written yet (`Modern_Topics/25_azure_ai_foundry_promptflow.md` doesn't exist) |
+| 26 | 🔴 **Azure AI Services (AI-900/AI-102 scope)** (Document Intelligence layout→Markdown, AI Language PII/CLU, Speech, Vision, Responsible AI 6) | ⬜ TODO — planned, not written yet (`Modern_Topics/26_azure_ai_services_ai102.md` doesn't exist) |
 | — | **📊 Complete Coverage Analysis** (all 43 tools + 12 terms mapped) | [✅ COVERAGE_ANALYSIS.md](Modern_Topics/COVERAGE_ANALYSIS.md) |
 
 ---
@@ -335,7 +337,15 @@ Final-week polish.
 | 3 | Behavioral Questions | [📄](Interview_Prep/03_behavioral_questions.md) |
 | 4 | Key Technical Concepts | [📄](Interview_Prep/04_key_technical_concepts.md) |
 | 5 | 🔴 **GenAI Developer (Azure role) prep** — JD→repo gap map + day-wise plan | [📄](Interview_Prep/05_genai_developer_azure_role_prep.md) |
-| 6 | 🔴 **PwC Senior Associate GenAI prep — interview Tue 18 Aug 2026** *(NEW)* — gap audit, 6-day plan, consulting behavioral, honest-answer scripts, one-page recall card | [📄](Interview_Prep/06_pwc_genai_senior_associate_prep.md) |
+| 6 | AI/GenAI Interview Round Strategy — meta-game, not another question list | [📄](Interview_Prep/06_ai_interview_round_strategy.md) |
+| 7 | AI Company & Role Research — is this a real AI role or a thin wrapper? | [📄](Interview_Prep/07_ai_company_role_research.md) |
+| 8 | AI & LLM Skills — deep architecture guide (Claude/GPT-4/LangChain/LangGraph/MCP/Agents/RAG/Vector DBs) | [📄](Interview_Prep/08_ai_llm_skills_deep.md) |
+| 9 | Frameworks deep guide — Django, DRF, FastAPI | [📄](Interview_Prep/09_frameworks_django_drf_fastapi.md) |
+| 10 | Databases deep guide — PostgreSQL, MySQL, Redis, query optimization, indexing | [📄](Interview_Prep/10_databases_postgresql_mysql_redis.md) |
+| 11 | Async & queue deep guide — Celery, RabbitMQ, AWS SQS | [📄](Interview_Prep/11_async_queue_celery_rabbitmq_sqs.md) |
+| 12 | Cloud & DevOps deep guide — AWS, Docker, GitHub Actions, CI/CD, ECS, CloudWatch | [📄](Interview_Prep/12_cloud_devops_aws_docker_cicd.md) |
+| 13 | APIs & security deep guide — REST, JWT, OAuth2, RBAC, webhooks (HMAC), microservices | [📄](Interview_Prep/13_apis_security_jwt_oauth_rbac_webhooks.md) |
+| 14 | Python deep guide — internals, OOP, async, decorators, performance | [📄](Interview_Prep/14_python_deep_dive.md) |
 
 ---
 

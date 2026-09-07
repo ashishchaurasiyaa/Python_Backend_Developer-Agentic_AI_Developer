@@ -1,0 +1,71 @@
+# TODO lab: two Jobs, two different completion behaviors.
+#
+# job-succeeds: restartPolicy OnFailure keeps re-running the SAME Pod's
+# container in place (not a new Pod each time) until it exits 0, or until
+# the Job's backoffLimit gives up. It uses a counter file on an emptyDir
+# volume — that volume survives in-place container restarts (same Pod), so
+# the container can tell "this is my 3rd attempt" and finally succeed. No
+# TODO here — this one's the working contrast case.
+#
+# job-fails: deliberately, permanently broken (always exits 1). Kubernetes
+# Jobs default to backoffLimit: 6, with the retry delay growing (roughly
+# 10s, 20s, 40s, ...) between attempts — for a job this reliably broken,
+# reaching BackoffLimitExceeded with the DEFAULT backoffLimit takes several
+# minutes, not seconds. That's the actual lesson: an unset backoffLimit
+# doesn't mean "safe default", it means "this will burn a long time before
+# anyone/anything notices it gave up."
+#
+# YOUR TASK: add `backoffLimit: 1` to job-fails's spec, so it gives up fast
+# (2 total attempts) instead of silently retrying for minutes.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-succeeds
+  namespace: k8s-labs
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: worker
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              COUNT_FILE=/data/attempts
+              [ -f "$COUNT_FILE" ] || echo 0 > "$COUNT_FILE"
+              COUNT=$(cat "$COUNT_FILE")
+              COUNT=$((COUNT + 1))
+              echo "$COUNT" > "$COUNT_FILE"
+              echo "attempt $COUNT"
+              if [ "$COUNT" -lt 3 ]; then
+                echo "failing on purpose (attempt $COUNT of 3 needed)"
+                exit 1
+              fi
+              echo "succeeding on attempt $COUNT"
+              exit 0
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-fails
+  namespace: k8s-labs
+spec:
+  # TODO: add backoffLimit: 1 here so this permanently-broken job gives up
+  # after 2 total attempts instead of the default 6 (which, with growing
+  # backoff delays, can take several minutes for a job this fast-failing).
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: worker
+          image: busybox:1.36
+          command: ["sh", "-c", "echo 'this always fails'; exit 1"]

@@ -1,7 +1,7 @@
 # Semantic Kernel — Microsoft's Agent Orchestration SDK (deep dive)
 
-> **Practical code:** [`09_semantic_kernel_practical.py`](09_semantic_kernel_practical.py) — mock mode me
-> bhi chalta hai (SDK/key na ho to bhi auto-function-calling loop apni aankho se dikhega).
+> **Practical code:** [`09_semantic_kernel_practical.py`](09_semantic_kernel_practical.py) — runs in mock mode
+> (SDK/key na ho to bhi auto-function-calling loop apni aankho se dikhega).
 >
 > **Kyun padh rahe ho:** SK khud tumhara daily driver nahi banega. Par jo companies Azure/.NET
 > shop hain (PwC ka "Microsoft" specialism, UnitedHealth, ZF, Dassault) unke JD me yeh naam
@@ -659,7 +659,7 @@ Exporter Azure Monitor / App Insights → Foundry tracing UI, ya koi bhi OTel ba
 > prompts capture karna ek conscious compliance decision banta hai, accident nahi."*
 
 Cross-ref: [`../Level8_Production_LLMOps/`](../Level8_Production_LLMOps/) (tracing/eval),
-[`../Modern_Topics/25_azure_ai_foundry_promptflow.md`](../Modern_Topics/25_azure_ai_foundry_promptflow.md) (Foundry side).
+`../Modern_Topics/25_azure_ai_foundry_promptflow.md` (Foundry side) — ⬜ not written yet.
 
 ---
 

@@ -19,6 +19,30 @@ Without Sharding:              With Sharding:
 
 ---
 
+## Sharding ≠ Replication — they combine, they don't replace each other
+
+Sharding and replication solve two different problems, and production systems run both **at the same time, per shard**:
+
+```
+SHARDING     → splits data across machines (scale — no one machine can hold/serve it all)
+REPLICATION  → copies each machine's data (availability — one machine dying shouldn't lose data)
+
+                    Shard0                Shard1                Shard2
+                 ┌─────────┐           ┌─────────┐           ┌─────────┐
+                 │ Primary │           │ Primary │           │ Primary │
+                 └────┬────┘           └────┬────┘           └────┬────┘
+                      │                      │                      │
+                 ┌────┴────┐           ┌────┴────┐           ┌────┴────┐
+                 │ Replica │           │ Replica │           │ Replica │
+                 └─────────┘           └─────────┘           └─────────┘
+```
+
+If you shard **without** replicating each shard, one shard going down makes that whole slice of data unavailable — sharding alone doesn't buy you fault tolerance, only scale. So each shard is itself a small **replica set**: writes go to that shard's primary, reads can be offloaded to its replica(s), and if the primary dies, a replica is promoted (via MongoDB-style replica-set election, or an external tool like Patroni for Postgres). This is orthogonal to *which* shard a key routes to — that's decided by the sharding strategy below; replication is what keeps each individual shard alive.
+
+**Watch out for:** read replicas inside a shard introduce the same replication-lag trade-off as a non-sharded DB (see [11_Redundancy_vs_Replication.md](11_Redundancy_vs_Replication.md)) — a read right after a write to that shard's primary may hit a stale replica unless you route read-your-writes traffic to the primary.
+
+---
+
 ## Sharding Strategies
 
 ### 1. Range-Based Sharding
