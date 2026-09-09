@@ -3,6 +3,8 @@
 
 ## Quick Concepts
 
+- **Network** = a group of connected devices that can exchange data (LAN, WAN, the internet itself)
+- **Protocol** = an agreed-upon set of rules for how two systems communicate (TCP, HTTP, DNS are all protocols)
 - **IP address** = network address of a host (IPv4: `192.168.1.1`, IPv6: `2001:db8::1`)
 - **Port** = number identifying a service on a host (e.g., 80=HTTP, 443=HTTPS, 5432=Postgres)
 - **MAC address** = hardware identifier of network card
@@ -74,6 +76,19 @@ Layer 2  Ethernet wraps with MAC addresses (router hops)
 Layer 1  Bits sent over fiber / Wi-Fi
 
 Server reverses the process to read your request.
+```
+
+### Encapsulation
+
+```
+Each layer wraps the layer above it in its own header (and sometimes
+footer) as data moves down the stack — that wrapping is encapsulation.
+
+  [Eth header [IP header [TCP header [HTTP request]]]]
+
+The receiving side strips one header per layer on the way back up
+(decapsulation). This is why a single HTTP request has more bytes on
+the wire than the request line itself — every layer adds overhead.
 ```
 
 ---
@@ -244,6 +259,27 @@ ss -tn    # all TCP in tabular form
 ss -tn state established
 ss -tn state time-wait | wc -l   # how many in TIME_WAIT
 ```
+
+### Verified live proof — real state transitions (see [`tcp_states_demo.py`](tcp_states_demo.py))
+
+```
+Step 1 — server listening:
+  Python 36554 ... TCP 127.0.0.1:51322 (LISTEN)
+
+Step 2 — client connects (handshake completes):
+  Python 36554 ... TCP 127.0.0.1:51322 (LISTEN)                       <- still listening, ready for more
+  Python 36554 ... TCP 127.0.0.1:51323->127.0.0.1:51322 (ESTABLISHED) <- client side
+  Python 36554 ... TCP 127.0.0.1:51322->127.0.0.1:51323 (ESTABLISHED) <- server side
+  → both directions of the SAME connection, each endpoint sees it from
+    its own perspective (source->dest)
+
+Step 3 — after close():
+  tcp4  127.0.0.1.51323  127.0.0.1.51322  TIME_WAIT
+  → a REAL TIME_WAIT entry, the exact state the section below warns
+    piles up under high connection churn.
+```
+
+**Tooling note found while verifying:** `lsof -iTCP:$PORT` reliably shows LISTEN/ESTABLISHED but did NOT reliably catch the TIME_WAIT entry once the listening socket itself had also closed — `netstat -an -p tcp` did. On a real Linux server you'd reach for `ss -tn state time-wait` (this file's own recommendation) instead of either.
 
 ### Senior Pattern: TIME_WAIT Exhaustion
 
@@ -958,8 +994,10 @@ First request must traverse the resolver chain (potentially round-trips). After 
 
 ## Related
 
+- [03_networking_deepdive_hinglish.md](03_networking_deepdive_hinglish.md) — Hinglish tutoring-style deep dive on the same topics (Definition → example → backend example → internals → interview angle), being built part-by-part
+- [tcp_states_demo.py](tcp_states_demo.py) — runnable TCP practical (verified: real LISTEN → ESTABLISHED → TIME_WAIT transitions on a live socket pair)
 - [01_linux_bash_essentials.md](01_linux_bash_essentials.md) — commands used
-- [02_os_concepts.md](02_os_concepts.md) — sockets at OS level
+- [02_os_concepts.md](02_os_concepts.md) — sockets at OS level (this file's "Sockets" section builds directly on the verified `socket()`/`accept()`/fd work already done there — see `ipc_demo.py`, `fd_advanced_demo.py`)
 - [04_git_workflows.md](04_git_workflows.md) — version control
 - [../02_Year5+_Senior/01_System_Design/HLD_Theory/](../../02_Year5+_Senior/01_System_Design/HLD_Theory) — for HLD context
 - [../01_Year3-4_Mid/02_API_Design/](../../01_Year3-4_Mid/02_API_Design) — HTTP deep dives
