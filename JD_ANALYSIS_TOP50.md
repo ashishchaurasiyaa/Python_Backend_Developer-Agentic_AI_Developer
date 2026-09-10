@@ -7,6 +7,28 @@
 
 ---
 
+## 🆕 QUICK SKILLS PULSE — 08 Sep 2026 (Agentic AI only, aggregate search)
+
+> Different methodology from the two pulls below — this is **not** a fresh per-company JD scrape. It's a cross-check via web search over industry blogs, job-aggregator summaries (Glassdoor/Indeed/Foundit rollups), and hiring reports, done to sanity-check whether the 26 Aug Track B list is still current 13 days later. Treat it as a confirmation pass, not a new independent data pull — no individual company JD text was read this round.
+
+**Verdict: no new must-learn skill.** Everything below was already covered by the 26 Aug Track B table and [`STUDY_PLAN.md`](STUDY_PLAN.md). Three genuinely new watch-items surfaced, all low-priority.
+
+**Confirmed still-dominant (matches 26 Aug pull):** Python, LLM API fluency (OpenAI/Claude/Gemini function-calling), RAG pipelines, LangChain/LangGraph, vector databases (Pinecone/FAISS/Chroma/Milvus/Weaviate), CrewAI/AutoGen, prompt engineering, multi-agent orchestration + tool-calling, AWS Bedrock/Azure OpenAI/GCP Vertex AI, agent evaluation & observability (LangSmith).
+
+**MCP momentum confirmed independently a 3rd time:** industry reports cite MCP hit ~97M installs by March 2026 — no longer a niche ask, now a standard line item in Agentic AI JDs, consistent with the Ebyte/Sapiens hits from the 26 Aug pull.
+
+**🆕 New watch-items (not yet in the repo, low priority):**
+1. **A2A (Agent-to-Agent) protocol** — showing up paired with MCP in a handful of newer JDs as an agent-to-agent communication standard. Worth a fluency pass once MCP is solid, not urgent.
+2. **n8n** — no-code/low-code orchestration layer appearing alongside Python-first agent stacks in some listings.
+3. **Semantic Kernel** (Microsoft) — occasional alternative to LangGraph/CrewAI, mostly in Azure-heavy stacks.
+4. **Persistent memory systems** (Mem0, Zep) — named for long-running autonomous-agent state management; adjacent to the existing RAG/vector-DB prep, not a separate track.
+
+**Demand-side data point:** NASSCOM projects India will need 50,000+ specialized Agentic AI professionals by 2027 — consistent with the 14:1 GenAI-vs-backend posting ratio the 26 Aug Naukri pull already found.
+
+Sources: [Agentic AI Jobs in 2026 — IIT KGP](https://online.iitkgp.ac.in/blog/agentic-ai-jobs) · [NovelVista — Agentic AI Jobs Guide](https://www.novelvista.com/blogs/ai-and-ml/agentic-ai-jobs-skills-salary-career-path) · [Agentic AI Hiring Boom 2026](https://jobsbyculture.com/blog/agentic-ai-hiring-boom-2026) · [2026 AI Engineer Stack: MCP + A2A](https://www.buildmvpfast.com/blog/ai-engineer-stack-2026-mcp-a2a-protocol) · [MCP and Tool-Use Architecture Careers](https://www.topgenaijobs.com/blog/mcp-tool-use-architecture-careers) · [Agentic AI Engineering Jobs India](https://agentic-engineering-jobs.com/jobs/india) · [What is Agentic AI Engineering?](https://agentic-engineering-jobs.com/what-is-agentic-engineering)
+
+---
+
 ## 📋 INDEED — full JD text (Track A/B/C, ~40 postings)
 
 ### Track A — Pure/Mostly Python Backend (16)
@@ -191,3 +213,4 @@ Two things worth flagging even at this shallow depth: **AgentOps and AI Red Team
 ---
 
 > Cross-reference: [`JOB_TRACKER.md`](JOB_TRACKER.md) for the active application pipeline (currently empty — see that file) · [`STUDY_PLAN.md`](STUDY_PLAN.md) for the daily sprint + full topic reference (single file, both live there now).
+> 08 Sep 2026 update: see **QUICK SKILLS PULSE** section near the top — a lighter aggregate-search confirmation pass, no new must-learn skill found, 3 low-priority watch-items added (A2A protocol, n8n, Semantic Kernel).

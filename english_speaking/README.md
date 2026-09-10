@@ -99,7 +99,16 @@ Awal Sir ki class ke slides se banaye gaye notes — jo un lessons mein padhaya 
 |------|-------|
 | [lesson_05_06_describing_state_is_are.md](Awal_Course_Notes/lesson_05_06_describing_state_is_are.md) | Commas, "not", "and" se describe karna; is/are + contractions (isn't, aren't, I'm not, won't) |
 | [lesson_07_08_pronouns_wh_questions.md](Awal_Course_Notes/lesson_07_08_pronouns_wh_questions.md) | Personal + demonstrative pronouns; 6 WH questions (What/Where/When/Who/How/Why) |
+| [lesson_11_12_possessives_comparatives.md](Awal_Course_Notes/lesson_11_12_possessives_comparatives.md) | Possessive pronouns/adjectives (my/mine, who's/whose, hers/his, yours/theirs, ours); comparative & superlative adjective rules |
 | [lesson_09_10_tag_questions_negatives.md](Awal_Course_Notes/lesson_09_10_tag_questions_negatives.md) | Yes/No, information & WH questions revision; tag questions (don't you?/isn't she?); use of 'the'; negative sentences (not/no/never/none/neither...nor) |
+
+---
+
+## 🎬 Media Immersion — Movies & Anime (weekend/leisure)
+
+Roz ki curriculum nahi, par passive listening + naye phrases ke liye — **30 movies (Basic→Advanced) + anime list**, Hinglish tips ke saath ki kaise dekhein taaki sirf entertainment na ho, practice bhi ho.
+
+**➡️ [04_media_immersion_list.md](04_media_immersion_list.md)**
 
 ---
 
@@ -120,5 +129,6 @@ Hafte mein 1 baar: Claude ke saath ek **mock conversation / mock interview** (En
 
 - Main study plan: [../STUDY_PLAN.md](../STUDY_PLAN.md)
 - Job prep (backend): isse interview English (`03_Advanced/06_interview_english.md`) direct juda hua hai.
+- Weekend immersion: [04_media_immersion_list.md](04_media_immersion_list.md) — 30 movies + anime, basic se advanced.
 
 > Tip: ise daily study ke saath chalao — 30 min English, baaki time tech. Dono parallel.

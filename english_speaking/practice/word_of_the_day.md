@@ -54,4 +54,20 @@
 
 ---
 
+## 2026-09-04 — Garrulous
+
+**Part of Speech:** Adjective
+**English Meaning:** Very talkative.
+**Hindi Meaning:** बहुत ज़्यादा बोलने वाला।
+**Synonyms:** talkative, chatty
+**Antonyms:** silent, quiet
+
+**Sentence:**
+- My uncle is very garrulous at family gatherings.
+- मेरे चाचा परिवार की बैठकों में बहुत बोलते हैं।
+
+🗣️ **Apna example**: _____ (khud likho aur zor se bolo)
+
+---
+
 ← [README](../README.md) · [Idioms reference](../02_Intermediate/04_idioms.md)

@@ -140,6 +140,18 @@ tail -f /var/log/app.log    # FOLLOW (live)
 tail -F file                # follow even if rotated
 ```
 
+**`-f` vs `-F` — mnemonic:** Capital **`F`** = Follow the **F**ilename **F**orever — re-checks the name, switches to the new file if it gets rotated. Lowercase **`f`** = follows the file **descriptor** — stays glued to the original open file handle even after it's renamed.
+
+```
+Logrotate scenario:
+  app.log renamed → app.log.1 (new empty app.log created)
+
+  tail -f app.log   → keeps watching the OLD file (now app.log.1) — looks "stuck", no new lines
+  tail -F app.log   → detects the name now points to a new file, switches automatically
+
+  Always use -F in production. -f silently goes stale after every rotation.
+```
+
 ### Search
 
 ```bash

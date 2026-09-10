@@ -102,6 +102,22 @@ Thread 3:  wait ----wait --------→ acquire GIL → execute
 - CPython ke internal data structures (reference counts, dicts) thread-safe nahi hain
 - GIL unhe protect karta hai — simplicity ke liye performance trade-off
 
+### GIL kab release hoti hai (switch interval)
+
+GIL sirf I/O pe hi release nahi hoti — CPU-bound code me bhi periodically release hoti hai, taaki koi thread starve na ho:
+
+```python
+import sys
+
+sys.getswitchinterval()      # default: 0.005 (5ms)
+sys.setswitchinterval(0.001) # ab har 1ms pe GIL check/switch hoga
+
+# Kam interval  → zyada fair switching, but zyada switch-overhead
+# Zyada interval → kam overhead, but ek thread zyada der GIL hold kar sakta hai
+```
+
+Real GIL release triggers (teeno): (1) har `switchinterval` ke baad time-based check, (2) blocking I/O call (file/network/`sleep`), (3) kuch C extensions (NumPy, hashlib) explicitly GIL release karte hain heavy compute ke time bhi — isiliye NumPy vector ops threading se bhi speedup de sakte hain, pure Python loops nahi dete.
+
 ---
 
 ## 1.5 GIL ka Impact — I/O vs CPU
@@ -116,6 +132,31 @@ CPU-bound tasks (computation, loops, math):
   → Threading USELESS for parallelism
   → Multiprocessing use karo — separate process = separate GIL
 ```
+
+### Production pattern — FastAPI + ProcessPoolExecutor for CPU-bound routes
+
+An `async def` route that does real CPU work (image processing, ML inference, heavy serialization) **directly** runs that work on the event-loop thread — nothing else gets served until it finishes:
+
+```python
+# WRONG — blocks the event loop, server answers zero other requests meanwhile
+@app.post("/heavy")
+async def heavy(data: In):
+    result = cpu_bound_fn(data)   # runs ON the event loop thread
+    return result
+
+# RIGHT — offload to a worker process, event loop stays free
+@app.post("/heavy")
+async def heavy(data: In):
+    loop = asyncio.get_running_loop()
+    result = await loop.run_in_executor(app.state.process_pool, cpu_bound_fn, data)
+    return result
+```
+
+**Verified** (`practical/03_memory_gil_practical.py` §10 — no `fastapi` install needed, this is pure `asyncio` + `concurrent.futures`, the exact same mechanism Starlette's event loop uses): with 4 concurrent I/O-style "requests" and 1 CPU-heavy "request" offloaded via `run_in_executor`, all 4 I/O requests completed in ~0.05s each — **while the CPU work was still running in a background process** — total time was bound only by the CPU work itself, not by the I/O requests queuing behind it. Doing the same CPU work directly (no executor) made everything else wait the full ~0.95s.
+
+### The GIL's future — PEP 703 (no-GIL builds)
+
+Python 3.13+ ships an experimental **free-threaded build** (`python3.13t`) that makes the GIL optional — real multi-threaded CPU parallelism without `multiprocessing`. Not production-default yet (C-extension ecosystem is still adapting). Full deep dive: [`02_Year5+_Senior/03_Senior_Leadership/08_pep_703_nogil_deep.md`](../../../02_Year5+_Senior/03_Senior_Leadership/08_pep_703_nogil_deep.md).
 
 ---
 

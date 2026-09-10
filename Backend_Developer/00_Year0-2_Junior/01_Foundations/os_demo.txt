@@ -1,0 +1,2 @@
+Hello from OS demonstration.
+This file has an associated file descriptor.

@@ -5,51 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2ac85d-985f-42f9-a272-ad399363c0f9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend_Developer/coding_laps/oops_pra.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend_Developer/coding_laps/oops_pratic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PythonRevision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonRevision.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/fork_demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/thread_demo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/Level1_LLM_Foundations/Classical_ML_DL_Foundations/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/Level1_LLM_Foundations/Classical_ML_DL_Foundations/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/Level7_Frameworks/09_semantic_kernel.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/Level7_Frameworks/09_semantic_kernel.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/MASTER_INDEX.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agentic_AI/Projects/project4_production_ai_saas_starter/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Agentic_AI/Projects/project4_production_ai_saas_starter/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/04_Database_SQL/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/04_Database_SQL/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/09_Caching/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/09_Caching/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/12_Email_Notifications/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/12_Email_Notifications/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/02_API_Design/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/05_Microservices/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/05_Microservices/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/06_gRPC/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/06_gRPC/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/15_Design_Patterns_SOLID/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/12_Load_Balancer.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/12_Load_Balancer.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/20_Database_Indexing.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/20_Database_Indexing.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/38_Database_Sharding.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/38_Database_Sharding.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/44_Consistent_Hashing_Theory.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/44_Consistent_Hashing_Theory.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/50_DNS_Deep.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Theory/50_DNS_Deep.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/LLD_Problems/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/02_Year5+_Senior/01_System_Design/LLD_Problems/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/01_DSA/practice/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/01_DSA/practice/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/03_FastAPI_URL_Shortener_Scale_starter/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/05_Django_Banking_Fintech_starter/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/05_Django_Banking_Fintech_starter/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/05_Django_Banking_Fintech_starter/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/05_Django_Banking_Fintech_starter/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/08_FastAPI_OpenAI_RAG_Backend_starter/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/03_Projects/08_FastAPI_OpenAI_RAG_Backend_starter/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/03_Interview_AnyYear/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/coding_laps/Best_Time_to_Buy_and_Sell_Stock.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/coding_laps/Best_Time_to_Buy_and_Sell_Stock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/coding_laps/Contains_Duplicate.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/coding_laps/Contains_Duplicate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/coding_laps/missing_num.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/coding_laps/missing_num.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Developer/coding_laps/vaild_patenthesis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/coding_laps/vaild_patenthesis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DevOps/05_Docker/practical/01_docker_lab.md" beforeDir="false" afterPath="$PROJECT_DIR$/DevOps/05_Docker/practical/01_docker_lab.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DevOps/06_Kubernetes/practical/01_kubernetes_lab.md" beforeDir="false" afterPath="$PROJECT_DIR$/DevOps/06_Kubernetes/practical/01_kubernetes_lab.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DevOps/08_Terraform/practical/01_terraform_lab.md" beforeDir="false" afterPath="$PROJECT_DIR$/DevOps/08_Terraform/practical/01_terraform_lab.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DevOps/21_Projects/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/DevOps/21_Projects/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DevOps/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/DevOps/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/01_linux_bash_essentials.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/01_linux_bash_essentials.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/02_os_concepts.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/02_os_concepts.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/01_Python_Advanced/practical/03_memory_gil_practical.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/01_Python_Advanced/practical/03_memory_gil_practical.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/01_Python_Advanced/theory/03_memory_gil.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Developer/01_Year3-4_Mid/01_Python_Advanced/theory/03_memory_gil.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JD_ANALYSIS_TOP50.md" beforeDir="false" afterPath="$PROJECT_DIR$/JD_ANALYSIS_TOP50.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/STUDY_PLAN.md" beforeDir="false" afterPath="$PROJECT_DIR$/STUDY_PLAN.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/english_speaking/02_Intermediate/04_idioms.md" beforeDir="false" afterPath="$PROJECT_DIR$/english_speaking/02_Intermediate/04_idioms.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/english_speaking/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/english_speaking/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/english_speaking/practice/word_of_the_day.md" beforeDir="false" afterPath="$PROJECT_DIR$/english_speaking/practice/word_of_the_day.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +27,7 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="2826" />
+    <option name="cachedIndexableFilesCount" value="3335" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -105,61 +72,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0030894149572533" />
-      <entry key="MS500" value="1.4773803796826215" />
-      <entry key="S2" value="3.5871420616101375" />
-      <entry key="S5" value="6.221753781921198" />
-      <entry key="S10" value="8.799075703968139" />
-      <entry key="S30" value="14.633220068905189" />
-      <entry key="S60" value="19.393309608352812" />
-      <entry key="M2" value="27.187052433784505" />
-      <entry key="M5" value="43.372883532747494" />
-      <entry key="M10" value="54.700967889435674" />
-      <entry key="M15" value="59.66483618960416" />
-      <entry key="M30" value="65.38925423499072" />
-      <entry key="H1" value="68.59950278513007" />
-      <entry key="H2" value="71.95358573859613" />
-      <entry key="H4" value="86.01145495750512" />
-      <entry key="D1" value="291.22526710004934" />
-      <entry key="W1" value="797.9864040464963" />
+      <entry key="MS100" value="1.0000002835290707" />
+      <entry key="MS500" value="1.0490365717972099" />
+      <entry key="S2" value="1.4865848151124217" />
+      <entry key="S5" value="1.9310058555739151" />
+      <entry key="S10" value="2.297575429113717" />
+      <entry key="S30" value="2.941719433075413" />
+      <entry key="S60" value="5.311626215984756" />
+      <entry key="M2" value="15.6200383535443" />
+      <entry key="M5" value="50.76893848201653" />
+      <entry key="M10" value="84.91285807771251" />
+      <entry key="M15" value="106.5932979724067" />
+      <entry key="M30" value="151.57555274040675" />
+      <entry key="H1" value="201.35062891774334" />
+      <entry key="H2" value="249.40570855478467" />
+      <entry key="H4" value="298.17727528629655" />
+      <entry key="D1" value="541.6302238933514" />
+      <entry key="W1" value="1080.1445091231076" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="2.846265855049075E-152" />
-      <entry key="S2" value="1.2988795097415508E-38" />
-      <entry key="S5" value="7.00531310292196E-16" />
-      <entry key="S10" value="2.6471259430867058E-8" />
-      <entry key="S30" value="0.003223664279871689" />
-      <entry key="S60" value="0.07663463612143494" />
-      <entry key="M2" value="0.4435582131730488" />
-      <entry key="M5" value="1.3707295479973483" />
-      <entry key="M10" value="2.0217971634681153" />
-      <entry key="M15" value="2.3045291340868217" />
-      <entry key="M30" value="2.6285218202533263" />
-      <entry key="H1" value="2.808543857652512" />
-      <entry key="H2" value="2.9646820373665017" />
-      <entry key="H4" value="3.61430632072932" />
-      <entry key="D1" value="15.261015771304063" />
-      <entry key="W1" value="37.500474881323036" />
+      <entry key="MS500" value="2.775618886845966E-100" />
+      <entry key="S2" value="1.2907435351363673E-25" />
+      <entry key="S5" value="1.1074802329901147E-10" />
+      <entry key="S10" value="1.0523688675363746E-5" />
+      <entry key="S30" value="0.021926927363364386" />
+      <entry key="S60" value="0.15303352054120908" />
+      <entry key="M2" value="0.5223241348201947" />
+      <entry key="M5" value="1.9300469643224398" />
+      <entry key="M10" value="3.64670429192371" />
+      <entry key="M15" value="4.889995695660316" />
+      <entry key="M30" value="7.693669411114494" />
+      <entry key="H1" value="10.889896253522675" />
+      <entry key="H2" value="13.781499570921637" />
+      <entry key="H4" value="16.353891816788188" />
+      <entry key="D1" value="29.554683284006966" />
+      <entry key="W1" value="53.56295980582507" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.8733730006633372" />
-      <entry key="MS500" value="1.4402694347269622" />
-      <entry key="S2" value="3.560057453760264" />
-      <entry key="S5" value="6.1736652363113285" />
-      <entry key="S10" value="8.719573307283145" />
-      <entry key="S30" value="14.523198432818212" />
-      <entry key="S60" value="19.36589020551532" />
-      <entry key="M2" value="27.536535472779097" />
-      <entry key="M5" value="44.67171503377485" />
-      <entry key="M10" value="56.67513428216106" />
-      <entry key="M15" value="61.934237911572836" />
-      <entry key="M30" value="67.9982794144886" />
-      <entry key="H1" value="71.39776019945853" />
-      <entry key="H2" value="74.91288372525189" />
-      <entry key="H4" value="89.62262209191722" />
-      <entry key="D1" value="306.4845408428971" />
-      <entry key="W1" value="835.4862849332507" />
+      <entry key="MS100" value="1.048056736235845E-4" />
+      <entry key="MS500" value="0.17262288668136716" />
+      <entry key="S2" value="0.9836322232872509" />
+      <entry key="S5" value="1.6692350469919832" />
+      <entry key="S10" value="2.153028536401384" />
+      <entry key="S30" value="2.90032976732882" />
+      <entry key="S60" value="5.393418505109349" />
+      <entry key="M2" value="16.05273949011263" />
+      <entry key="M5" value="52.608791393388046" />
+      <entry key="M10" value="88.49062276726646" />
+      <entry key="M15" value="111.4279473174845" />
+      <entry key="M30" value="159.2328897150166" />
+      <entry key="H1" value="212.21803945073287" />
+      <entry key="H2" value="263.1737928483205" />
+      <entry key="H4" value="314.5231903124343" />
+      <entry key="D1" value="571.1822187598361" />
+      <entry key="W1" value="1133.7067133654111" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -208,6 +175,7 @@
     &quot;Python.first.executor&quot;: &quot;Run&quot;,
     &quot;Python.first_and _second_highest.executor&quot;: &quot;Run&quot;,
     &quot;Python.first_and_last_position.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fork_demo.executor&quot;: &quot;Run&quot;,
     &quot;Python.group_anagram.executor&quot;: &quot;Run&quot;,
     &quot;Python.inheritence.executor&quot;: &quot;Run&quot;,
     &quot;Python.kms.executor&quot;: &quot;Run&quot;,
@@ -235,6 +203,7 @@
     &quot;Python.split_the_array.executor&quot;: &quot;Run&quot;,
     &quot;Python.string_is_palindrome.executor&quot;: &quot;Run&quot;,
     &quot;Python.third.executor&quot;: &quot;Run&quot;,
+    &quot;Python.thread_demo.executor&quot;: &quot;Run&quot;,
     &quot;Python.traffic_signal_checker.executor&quot;: &quot;Run&quot;,
     &quot;Python.uniques_records.executor&quot;: &quot;Run&quot;,
     &quot;Python.vaild_patenthesis.executor&quot;: &quot;Run&quot;,
@@ -274,7 +243,7 @@
       <command value="pip " />
     </option>
   </component>
-  <component name="RunManager" selected="Python.oops_pra">
+  <component name="RunManager" selected="Python.thread_demo">
     <configuration name="01_string_basics" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PythonRevision" />
       <option name="ENV_FILES" value="" />
@@ -300,7 +269,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Contains_Duplicate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="fork_demo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PythonRevision" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -309,39 +278,14 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend_Developer/coding_laps" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend_Developer/coding_laps/Contains_Duplicate.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="missing_num" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PythonRevision" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend_Developer/coding_laps" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="false" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend_Developer/coding_laps/missing_num.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/fork_demo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -400,13 +344,38 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="thread_demo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonRevision" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations/thread_demo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.thread_demo" />
+        <item itemvalue="Python.fork_demo" />
         <item itemvalue="Python.oops_pra" />
         <item itemvalue="Python.oops_pratic" />
         <item itemvalue="Python.01_string_basics" />
-        <item itemvalue="Python.Contains_Duplicate" />
-        <item itemvalue="Python.missing_num" />
       </list>
     </recent_temporary>
   </component>
@@ -533,6 +502,8 @@
       <workItem from="1788581442263" duration="1176000" />
       <workItem from="1788582635193" duration="232000" />
       <workItem from="1788591287719" duration="15865000" />
+      <workItem from="1788804828729" duration="11227000" />
+      <workItem from="1788888038509" duration="19623000" />
     </task>
     <servers />
   </component>
@@ -613,15 +584,15 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/01_poetry_uv_md$vaild_patenthesis.coverage" NAME="vaild_patenthesis Coverage Results" MODIFIED="1787029694068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend_Developer/coding_laps" />
-    <SUITE FILE_PATH="coverage/PythonRevision$quick_sort.coverage" NAME="quick_sort Coverage Results" MODIFIED="1760432793571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
     <SUITE FILE_PATH="coverage/PythonRevision$Compress_string.coverage" NAME="Compress_string Coverage Results" MODIFIED="1735268487086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonRevision$quick_sort.coverage" NAME="quick_sort Coverage Results" MODIFIED="1760432793571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
     <SUITE FILE_PATH="coverage/PythonRevision$first.coverage" NAME="first Coverage Results" MODIFIED="1730572141142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Python_Revision_Questions" />
     <SUITE FILE_PATH="coverage/PythonRevision$traffic_signal_checker.coverage" NAME="traffic_signal_checker Coverage Results" MODIFIED="1751437572171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
     <SUITE FILE_PATH="coverage/PythonRevision$seconf.coverage" NAME="seconf Coverage Results" MODIFIED="1730715440045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Python_Revision_Questions" />
     <SUITE FILE_PATH="coverage/PythonRevision$string_is_palindrome.coverage" NAME="string_is_palindrome Coverage Results" MODIFIED="1733985012097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
     <SUITE FILE_PATH="coverage/PythonRevision$compare_two_list.coverage" NAME="compare_two_list Coverage Results" MODIFIED="1757296189011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
-    <SUITE FILE_PATH="coverage/PythonRevision$Rev2.coverage" NAME="Rev2 Coverage Results" MODIFIED="1756228935931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
     <SUITE FILE_PATH="coverage/PythonRevision$uniques_records.coverage" NAME="uniques_records Coverage Results" MODIFIED="1756172992269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
+    <SUITE FILE_PATH="coverage/PythonRevision$Rev2.coverage" NAME="Rev2 Coverage Results" MODIFIED="1756228935931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Python Fundamental" />
     <SUITE FILE_PATH="coverage/PythonRevision$send.coverage" NAME="send Coverage Results" MODIFIED="1765795994005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RabbitMQ" />
     <SUITE FILE_PATH="coverage/PythonRevision$SysAssignment.coverage" NAME="SysAssignment Coverage Results" MODIFIED="1732242570261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PythonRevision$condition_loops.coverage" NAME="condition_loops Coverage Results" MODIFIED="1751436640649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
@@ -643,6 +614,7 @@
     <SUITE FILE_PATH="coverage/PythonRevision$second_largest_element.coverage" NAME="second_largest_element Coverage Results" MODIFIED="1735269347977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
     <SUITE FILE_PATH="coverage/01_poetry_uv_md$missing_num.coverage" NAME="missing_num Coverage Results" MODIFIED="1787114140314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend_Developer/coding_laps" />
     <SUITE FILE_PATH="coverage/01_poetry_uv_md$Best_Time_to_Buy_and_Sell_Stock.coverage" NAME="Best_Time_to_Buy_and_Sell_Stock Coverage Results" MODIFIED="1787040439903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend_Developer/coding_laps" />
+    <SUITE FILE_PATH="coverage/01_poetry_uv_md$fork_demo.coverage" NAME="fork_demo Coverage Results" MODIFIED="1788933975141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations" />
     <SUITE FILE_PATH="coverage/PythonRevision$merge_sort.coverage" NAME="merge_sort Coverage Results" MODIFIED="1760258370157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Sorting" />
     <SUITE FILE_PATH="coverage/PythonRevision$extract_sheet.coverage" NAME="extract_sheet Coverage Results" MODIFIED="1755332425548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Revision" />
     <SUITE FILE_PATH="coverage/PythonRevision$OO_LightSwitch_with_Test_Code.coverage" NAME="OO_LightSwitch_with_Test_Code Coverage Results" MODIFIED="1735250774768" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -671,6 +643,7 @@
     <SUITE FILE_PATH="coverage/PythonRevision$walrus_operator.coverage" NAME="walrus_operator Coverage Results" MODIFIED="1767428189124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
     <SUITE FILE_PATH="coverage/01_poetry_uv_md$Contains_Duplicate.coverage" NAME="Contains_Duplicate Coverage Results" MODIFIED="1787116783434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend_Developer/coding_laps" />
     <SUITE FILE_PATH="coverage/PythonRevision$anagrams.coverage" NAME="anagrams Coverage Results" MODIFIED="1733994091001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
+    <SUITE FILE_PATH="coverage/01_poetry_uv_md$thread_demo.coverage" NAME="thread_demo Coverage Results" MODIFIED="1788937395959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend_Developer/00_Year0-2_Junior/01_Foundations" />
     <SUITE FILE_PATH="coverage/PythonRevision$2940.coverage" NAME="2940 Coverage Results" MODIFIED="1734835753748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/Leetcode" />
     <SUITE FILE_PATH="coverage/PythonRevision$count_character.coverage" NAME="count_character Coverage Results" MODIFIED="1735266079591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure" />
     <SUITE FILE_PATH="coverage/PythonRevision$pyth__init__.coverage" NAME="pyth__init__ Coverage Results" MODIFIED="1759735480474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Data Structure/OOPS" />
