@@ -15,6 +15,13 @@
 | 7 | [SQL Fundamentals Standalone](07_sql_fundamentals_standalone.md) | Understand relational databases, how queries execute, and why every backend role requires basic SQL fluency |
 | 8 | [Postman & API Testing](08_postman_api_testing.md) | Test and debug HTTP APIs with Postman/curl before a frontend exists — essential for backend-only development cycles |
 | 9 | [Reading a Legacy Codebase](09_reading_legacy_codebase.md) | Navigate and contribute to an existing codebase on day one — reading strategies, entry-point tracing, and safe modification |
+| 10 | [Linux & Bash Recap Q&A](10_linux_bash_recap_qa.md) | Interview-style self-test recap of Linux/Bash — signals, redirection order, pipe chains, SSH config |
+| 11 | [OS Concepts Recap Q&A](11_os_concepts_recap_qa.md) | Interview-style self-test recap of OS Concepts — GIL, virtual memory/COW, FDs, context switching, I/O models, CFS scheduler (with live-verified demo numbers) |
+| 12 | [Networking Core Recap Q&A](12_networking_core_recap_qa.md) | Interview-style self-test recap of Networking basics — encapsulation, private/public IP, ports/sockets, TCP handshake, TCP vs UDP, TIME_WAIT (with live-verified demo numbers) |
+| 13 | [Networking HTTP/TLS/DNS Recap Q&A](13_networking_http_tls_dns_recap_qa.md) | Interview-style self-test recap of HTTP anatomy, HTTP/1.1 vs HTTP/2, TLS handshake/certificate chain, DNS resolution (with live-verified demo numbers) |
+| 14 | [Networking Advanced Recap Q&A](14_networking_advanced_recap_qa.md) | Interview-style self-test recap of connection refused/timeout, NAT/forward/reverse proxy, load balancing, CORS (real browser proof), connection pool exhaustion |
+| 15 | [Git Workflows Core Recap Q&A](15_git_workflows_core_recap_qa.md) | Interview-style self-test recap of Git — 4-state model, rebase vs merge, conflict resolution, stash/cherry-pick, reset vs revert, reflog recovery (all live-verified) |
+| 16 | [Git Workflows Advanced Recap Q&A](16_git_workflows_advanced_recap_qa.md) | Interview-style self-test recap of Git — branching strategies, small PRs, bisect, tags, blame, pre-commit secret-blocking hooks (all live-verified) |
 
 ## Why This Phase Exists
 

@@ -6,12 +6,27 @@
 > are gone — don't look for them, don't recreate them. If you're ever confused about what to study,
 > **open this file and nothing else.**
 >
+> **Decision (08 Sep 2026, FINAL — teacher-guided mode):** Backend (Part A) → DevOps (Part A-2) →
+> Agentic AI, **strictly sequential** (this supersedes an earlier same-day "run parallel" note — the
+> user's final selection was sequential, not parallel). Finish all of Part A first, with review
+> checkpoints, before starting Part A-2. **Cloud scope:** goal is deployment self-sufficiency, not a
+> DevOps-Engineer specialization — so **AWS gets real hands-on labs** (IAM, S3, VPC, ECS/EKS, Terraform,
+> CI/CD deploy), while **GCP and Azure are conceptual-mapping only** ("AWS's X = GCP/Azure's Y") so
+> they're interview-answerable without tripling lab time. No GCP module exists yet in `DevOps/` (only
+> `07_Cloud_AWS` and `07_Cloud_Azure`) — a short AWS↔GCP↔Azure mapping doc still needs to be written;
+> build it once Week 3 (Terraform/AWS) is reached, not before. **Agentic AI:** full Level1→Level8
+> coverage, theory + `_practical.py` for every topic, not just capstone-driven gap-fill.
+>
 > **Three parts:**
-> - **PART A — Backend Full Walkthrough** *(current driver, as of 31 Aug 2026)* — every `Backend_Developer/`
+> - **PART A — Backend Full Walkthrough** *(current driver, as of 08 Sep 2026)* — every `Backend_Developer/`
 >   topic, theory + practical, in folder order (Junior → Mid → Senior), with a review checkpoint after each.
->   Do this before touching `03_Interview_AnyYear/03_Projects/`.
-> - **PART A-2 — DevOps + Deployment Sprint** — the previous driver (Day 1–56: observability, Kubernetes,
->   Terraform/AWS, capstone deploy, system design drills, interview polish). Do this after Part A.
+>   Complete this fully before Part A-2.
+> - **PART A-2 — DevOps + Deployment Sprint** *(next, after Part A)* — Day 1–56: observability, Kubernetes,
+>   Terraform/AWS (deep), GCP/Azure (mapping-level), capstone deploy, system design drills, interview
+>   polish. A Week 1 Day 1 monitoring lab was already built and verified (`DevOps/11_Monitoring/practical/monitoring-lab/`
+>   — Prometheus/node-exporter/Grafana containers up, targets UP, real PromQL data) — kept as a working
+>   reference, but the active sequence resumes here only after Part A is done. After Week 8, move into
+>   full Agentic AI (see above), not just the summary table's row.
 > - **PART B — Full Reference Map** — the complete zero-to-advanced phase list (Phase 0–23), spanning
 >   `DevOps/` and `Agentic_AI/` too. Use this if you want the full basic→advanced picture across the whole
 >   repo, or need to revisit a fundamental.
@@ -73,11 +88,13 @@ Pause here, don't abandon the sequence. Use the interview-week formula from Part
 | 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Runs in parallel with everything, streak-based — doesn't wait for the walkthrough to finish. |
 | 💼 **Apply** | 15 min | [`JOB_TRACKER.md`](JOB_TRACKER.md) | Don't wait for "done" to start applying. |
 
+> Weekend immersion (optional): [`english_speaking/04_media_immersion_list.md`](english_speaking/04_media_immersion_list.md) — 30 movies + anime, basic→advanced, for passive listening practice.
+
 ---
 
 ## 00_Year0-2_Junior (12 topics)
 
-- [ ] **01_Foundations** — Linux/Bash essentials, OS concepts, Git workflows, SQL fundamentals, first API in plain English, Postman, environment setup, reading legacy code
+- [x] **01_Foundations** — Linux/Bash essentials, OS concepts, Git workflows, SQL fundamentals, first API in plain English, Postman, environment setup, reading legacy code
 - [ ] **02_Python_Daily** — 55 days; work through in these blocks (skip nothing, but review can happen block-by-block instead of day-by-day):
   - [ ] Days 01–07 — variables, control flow, strings, lists, dicts, sets/tuples, functions/recursion
   - [ ] Days 08–16 — OOP (classes, inheritance, dunder, encapsulation), decorators/generators, algorithms/complexity, exceptions, threading/multiprocessing, async, file I/O, functools/itertools/dataclasses
@@ -182,6 +199,8 @@ Pause here, don't abandon the sequence. Use the interview-week formula from Part
 | 🗣️ **English speaking** | 30 min | [`english_speaking/README.md`](english_speaking/README.md) + [awalenglish.com](https://www.awalenglish.com/) course | **Asli gap yahi hai.** Tech aata hai, bolna nahi aata. Internal curriculum + workbook grammar/vocab deta hai; awalenglish speaking practice/feedback — dono complement karte hain. System-design drill *bolke* karo to dono ek saath ho jate hain. |
 | 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Coding round pehla filter hai. Streak mat todo — 1 problem bhi chalega. |
 | 💼 **Apply** | 15 min | [`JOB_TRACKER.md`](JOB_TRACKER.md) | Padhai khatam hone ka wait mat karo. Apply karte raho. |
+
+> Weekend immersion (optional): [`english_speaking/04_media_immersion_list.md`](english_speaking/04_media_immersion_list.md) — 30 movies + anime, basic→advanced.
 
 ---
 
@@ -318,7 +337,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 ## PHASE 1 — Python Absolute Basics
 > Location: `Backend_Developer/00_Year0-2_Junior/`
 
-- [ ] `01_Foundations/06_environment_setup_complete.md` — install Python, venv, pip
+- [x] `01_Foundations/06_environment_setup_complete.md` — install Python, venv, pip
 - [ ] `02_Python_Daily/Day01_Variables_Basics/` — all files (variables, types, operators, ATM calculator)
 - [ ] `02_Python_Daily/Day02_Control_Flow_Loops/` — all files (if/elif/else, for, while, break/continue, number-guessing game)
 - [ ] `02_Python_Daily/Day03_String_Problems/` — all files (strings, palindrome, anagram)
@@ -342,8 +361,8 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 - [ ] `Day15_FileIO_Functional/` — read/write files, lambda, map, filter
 - [ ] `Complete_Practical/Section_02_Intermediate/01_oop_complete.py` + `02_iterators_generators_context.py`
 - [ ] `Complete_Theory/01_Core_Python_Theory.py` + `02_Functions_Closures_Decorators_Theory.py` + `03_OOP_Theory.py`
-- [ ] `Backend_Developer/00_Year0-2_Junior/01_Foundations/05_first_api_in_plain_english.md` — what is an API
-- [ ] `01_Foundations/08_postman_api_testing.md` — test APIs with Postman
+- [x] `Backend_Developer/00_Year0-2_Junior/01_Foundations/05_first_api_in_plain_english.md` — what is an API
+- [x] `01_Foundations/08_postman_api_testing.md` — test APIs with Postman
 
 **Done when:** You can write classes, use decorators, handle exceptions, and read/write files.
 
@@ -355,7 +374,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 - [ ] `02_Python_Daily/Day16_Functools_Itertools_Dataclasses/`
 - [ ] `02_Python_Daily/Complete_Practical/Section_02_Intermediate/03_async_complete.py` + `04_threading_multiprocessing.py`
 - [ ] `02_Python_Daily/Complete_Theory/04_Async_Concurrency_Theory.py`
-- [ ] `01_Foundations/07_sql_fundamentals_standalone.md` — SELECT, INSERT, UPDATE, DELETE, JOIN
+- [x] `01_Foundations/07_sql_fundamentals_standalone.md` — SELECT, INSERT, UPDATE, DELETE, JOIN
 - [ ] `04_Database_SQL/practical/` — write real SQL queries
 - [ ] `05_MySQL/theory/` + `05_MySQL/practical/` — MySQL-specific, connect Python to MySQL
 

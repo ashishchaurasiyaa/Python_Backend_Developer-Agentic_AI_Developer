@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>CORS Demo Frontend (port 8092)</title></head>
+<body>
+<h2>Frontend on http://127.0.0.1:8092 calling API on http://127.0.0.1:8091</h2>
+<pre id="result">loading...</pre>
+<script>
+fetch("http://127.0.0.1:8091/data")
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById("result").textContent = "SUCCESS: " + JSON.stringify(data);
+  })
+  .catch(err => {
+    document.getElementById("result").textContent = "FETCH FAILED (see console for real CORS error): " + err;
+  });
+</script>
+</body>
+</html>

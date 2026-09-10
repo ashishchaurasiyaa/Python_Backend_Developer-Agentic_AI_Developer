@@ -30,12 +30,21 @@ def demo(bind_host, lan_ip):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((bind_host, 0))
-    server.listen(1)
+    server.listen(5)
+    server.settimeout(2)
     port = server.getsockname()[1]
     print(f"Server bound to {bind_host}:{port}")
 
-    try_connect(lan_ip, port)
-    try_connect("127.0.0.1", port)
+    def try_connect_and_drain(host, port):
+        try_connect(host, port)
+        try:
+            conn, _ = server.accept()
+            conn.close()
+        except socket.timeout:
+            pass  # expected when the connect attempt itself failed (nothing to accept)
+
+    try_connect_and_drain(lan_ip, port)
+    try_connect_and_drain("127.0.0.1", port)
     server.close()
 
 
