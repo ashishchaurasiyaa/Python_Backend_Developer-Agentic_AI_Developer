@@ -6,16 +6,22 @@
 > are gone — don't look for them, don't recreate them. If you're ever confused about what to study,
 > **open this file and nothing else.**
 >
-> **Decision (08 Sep 2026, FINAL — teacher-guided mode):** Backend (Part A) → DevOps (Part A-2) →
-> Agentic AI, **strictly sequential** (this supersedes an earlier same-day "run parallel" note — the
-> user's final selection was sequential, not parallel). Finish all of Part A first, with review
-> checkpoints, before starting Part A-2. **Cloud scope:** goal is deployment self-sufficiency, not a
-> DevOps-Engineer specialization — so **AWS gets real hands-on labs** (IAM, S3, VPC, ECS/EKS, Terraform,
-> CI/CD deploy), while **GCP and Azure are conceptual-mapping only** ("AWS's X = GCP/Azure's Y") so
-> they're interview-answerable without tripling lab time. No GCP module exists yet in `DevOps/` (only
-> `07_Cloud_AWS` and `07_Cloud_Azure`) — a short AWS↔GCP↔Azure mapping doc still needs to be written;
-> build it once Week 3 (Terraform/AWS) is reached, not before. **Agentic AI:** full Level1→Level8
-> coverage, theory + `_practical.py` for every topic, not just capstone-driven gap-fill.
+> **Decision (14 Sep 2026, FINAL — supersedes the 08 Sep "strictly sequential" note):** week is split
+> **3 days Backend (Part A) + DevOps (Part A-2), 3 days Agentic AI**, both tracks advancing every week —
+> not fully sequential anymore. Suggested split: **Mon/Tue/Wed → Part A / Part A-2** (continue whichever's
+> checkbox is next), **Thu/Fri/Sat → Agentic AI**, **Sun → catch-up or rest**. Swap days around your own
+> week freely; the ratio (3:3) is what matters, not which days. **Cloud scope:** goal is deployment
+> self-sufficiency, not a DevOps-Engineer specialization — so **AWS gets real hands-on labs** (IAM, S3,
+> VPC, ECS/EKS, Terraform, CI/CD deploy), while **GCP and Azure are conceptual-mapping only** ("AWS's X =
+> GCP/Azure's Y") so they're interview-answerable without tripling lab time. No GCP module exists yet in
+> `DevOps/` (only `07_Cloud_AWS` and `07_Cloud_Azure`) — a short AWS↔GCP↔Azure mapping doc still needs to
+> be written; build it once Week 3 (Terraform/AWS) is reached, not before. **Agentic AI:** full
+> Level1→Level8 coverage, theory + `_practical.py` for every topic, not just capstone-driven gap-fill.
+>
+> **New daily-constant thread (14 Sep 2026):** on top of whichever track's day it is, every single day
+> also gets **1 DSA problem, 1 System Design problem, and English speaking practice** — System Design
+> starts now (warm-ups: URL Shortener, LRU Cache/Parking Lot) even though the Senior track hasn't been
+> reached sequentially yet, because daily-drill muscle matters more than reading order here.
 >
 > **Three parts:**
 > - **PART A — Backend Full Walkthrough** *(current driver, as of 08 Sep 2026)* — every `Backend_Developer/`
@@ -80,12 +86,13 @@ This exists because [`MY_PROGRESS.md`](MY_PROGRESS.md) already diagnosed the fai
 
 Pause here, don't abandon the sequence. Use the interview-week formula from Part A-2 (below), then resume this walkthrough at the exact topic you paused on.
 
-### 🔁 Daily parallel track (runs underneath every topic below)
+### 🔁 Daily parallel track (runs underneath every topic below — Mon/Tue/Wed per the 14 Sep split)
 
 | Kya | Time | Kahan | Kyun roz |
 |---|---|---|---|
 | 🗣️ **English speaking** | 30 min | [`english_speaking/README.md`](english_speaking/README.md) + [awalenglish.com](https://www.awalenglish.com/) | Tech aata hai, bolna nahi aata — this is the real gap. |
 | 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Runs in parallel with everything, streak-based — doesn't wait for the walkthrough to finish. |
+| 🏗️ **System Design** | 20–30 min | `Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems/` + `LLD_Problems/` — start with warm-ups (URL Shortener, LRU Cache, Parking Lot) | Started early (14 Sep) on purpose — daily drill reps matter more than hitting it in sequence order. |
 | 💼 **Apply** | 15 min | [`JOB_TRACKER.md`](JOB_TRACKER.md) | Don't wait for "done" to start applying. |
 
 > Weekend immersion (optional): [`english_speaking/04_media_immersion_list.md`](english_speaking/04_media_immersion_list.md) — 30 movies + anime, basic→advanced, for passive listening practice.
@@ -192,12 +199,13 @@ Pause here, don't abandon the sequence. Use the interview-week formula from Part
 4. Ek DSA problem roz (streak) — [`harness.py`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/)
 5. Interview ke baad: outcome [`JOB_TRACKER.md`](JOB_TRACKER.md) me likho, aur jo nahi aaya wo agla topic
 
-### 🔁 Roz ka parallel track (har din, upar wale kaam ke saath)
+### 🔁 Roz ka parallel track (har din, upar wale kaam ke saath — Mon/Tue/Wed per the 14 Sep split)
 
 | Kya | Time | Kahan | Kyun roz |
 |---|---|---|---|
 | 🗣️ **English speaking** | 30 min | [`english_speaking/README.md`](english_speaking/README.md) + [awalenglish.com](https://www.awalenglish.com/) course | **Asli gap yahi hai.** Tech aata hai, bolna nahi aata. Internal curriculum + workbook grammar/vocab deta hai; awalenglish speaking practice/feedback — dono complement karte hain. System-design drill *bolke* karo to dono ek saath ho jate hain. |
 | 🧮 **DSA** | 20 min | [`01_DSA/practice/`](Backend_Developer/03_Interview_AnyYear/01_DSA/practice/) → `python harness.py` | Coding round pehla filter hai. Streak mat todo — 1 problem bhi chalega. |
+| 🏗️ **System Design** | 20–30 min | `Backend_Developer/02_Year5+_Senior/01_System_Design/HLD_Problems/` + `LLD_Problems/` — Week 5-6 me yeh dedicated block ban jayega, tab tak roz 1 warm-up problem | Dedicated Week 5-6 tak wait mat karo — roz ka thoda practice sequence order se zyada matter karta hai. |
 | 💼 **Apply** | 15 min | [`JOB_TRACKER.md`](JOB_TRACKER.md) | Padhai khatam hone ka wait mat karo. Apply karte raho. |
 
 > Weekend immersion (optional): [`english_speaking/04_media_immersion_list.md`](english_speaking/04_media_immersion_list.md) — 30 movies + anime, basic→advanced.
@@ -303,6 +311,25 @@ Tab tak tumhe pata hoga kis role pe interviews aa rahe hain:
 | **Koi bhi** | `Agentic_AI/Modern_Topics/23_claude_agent_sdk_skills.md` + `24_openai_agentkit.md` |
 
 After Week 8+, drop into Part B below for anything not covered by the sprint — it has the full picture, phase by phase.
+
+---
+
+# 🤖 PART A-3 — AGENTIC AI (Thu/Fri/Sat per the 14 Sep split — runs alongside Part A/A-2, not after)
+
+> Full **Level1→Level8** coverage, starting now instead of waiting for Part A/A-2 to finish — the 14 Sep
+> decision made this a co-equal weekly driver, not a "later" phase. **Don't duplicate the checklist here**
+> — the exact topic-by-topic list already exists in **Part B, Phases 13→19** below. Just work those seven
+> phases in order, theory + `_practical.py` for every file, on your Agentic-AI days:
+>
+> `PHASE 13 (AI/ML Foundations)` → `PHASE 14 (Transformer Deep Architecture)` → `PHASE 15 (Prompt
+> Engineering)` → `PHASE 16 (LLM APIs & SDKs)` → `PHASE 17 (Tool Use + RAG)` → `PHASE 18 (Agent Patterns +
+> Frameworks)` → `PHASE 19 (Production AI / LLMOps)`.
+>
+> Review checkpoints work the same way as Part A: finish the practical, bring the working code/demo to
+> Claude before checking a box — self-certifying "done" isn't enough here either.
+>
+> Once Phases 13-19 are fully checked, move to `Agentic_AI/Projects/` (Part B Phase 22) for the capstone
+> build — see the ALEX multi-agent financial planner note there for the current load-bearing project.
 
 ---
 

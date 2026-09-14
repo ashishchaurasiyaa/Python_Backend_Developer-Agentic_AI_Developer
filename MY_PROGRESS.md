@@ -1,16 +1,18 @@
 # 📓 MY PROGRESS — Daily Log
 
-> **Roz 3 line likhni hain. Bas.** Content ab complete hai ([RCA neeche padho](#why-this-file-exists)) — ab sirf **kiya kya** track karna hai, padha kya nahi.
+> **Roz 4 line likhni hain. Bas.** Content ab complete hai ([RCA neeche padho](#why-this-file-exists)) — ab sirf **kiya kya** track karna hai, padha kya nahi.
 >
-> Format: `kya padha / kya CODE ya LAB kiya / kal kya`
+> Format: `track (Backend/DevOps ya Agentic AI) / kya padha / kya CODE ya LAB kiya / daily thread (DSA+SD+English) / kal kya`
 > Rule: agar "kiya" wali line khaali hai, to us din ka progress **zero** hai — chahe kitna bhi padha ho.
+>
+> **14 Sep 2026 se:** [STUDY_PLAN.md](STUDY_PLAN.md) ka weekly split — Mon/Tue/Wed = Backend+DevOps (Part A/A-2), Thu/Fri/Sat = Agentic AI (Part A-3), Sun = catch-up. Har din, track chahe jo bhi ho, teen cheezein constant hain: 1 DSA problem, 1 System Design problem, English speaking. Isi liye entry me ab ek "Daily thread" line hai — teeno ek jagah, alag-alag 3 lines nahi.
 
 ---
 
 ## Kaise use karo
 
 ```
-1. Har raat 2 minute — teen line likho, sabse upar (newest first)
+1. Har raat 2-3 minute — chaar line likho, sabse upar (newest first)
 2. Hafte ke end me neeche wala scoreboard update karo
 3. Lab/drill number likho, "Kubernetes padha" jaisa vague mat likho
 ```
@@ -18,9 +20,10 @@
 **Entry template (copy karo):**
 
 ```markdown
-### YYYY-MM-DD
+### YYYY-MM-DD (Track: Backend/DevOps | Agentic AI | Rest)
 - **Padha:** <file/topic>
 - **Kiya:** <lab number / drill / commit — ya "kuch nahi">
+- **Daily thread:** DSA `<problem — pass/fail>` · SD `<problem/drill>` · English `<kya practice kiya>`
 - **Kal:** <ek specific cheez>
 ```
 
@@ -67,8 +70,9 @@
 | Metric | Target | Abhi | Note |
 |---|---|---|---|
 | DevOps labs done | 20 | 0 | [DevOps/*/practical/](DevOps/) |
+| Agentic AI phases done (Part A-3) | 7 (Phase 13→19) | 0 | [STUDY_PLAN.md#part-a-3](STUDY_PLAN.md) |
 | DSA harness attempted | 35 | 0 | `python harness.py --stats` |
-| System Design drills | 12 | 0 | [PRACTICE_DRILLS.md](Backend_Developer/02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md) |
+| System Design drills (daily, from 14 Sep) | 12+ | 0 | [PRACTICE_DRILLS.md](Backend_Developer/02_Year5+_Senior/01_System_Design/PRACTICE_DRILLS.md) + `HLD_Problems/` / `LLD_Problems/` warm-ups |
 | Kafka/Celery labs | 9 | 0 | [Kafka](Backend_Developer/01_Year3-4_Mid/07_Kafka/labs/) · [Celery](Backend_Developer/01_Year3-4_Mid/09_Celery/labs/) |
 | English speaking sessions | daily | 0 | SD drills bolke karo = dono ek saath |
 | Capstone deployed | 1 | 0 | Terraform + K8s + evals/cost metrics |
