@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║              TREES — 15 LeetCode-Style Problems                  ║
+║              TREES — 20 LeetCode-Style Problems                  ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -479,4 +479,184 @@ root = build_tree_bfs([3,3,None,4,2])
 print(goodNodes(root))  # 3
 # Time: O(n) | Space: O(h)
 
-print("\n✓ All 15 Tree problems solved!")
+print("\n✓ All 20 Tree problems solved!")
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 16: Convert Sorted Array to Binary Search Tree (LC 108)
+# ══════════════════════════════════════════════════════════════════
+def sortedArrayToBST(nums: List[int]) -> Optional[TreeNode]:
+    """
+    Convert a sorted array into a height-balanced BST.
+
+    Approach: Pick the middle element as root (either middle works for
+    even-length ranges), recurse on the left and right halves.
+
+    Example:
+      [-10,-3,0,5,9] → a height-balanced BST, e.g. [0,-3,9,-10,None,5]
+    """
+    def build(lo, hi):
+        if lo > hi:
+            return None
+        mid = (lo + hi) // 2
+        node = TreeNode(nums[mid])
+        node.left = build(lo, mid - 1)
+        node.right = build(mid + 1, hi)
+        return node
+    return build(0, len(nums) - 1)
+
+print("\n=== Convert Sorted Array to BST ===")
+root = sortedArrayToBST([-10,-3,0,5,9])
+print(tree_to_list(root))
+# Time: O(n) | Space: O(log n)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 17: Lowest Common Ancestor of a Binary Tree (LC 236)
+# ══════════════════════════════════════════════════════════════════
+def lowestCommonAncestor(root: Optional[TreeNode], p: TreeNode, q: TreeNode) -> Optional[TreeNode]:
+    """
+    Find the LCA of nodes p and q in a general binary tree — NOT a BST,
+    so no ordering can be assumed.
+
+    Approach: DFS. If the current node is p or q (or None), return it.
+    Recurse into both children; if both sides return non-null, the
+    current node is the LCA. Otherwise propagate up whichever side is
+    non-null.
+
+    Example:
+      root=[3,5,1,6,2,0,8,None,None,7,4], p=5, q=1 → 3
+      root=[3,5,1,6,2,0,8,None,None,7,4], p=5, q=4 → 5
+    """
+    if not root or root is p or root is q:
+        return root
+    left = lowestCommonAncestor(root.left, p, q)
+    right = lowestCommonAncestor(root.right, p, q)
+    if left and right:
+        return root
+    return left or right
+
+print("\n=== Lowest Common Ancestor of a Binary Tree ===")
+root = build_tree_bfs([3,5,1,6,2,0,8,None,None,7,4])
+p, q = root.left, root.right           # 5, 1
+print(lowestCommonAncestor(root, p, q).val)  # 3
+p, q = root.left, root.left.right.right  # 5, 4
+print(lowestCommonAncestor(root, p, q).val)  # 5
+# Time: O(n) | Space: O(h)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 18: Inorder Successor in BST (LC 285)
+# ══════════════════════════════════════════════════════════════════
+def inorderSuccessor(root: Optional[TreeNode], p: TreeNode) -> Optional[TreeNode]:
+    """
+    Find the inorder successor of node p in a BST — the node with the
+    smallest value greater than p.val — or None if p is the largest.
+
+    Approach: Use the BST property. Walk down from root: if p.val is
+    less than the current node's value, that node is a candidate
+    successor, so remember it and go left looking for a closer one;
+    otherwise go right (the current node can't be the successor).
+
+    Example:
+      root=[2,1,3], p=1 → 2
+      root=[5,3,6,2,4], p=6 → None
+    """
+    successor = None
+    node = root
+    while node:
+        if p.val < node.val:
+            successor = node
+            node = node.left
+        else:
+            node = node.right
+    return successor
+
+print("\n=== Inorder Successor in BST ===")
+root = build_tree_bfs([2,1,3])
+print(inorderSuccessor(root, root.left).val)  # 2
+root = build_tree_bfs([5,3,6,2,4])
+print(inorderSuccessor(root, root.right))     # None
+# Time: O(h) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 19: Path Sum III (LC 437)
+# ══════════════════════════════════════════════════════════════════
+def pathSumIII(root: Optional[TreeNode], targetSum: int) -> int:
+    """
+    Count the number of downward (node-to-descendant) paths that sum
+    to targetSum. Paths don't need to start at the root or end at a leaf.
+
+    Approach: Prefix-sum DFS. Track the running sum from root to the
+    current node in a hashmap of {prefix_sum: count}. At each node, the
+    number of valid paths ending here equals count[running_sum - targetSum].
+
+    Example:
+      root=[10,5,-3,3,2,None,11,3,-2,None,1], targetSum=8 → 3
+      root=[5,4,8,11,None,13,4,7,2,None,None,5,1], targetSum=22 → 3
+    """
+    from collections import defaultdict
+    prefix_counts = defaultdict(int)
+    prefix_counts[0] = 1
+    result = [0]
+
+    def dfs(node, running_sum):
+        if not node:
+            return
+        running_sum += node.val
+        result[0] += prefix_counts[running_sum - targetSum]
+        prefix_counts[running_sum] += 1
+        dfs(node.left, running_sum)
+        dfs(node.right, running_sum)
+        prefix_counts[running_sum] -= 1  # backtrack
+
+    dfs(root, 0)
+    return result[0]
+
+print("\n=== Path Sum III ===")
+root = build_tree_bfs([10,5,-3,3,2,None,11,3,-2,None,1])
+print(pathSumIII(root, 8))  # 3
+root = build_tree_bfs([5,4,8,11,None,13,4,7,2,None,None,5,1])
+print(pathSumIII(root, 22))  # 3
+# Time: O(n) | Space: O(n)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 20: Kth Largest Element in a Stream (LC 703)
+# ══════════════════════════════════════════════════════════════════
+import heapq
+
+class KthLargest:
+    """
+    Design a class that finds the kth largest element in a stream,
+    supporting add(val) which returns the kth largest after adding val.
+
+    Approach: Min-heap capped at size k. The heap's smallest element
+    (heap[0]) is always the kth largest value seen so far. Push new
+    values; if the heap grows beyond k, pop the smallest.
+
+    Example:
+      KthLargest(3, [4,5,8,2])
+      add(3)  → 4
+      add(5)  → 5
+      add(10) → 5
+      add(9)  → 8
+      add(4)  → 8
+    """
+    def __init__(self, k: int, nums: List[int]):
+        self.k = k
+        self.heap = nums[:]
+        heapq.heapify(self.heap)
+        while len(self.heap) > k:
+            heapq.heappop(self.heap)
+
+    def add(self, val: int) -> int:
+        heapq.heappush(self.heap, val)
+        if len(self.heap) > self.k:
+            heapq.heappop(self.heap)
+        return self.heap[0]
+
+print("\n=== Kth Largest Element in a Stream ===")
+kth = KthLargest(3, [4,5,8,2])
+print(kth.add(3))   # 4
+print(kth.add(5))   # 5
+print(kth.add(10))  # 5
+print(kth.add(9))   # 8
+print(kth.add(4))   # 8
+# Time: O(log k) per add | Space: O(k)

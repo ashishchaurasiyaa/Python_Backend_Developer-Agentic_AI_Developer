@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║           STACK & QUEUE — 12 LeetCode-Style Problems             ║
+║           STACK & QUEUE — 17 LeetCode-Style Problems             ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -458,4 +458,211 @@ print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))  # 6
 print(trap([4,2,0,3,2,5]))               # 9
 # Time: O(n) | Space: O(n)
 
-print("\n✓ All 12 Stack & Queue problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# Problem 13: Longest Valid Parentheses (LC 32)
+# ══════════════════════════════════════════════════════════════════
+def longestValidParentheses(s: str) -> int:
+    """
+    Given a string containing just '(' and ')', find the length of
+    the longest valid (well-formed) parentheses substring.
+
+    Approach: Stack of indices, seeded with -1 as a base marker.
+    Push index of '('. On ')', pop; if stack becomes empty, push
+    current index as the new base. Otherwise the current valid run
+    length is i - stack[-1].
+
+    Example:
+      ")()())" → 4  ("()()")
+      "(()"    → 2  ("()")
+      ""       → 0
+    """
+    stack = [-1]
+    max_len = 0
+    for i, ch in enumerate(s):
+        if ch == '(':
+            stack.append(i)
+        else:
+            stack.pop()
+            if not stack:
+                stack.append(i)
+            else:
+                max_len = max(max_len, i - stack[-1])
+    return max_len
+
+print("\n=== Longest Valid Parentheses ===")
+print(longestValidParentheses(")()())"))  # 4
+print(longestValidParentheses("(()"))     # 2
+print(longestValidParentheses(""))        # 0
+# Time: O(n) | Space: O(n)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 14: Basic Calculator (LC 224)
+# ══════════════════════════════════════════════════════════════════
+def calculateWithParens(s: str) -> int:
+    """
+    Implement a basic calculator to evaluate a string expression
+    containing non-negative integers, '+', '-', '(', ')', and spaces.
+    (No multiplication/division.)
+
+    Approach: Running result/sign + a stack that saves (result, sign)
+    when entering '(' and restores/combines them on ')'.
+
+    Example:
+      "1 + 1" → 2
+      " 2-1 + 2 " → 3
+      "(1+(4+5+2)-3)+(6+8)" → 23
+    """
+    stack = []
+    result = 0
+    number = 0
+    sign = 1
+
+    for ch in s:
+        if ch.isdigit():
+            number = number * 10 + int(ch)
+        elif ch in '+-':
+            result += sign * number
+            number = 0
+            sign = 1 if ch == '+' else -1
+        elif ch == '(':
+            stack.append(result)
+            stack.append(sign)
+            result = 0
+            sign = 1
+        elif ch == ')':
+            result += sign * number
+            number = 0
+            result *= stack.pop()  # sign before '('
+            result += stack.pop()  # result before '('
+
+    result += sign * number
+    return result
+
+print("\n=== Basic Calculator ===")
+print(calculateWithParens("1 + 1"))                    # 2
+print(calculateWithParens(" 2-1 + 2 "))                 # 3
+print(calculateWithParens("(1+(4+5+2)-3)+(6+8)"))        # 23
+# Time: O(n) | Space: O(n)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 15: Asteroid Collision (LC 735)
+# ══════════════════════════════════════════════════════════════════
+def asteroidCollision(asteroids: List[int]) -> List[int]:
+    """
+    Each asteroid moves right (positive) or left (negative) at speed 1.
+    When two asteroids meet, the smaller one explodes; if equal, both
+    explode. Two moving in the same direction never meet.
+    Return the state after all collisions.
+
+    Approach: Stack. A new left-moving asteroid can only collide with
+    right-moving asteroids on top of the stack. Pop while the stack
+    top is smaller; if equal, pop and stop; if stack top is bigger,
+    the new asteroid is destroyed.
+
+    Example:
+      [5,10,-5] → [5,10]
+      [8,-8] → []
+      [10,2,-5] → [10]
+    """
+    stack = []
+    for a in asteroids:
+        alive = True
+        while alive and a < 0 and stack and stack[-1] > 0:
+            if stack[-1] < -a:
+                stack.pop()
+                continue
+            elif stack[-1] == -a:
+                stack.pop()
+            alive = False
+        if alive:
+            stack.append(a)
+    return stack
+
+print("\n=== Asteroid Collision ===")
+print(asteroidCollision([5,10,-5]))  # [5, 10]
+print(asteroidCollision([8,-8]))     # []
+print(asteroidCollision([10,2,-5]))  # [10]
+# Time: O(n) | Space: O(n)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 16: Backspace String Compare (LC 844)
+# ══════════════════════════════════════════════════════════════════
+def backspaceCompare(s: str, t: str) -> bool:
+    """
+    Given two strings s and t, where '#' means a backspace character,
+    return True if they are equal after applying the backspaces.
+
+    Approach: Stack. Push normal chars, pop on '#' (if stack non-empty).
+    Compare the final built strings.
+
+    Example:
+      s="ab#c", t="ad#c" → True   (both build "ac")
+      s="ab##", t="c#d#" → True   (both build "")
+      s="a#c",  t="b"    → False
+    """
+    def build(string):
+        stack = []
+        for ch in string:
+            if ch != '#':
+                stack.append(ch)
+            elif stack:
+                stack.pop()
+        return stack
+
+    return build(s) == build(t)
+
+print("\n=== Backspace String Compare ===")
+print(backspaceCompare("ab#c", "ad#c"))  # True
+print(backspaceCompare("ab##", "c#d#"))  # True
+print(backspaceCompare("a#c", "b"))      # False
+# Time: O(n + m) | Space: O(n + m)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 17: Maximum Frequency Stack (LC 895)
+# ══════════════════════════════════════════════════════════════════
+class FreqStack:
+    """
+    Design a stack-like data structure. push(x) pushes an integer.
+    pop() removes and returns the most frequent element; ties are
+    broken by the most recently pushed among equally frequent values.
+
+    Approach: Track freq[val] = current push count. Group values by
+    frequency: group[f] = list of values acting as a stack for that
+    frequency level (in push order). Track max_freq seen so far.
+    pop() pops from group[max_freq]; if that list empties, decrement
+    max_freq.
+
+    Example:
+      push(5),push(7),push(5),push(7),push(4),push(5)
+      pop() → 5, pop() → 7, pop() → 5, pop() → 4
+    """
+    def __init__(self):
+        self.freq = {}    # val -> current frequency
+        self.group = {}   # frequency -> stack of values at that frequency
+        self.max_freq = 0
+
+    def push(self, val: int) -> None:
+        f = self.freq.get(val, 0) + 1
+        self.freq[val] = f
+        if f > self.max_freq:
+            self.max_freq = f
+        self.group.setdefault(f, []).append(val)
+
+    def pop(self) -> int:
+        val = self.group[self.max_freq].pop()
+        self.freq[val] -= 1
+        if not self.group[self.max_freq]:
+            self.max_freq -= 1
+        return val
+
+print("\n=== Maximum Frequency Stack ===")
+fs = FreqStack()
+for v in [5, 7, 5, 7, 4, 5]:
+    fs.push(v)
+print(fs.pop())  # 5
+print(fs.pop())  # 7
+print(fs.pop())  # 5
+print(fs.pop())  # 4
+# Time: O(1) push/pop | Space: O(n)
+
+print("\n✓ All 17 Stack & Queue problems solved!")

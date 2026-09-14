@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║       RECURSION & BACKTRACKING — 12 LeetCode-Style Problems      ║
+║       RECURSION & BACKTRACKING — 13 LeetCode-Style Problems      ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -469,4 +469,32 @@ root.right.right.right = TreeNode(1)
 print(pathSum(root, 22))  # [[5,4,11,2],[5,8,4,5]]
 # Time: O(n²) | Space: O(n)
 
-print("\n✓ All 12 Recursion & Backtracking problems solved!")
+print("\n✓ All 13 Recursion & Backtracking problems solved!")
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 13: Target Sum (LC 494)
+# ══════════════════════════════════════════════════════════════════
+def findTargetSumWays(nums: List[int], target: int) -> int:
+    """
+    Assign a + or - sign to each integer in nums, then sum them all.
+    Return the number of ways to assign signs so the sum equals target.
+
+    Approach: Backtracking — at each index, branch into +nums[i] and
+    -nums[i], recurse to the next index. Base case: index == len(nums),
+    check if the running total equals target.
+
+    Example:
+      nums=[1,1,1,1,1], target=3 → 5
+      nums=[1], target=1 → 1
+    """
+    def backtrack(idx, total):
+        if idx == len(nums):
+            return 1 if total == target else 0
+        return (backtrack(idx + 1, total + nums[idx]) +
+                backtrack(idx + 1, total - nums[idx]))
+    return backtrack(0, 0)
+
+print("\n=== Target Sum ===")
+print(findTargetSumWays([1,1,1,1,1], 3))  # 5
+print(findTargetSumWays([1], 1))          # 1
+# Time: O(2^n) naive (can memoize on (idx, total) for O(n*sum)) | Space: O(n)

@@ -1,4 +1,4 @@
-"""23 — Game Theory & Randomized — Problems | 10 problems"""
+"""23 — Game Theory & Randomized — Problems | 11 problems"""
 from typing import List, Optional
 from functools import lru_cache
 import random, bisect
@@ -127,6 +127,27 @@ class Solution497:
         return [random.randint(x1,x2),random.randint(y1,y2)]
 s497=Solution497([[-2,-2,-1,-1],[1,0,3,0]])
 print("P10:",s497.pick())
+
+# P11. Insert Delete GetRandom O(1) [Medium][LC 380]
+class Solution380:
+    def __init__(self):
+        self.arr=[]; self.idx={}
+    def insert(self,val):
+        if val in self.idx: return False
+        self.idx[val]=len(self.arr); self.arr.append(val); return True
+    def remove(self,val):
+        if val not in self.idx: return False
+        pos=self.idx[val]; last=self.arr[-1]
+        self.arr[pos]=last; self.idx[last]=pos
+        self.arr.pop(); del self.idx[val]; return True
+    def getRandom(self):
+        return random.choice(self.arr)
+s380=Solution380()
+print("P11 insert(1):",s380.insert(1))   # True
+print("P11 insert(2):",s380.insert(2))   # True
+print("P11 insert(2) dup:",s380.insert(2)) # False
+print("P11 remove(1):",s380.remove(1))   # True
+print("P11 getRandom in set:",s380.getRandom() in s380.arr)  # True
 
 """
 COMPLEXITY SUMMARY:

@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║           BINARY SEARCH — 12 LeetCode-Style Problems             ║
+║           BINARY SEARCH — 14 LeetCode-Style Problems             ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -460,4 +460,77 @@ print(searchRotatedII([2,5,6,0,0,1,2], 0))  # True
 print(searchRotatedII([2,5,6,0,0,1,2], 3))  # False
 # Time: O(log n) avg, O(n) worst | Space: O(1)
 
-print("\n✓ All 12 Binary Search problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# Problem 13: First Bad Version (LC 278)
+# ══════════════════════════════════════════════════════════════════
+def firstBadVersion(n: int, isBadVersion) -> int:
+    """
+    You have n versions [1, n] and want to find the first bad one.
+    You have an API isBadVersion(version) -> bool that is monotonic:
+    False, False, ..., False, True, True, ..., True.
+    Find the first bad version using as few API calls as possible.
+
+    Approach: Binary search on the monotonic predicate. If mid is
+    bad, the first bad version is <= mid; otherwise it's > mid.
+
+    Example:
+      n=5, bad=4 → isBadVersion: F,F,F,T,T → first bad version = 4
+    """
+    lo, hi = 1, n
+    while lo < hi:
+        mid = lo + (hi - lo) // 2
+        if isBadVersion(mid):
+            hi = mid
+        else:
+            lo = mid + 1
+    return lo
+
+def make_is_bad_version(bad):
+    """Mock API factory for the smoke test below."""
+    def isBadVersion(version):
+        return version >= bad
+    return isBadVersion
+
+print("\n=== First Bad Version ===")
+print(firstBadVersion(5, make_is_bad_version(4)))  # 4
+print(firstBadVersion(1, make_is_bad_version(1)))  # 1
+# Time: O(log n) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 14: Maximum Profit in Job Scheduling (LC 1235)
+# ══════════════════════════════════════════════════════════════════
+def jobScheduling(startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+    """
+    Given startTime[i], endTime[i], profit[i] for n jobs, find the
+    maximum profit achievable by scheduling non-overlapping jobs
+    (a job's start must be >= the previous chosen job's end).
+
+    Approach: Sort jobs by end time. dp[i] = best profit using the
+    first i jobs (in end-time order). For job i, either skip it
+    (dp[i-1]) or take it (profit + dp[j]), where j is found via
+    binary search for the rightmost job whose end <= this job's start.
+
+    Example:
+      startTime=[1,2,3,3], endTime=[3,4,5,6], profit=[50,10,40,70] → 120
+      startTime=[1,2,3,4,6], endTime=[3,5,10,6,9], profit=[20,20,100,70,60] → 150
+      startTime=[1,1,1], endTime=[2,3,4], profit=[5,6,4] → 6
+    """
+    jobs = sorted(zip(startTime, endTime, profit), key=lambda job: job[1])
+    n = len(jobs)
+    ends = [job[1] for job in jobs]
+    dp = [0] * (n + 1)
+
+    for i in range(1, n + 1):
+        start, end, prof = jobs[i - 1]
+        j = bisect.bisect_right(ends, start, 0, i - 1)
+        dp[i] = max(dp[i - 1], dp[j] + prof)
+
+    return dp[n]
+
+print("\n=== Maximum Profit in Job Scheduling ===")
+print(jobScheduling([1,2,3,3], [3,4,5,6], [50,10,40,70]))              # 120
+print(jobScheduling([1,2,3,4,6], [3,5,10,6,9], [20,20,100,70,60]))     # 150
+print(jobScheduling([1,1,1], [2,3,4], [5,6,4]))                        # 6
+# Time: O(n log n) | Space: O(n)
+
+print("\n✓ All 14 Binary Search problems solved!")

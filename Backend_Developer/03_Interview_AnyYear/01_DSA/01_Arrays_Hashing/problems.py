@@ -1,7 +1,7 @@
 """
 01 — Arrays & Hashing — Problems
 ==================================
-Problems: 15  |  Level: Easy → Medium
+Problems: 16  |  Level: Easy → Medium
 Company tags: Google, Amazon, Meta, Microsoft
 """
 
@@ -363,3 +363,29 @@ Majority Element             O(n)     O(1)    Boyer-Moore
 Sort Colors                  O(n)     O(1)    Dutch Flag (3-pointer)
 Range Sum Query              O(1)     O(n)    Prefix sum
 """
+
+
+# ─────────────────────────────────────────────
+# P16. Contiguous Array  [Medium] [LeetCode 525]
+# ─────────────────────────────────────────────
+"""
+Given a binary array nums, find the maximum length of a contiguous
+subarray with an equal number of 0 and 1.
+Input: [0,1]  Output: 2
+Input: [0,1,0]  Output: 2
+"""
+def findMaxLength(nums: List[int]) -> int:
+    # Treat 0 as -1; running sum returning to a prior value means the
+    # subarray between those two indices has equal 0s and 1s.
+    count_index = {0: -1}   # running sum → earliest index it was seen
+    max_len = 0
+    total = 0
+    for i, n in enumerate(nums):
+        total += 1 if n == 1 else -1
+        if total in count_index:
+            max_len = max(max_len, i - count_index[total])
+        else:
+            count_index[total] = i
+    return max_len
+
+print("P16:", findMaxLength([0,1,0,1]))  # 4

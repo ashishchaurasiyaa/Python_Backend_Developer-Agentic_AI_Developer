@@ -1,4 +1,4 @@
-"""03 — Linked List — Problems | 12 problems | Easy→Hard"""
+"""03 — Linked List — Problems | 17 problems | Easy→Hard"""
 from typing import Optional
 from collections import deque
 
@@ -215,3 +215,98 @@ Palindrome LL        O(n) O(1)  slow/fast + reverse half
 Rotate List          O(n) O(1)  circular trick
 Merge K Sorted       O(n log k) O(k) min-heap
 """
+
+# P13. Swap Nodes in Pairs [Medium][LC 24]
+def swapPairs(head):
+    dummy = ListNode(0, head)
+    prev = dummy
+    while prev.next and prev.next.next:
+        first, second = prev.next, prev.next.next
+        first.next = second.next
+        second.next = first
+        prev.next = second
+        prev = first
+    return dummy.next
+
+print("P13:", to_list(swapPairs(build([1,2,3,4]))))  # [2,1,4,3]
+
+# P14. Reverse Nodes in k-Group [Hard][LC 25]
+def reverseKGroup(head, k):
+    # Check there are at least k nodes left to reverse
+    node = head; count = 0
+    while node and count < k:
+        node = node.next; count += 1
+    if count < k:
+        return head
+    # Reverse the first k nodes
+    prev, cur = None, head
+    for _ in range(k):
+        nxt = cur.next; cur.next = prev; prev = cur; cur = nxt
+    # `head` is now the tail of this reversed group; connect it to the
+    # (recursively reversed) remainder of the list, which starts at `cur`
+    head.next = reverseKGroup(cur, k)
+    return prev
+
+print("P14:", to_list(reverseKGroup(build([1,2,3,4,5]), 2)))  # [2,1,4,3,5]
+
+# P15. Copy List with Random Pointer [Medium][LC 138]
+class RandomNode:
+    def __init__(self, val=0, next=None, random=None):
+        self.val = val; self.next = next; self.random = random
+
+def copyRandomList(head):
+    if not head: return None
+    # Pass 1: interleave copies: orig1 -> copy1 -> orig2 -> copy2 -> ...
+    cur = head
+    while cur:
+        copy = RandomNode(cur.val)
+        copy.next = cur.next
+        cur.next = copy
+        cur = copy.next
+    # Pass 2: set random pointers on the copies using the interleaving
+    cur = head
+    while cur:
+        if cur.random:
+            cur.next.random = cur.random.next
+        cur = cur.next.next
+    # Pass 3: unweave — split interleaved list back into original + copy
+    cur = head
+    dummy = copy_cur = RandomNode(0)
+    while cur:
+        copy_cur.next = cur.next
+        cur.next = cur.next.next
+        cur = cur.next
+        copy_cur = copy_cur.next
+    return dummy.next
+
+n1, n2, n3 = RandomNode(1), RandomNode(2), RandomNode(3)
+n1.next, n2.next = n2, n3
+n1.random, n2.random = n3, n2   # node1.random -> node3, node2.random -> node2
+copied = copyRandomList(n1)
+vals, c = [], copied
+while c: vals.append((c.val, c.random.val if c.random else None)); c = c.next
+print("P15:", vals)  # [(1, 3), (2, 2), (3, None)]
+
+# P16. Odd Even Linked List [Medium][LC 328]
+def oddEvenList(head):
+    if not head or not head.next: return head
+    odd, even = head, head.next
+    even_head = even
+    while even and even.next:
+        odd.next = even.next
+        odd = odd.next
+        even.next = odd.next
+        even = even.next
+    odd.next = even_head
+    return head
+
+print("P16:", to_list(oddEvenList(build([1,2,3,4,5]))))  # [1,3,5,2,4]
+
+# P17. Middle of the Linked List [Easy][LC 876]
+def middleNode(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next; fast = fast.next.next
+    return slow
+
+print("P17:", to_list(middleNode(build([1,2,3,4,5]))))  # [3,4,5]

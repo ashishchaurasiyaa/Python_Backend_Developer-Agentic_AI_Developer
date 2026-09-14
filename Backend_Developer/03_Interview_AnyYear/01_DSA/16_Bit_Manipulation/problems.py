@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║             BIT MANIPULATION — 10 LeetCode-Style Problems        ║
+║             BIT MANIPULATION — 11 LeetCode-Style Problems        ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -315,4 +315,40 @@ range(1 << n)      → iterate all subsets of n elements
 """
 print(cheat)
 
-print("\n✓ All 10 Bit Manipulation problems solved!")
+print("\n✓ All 11 Bit Manipulation problems solved!")
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 11: Add Binary (LC 67)
+# ══════════════════════════════════════════════════════════════════
+def addBinary(a: str, b: str) -> str:
+    """
+    Add two binary strings and return their sum, also as a binary string.
+    Done via bit-by-bit addition with carry (no int(x, 2) shortcut for
+    the core addition logic).
+
+    Approach: Walk both strings from the rightmost character, adding
+    corresponding bits plus carry — same as elementary-school addition
+    but in base 2. total & 1 gives the result bit (total mod 2), and
+    total >> 1 gives the new carry (total // 2).
+
+    Example:
+      a="11", b="1" → "100"
+      a="1010", b="1011" → "10101"
+    """
+    i, j = len(a) - 1, len(b) - 1
+    carry = 0
+    result = []
+    while i >= 0 or j >= 0 or carry:
+        bit_a = int(a[i]) if i >= 0 else 0
+        bit_b = int(b[j]) if j >= 0 else 0
+        total = bit_a + bit_b + carry
+        result.append(str(total & 1))   # total % 2 via bitwise AND
+        carry = total >> 1              # total // 2 via bitwise shift
+        i -= 1
+        j -= 1
+    return ''.join(reversed(result))
+
+print("\n=== Add Binary ===")
+print(addBinary("11", "1"))      # "100"
+print(addBinary("1010", "1011")) # "10101"
+# Time: O(max(len(a), len(b))) | Space: O(max(len(a), len(b)))

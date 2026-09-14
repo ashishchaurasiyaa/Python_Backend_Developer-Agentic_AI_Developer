@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║                  TRIE — 8 LeetCode-Style Problems                ║
+║                  TRIE — 10 LeetCode-Style Problems                ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -424,4 +424,115 @@ print(sorted(palindromePairs(["bat","tab","cat"])))
 # [[0,1],[1,0]]
 # Time: O(n * m²) | Space: O(n * m)
 
-print("\n✓ All 8 Trie problems solved!")
+print("\n✓ All 10 Trie problems solved!")
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 9: Longest Common Prefix (LC 14)
+# ══════════════════════════════════════════════════════════════════
+def longestCommonPrefix(strs: List[str]) -> str:
+    """
+    Find the longest common prefix string among an array of strings.
+    Return "" if there is no common prefix.
+
+    Approach: Build a Trie of all strings. Walk down from the root
+    while a node has exactly one child and is not itself the end of a
+    (shorter) word — that shared single-child chain is the LCP.
+
+    Example:
+      ["flower","flow","flight"] → "fl"
+      ["dog","racecar","car"] → ""
+    """
+    if not strs:
+        return ""
+    root = TrieNode()
+    for word in strs:
+        node = root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.is_end = True
+
+    prefix = []
+    node = root
+    while len(node.children) == 1 and not node.is_end:
+        ch = next(iter(node.children))
+        prefix.append(ch)
+        node = node.children[ch]
+    return ''.join(prefix)
+
+print("\n=== Longest Common Prefix ===")
+print(longestCommonPrefix(["flower","flow","flight"]))  # "fl"
+print(longestCommonPrefix(["dog","racecar","car"]))     # ""
+# Time: O(S) where S = sum of all string lengths | Space: O(S)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 10: Design In-Memory File System (LC 588)
+# ══════════════════════════════════════════════════════════════════
+class FileSystem:
+    """
+    Design an in-memory file system supporting:
+    - ls(path): list directory contents (or the single file name)
+    - mkdir(path): create all missing directories along path
+    - addContentToFile(filePath, content): create/append to a file
+    - readContentFromFile(filePath): read a file's full content
+
+    Approach: Trie-like nested dict structure. Each node has a 'dirs'
+    dict (name -> node) plus, for files, a 'content' string and
+    'is_file' flag.
+
+    Example:
+      fs = FileSystem()
+      fs.mkdir("/a/b/c")
+      fs.addContentToFile("/a/b/c/d", "hello")
+      fs.ls("/a/b/c")                     → ["d"]
+      fs.readContentFromFile("/a/b/c/d")  → "hello"
+    """
+    def __init__(self):
+        self.root = {'dirs': {}, 'is_file': False, 'content': ''}
+
+    def _walk(self, path: str, create: bool = False):
+        node = self.root
+        if path == '/':
+            return node
+        for part in path.split('/'):
+            if not part:
+                continue
+            if part not in node['dirs']:
+                if not create:
+                    return None
+                node['dirs'][part] = {'dirs': {}, 'is_file': False, 'content': ''}
+            node = node['dirs'][part]
+        return node
+
+    def ls(self, path: str) -> List[str]:
+        node = self._walk(path)
+        if node['is_file']:
+            return [path.rsplit('/', 1)[-1]]
+        return sorted(node['dirs'].keys())
+
+    def mkdir(self, path: str) -> None:
+        self._walk(path, create=True)
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        parent_path, _, name = filePath.rpartition('/')
+        parent = self._walk(parent_path if parent_path else '/', create=True)
+        if name not in parent['dirs']:
+            parent['dirs'][name] = {'dirs': {}, 'is_file': True, 'content': ''}
+        parent['dirs'][name]['is_file'] = True
+        parent['dirs'][name]['content'] += content
+
+    def readContentFromFile(self, filePath: str) -> str:
+        node = self._walk(filePath)
+        return node['content']
+
+print("\n=== Design In-Memory File System ===")
+fs = FileSystem()
+fs.mkdir("/a/b/c")
+fs.addContentToFile("/a/b/c/d", "hello")
+print(fs.ls("/a/b/c"))                     # ["d"]
+print(fs.readContentFromFile("/a/b/c/d"))  # "hello"
+fs.addContentToFile("/a/b/c/d", " world")
+print(fs.readContentFromFile("/a/b/c/d"))  # "hello world"
+print(fs.ls("/"))                          # ["a"]
+# Time: O(path length) per op | Space: O(total content + structure)

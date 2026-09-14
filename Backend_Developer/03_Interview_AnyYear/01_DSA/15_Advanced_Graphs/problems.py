@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║             ADVANCED GRAPHS — 10 LeetCode-Style Problems         ║
+║             ADVANCED GRAPHS — 13 LeetCode-Style Problems         ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -422,4 +422,122 @@ print(criticalConnections(4, [[0,1],[1,2],[2,0],[1,3]]))  # [[1,3]]
 print(criticalConnections(2, [[0,1]]))                    # [[0,1]]
 # Time: O(V+E) | Space: O(V+E)
 
-print("\n✓ All 10 Advanced Graph problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# Problem 11: Minimum Height Trees (LC 310)
+# ══════════════════════════════════════════════════════════════════
+def findMinHeightTrees(n: int, edges: List[List[int]]) -> List[int]:
+    """
+    Given a tree (n nodes, n-1 undirected edges), find the root(s) that
+    minimize the tree's height. Return all such roots (at most 2).
+
+    Approach: "Peel the leaves" — repeatedly remove all current leaves
+    (degree 1) layer by layer, like topological sort. The last 1-2
+    remaining nodes are the centroid(s) = minimum height roots.
+
+    Example:
+      n=4, edges=[[1,0],[1,2],[1,3]] → [1]
+      n=6, edges=[[3,0],[3,1],[3,2],[3,4],[5,4]] → [3,4]
+    """
+    if n == 1: return [0]
+    if n == 2: return [0, 1]
+
+    graph = defaultdict(set)
+    for u, v in edges:
+        graph[u].add(v)
+        graph[v].add(u)
+
+    leaves = deque([node for node in range(n) if len(graph[node]) == 1])
+    remaining = n
+
+    while remaining > 2:
+        num_leaves = len(leaves)
+        remaining -= num_leaves
+        for _ in range(num_leaves):
+            leaf = leaves.popleft()
+            for neighbor in graph[leaf]:
+                graph[neighbor].discard(leaf)
+                if len(graph[neighbor]) == 1:
+                    leaves.append(neighbor)
+
+    return list(leaves)
+
+print("\n=== Minimum Height Trees ===")
+print(findMinHeightTrees(4, [[1,0],[1,2],[1,3]]))                      # [1]
+print(sorted(findMinHeightTrees(6, [[3,0],[3,1],[3,2],[3,4],[5,4]])))  # [3, 4]
+# Time: O(V) | Space: O(V)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 12: Longest Increasing Path in a Matrix (LC 329)
+# ══════════════════════════════════════════════════════════════════
+def longestIncreasingPath(matrix: List[List[int]]) -> int:
+    """
+    Find the length of the longest strictly increasing path in the
+    matrix, moving up/down/left/right.
+
+    Approach: DFS + memoization. memo[(r,c)] = longest increasing path
+    starting at (r,c). Recurse into strictly larger neighbors only
+    (guarantees no cycles, so memoization is safe).
+
+    Example:
+      [[9,9,4],[6,6,8],[2,1,1]] → 4  (path: 1→2→6→9)
+    """
+    if not matrix or not matrix[0]: return 0
+    rows, cols = len(matrix), len(matrix[0])
+    memo = {}
+
+    def dfs(r, c):
+        if (r, c) in memo: return memo[(r, c)]
+        best = 1
+        for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:
+            nr, nc = r+dr, c+dc
+            if 0<=nr<rows and 0<=nc<cols and matrix[nr][nc] > matrix[r][c]:
+                best = max(best, 1 + dfs(nr, nc))
+        memo[(r, c)] = best
+        return best
+
+    return max(dfs(r, c) for r in range(rows) for c in range(cols))
+
+print("\n=== Longest Increasing Path in a Matrix ===")
+print(longestIncreasingPath([[9,9,4],[6,6,8],[2,1,1]]))  # 4
+print(longestIncreasingPath([[3,4,5],[3,2,6],[2,2,1]]))  # 4
+# Time: O(m*n) | Space: O(m*n)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 13: Minimum Knight Moves (LC 1197)
+# ══════════════════════════════════════════════════════════════════
+def minKnightMoves(x: int, y: int) -> int:
+    """
+    On an infinite chessboard, find the minimum number of knight moves
+    from (0, 0) to (x, y).
+
+    Approach: BFS from the origin. By symmetry, restrict the search to
+    the first quadrant (abs(x), abs(y)) and bound the explored region
+    slightly beyond the target so the BFS stays finite and efficient.
+
+    Example:
+      (2, 1) → 1
+      (5, 5) → 4
+    """
+    x, y = abs(x), abs(y)
+    moves = [(1,2),(2,1),(-1,2),(-2,1),(1,-2),(2,-1),(-1,-2),(-2,-1)]
+    visited = {(0, 0)}
+    queue = deque([(0, 0, 0)])
+
+    while queue:
+        r, c, steps = queue.popleft()
+        if (r, c) == (x, y): return steps
+        for dr, dc in moves:
+            nr, nc = r+dr, c+dc
+            # stay within a bounded region around the target so BFS terminates
+            if (nr, nc) not in visited and -2 <= nr <= x+2 and -2 <= nc <= y+2:
+                visited.add((nr, nc))
+                queue.append((nr, nc, steps + 1))
+
+    return -1
+
+print("\n=== Minimum Knight Moves ===")
+print(minKnightMoves(2, 1))  # 1
+print(minKnightMoves(5, 5))  # 4
+# Time: O(x*y) bounded search | Space: O(x*y)
+
+print("\n✓ All 13 Advanced Graph problems solved!")

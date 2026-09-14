@@ -1,7 +1,7 @@
 """
 02 — Strings — Problems
 ========================
-Problems: 12  |  Level: Easy → Medium
+Problems: 15  |  Level: Easy → Medium
 """
 from collections import Counter, defaultdict
 from typing import List
@@ -270,3 +270,82 @@ Find All Anagrams                  O(n)      O(1)    Fixed window
 Zigzag Conversion                  O(n)      O(n)    Simulation
 Roman to Integer                   O(n)      O(1)    Hash map
 """
+
+
+# ─────────────────────────────────────────────
+# P13. Multiply Strings  [Medium] [LC 43]
+# ─────────────────────────────────────────────
+"""
+Multiply two non-negative integers represented as strings and return the
+product, also as a string, without converting the inputs directly to
+integers via built-in big-int conversion.
+Input: num1="123", num2="456"  Output: "56088"
+"""
+def multiply(num1: str, num2: str) -> str:
+    if num1 == "0" or num2 == "0":
+        return "0"
+    n, m = len(num1), len(num2)
+    result = [0] * (n + m)
+    for i in range(n - 1, -1, -1):
+        d1 = ord(num1[i]) - ord('0')
+        for j in range(m - 1, -1, -1):
+            d2 = ord(num2[j]) - ord('0')
+            pos_low, pos_high = i + j + 1, i + j
+            total = d1 * d2 + result[pos_low]
+            result[pos_low] = total % 10
+            result[pos_high] += total // 10
+    start = 0   # strip leading zeros
+    while start < len(result) - 1 and result[start] == 0:
+        start += 1
+    return "".join(map(str, result[start:]))
+
+print("P13:", multiply("123", "456"))  # "56088"
+
+
+# ─────────────────────────────────────────────
+# P14. Encode and Decode Strings  [Medium] [LC 271]
+# ─────────────────────────────────────────────
+"""
+Design an algorithm to encode a list of strings to a single string and
+decode it back to the original list of strings, handling any characters
+(including delimiter-like characters) within the strings themselves.
+Input: ["lint","code","love","you"]
+Encoded → Decoded: ["lint","code","love","you"]
+"""
+class StringCodec:
+    def encode(self, strs: List[str]) -> str:
+        # Format: {length}#{string} — length prefix avoids delimiter collisions
+        return "".join(f"{len(s)}#{s}" for s in strs)
+
+    def decode(self, s: str) -> List[str]:
+        result, i = [], 0
+        while i < len(s):
+            j = s.index("#", i)
+            length = int(s[i:j])
+            result.append(s[j+1:j+1+length])
+            i = j + 1 + length
+        return result
+
+sc = StringCodec()
+enc = sc.encode(["lint", "code", "love", "you"])
+print("P14:", sc.decode(enc))  # ["lint", "code", "love", "you"]
+
+
+# ─────────────────────────────────────────────
+# P15. Ransom Note  [Easy] [LC 383]
+# ─────────────────────────────────────────────
+"""
+Given strings ransomNote and magazine, return True if ransomNote can be
+constructed by using the letters from magazine, where each letter in
+magazine can only be used once.
+Input: ransomNote="aa", magazine="aab"  Output: True
+"""
+def canConstruct(ransomNote: str, magazine: str) -> bool:
+    available = Counter(magazine)
+    needed = Counter(ransomNote)
+    for ch, cnt in needed.items():
+        if available[ch] < cnt:
+            return False
+    return True
+
+print("P15:", canConstruct("aa", "aab"))  # True

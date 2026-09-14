@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║         DYNAMIC PROGRAMMING — 15 LeetCode-Style Problems         ║
+║         DYNAMIC PROGRAMMING — 23 LeetCode-Style Problems         ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -432,4 +432,249 @@ print(minDistance("intention","execution")) # 5
 print(minDistance("",""))                 # 0
 # Time: O(m*n) | Space: O(n) optimized
 
-print("\n✓ All 15 Dynamic Programming problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# Problem 16: Best Time to Buy and Sell Stock (LC 121)
+# ══════════════════════════════════════════════════════════════════
+def maxProfit(prices: List[int]) -> int:
+    """
+    Find max profit from one buy and one sell (buy before sell).
+
+    Track the minimum price seen so far; at each day compute profit
+    if sold today, keep the running maximum.
+
+    Example: [7,1,5,3,6,4] → 5  (buy at 1, sell at 6)
+             [7,6,4,3,1] → 0  (no profit possible)
+    """
+    min_price = float('inf')
+    max_profit = 0
+    for price in prices:
+        min_price = min(min_price, price)
+        max_profit = max(max_profit, price - min_price)
+    return max_profit
+
+print("\n=== Best Time to Buy and Sell Stock ===")
+print(maxProfit([7,1,5,3,6,4]))  # 5
+print(maxProfit([7,6,4,3,1]))    # 0
+# Time: O(n) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 17: Maximal Square (LC 221)
+# ══════════════════════════════════════════════════════════════════
+def maximalSquare(matrix: List[List[str]]) -> int:
+    """
+    Binary matrix of '0'/'1'. Find the area of the largest square
+    containing only 1s.
+
+    dp[i][j] = side length of largest square with bottom-right corner
+    at (i-1, j-1) in the original matrix (1-indexed dp grid).
+    dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1  if cell is '1'
+
+    Example:
+      [["1","0","1","0","0"],
+       ["1","0","1","1","1"],
+       ["1","1","1","1","1"],
+       ["1","0","0","1","0"]] → 4  (2x2 square area)
+    """
+    if not matrix or not matrix[0]:
+        return 0
+    rows, cols = len(matrix), len(matrix[0])
+    dp = [[0] * (cols + 1) for _ in range(rows + 1)]
+    max_side = 0
+    for i in range(1, rows + 1):
+        for j in range(1, cols + 1):
+            if matrix[i-1][j-1] == '1':
+                dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+                max_side = max(max_side, dp[i][j])
+    return max_side * max_side
+
+print("\n=== Maximal Square ===")
+print(maximalSquare([["1","0","1","0","0"],
+                      ["1","0","1","1","1"],
+                      ["1","1","1","1","1"],
+                      ["1","0","0","1","0"]]))  # 4
+print(maximalSquare([["0","1"],["1","0"]]))      # 1
+# Time: O(rows*cols) | Space: O(rows*cols)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 18: Best Time to Buy and Sell Stock with Cooldown (LC 309)
+# ══════════════════════════════════════════════════════════════════
+def maxProfitCooldown(prices: List[int]) -> int:
+    """
+    Max profit with unlimited transactions, but after selling you must
+    cooldown 1 day before buying again (no overlapping transactions).
+
+    State machine DP with 3 states per day:
+    - hold: max profit while holding a stock
+    - sold: max profit on the day we just sold
+    - rest: max profit while not holding and not just sold (can buy)
+
+    hold[i] = max(hold[i-1], rest[i-1] - price[i])
+    sold[i] = hold[i-1] + price[i]
+    rest[i] = max(rest[i-1], sold[i-1])
+
+    Example: [1,2,3,0,2] → 3  (buy 1, sell 2, cooldown, buy 0, sell 2)
+    """
+    if not prices:
+        return 0
+    hold = -prices[0]
+    sold = 0
+    rest = 0
+    for price in prices[1:]:
+        prev_sold = sold
+        sold = hold + price
+        hold = max(hold, rest - price)
+        rest = max(rest, prev_sold)
+    return max(sold, rest)
+
+print("\n=== Best Time to Buy/Sell Stock with Cooldown ===")
+print(maxProfitCooldown([1,2,3,0,2]))  # 3
+print(maxProfitCooldown([1]))          # 0
+# Time: O(n) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 19: Burst Balloons (LC 312)
+# ══════════════════════════════════════════════════════════════════
+def maxCoins(nums: List[int]) -> int:
+    """
+    Bursting balloon i gives nums[left]*nums[i]*nums[right] coins, where
+    left/right are the current neighbors. Maximize total coins from
+    bursting all balloons.
+
+    Interval DP: pad with virtual 1s at both ends. dp[left][right] = max
+    coins obtainable from bursting all balloons strictly between indices
+    left and right (exclusive), by choosing which balloon k is burst LAST
+    in that open interval:
+      dp[left][right] = max over k in (left, right) of
+        balloons[left]*balloons[k]*balloons[right] + dp[left][k] + dp[k][right]
+
+    Example: [3,1,5,8] → 167
+    """
+    balloons = [1] + nums + [1]
+    n = len(balloons)
+    dp = [[0] * n for _ in range(n)]
+    for length in range(2, n):
+        for left in range(0, n - length):
+            right = left + length
+            best = 0
+            for k in range(left + 1, right):
+                coins = balloons[left] * balloons[k] * balloons[right] + dp[left][k] + dp[k][right]
+                best = max(best, coins)
+            dp[left][right] = best
+    return dp[0][n-1]
+
+print("\n=== Burst Balloons ===")
+print(maxCoins([3,1,5,8]))  # 167
+print(maxCoins([1,5]))      # 10
+# Time: O(n^3) | Space: O(n^2)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 20: Combination Sum IV (LC 377)
+# ══════════════════════════════════════════════════════════════════
+def combinationSum4(nums: List[int], target: int) -> int:
+    """
+    Count the number of ordered sequences (permutations) of elements
+    from nums (reuse allowed) that sum to target. Order matters here,
+    despite the "Combination" name.
+
+    dp[t] = number of sequences summing to t.
+    dp[t] = sum(dp[t - num] for num in nums if num <= t), dp[0] = 1.
+
+    Example: nums=[1,2,3], target=4 → 7
+    """
+    dp = [0] * (target + 1)
+    dp[0] = 1
+    for t in range(1, target + 1):
+        for num in nums:
+            if num <= t:
+                dp[t] += dp[t - num]
+    return dp[target]
+
+print("\n=== Combination Sum IV ===")
+print(combinationSum4([1,2,3], 4))  # 7
+print(combinationSum4([9], 3))      # 0
+# Time: O(target * len(nums)) | Space: O(target)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 21: Partition Equal Subset Sum (LC 416)
+# ══════════════════════════════════════════════════════════════════
+def canPartition(nums: List[int]) -> bool:
+    """
+    Can the array be partitioned into two subsets with equal sum?
+
+    0/1 knapsack: if total sum is odd, impossible. Otherwise, check if
+    a subset sums to total/2. Iterate capacity in REVERSE so each
+    number is used at most once.
+
+    Example: [1,5,11,5] → True  (11 and 1+5+5)
+             [1,2,3,5]  → False
+    """
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
+    dp = [False] * (target + 1)
+    dp[0] = True
+    for num in nums:
+        for s in range(target, num - 1, -1):
+            dp[s] = dp[s] or dp[s - num]
+    return dp[target]
+
+print("\n=== Partition Equal Subset Sum ===")
+print(canPartition([1,5,11,5]))  # True
+print(canPartition([1,2,3,5]))   # False
+# Time: O(n * target) | Space: O(target)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 22: Coin Change II (LC 518)
+# ══════════════════════════════════════════════════════════════════
+def change(amount: int, coins: List[int]) -> int:
+    """
+    Count the number of distinct COMBINATIONS (order doesn't matter) of
+    coins that add up to amount. Unlimited supply of each coin.
+
+    Unbounded knapsack: iterate coins in the OUTER loop so each coin's
+    contribution is counted once per combination (not per permutation).
+    dp[a] = number of combinations summing to a.
+
+    Example: amount=5, coins=[1,2,5] → 4  ({5},{1,2,2},{1,1,1,2},{1,1,1,1,1})
+    """
+    dp = [0] * (amount + 1)
+    dp[0] = 1
+    for coin in coins:
+        for a in range(coin, amount + 1):
+            dp[a] += dp[a - coin]
+    return dp[amount]
+
+print("\n=== Coin Change II ===")
+print(change(5, [1,2,5]))  # 4
+print(change(3, [2]))      # 0
+# Time: O(amount * len(coins)) | Space: O(amount)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 23: Min Cost Climbing Stairs (LC 746)
+# ══════════════════════════════════════════════════════════════════
+def minCostClimbingStairs(cost: List[int]) -> int:
+    """
+    Each step i has a cost[i]. You can start at step 0 or 1, and from a
+    step you can climb 1 or 2 steps. Find min cost to reach the top
+    (past the last index).
+
+    dp[i] = min cost to reach step i.
+    dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
+
+    Example: [10,15,20] → 15  (start at step 1, pay 15, climb 2 to top)
+             [1,100,1,1,1,100,1,1,100,1] → 6
+    """
+    n = len(cost)
+    prev2, prev1 = 0, 0
+    for i in range(2, n + 1):
+        curr = min(prev1 + cost[i-1], prev2 + cost[i-2])
+        prev2, prev1 = prev1, curr
+    return prev1
+
+print("\n=== Min Cost Climbing Stairs ===")
+print(minCostClimbingStairs([10,15,20]))                          # 15
+print(minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1]))         # 6
+# Time: O(n) | Space: O(1)
+
+print("\n✓ All 23 Dynamic Programming problems solved!")

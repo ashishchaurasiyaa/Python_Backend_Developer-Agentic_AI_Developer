@@ -1,4 +1,4 @@
-"""19 — Math & Number Theory — Problems | 12 problems | Easy→Hard"""
+"""19 — Math & Number Theory — Problems | 15 problems | Easy→Hard"""
 from typing import List
 import math
 
@@ -266,3 +266,65 @@ Perfect Squares       O(n√n)         O(n)  DP
 Nth Digit             O(log n)       O(1)  Math digit groups
 Super Pow             O(len(b))      O(1)  Modular exponentiation
 """
+
+# ─────────────────────────────────────────────
+# P13. Reverse Integer  [Medium][LC 7]
+# ─────────────────────────────────────────────
+"""Reverse digits of a 32-bit signed integer. Return 0 if the reversed
+value overflows the signed 32-bit range [-2^31, 2^31 - 1]."""
+def reverse(x: int) -> int:
+    INT_MIN, INT_MAX = -2**31, 2**31 - 1
+    sign = -1 if x < 0 else 1
+    x = abs(x)
+    result = 0
+    while x:
+        result = result * 10 + x % 10
+        x //= 10
+    result *= sign
+    if result < INT_MIN or result > INT_MAX:
+        return 0
+    return result
+
+print("P13:", reverse(123))          # 321
+print("P13:", reverse(-123))         # -321
+print("P13:", reverse(120))          # 21
+print("P13:", reverse(1534236469))   # 0 (overflows)
+
+
+# ─────────────────────────────────────────────
+# P14. Palindrome Number  [Easy][LC 9]
+# ─────────────────────────────────────────────
+"""Return true if x reads the same forwards and backwards, without
+converting the whole number to a string."""
+def isPalindrome(x: int) -> bool:
+    if x < 0:
+        return False
+    original = x
+    reversed_num = 0
+    while x:
+        reversed_num = reversed_num * 10 + x % 10
+        x //= 10
+    return original == reversed_num
+
+print("P14:", isPalindrome(121))   # True
+print("P14:", isPalindrome(-121))  # False
+print("P14:", isPalindrome(10))    # False
+
+
+# ─────────────────────────────────────────────
+# P15. Plus One  [Easy][LC 66]
+# ─────────────────────────────────────────────
+"""digits represents a large integer, most significant digit first.
+Add one to the number and return the resulting digit array."""
+def plusOne(digits: List[int]) -> List[int]:
+    n = len(digits)
+    for i in range(n - 1, -1, -1):
+        if digits[i] < 9:
+            digits[i] += 1
+            return digits
+        digits[i] = 0
+    return [1] + digits
+
+print("P15:", plusOne([1,2,3]))   # [1,2,4]
+print("P15:", plusOne([9,9]))     # [1,0,0]
+print("P15:", plusOne([4,3,2,1])) # [4,3,2,2]

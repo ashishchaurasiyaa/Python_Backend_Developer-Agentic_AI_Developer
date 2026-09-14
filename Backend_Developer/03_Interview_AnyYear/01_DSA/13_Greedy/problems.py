@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║               GREEDY — 10 LeetCode-Style Problems                ║
+║               GREEDY — 11 LeetCode-Style Problems                ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -316,4 +316,35 @@ print(findMinArrowShots([[1,2],[3,4],[5,6],[7,8]]))     # 4
 print(findMinArrowShots([[1,2],[2,3],[3,4],[4,5]]))     # 2
 # Time: O(n log n) | Space: O(1)
 
-print("\n✓ All 10 Greedy problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# Problem 11: Longest Palindrome (LC 409)
+# ══════════════════════════════════════════════════════════════════
+def longestPalindrome(s: str) -> int:
+    """
+    Given a string of lowercase/uppercase letters, find the length of
+    the longest palindrome that can be built using those letters
+    (case-sensitive), using each letter at most as many times as it
+    appears in s.
+
+    Greedy: every character with an even count can be fully used in
+    pairs (mirrored around the center). For a character with an odd
+    count, use count-1 (the largest even part) and remember at most
+    one odd leftover can sit in the very middle.
+
+    Example: "abccccdd" → 7  ("dccaccd" or similar)
+    """
+    counts = Counter(s)
+    length = 0
+    has_odd = False
+    for c in counts.values():
+        length += (c // 2) * 2
+        if c % 2 == 1:
+            has_odd = True
+    return length + 1 if has_odd else length
+
+print("\n=== Longest Palindrome ===")
+print(longestPalindrome("abccccdd"))  # 7
+print(longestPalindrome("a"))         # 1
+# Time: O(n) | Space: O(1) (bounded alphabet)
+
+print("\n✓ All 11 Greedy problems solved!")

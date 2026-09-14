@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║     TWO POINTERS & SLIDING WINDOW — 12 LeetCode-Style Problems   ║
+║     TWO POINTERS & SLIDING WINDOW — 16 LeetCode-Style Problems   ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -446,4 +446,168 @@ print(sortArrayByParity([3,1,2,4]))  # [4,2,1,3] or similar
 print(sortArrayByParity([0]))         # [0]
 # Time: O(n) | Space: O(1)
 
-print("\n✓ All 12 Two Pointers & Sliding Window problems solved!")
+# ══════════════════════════════════════════════════════════════════
+# Problem 13: 3Sum Closest (LC 16)
+# ══════════════════════════════════════════════════════════════════
+def threeSumClosest(nums: List[int], target: int) -> int:
+    """
+    Given an array of n integers, find three integers whose sum is
+    closest to target. Return that sum.
+
+    Approach: Sort. For each element, use two pointers on the rest
+    to search for the closest sum, updating the running best.
+
+    Example:
+      [-1,2,1,-4], target=1 → 2   (-1+2+1)
+      [0,0,0], target=1 → 0
+    """
+    nums.sort()
+    n = len(nums)
+    closest = nums[0] + nums[1] + nums[2]
+
+    for i in range(n - 2):
+        lo, hi = i + 1, n - 1
+        while lo < hi:
+            s = nums[i] + nums[lo] + nums[hi]
+            if abs(s - target) < abs(closest - target):
+                closest = s
+            if s == target:
+                return s
+            elif s < target:
+                lo += 1
+            else:
+                hi -= 1
+
+    return closest
+
+print("\n=== 3Sum Closest ===")
+print(threeSumClosest([-1,2,1,-4], 1))  # 2
+print(threeSumClosest([0,0,0], 1))       # 0
+# Time: O(n²) | Space: O(1) excl. sort
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 14: Next Permutation (LC 31)
+# ══════════════════════════════════════════════════════════════════
+def nextPermutation(nums: List[int]) -> None:
+    """
+    Rearrange nums into the lexicographically next greater permutation
+    in-place. If no such permutation exists (already the largest),
+    rearrange to the lowest (sorted ascending).
+
+    Approach: Two pointers.
+    1. Scan from the right to find the first index i where
+       nums[i] < nums[i+1] (the "pivot").
+    2. If found, scan from the right to find the first index j where
+       nums[j] > nums[i], and swap them.
+    3. Reverse the suffix after i (it was non-increasing, reversing
+       makes it the smallest arrangement).
+
+    Example:
+      [1,2,3] → [1,3,2]
+      [3,2,1] → [1,2,3]
+      [1,1,5] → [1,5,1]
+    """
+    n = len(nums)
+    i = n - 2
+    while i >= 0 and nums[i] >= nums[i + 1]:
+        i -= 1
+
+    if i >= 0:
+        j = n - 1
+        while nums[j] <= nums[i]:
+            j -= 1
+        nums[i], nums[j] = nums[j], nums[i]
+
+    lo, hi = i + 1, n - 1
+    while lo < hi:
+        nums[lo], nums[hi] = nums[hi], nums[lo]
+        lo += 1
+        hi -= 1
+
+print("\n=== Next Permutation ===")
+nums = [1,2,3]
+nextPermutation(nums)
+print(nums)  # [1,3,2]
+nums2 = [3,2,1]
+nextPermutation(nums2)
+print(nums2)  # [1,2,3]
+nums3 = [1,1,5]
+nextPermutation(nums3)
+print(nums3)  # [1,5,1]
+# Time: O(n) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 15: Rotate Array (LC 189)
+# ══════════════════════════════════════════════════════════════════
+def rotate(nums: List[int], k: int) -> None:
+    """
+    Rotate the array to the right by k steps, in-place.
+
+    Approach: Three reversals.
+    1. Reverse the whole array.
+    2. Reverse the first k elements.
+    3. Reverse the remaining n-k elements.
+    This effectively rotates the array right by k.
+
+    Example:
+      [1,2,3,4,5,6,7], k=3 → [5,6,7,1,2,3,4]
+      [-1,-100,3,99], k=2 → [3,99,-1,-100]
+    """
+    n = len(nums)
+    k %= n
+
+    def reverse(lo, hi):
+        while lo < hi:
+            nums[lo], nums[hi] = nums[hi], nums[lo]
+            lo += 1
+            hi -= 1
+
+    reverse(0, n - 1)
+    reverse(0, k - 1)
+    reverse(k, n - 1)
+
+print("\n=== Rotate Array ===")
+nums4 = [1,2,3,4,5,6,7]
+rotate(nums4, 3)
+print(nums4)  # [5,6,7,1,2,3,4]
+nums5 = [-1,-100,3,99]
+rotate(nums5, 2)
+print(nums5)  # [3,99,-1,-100]
+# Time: O(n) | Space: O(1)
+
+# ══════════════════════════════════════════════════════════════════
+# Problem 16: Squares of a Sorted Array (LC 977)
+# ══════════════════════════════════════════════════════════════════
+def sortedSquares(nums: List[int]) -> List[int]:
+    """
+    Given an array sorted in non-decreasing order, return an array
+    of the squares of each number, also sorted in non-decreasing order.
+
+    Approach: Two pointers from both ends (largest absolute values
+    are at the ends since the array can contain negatives). Fill
+    the result array from the back with the larger square each step.
+
+    Example:
+      [-4,-1,0,3,10] → [0,1,9,16,100]
+      [-7,-3,2,3,11] → [4,9,9,49,121]
+    """
+    n = len(nums)
+    result = [0] * n
+    lo, hi = 0, n - 1
+
+    for pos in range(n - 1, -1, -1):
+        if abs(nums[lo]) > abs(nums[hi]):
+            result[pos] = nums[lo] ** 2
+            lo += 1
+        else:
+            result[pos] = nums[hi] ** 2
+            hi -= 1
+
+    return result
+
+print("\n=== Squares of a Sorted Array ===")
+print(sortedSquares([-4,-1,0,3,10]))  # [0, 1, 9, 16, 100]
+print(sortedSquares([-7,-3,2,3,11]))  # [4, 9, 9, 49, 121]
+# Time: O(n) | Space: O(n)
+
+print("\n✓ All 16 Two Pointers & Sliding Window problems solved!")
