@@ -594,3 +594,141 @@ A: Bottom-up apply hote hain, top-down execute hote hain.
    @log @timer def f() → f = log(timer(f))
    Calling f() → log wrapper runs → calls timer wrapper → calls f
 """
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# 6. COMPREHENSIONS — LIST, DICT, SET, GENERATOR EXPRESSIONS
+# ══════════════════════════════════════════════════════════════════════════
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+  Comprehension = ek line mein naya list/dict/set/generator banane ka
+  compact syntax — ek for-loop + optional condition ko ek expression
+  mein fold kar deta hai.
+
+  [expr for item in iterable if condition]   → list comprehension
+  {key: value for item in iterable}          → dict comprehension
+  {expr for item in iterable}                → set comprehension
+  (expr for item in iterable)                → generator expression
+
+WHY:
+  ► Same kaam jo for-loop + .append() mein 4 lines leta hai, 1 line
+    mein readable tareeke se ho jaata hai.
+  ► List comprehension normal for+append se FASTER hoti hai (CPython
+    internally optimized bytecode use karta hai).
+  ► Generator expression LAZY hai — poori list memory mein bina banaye
+    ek-ek item on-demand deta hai (bade data ke liye memory-efficient).
+
+HOW (equivalence with for-loop):
+  # for-loop version
+  squares = []
+  for x in range(5):
+      squares.append(x * x)
+
+  # comprehension version — same result, 1 line
+  squares = [x * x for x in range(5)]
+
+  # WITH condition (filter)
+  evens = [x for x in range(10) if x % 2 == 0]
+
+  # NESTED loops — order matches nested for-loops left to right
+  pairs = [(x, y) for x in range(2) for y in range(2)]
+  # same as: for x in range(2): for y in range(2): pairs.append((x,y))
+
+REAL LIFE ANALOGY:
+  For-loop + append = manually filling a jar spoon by spoon, checking
+  each spoon before adding it.
+  Comprehension = a machine that does the same scoop-check-fill in one
+  motion — same result, compact and less error-prone (no forgotten
+  .append(), no typo'd accumulator variable).
+
+PRODUCTION EXAMPLE:
+  # Extracting fields from API responses
+  emails = [user["email"] for user in api_response["users"] if user["active"]]
+
+  # Building a lookup dict from a list of records
+  user_by_id = {user["id"]: user for user in users}
+
+  # De-duplicating while transforming
+  unique_domains = {email.split("@")[1] for email in emails}
+
+  # Streaming large file line-by-line WITHOUT loading it all into memory
+  long_lines = (line.strip() for line in open("huge.log") if len(line) > 100)
+  # nothing runs yet! only when you iterate: for line in long_lines: ...
+"""
+
+# List comprehension vs for-loop — same result, compare readability
+squares_loop = []
+for x in range(5):
+    squares_loop.append(x * x)
+squares_comp = [x * x for x in range(5)]
+print(f"\nsquares (loop):  {squares_loop}")
+print(f"squares (comp):  {squares_comp}")
+
+# List comprehension with filter condition
+evens = [x for x in range(10) if x % 2 == 0]
+print(f"evens: {evens}")
+
+# Dict comprehension
+names = ["ashish", "priya", "rahul"]
+name_lengths = {name: len(name) for name in names}
+print(f"name_lengths: {name_lengths}")
+
+# Set comprehension — automatic de-duplication
+words = ["apple", "banana", "apple", "cherry", "banana"]
+unique_lengths = {len(w) for w in words}
+print(f"unique_lengths: {unique_lengths}")
+
+# Nested comprehension — order matches nested for-loops
+pairs = [(x, y) for x in range(2) for y in range(2)]
+print(f"pairs: {pairs}")
+
+# Generator expression — LAZY, no memory allocated until consumed
+gen = (x * x for x in range(1_000_000))
+print(f"generator object (nothing computed yet): {gen}")
+print(f"first value pulled on demand: {next(gen)}")
+
+# Performance: list comprehension vs manual for+append
+N = 200_000
+start = time.perf_counter()
+result_loop = []
+for x in range(N):
+    result_loop.append(x * 2)
+loop_time = time.perf_counter() - start
+
+start = time.perf_counter()
+result_comp = [x * 2 for x in range(N)]
+comp_time = time.perf_counter() - start
+
+print(f"\nfor+append: {loop_time*1000:.1f}ms, comprehension: {comp_time*1000:.1f}ms, "
+      f"speedup: {loop_time/comp_time:.1f}x")
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q: List comprehension for-loop se fast kyun hoti hai?
+A: List comprehension CPython ke andar ek specialized, optimized
+   bytecode (LIST_APPEND) use karti hai jo directly C level pe chalta
+   hai. Normal for-loop mein har iteration pe .append() method
+   LOOKUP + CALL hota hai — jo extra overhead add karta hai.
+
+Q: Generator expression aur list comprehension mein kab kisko choose karein?
+A: List comprehension: chhota data, baar-baar access chahiye, ya
+   len()/indexing chahiye.
+   Generator expression: bada data (ya infinite stream), sirf ek baar
+   iterate karna hai, memory bachani hai — kyunki ye EAGER nahi, LAZY
+   hai (ek time pe sirf ek value memory mein hoti hai).
+
+Q: Comprehension ke andar zyada nested for-loops likhna kab bura idea hai?
+A: 2 se zyada nested for-loops wali comprehension readability kharab
+   kar deti hai — us case mein normal for-loop likhna better hai
+   (interview mein bhi ye "readability over cleverness" point important hai).
+
+Q: Dict/Set comprehension mein duplicate keys/values ka kya hota hai?
+A: Dict comprehension: agar same key dobara aaye, LAST value jeetta hai
+   (purani value overwrite ho jaati hai).
+   Set comprehension: duplicates automatically drop ho jaate hain
+   (set apni nature se unique elements rakhta hai).
+"""

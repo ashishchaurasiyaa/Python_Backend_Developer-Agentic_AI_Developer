@@ -1534,4 +1534,152 @@ A:  Mixin: provides CONCRETE BEHAVIOR (working methods). Usually small, focused.
           # cache_get() comes from CacheMixin
 """
 
+# ══════════════════════════════════════════════════════════════════════════════
+# PART K: __new__ — INSTANCE CREATION CONTROL
+# ══════════════════════════════════════════════════════════════════════════════
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT IS __new__ (at the INSTANCE level, not metaclass level)?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PART J covered __new__ at the METACLASS level (controlling how a CLASS is
+created). This part covers __new__ at the normal INSTANCE level — controlling
+how an OBJECT of a class is created, BEFORE __init__ even runs.
+
+  Object creation is actually a TWO-STEP process:
+    obj = MyClass(args)
+      Step 1: MyClass.__new__(cls, args)   → CREATES and returns the object
+      Step 2: obj.__init__(args)            → INITIALIZES the already-created object
+
+  __init__ can only set attributes on an object that ALREADY exists.
+  __new__ decides WHETHER a new object gets created at all, or an
+  existing one gets returned instead.
+
+WHY YOU NEED __new__ (INIT CANNOT DO THIS):
+  - Singleton: return the SAME instance every time, instead of a new one
+  - Subclassing IMMUTABLE builtins (str, tuple, int): value must be set
+    at CREATION time — __init__ runs too late, the object is already frozen
+  - Object pooling / caching (reuse existing instances instead of creating new)
+
+HOW:
+  class Singleton:
+      _instance = None
+
+      def __new__(cls, *args, **kwargs):
+          if cls._instance is None:
+              cls._instance = super().__new__(cls)   # actually create ONCE
+          return cls._instance                         # reuse after that
+
+      def __init__(self, value):
+          # ⚠ __init__ runs EVERY time Singleton(...) is called,
+          # even when __new__ returned the cached instance!
+          self.value = value
+
+REAL LIFE ANALOGY:
+  __new__  = building the house (lay foundation, decide if a NEW house
+             is even needed, or hand back the keys to an existing one).
+  __init__ = furnishing a house that ALREADY exists.
+  You cannot furnish a house that hasn't been built yet — that's why
+  __new__ always runs first.
+
+PRODUCTION EXAMPLE:
+  # Singleton config/connection object shared app-wide
+  class DBConnection:
+      _instance = None
+
+      def __new__(cls):
+          if cls._instance is None:
+              cls._instance = super().__new__(cls)
+              cls._instance._connected = False
+          return cls._instance
+
+      def connect(self):
+          if not self._connected:
+              print("Opening DB connection...")
+              self._connected = True
+
+  # Subclassing an immutable builtin — value fixed at creation
+  class PositiveInt(int):
+      def __new__(cls, value):
+          if value <= 0:
+              raise ValueError("must be positive")
+          return super().__new__(cls, value)   # int is IMMUTABLE —
+                                                 # value MUST be set here,
+                                                 # __init__ is too late
+"""
+
+from typing import Any
+
+
+class SingletonNew:
+    _instance = None
+
+    def __new__(cls, *args: Any, **kwargs: Any) -> "SingletonNew":
+        if cls._instance is None:
+            print("  __new__: creating the ONE instance")
+            cls._instance = super().__new__(cls)
+        else:
+            print("  __new__: reusing EXISTING instance")
+        return cls._instance
+
+    def __init__(self, value: int) -> None:
+        print(f"  __init__: setting value = {value} (runs every call!)")
+        self.value = value
+
+
+print("\nSingleton via __new__:")
+s1 = SingletonNew(1)
+s2 = SingletonNew(2)
+print(f"s1 is s2: {s1 is s2}")   # True — same object
+print(f"s1.value: {s1.value}")  # 2 — __init__ ran again and overwrote it
+
+
+class PositiveInt(int):
+    def __new__(cls, value: int) -> "PositiveInt":
+        if value <= 0:
+            raise ValueError("must be positive")
+        return super().__new__(cls, value)
+
+
+p = PositiveInt(5)
+print(f"\nPositiveInt(5) = {p}, type: {type(p).__name__}")
+try:
+    PositiveInt(-1)
+except ValueError as e:
+    print(f"PositiveInt(-1) raised: {e}")
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: __new__ aur __init__ mein kya order hai, aur kyun important hai?
+A:  __new__ PEHLE chalta hai (object banata hai, class return karta hai),
+    __init__ USKE BAAD chalta hai (already-existing object ko initialize
+    karta hai). Agar __new__ ek object return NAHI karta (ya alag class
+    ka object return karta hai), toh __init__ CALL HI NAHI HOTA.
+
+Q2: Singleton ke liye __init__ mein hi check kyun nahi laga sakte
+    (jaise "if self._instance: return")?
+A:  __init__ ek EXISTING object ko modify karta hai — ye return value
+    ignore karta hai aur hamesha None return karta hai, naya object
+    banne se ROK nahi sakta. Sirf __new__ decide kar sakta hai ki
+    object banega ya nahi (kyunki wahi CREATION step hai).
+
+Q3: str/tuple/int jaisi immutable class ko subclass karke default
+    value set karne ke liye __init__ use kyun nahi karte?
+A:  Immutable objects CREATION ke time hi apni final value freeze kar
+    lete hain — __init__ tab tak chalta hai jab object already ban
+    chuka hota hai (too late to set the value). Isliye value
+    super().__new__(cls, value) mein hi pass karni padti hai.
+
+Q4: super().__new__(cls) kyun call karte hain, khud object() kyun
+    nahi return karte?
+A:  super().__new__(cls) ensure karta hai ki correct CLASS (cls) ka
+    object banay — agar koi subclass Singleton ko inherit kare, tab
+    bhi sahi type ka instance banega, hardcoded object() nahi.
+"""
+
+
 print("\n✅ 03_OOP_Theory.py complete — all sections covered.")

@@ -653,6 +653,227 @@ print("\n--- pytest patterns (code sample, not executed) ---")
 print(PYTEST_EXAMPLES[:400], "…")
 
 
+# ── 2F. Testing ASYNC code ────────────────────────────────────────────────
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A normal `def test_x(): ...` test function CANNOT contain `await` — pytest
+calls test functions synchronously by default. Testing `async def` code
+needs two extra pieces:
+  1. A way to actually RUN the coroutine inside the test (asyncio.run(),
+     or the `pytest-asyncio` plugin's `@pytest.mark.asyncio` marker which
+     does that for you automatically).
+  2. AsyncMock (unittest.mock, Python 3.8+) — a Mock whose calls return a
+     coroutine, so `await mocked_thing()` works in place of a real
+     awaitable, and whose call history (call_count, assert_awaited_with)
+     is inspectable just like a normal Mock.
+
+WHY:
+  ► Mock (the normal one) makes `mocked_thing()` return a plain MagicMock
+    object — trying to `await` that raises `TypeError: object MagicMock
+    can't be used in 'await' expression`. AsyncMock fixes exactly this:
+    calling it returns something awaitable, and awaiting it gives back
+    whatever `.return_value` was set to.
+  ► Testing timeouts (`asyncio.wait_for`) needs the test itself to run
+    inside an event loop — you can't `await` from plain sync test code.
+
+HOW:
+  # Without pytest-asyncio plugin — asyncio.run() inside a normal test
+  def test_fetch_data():
+      async def _run():
+          result = await fetch_data()
+          assert result == "expected"
+      asyncio.run(_run())
+
+  # With pytest-asyncio plugin installed — cleaner, test function IS async
+  @pytest.mark.asyncio
+  async def test_fetch_data():
+      result = await fetch_data()
+      assert result == "expected"
+
+  # Mocking an async dependency
+  from unittest.mock import AsyncMock
+  mock_client = AsyncMock()
+  mock_client.fetch.return_value = {"status": "ok"}
+  result = await mock_client.fetch("/endpoint")   # works — AsyncMock is awaitable
+  mock_client.fetch.assert_awaited_once_with("/endpoint")
+
+REAL LIFE ANALOGY:
+  Normal Mock  = a vending machine prop that LOOKS real but has no slot
+                 to insert a coin (can't "await" it — wrong interface).
+  AsyncMock    = the same prop, but now with a working coin slot — you
+                 can go through the actual motions (await it) and it
+                 still remembers what you put in / got out, for assertions.
+
+PRODUCTION EXAMPLE:
+  # Testing an agent that calls an async LLM client, without real network calls
+  from unittest.mock import AsyncMock
+
+  async def get_completion(client, prompt):
+      response = await client.complete(prompt)
+      return response["choices"][0]["message"]["content"]
+
+  async def test_get_completion():
+      mock_client = AsyncMock()
+      mock_client.complete.return_value = {
+          "choices": [{"message": {"content": "Hello!"}}]
+      }
+      result = await get_completion(mock_client, "Hi")
+      assert result == "Hello!"
+      mock_client.complete.assert_awaited_once_with("Hi")
+
+  # Testing that a slow call actually times out
+  async def test_timeout_enforced():
+      async def slow_call():
+          await asyncio.sleep(5)
+      with pytest.raises(asyncio.TimeoutError):
+          await asyncio.wait_for(slow_call(), timeout=0.1)
+"""
+
+import asyncio
+from unittest.mock import AsyncMock as _AsyncMock
+
+
+async def _get_completion(client, prompt):
+    response = await client.complete(prompt)
+    return response["choices"][0]["message"]["content"]
+
+
+async def _run_async_mock_test():
+    mock_client = _AsyncMock()
+    mock_client.complete.return_value = {
+        "choices": [{"message": {"content": "Hello!"}}]
+    }
+    result = await _get_completion(mock_client, "Hi")
+    assert result == "Hello!"
+    mock_client.complete.assert_awaited_once_with("Hi")
+    print(f"AsyncMock test: result={result!r}, "
+          f"call_count={mock_client.complete.call_count} ✓")
+
+
+async def _run_timeout_test():
+    async def slow_call():
+        await asyncio.sleep(5)
+
+    try:
+        await asyncio.wait_for(slow_call(), timeout=0.1)
+        raised = False
+    except asyncio.TimeoutError:
+        raised = True
+    assert raised
+    print("Timeout test: asyncio.TimeoutError correctly raised ✓")
+
+
+def test_async_code_with_asyncio_run():
+    """Pattern used WITHOUT the pytest-asyncio plugin installed."""
+    asyncio.run(_run_async_mock_test())
+    asyncio.run(_run_timeout_test())
+
+
+test_async_code_with_asyncio_run()
+
+PYTEST_ASYNCIO_EXAMPLE = '''
+# With the pytest-asyncio plugin installed (pip install pytest-asyncio):
+# pytest.ini / pyproject.toml: [tool.pytest.ini_options] asyncio_mode = "auto"
+
+@pytest.mark.asyncio
+async def test_get_completion():
+    mock_client = AsyncMock()
+    mock_client.complete.return_value = {"choices": [{"message": {"content": "Hello!"}}]}
+    result = await get_completion(mock_client, "Hi")
+    assert result == "Hello!"
+    mock_client.complete.assert_awaited_once_with("Hi")
+'''
+print("\n--- pytest-asyncio plugin style (code sample, not executed) ---")
+print(PYTEST_ASYNCIO_EXAMPLE.strip())
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: Normal Mock() ko await karne pe error kyun aata hai?
+A:  Mock() call karne pe ek plain MagicMock object return karta hai, jo
+    awaitable NAHI hai (uske paas __await__ method nahi hai). AsyncMock
+    specifically isi ke liye bana hai — call karne pe ek coroutine
+    return karta hai jo await ho sakta hai.
+
+Q2: pytest-asyncio plugin ke bina async function test kaise karein?
+A:  Test function ke andar ek helper async function define karo, uske
+    andar saara await-wala logic likho, phir plain (sync) test function
+    se `asyncio.run(helper())` call karo. Plugin installed hone pe
+    `@pytest.mark.asyncio` laga ke test function khud hi `async def`
+    ban sakta hai — cleaner, lekin plugin dependency add hoti hai.
+
+Q3: assert_awaited_once_with() aur assert_called_once_with() mein
+    kya farak hai?
+A:  assert_called_once_with() sirf ye check karta hai ki function CALL
+    hua — chahe uska result await hua ho ya nahi. assert_awaited_once_with()
+    AsyncMock-specific hai — ye confirm karta hai ki result actually
+    AWAIT bhi hua tha, sirf call karke chhod nahi diya gaya.
+
+Q4: asyncio.wait_for ka timeout test karne ke liye kya extra setup
+    chahiye jo normal sync test mein nahi lagta?
+A:  Test ko khud ek event loop ke andar chalna padta hai (asyncio.run()
+    ya @pytest.mark.asyncio se) kyunki `await asyncio.wait_for(...)`
+    sirf async context mein hi likha ja sakta hai — normal sync test
+    function mein `await` keyword syntax error dega.
+"""
+
+
+# ── 2G. Coverage reporting (pytest-cov) ───────────────────────────────────
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:  pytest-cov (wraps coverage.py) measures WHICH lines/branches of your
+       code actually ran during the test suite.
+
+WHY:   A green test suite doesn't mean the code is well-tested — it might
+       never even execute half the file. Coverage % surfaces untested code.
+
+HOW:
+  pip install pytest-cov
+  pytest --cov=my_package --cov-report=term-missing
+
+  Output shows, per file: % covered AND the exact line numbers MISSED.
+
+  Line coverage   → did this line execute at all?
+  Branch coverage → did BOTH sides of an if/else actually run?
+                    (pytest --cov-branch — catches "line ran, but only
+                    the True branch ever did, False branch never tested")
+
+REAL LIFE ANALOGY:
+  Line coverage = did the tour bus drive down this street at all?
+  Branch coverage = did it turn LEFT and RIGHT at this intersection, or
+                     only ever one direction?
+
+PRODUCTION EXAMPLE:
+  # CI pipeline gate — fail the build if coverage drops below threshold
+  # pytest --cov=app --cov-fail-under=80
+"""
+
+print("\n--- pytest-cov: `pytest --cov=my_package --cov-report=term-missing` "
+      "(not executed here — requires the pytest-cov plugin) ---")
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: 100% line coverage ka matlab code bug-free hai?
+A:  Bilkul nahi. Coverage sirf batata hai ki line EXECUTE hui — ye nahi
+    batata ki assertion sahi thi ya edge cases cover hue. 100% coverage
+    ke saath bhi bugs ho sakte hain agar assertions weak hain.
+
+Q2: Branch coverage line coverage se zyada strict kyun hai?
+A:  Line coverage sirf "line chali" check karta hai. Branch coverage
+    check karta hai ki if/else ke DONO paths test hue — sirf True
+    branch test karke line coverage 100% dikh sakta hai jabki False
+    branch kabhi test hi nahi hua.
+"""
+
+
 # ════════════════════════════════════════════════════════════════════════════
 # SECTION 3 — enum module
 # ════════════════════════════════════════════════════════════════════════════

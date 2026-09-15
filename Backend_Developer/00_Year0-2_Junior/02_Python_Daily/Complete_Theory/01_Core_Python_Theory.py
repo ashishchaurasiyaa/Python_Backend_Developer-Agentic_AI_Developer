@@ -623,3 +623,214 @@ A: Shallow copy: new outer container, same inner objects (shared!)
    Use: a.copy() or a[:] for shallow; copy.deepcopy(a) for deep
    Shallow is enough for flat structures; deep needed for nested.
 """
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# 8. TYPE CONVERSION / CASTING
+# ══════════════════════════════════════════════════════════════════════════
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+  Type conversion = ek type ke object ko doosre type mein badalna.
+  Implicit (Python khud kar deta hai) aur Explicit (casting — hum
+  function call karke karte hain) — dono tarah ki hoti hai.
+
+WHY:
+  ► input() HAMESHA str return karta hai — chahe user number type kare.
+    Isse arithmetic ya comparison karne se pehle sahi type mein
+    convert karna zaruri hai.
+  ► APIs / files / DB se aane wala data bhi text (str/JSON) ke roop
+    mein aata hai — usko real type mein cast karna padta hai.
+
+HOW:
+  Implicit (automatic, safe — no data loss):
+    3 + 4.5 → 7.5              # int automatically float ban gaya
+    True + 1 → 2                # bool automatically int ban gaya
+
+  Explicit (manual, casting functions):
+    int("28")      → 28         # str → int
+    int("12.5")    → ValueError # decimal string int() se DIRECT nahi banta
+    int(float("12.5")) → 12     # pehle float, phir int (truncates, not round)
+    float("4.5")   → 4.5        # str → float
+    str(28)        → "28"       # int → str
+    bool(0)        → False      # 0 hamesha False
+    bool("False")  → True       # NON-EMPTY string hamesha True! (gotcha)
+    list("abc")    → ['a','b','c']
+    tuple([1,2])   → (1, 2)
+
+REAL LIFE ANALOGY:
+  Type casting = currency exchange counter. Rupee (str "100") ko
+  Dollar (int 100) mein tabhi use kar sakte ho jab explicitly
+  exchange (convert) karo — bina kiye seedha use nahi hoga.
+
+PRODUCTION EXAMPLE:
+  age = int(input("Enter your age: "))     # str -> int, ab arithmetic ho sakti hai
+  price = float(input("Enter price: "))    # str -> float, decimal allowed
+  quantity = int(input("Enter quantity: "))
+  total = price * quantity                  # dono numeric, ab multiply ho sakta hai
+
+  # API se aaya JSON — id string hoti hai, DB lookup ke liye int chahiye
+  user_id = int(request_data["id"])
+"""
+
+age_str = "28"
+age = int(age_str)
+print(f"\nstr '{age_str}' -> int {age}, type: {type(age)}")
+
+# Common runtime error jab conversion fail ho jaaye
+try:
+    bad = int("twenty eight")
+except ValueError as e:
+    print(f"ValueError caught: {e}")
+
+# bool() gotcha — sirf empty/zero-like values False hote hain
+print(f"bool('False') = {bool('False')}")   # True! non-empty string
+print(f"bool('')      = {bool('')}")        # False (empty string)
+print(f"bool(0)       = {bool(0)}")         # False
+print(f"bool(0.0)     = {bool(0.0)}")       # False
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q: input() se liya number direct arithmetic mein kyun use nahi hota?
+A: input() hamesha str return karta hai. "28" + 5 → TypeError
+   (can only concatenate str, not int). Pehle int()/float() se
+   cast karna padega.
+
+Q: int("12.5") error kyun deta hai?
+A: int() ek decimal-point-wali string ko direct parse nahi kar sakta.
+   Pehle float("12.5") karo (4.5 milega), phir int(4.5) karo (4 milega,
+   truncates towards zero — round nahi karta).
+
+Q: bool("False") True kyun return karta hai?
+A: bool() kisi bhi NON-EMPTY string ko True maanta hai, chahe content
+   'False' hi kyun na ho. Sirf empty string "" False hoti hai.
+   Actual boolean check ke liye string ko explicitly compare karo:
+   value == "False" ya value.lower() == "true".
+
+Q: Implicit vs Explicit conversion mein kya difference hai?
+A: Implicit: Python khud safely upgrade karta hai (int -> float),
+   koi data loss nahi hota.
+   Explicit: hum function call karke type badalte hain (int(), str()...),
+   ismein data loss ho sakta hai (float -> int decimal drop kar deta hai).
+"""
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# 9. OPERATORS
+# ══════════════════════════════════════════════════════════════════════════
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+  Operator = symbol jo ek ya zyada values (operands) pe koi
+  operation perform karta hai aur result return karta hai.
+
+WHY:
+  ► Calculations, comparisons, aur decision-making sabhi operators
+    ke bina possible nahi. Ye har program ki building block hain.
+
+HOW — 6 CATEGORIES:
+  ┌───────────────────────────────────────────────────────────┐
+  │ Arithmetic : +  -  *  /  //  %  **                        │
+  │ Comparison : == != > < >= <=      (return bool)           │
+  │ Logical    : and  or  not          (short-circuit)        │
+  │ Assignment : =  +=  -=  *=  /=  //=  **=  %=  (shortcuts) │
+  │ Bitwise    : &  |  ^  ~  <<  >>    (bit-level, DSA)       │
+  │ Ternary    : x if condition else y  (1-line if-else)      │
+  └───────────────────────────────────────────────────────────┘
+
+  Arithmetic details (a=17, b=5):
+    a / b  = 3.4     → true division, hamesha float
+    a // b = 3       → floor division, decimal ka floor (round DOWN)
+    a % b  = 2        → modulus, remainder
+
+  Logical short-circuit: `a and b` — agar a False hai toh b evaluate
+  hi nahi hota (result seedha False). Isi tarah `a or b` mein a True
+  hone pe b evaluate nahi hota. Ye performance aur safety dono ke
+  liye important hai (e.g. `x != 0 and 10/x > 1` — zero division bachta hai).
+
+REAL LIFE ANALOGY:
+  Arithmetic = calculator ke buttons.
+  Comparison = weighing scale (kaun bada/chota/barabar hai).
+  Logical    = AND/OR gates jaise electrical circuit mein.
+  Ternary    = ek line ka fork-in-the-road decision.
+
+PRODUCTION EXAMPLE:
+  # Modulus — DSA + real systems mein daily use
+  index = (current + 1) % n            # circular buffer / round-robin
+  last_digit = number % 10             # digit extraction
+  is_even = number % 2 == 0            # divisibility check
+  bucket = hash(key) % table_size      # hash table indexing
+
+  # Short-circuit for safe access
+  user = data.get("user")
+  name = user["name"] if user and "name" in user else "unknown"
+
+  # Ternary for compact status assignment
+  status = "Adult" if age >= 18 else "Minor"
+
+  # Bitwise — flags / permissions (systems programming, DSA bit-manipulation)
+  READ, WRITE, EXEC = 1, 2, 4          # 001, 010, 100
+  permissions = READ | WRITE           # 011 -> combine flags
+  can_write = permissions & WRITE      # check if WRITE flag set
+"""
+
+a, b = 17, 5
+print(f"\na / b = {a / b}   (true division, always float)")
+print(f"a // b = {a // b}  (floor division)")
+print(f"a % b = {a % b}   (modulus)")
+
+# Assignment shortcut chain
+x = 10
+x += 5   # x = x + 5  -> 15
+x *= 2   # x = x * 2  -> 30
+x //= 4  # x = x // 4 -> 7
+print(f"\nchained assignment shortcuts result: x = {x}")
+
+# Bitwise flags example
+READ, WRITE, EXEC = 1, 2, 4
+permissions = READ | WRITE
+print(f"\npermissions = {permissions} (binary: {bin(permissions)})")
+print(f"has WRITE? {bool(permissions & WRITE)}")
+print(f"has EXEC?  {bool(permissions & EXEC)}")
+
+# Ternary
+age = 20
+status = "Adult" if age >= 18 else "Minor"
+print(f"\nstatus = {status}")
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q: '/' aur '//' mein kya difference hai?
+A: '/' = true division, hamesha float return karta hai (17/5 = 3.4)
+   '//' = floor division, result ko floor karke integer-like value
+   deta hai (17//5 = 3). Negative numbers mein floor DOWN hota hai,
+   truncate nahi: -7 // 2 = -4 (not -3).
+
+Q: 'and'/'or' ka short-circuit behaviour kya hai?
+A: `a and b`: agar a falsy hai, b evaluate hi nahi hota, a return hota hai.
+   `a or b`: agar a truthy hai, b evaluate hi nahi hota, a return hota hai.
+   Isse expensive ya unsafe calls (jaise 10/x) bachaye ja sakte hain.
+
+Q: '==' aur 'is' operators mein kya farak hai? (operators context mein)
+A: '==' comparison operator hai — VALUE compare karta hai.
+   'is' identity operator hai — SAME OBJECT (memory) check karta hai.
+   [1,2] == [1,2] -> True, lekin [1,2] is [1,2] -> False (different objects)
+
+Q: Bitwise operators DSA mein kab kaam aate hain?
+A: Flags/permissions combine karna (|), specific bit check karna (&),
+   fast multiply/divide by powers of 2 (<<, >>), XOR se duplicate
+   number dhoondna (^), subset generation bitmask se — ye sab
+   competitive programming aur systems code mein common patterns hain.
+
+Q: Ternary operator kab use karna chahiye, kab nahi?
+A: Use karo jab ek simple value assign karni ho based on one condition
+   (`status = "Adult" if age>=18 else "Minor"`). Avoid karo jab
+   condition complex ho ya nested ternary likhni pade — readability
+   kharab ho jaati hai, normal if-else better hai.
+"""

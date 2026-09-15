@@ -10,14 +10,14 @@ All three cover the same body of knowledge; they differ only in format and study
 ```
 02_Python_Daily/
 │
-├── Day01_Variables_Basics/           ← daily-drip track (55 folders)
+├── Day01_Variables_Basics/           ← daily-drip track (50 folders)
 ├── Day02_Control_Flow_Loops/
 ├── Day03_String_Problems/
 │   ...
-├── Day53_GapFill_Core_Part1/
-├── Day53_GapFill_Core_Part2/
-├── Day54_GapFill_Advanced/
-├── Day55_GapFill_Concurrency_Memory/
+├── Day47_GapFill_Core_Part1/
+├── Day47_GapFill_Core_Part2/
+├── Day48_GapFill_Advanced/
+├── Day49_GapFill_Concurrency_Memory/
 │
 ├── Complete_Theory/                  ← consolidated reference (10 files)
 │   ├── 01_Core_Python_Theory.py
@@ -43,13 +43,14 @@ All three cover the same body of knowledge; they differ only in format and study
 
 ## The Three Tracks
 
-### 1. Day-by-Day Track (`Day01` … `Day55`)
+### 1. Day-by-Day Track (`Day01` … `Day49`)
 
-Fifty-five topic-scoped folders, each containing 2–6 Python files that build on the
+Fifty topic-scoped folders, each containing 2–6 Python files that build on the
 previous day. The progression moves from absolute basics (variables, control flow,
-strings) through data structures and algorithms (Days 20–25), the Python standard
-library in depth (Days 26–40), and production-grade topics (Days 41–55: FastAPI,
-SQLAlchemy, Celery, gRPC, Docker, advanced concurrency, and memory internals).
+strings) through the Python standard library in depth (Days 20–29), modern Python,
+testing, and CLI tooling (Days 30–37), the backend stack — FastAPI, SQLAlchemy,
+Celery, gRPC, Docker (Days 38–43), and senior-level topics — contextvars, concurrency,
+GC, memory internals, gap-fills (Days 44–49).
 
 Use this track when you want a structured, incremental study schedule — one folder
 per sitting keeps each session focused and achievable.
@@ -60,11 +61,10 @@ per sitting keeps each session focused and achievable.
 |---------|--------------------------------------------|
 | 01–10   | Core language: types, OOP, decorators, async |
 | 11–19   | Algorithms, concurrency, advanced OOP      |
-| 20–25   | DSA: arrays, linked lists, trees, graphs, DP |
-| 26–35   | Standard library deep-dives                |
-| 36–43   | Modern Python, testing, regex, CLI         |
-| 44–49   | Backend stack: FastAPI, SQLAlchemy, Celery, gRPC, Docker |
-| 50–55   | Senior topics: contextvars, concurrency, GC, gap-fills |
+| 20–29   | Standard library deep-dives                |
+| 30–37   | Modern Python, testing, regex, CLI         |
+| 38–43   | Backend stack: FastAPI, SQLAlchemy, Celery, gRPC, Docker |
+| 44–49   | Senior topics: contextvars, concurrency, GC, gap-fills |
 
 ---
 
@@ -83,14 +83,19 @@ look up how a concept works without running code.
 |--------------------------------------------------|-------------------------|
 | 01_Core_Python_Theory.py                         | Day01–Day06             |
 | 02_Functions_Closures_Decorators_Theory.py       | Day07, Day10, Day15–16  |
-| 03_OOP_Theory.py                                 | Day08–Day09, Day19, Day39 |
-| 04_Async_Concurrency_Theory.py                   | Day13–Day14, Day17, Day31 |
-| 05_Collections_Functools_Itertools_Theory.py     | Day26–Day28             |
-| 06_Typing_System_Theory.py                       | Day29                   |
-| 07_Memory_Performance_Theory.py                  | Day35, Day55            |
+| 03_OOP_Theory.py                                 | Day08–Day09, Day19, Day33 |
+| 04_Async_Concurrency_Theory.py                   | Day13–Day14, Day17, Day25, Day49* |
+| 05_Collections_Functools_Itertools_Theory.py     | Day20–Day22             |
+| 06_Typing_System_Theory.py                       | Day23                   |
+| 07_Memory_Performance_Theory.py                  | Day29, Day49*           |
 | 08_Design_Patterns_Theory.py                     | Day18–Day19             |
-| 09_Modern_Python_Theory.py                       | Day38                   |
-| 10_Regex_Testing_Enum_StdLib_Theory.py           | Day40–Day42             |
+| 09_Modern_Python_Theory.py                       | Day32                   |
+| 10_Regex_Testing_Enum_StdLib_Theory.py           | Day34–Day36             |
+
+*Day49_GapFill_Concurrency_Memory is a mixed-topic folder: files 01 (mmap/memoryview/buffer
+protocol) and 04 (gc advanced/immortal objects/freeze) are memory topics → 07; files 02
+(subinterpreters), 03 (shareable list/queues/forkserver), and 05 (selectors/sched/socketserver)
+are concurrency topics → 04.
 
 ---
 

@@ -20,6 +20,9 @@ Topics Covered:
   L. Threading — I/O bound concurrency
   M. Multiprocessing — CPU bound parallelism
   N. Decision Table — When to use what?
+  O. Low-level multiprocessing IPC — Process, Queue, Value
+  P. Async Iterator Protocol — __aiter__ / __anext__
+  Q. Deadlock — causes & avoidance
 """
 
 import asyncio
@@ -1146,4 +1149,398 @@ A:  When you have a critical operation (like DB write) and want to protect it
     from being cancelled if the outer task is cancelled (e.g., timeout).
     The outer task sees a TimeoutError, but the inner shielded coroutine
     continues running independently.
+"""
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PART O: LOW-LEVEL MULTIPROCESSING IPC — Process, Queue, Value
+# ══════════════════════════════════════════════════════════════════════════════
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PART M used ProcessPoolExecutor — the HIGH-LEVEL interface (submit tasks,
+get results back). This part covers the RAW building blocks underneath:
+manually spawning a process and explicitly moving data in/out of it.
+
+  multiprocessing.Process  → spawn ONE separate OS process running a function
+  multiprocessing.Queue    → thread-and-process-safe FIFO for passing
+                              PICKLED messages between processes
+  multiprocessing.Value    → a SINGLE shared value living in shared memory
+                              (a C-type, e.g. 'i' for int, 'd' for double),
+                              directly readable/writable by multiple processes
+
+WHY use the raw API instead of ProcessPoolExecutor?
+  - You need a LONG-RUNNING worker process (not a one-shot task submission)
+  - You need a live shared COUNTER/FLAG across processes (Value/Array)
+  - You need STREAMING communication, not just "submit and collect a result"
+
+HOW (key difference from threading):
+  Processes do NOT share memory. threading.Lock / normal variables do NOT
+  work across processes — a plain Python variable in the parent is a
+  SEPARATE copy in the child (its own address space).
+  To share state you MUST use multiprocessing's own primitives:
+    Queue  → send by VALUE (object gets pickled, sent, unpickled — a COPY)
+    Value / Array → actual SHARED memory segment, backed by a Lock
+
+REAL LIFE ANALOGY:
+  ProcessPoolExecutor = ordering from a food-delivery app — you submit an
+                         order, wait, get a result. Simple, high-level.
+  Process + Queue      = literally driving to the kitchen yourself, handing
+                         over a written note (pickled data) through a
+                         letterbox (the Queue) — nobody shares the same room.
+  Value                = a shared notice-board (shared memory) that BOTH
+                         sides can read/write directly, no letterbox needed.
+
+PRODUCTION EXAMPLE:
+  # A worker process streaming results back through a Queue
+  def worker(task_queue, result_queue):
+      while True:
+          task = task_queue.get()
+          if task is None:      # sentinel to stop the worker
+              break
+          result_queue.put(task * task)
+
+  # A shared counter multiple worker processes increment safely
+  counter = multiprocessing.Value('i', 0)
+  def increment(counter, lock):
+      with lock:
+          counter.value += 1
+"""
+
+import multiprocessing
+
+
+def _queue_worker(task_q: "multiprocessing.Queue", result_q: "multiprocessing.Queue") -> None:
+    while True:
+        task = task_q.get()
+        if task is None:            # sentinel — tells worker to stop
+            break
+        result_q.put(task * task)
+
+
+def _increment_shared(counter: "multiprocessing.Value", lock: "multiprocessing.Lock", times: int) -> None:
+    for _ in range(times):
+        with lock:                  # WITHOUT this lock: lost updates (race condition)
+            counter.value += 1
+
+
+def ipc_demo() -> None:
+    task_q: multiprocessing.Queue = multiprocessing.Queue()
+    result_q: multiprocessing.Queue = multiprocessing.Queue()
+
+    p = multiprocessing.Process(target=_queue_worker, args=(task_q, result_q))
+    p.start()
+    for n in [2, 3, 4]:
+        task_q.put(n)
+    task_q.put(None)                # sentinel — stop signal
+    p.join()
+
+    results = [result_q.get() for _ in range(3)]
+    print(f"\nQueue IPC results (squares): {results}")
+
+    counter = multiprocessing.Value('i', 0)
+    lock = multiprocessing.Lock()
+    workers = [
+        multiprocessing.Process(target=_increment_shared, args=(counter, lock, 1000))
+        for _ in range(4)
+    ]
+    for w in workers:
+        w.start()
+    for w in workers:
+        w.join()
+    print(f"Shared Value counter after 4x1000 increments: {counter.value}  (expected 4000)")
+
+
+# NOTE: multiprocessing needs if __name__ == '__main__' on Windows/macOS (spawn start method)
+if __name__ == "__main__":
+    ipc_demo()
+else:
+    print("\n  (IPC demo skipped — must run as __main__ on some platforms)")
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: Ek plain Python list/dict global variable multiple processes ke
+    beech share kyun nahi ho sakta?
+A:  Har process ki apni ALAG memory space hoti hai (fork/spawn ke time
+    parent ki memory ka COPY milta hai). Ek process jo variable change
+    karta hai, doosra process wo change dekh hi nahi sakta — asli
+    "sharing" ke liye Queue/Value/Array/Manager use karna padta hai.
+
+Q2: Queue mein Value ke bajaye pura object kyun dala jaata hai?
+A:  Queue object ko PICKLE karke bhejta hai (serialize -> bytes -> dusri
+    process mein deserialize). Ye ek COPY hai, original object modify
+    nahi hota. Isliye Queue "message passing" ke liye hai, "shared state"
+    ke liye nahi — usके liye Value/Array chahiye.
+
+Q3: multiprocessing.Value ke saath Lock kyun zaruri hai, jab Value khud
+    "shared" hai?
+A:  Shared hone ka matlab thread/process-safe hona nahi hota. counter.value
+    += 1 internally READ-MODIFY-WRITE hai (3 steps) — do processes ek
+    saath karein toh EK update kho sakta hai (race condition). Lock
+    ensure karta hai ki ek waqt sirf ek process ye 3 steps complete kare.
+
+Q4: Queue mein 'None' sentinel kyun use kiya, worker ko rokne ke liye
+    koi flag variable kyun nahi?
+A:  Ek shared flag variable dono processes ko turant nazar nahi aayega
+    (memory sync issue) — jabki Queue ek MESSAGE hi bhejta hai jo
+    guaranteed order mein deliver hota hai. 'None' ek clean "stop signal"
+    hai jo data-message se easily distinguish ho jaata hai.
+"""
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PART P: ASYNC ITERATOR PROTOCOL — __aiter__ / __anext__
+# ══════════════════════════════════════════════════════════════════════════════
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PART J showed ASYNC GENERATORS (a function with `yield` inside `async def`)
+— the EASY way to make something usable in `async for`. This part shows
+the explicit PROTOCOL underneath: implementing __aiter__ and __anext__
+directly on a CLASS, the same way __iter__/__next__ work for normal
+(sync) iterators.
+
+  __aiter__(self)        → must return an async iterator (usually `self`)
+  __anext__(self)        → async method, returns the NEXT value,
+                            raises StopAsyncIteration when exhausted
+
+  `async for item in obj:` internally calls:
+    ait = obj.__aiter__()
+    while True:
+        try:
+            item = await ait.__anext__()
+        except StopAsyncIteration:
+            break
+
+WHY use the class-based protocol instead of an async generator function?
+  - You need to keep MORE STATE than a generator's local variables allow
+    (e.g. an object that is BOTH an async context manager AND an async
+    iterator at once — a streaming connection object)
+  - You're building a REUSABLE class where iteration is one of several
+    behaviors (not just a single-purpose generator function)
+
+REAL LIFE ANALOGY:
+  Async generator function = a vending machine already pre-built for you —
+                              just call it and get items one at a time.
+  __aiter__/__anext__ class = building your OWN vending machine from parts,
+                              full control over what "next item" means and
+                              what extra state/behavior it carries.
+
+PRODUCTION EXAMPLE:
+  class PaginatedAPIResults:
+      \"\"\"Streams pages from a paginated API, one item at a time.\"\"\"
+      def __init__(self, client, endpoint):
+          self._client = client
+          self._endpoint = endpoint
+          self._buffer = []
+          self._next_page_token = None
+          self._done = False
+
+      def __aiter__(self):
+          return self
+
+      async def __anext__(self):
+          if not self._buffer and not self._done:
+              page = await self._client.fetch(self._endpoint, self._next_page_token)
+              self._buffer = page["items"]
+              self._next_page_token = page.get("next_token")
+              self._done = self._next_page_token is None
+          if not self._buffer:
+              raise StopAsyncIteration
+          return self._buffer.pop(0)
+"""
+
+
+class AsyncCountdown:
+    """Explicit __aiter__/__anext__ protocol — counts down with a delay."""
+
+    def __init__(self, start: int) -> None:
+        self.current = start
+
+    def __aiter__(self) -> "AsyncCountdown":
+        return self
+
+    async def __anext__(self) -> int:
+        if self.current <= 0:
+            raise StopAsyncIteration
+        await asyncio.sleep(0.05)     # simulate async work (e.g. I/O wait)
+        value = self.current
+        self.current -= 1
+        return value
+
+
+async def async_iterator_demo() -> None:
+    print("\nAsyncCountdown via __aiter__/__anext__:")
+    async for n in AsyncCountdown(3):
+        print(f"  count: {n}")
+
+
+# Guarded like the other multiprocessing-adjacent demos in this file — on
+# spawn-based platforms (macOS/Windows), a Process() call above re-imports
+# this whole module in the child; without this guard the demo would print twice.
+if __name__ == "__main__":
+    asyncio.run(async_iterator_demo())
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: __anext__ ko 'async def' banana zaruri hai kya? Normal def se
+    kaam nahi chalega?
+A:  Zaruri hai. `async for` har step pe `await obj.__anext__()` call
+    karta hai — agar __anext__ normal function ho (coroutine na ho),
+    toh await karne pe error aayega. __anext__ ke andar hi hum
+    `await asyncio.sleep(...)` jaisa async work kar sakte hain.
+
+Q2: StopIteration aur StopAsyncIteration mein kya farak hai?
+A:  Dono hi "ab items khatam ho gaye" signal karte hain — bas
+    StopIteration sync `__next__` ke liye hai, StopAsyncIteration async
+    `__anext__` ke liye. Ek async generator ke andar raw StopIteration
+    raise karna actually RuntimeError deta hai (PEP 479) — isliye
+    StopAsyncIteration hi use karna padta hai.
+
+Q3: Class-based (__aiter__/__anext__) vs async generator function —
+    interview mein kaunsa approach batana chahiye?
+A:  Simple streaming case ke liye async generator function hamesha
+    prefer karo (kam code, readable). Class-based approach tab
+    justify hota hai jab object ko iteration ke alawa bhi state/behavior
+    maintain karna ho (e.g. connection object jo context manager +
+    iterator dono ho), ya jab iterator ko explicitly reset/reuse karna ho.
+"""
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PART Q: DEADLOCK — CAUSES & AVOIDANCE
+# ══════════════════════════════════════════════════════════════════════════════
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Deadlock = two (or more) threads/processes each hold a lock the OTHER
+one needs, and each is WAITING for the other to release theirs first.
+Neither can proceed — the program HANGS forever (no crash, no error,
+just silent freeze).
+
+  Classic pattern (2 locks, 2 threads, OPPOSITE acquire order):
+    Thread 1: acquire(lock_A) → ... → acquire(lock_B)
+    Thread 2: acquire(lock_B) → ... → acquire(lock_A)
+
+    If Thread 1 grabs lock_A and Thread 2 grabs lock_B at the same time,
+    Thread 1 now waits for lock_B (held by Thread 2), and Thread 2 waits
+    for lock_A (held by Thread 1). Forever. That's a deadlock.
+
+FOUR CONDITIONS THAT MUST ALL BE TRUE FOR DEADLOCK (Coffman conditions):
+  1. Mutual exclusion — a resource can only be held by one thread at a time
+  2. Hold and wait — a thread holds one lock while waiting for another
+  3. No preemption — a lock can't be forcibly taken away from a thread
+  4. Circular wait — a cycle of threads each waiting on the next one's lock
+
+  Breaking ANY ONE of these prevents deadlock. In practice, breaking
+  "circular wait" (condition 4) is the easiest fix.
+
+HOW TO AVOID:
+  1. LOCK ORDERING — always acquire multiple locks in the SAME global
+     order everywhere in the codebase (e.g. always lock_A before lock_B).
+     This alone eliminates circular wait entirely.
+  2. TIMEOUT — use lock.acquire(timeout=N); if it fails, release
+     everything already held and retry (breaks "hold and wait" forever).
+  3. Use a SINGLE lock instead of multiple, if the operations are small
+     and don't need fine-grained locking.
+  4. Avoid holding a lock while calling into unknown/external code that
+     might itself try to acquire a lock.
+
+REAL LIFE ANALOGY:
+  Two cars meet on a single-lane bridge from opposite ends, both pull in
+  and refuse to reverse — each waiting for the other to back off first.
+  Neither moves. Fix: agree on a rule (e.g. "car from the north always
+  goes first") — that's exactly what LOCK ORDERING does for threads.
+
+PRODUCTION EXAMPLE:
+  # DANGEROUS — inconsistent lock order causes deadlock under load
+  def transfer(from_acct, to_acct, amount):
+      with from_acct.lock:
+          with to_acct.lock:
+              from_acct.balance -= amount
+              to_acct.balance += amount
+  # transfer(A, B, 10) and transfer(B, A, 5) running concurrently
+  # can deadlock: first locks A then wants B, second locks B then wants A.
+
+  # FIX — always acquire locks in a FIXED order (e.g. by account id)
+  def transfer_safe(from_acct, to_acct, amount):
+      first, second = sorted([from_acct, to_acct], key=lambda a: a.id)
+      with first.lock:
+          with second.lock:
+              from_acct.balance -= amount
+              to_acct.balance += amount
+"""
+
+import threading as _threading
+
+
+def _deadlock_demo() -> None:
+    """Demonstrates the FIX (consistent lock ordering) — not the hang itself,
+    since an actual deadlock would freeze this file's execution."""
+    lock_a = _threading.Lock()
+    lock_b = _threading.Lock()
+    results = []
+
+    def worker(first: _threading.Lock, second: _threading.Lock, label: str) -> None:
+        # Both workers acquire in the SAME order (a then b) — no circular wait
+        with first:
+            with second:
+                results.append(label)
+
+    t1 = _threading.Thread(target=worker, args=(lock_a, lock_b, "t1"))
+    t2 = _threading.Thread(target=worker, args=(lock_a, lock_b, "t2"))
+    t1.start(); t2.start()
+    t1.join(); t2.join()
+    print(f"\nConsistent lock ordering — both threads completed: {results}")
+
+
+# Guarded for the same spawn-reimport reason as the demo above.
+if __name__ == "__main__":
+    _deadlock_demo()
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: Deadlock aur race condition mein kya farak hai?
+A:  Race condition: program CHALTA rehta hai lekin galat/inconsistent
+    result deta hai (timing pe depend karta hai kaunsa thread pehle
+    chala). Deadlock: program HANG ho jaata hai, koi progress hi nahi
+    hoti — na error, na wrong result, bas freeze.
+
+Q2: Sabse simple deadlock-prevention technique kya hai?
+A:  LOCK ORDERING — poore codebase mein hamesha same fixed order mein
+    locks acquire karo (e.g. account id ke hisaab se sorted). Isse
+    "circular wait" condition hi ban nahi pati, jo deadlock ke liye
+    zaruri hai.
+
+Q3: lock.acquire(timeout=N) deadlock se kaise bachata hai?
+A:  Agar ek thread N seconds tak lock nahi le paata, acquire() False
+    return kar deta hai (block hoke hamesha wait nahi karta). Thread
+    apne already-held locks release karke baad mein retry kar sakta hai
+    — isse "hold and wait forever" wali situation nahi banti.
+
+Q4: Asyncio (single-threaded event loop) mein bhi deadlock ho sakta hai?
+A:  Haan — agar ek coroutine `await` karke apne hi ek dependent task ka
+    result maange jo khud usी coroutine ke complete hone ka wait kar
+    raha ho (circular await), ya agar Semaphore/Lock galat order mein
+    await kiye jayein. GIL wala thread-level deadlock nahi hota (single
+    thread hai), lekin logical deadlock (sab kuch waiting, koi progress
+    nahi) phir bhi ho sakta hai.
 """

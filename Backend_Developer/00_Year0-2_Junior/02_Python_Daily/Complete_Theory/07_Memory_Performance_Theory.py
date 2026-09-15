@@ -16,6 +16,8 @@ Topics Covered:
   H. CPU profiling — cProfile, timeit, dis module
   I. Performance optimization tips — 10 key techniques
   J. Memory-efficient patterns — generators vs lists
+  K. mmap, memoryview & the buffer protocol — zero-copy data access
+  L. Immortal objects, gc.freeze() & fork/Copy-on-Write memory sharing
 """
 
 import sys
@@ -1053,5 +1055,302 @@ A:  CPython pre-allocates int objects for -5 through 256.
     Outside this range: each computation creates a new int object.
     This is why: a = 1000; b = 1000; a is b → False (different objects)
 """
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PART K: mmap, memoryview & THE BUFFER PROTOCOL — ZERO-COPY DATA ACCESS
+# ══════════════════════════════════════════════════════════════════════════════
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Normal Python operations on bytes/files COPY data every time you slice
+or pass it around. mmap and memoryview exist specifically to AVOID
+those copies — they let multiple parts of a program (or even multiple
+processes) look at the SAME underlying bytes without duplicating them.
+
+  mmap        → maps a FILE directly into memory. Reading/writing the
+                mmap object reads/writes the file itself — no explicit
+                read()/write() calls, no separate in-memory copy of the
+                whole file. Can also be used WITHOUT a file, as a block
+                of memory shared between processes (an IPC mechanism).
+
+  memoryview  → a VIEW over any object that supports the buffer
+                protocol (bytes, bytearray, array.array, mmap, numpy
+                arrays). Slicing a memoryview does NOT copy — it just
+                creates a new view (offset + length) into the SAME
+                underlying memory.
+
+  buffer protocol → the underlying C-level mechanism (PEP 3118) that
+                lets an object expose its raw memory so memoryview
+                (and libraries like numpy, struct) can read/write it
+                directly, without going through Python's normal
+                object copying.
+
+WHY:
+  ► bytes slicing `b"...."[a:b]` ALWAYS copies — for large payloads
+    (network buffers, big files) this wastes memory and CPU.
+  ► mmap lets you work with a file LARGER than RAM — the OS pages
+    data in/out on demand, you never load the whole file at once.
+  ► Sockets: `sock.recv_into(buffer)` writes directly into an
+    existing buffer instead of allocating a new bytes object per call.
+
+HOW:
+  ┌────────────────────────────────────────────────────────────┐
+  │  data = bytearray(b"HelloWorld")                            │
+  │  view = memoryview(data)                                    │
+  │  sub  = view[5:10]     # NO COPY — just offset+length view  │
+  │  sub[0] = ord('w')     # writes THROUGH to `data` directly! │
+  │  # data is now bytearray(b'HelloworlD')                     │
+  └────────────────────────────────────────────────────────────┘
+
+  mmap ACCESS modes:
+    ACCESS_READ  → read-only view of the file
+    ACCESS_WRITE → changes written through to the file on disk
+    ACCESS_COPY  → private copy-on-write — changes stay in memory only,
+                   never touch the actual file (like a scratch buffer)
+
+REAL LIFE ANALOGY:
+  bytes slicing        = photocopying a page every time you want to
+                          look at a paragraph on it.
+  memoryview slicing   = putting a bookmark/window over the SAME page —
+                          no photocopy, just a marked region.
+  mmap                 = instead of copying an entire book into your
+                          bag, you keep the book on the shelf and the
+                          OS hands you exactly the page you ask for,
+                          on demand.
+
+PRODUCTION EXAMPLE:
+  # Processing a huge log file WITHOUT loading it all into RAM
+  import mmap
+  with open("huge.log", "rb") as f:
+      with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+          idx = mm.find(b"ERROR")     # searches the mapped file directly
+
+  # Avoiding a copy per network chunk
+  buf = bytearray(4096)
+  n = sock.recv_into(buf)             # fills buf directly, no new bytes object
+  view = memoryview(buf)[:n]          # zero-copy slice of just the used part
+
+  # bytes += in a loop is O(n²); bytearray avoids re-allocating a NEW
+  # object every time (still moves data, but mutates in place)
+  out = bytearray()
+  for chunk in chunks:
+      out += chunk                    # mutates in place, no new object created
+"""
+
+import mmap as _mmap
+import struct as _struct
+
+
+# memoryview — zero-copy slicing over a mutable bytearray
+data = bytearray(b"HelloWorld")
+view = memoryview(data)
+sub = view[5:10]                      # view into bytes 5..9 — NO copy made
+print(f"\nBefore: {bytes(data)}")
+sub[0] = ord('w')                     # writing through the view mutates `data`
+print(f"After writing through memoryview: {bytes(data)}")
+print(f"sub and data share memory — sub.obj is data: {sub.obj is data}")
+
+# bytes copy vs memoryview zero-copy — the actual difference
+raw = bytes(range(10))
+copied_slice = raw[2:5]               # bytes slicing ALWAYS copies
+view_slice = memoryview(raw)[2:5]     # memoryview slicing does NOT copy
+print(f"\ncopied_slice: {list(copied_slice)}, view_slice: {list(view_slice)}")
+
+# struct.unpack_from reads directly from a buffer — no intermediate slice/copy
+packed = _struct.pack("ii", 100, 200)
+first_int = _struct.unpack_from("i", packed, offset=0)[0]
+second_int = _struct.unpack_from("i", packed, offset=4)[0]
+print(f"\nunpack_from (no copy): first={first_int}, second={second_int}")
+
+# In-memory mmap (no real file needed) — usable as shared scratch buffer
+anon_map = _mmap.mmap(-1, 20)         # -1 = anonymous mapping, 20 bytes
+anon_map.write(b"shared-memory-demo")
+anon_map.seek(0)
+print(f"\nAnonymous mmap contents: {anon_map.read(18)}")
+anon_map.close()
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: bytes[a:b] aur memoryview(bytes)[a:b] mein REAL difference kya hai?
+A:  bytes[a:b] ek NAYA bytes object banata hai (poora data copy hota
+    hai). memoryview(bytes)[a:b] sirf ek "window" (offset + length)
+    banata hai, actual bytes kahin copy nahi hote — dono SAME underlying
+    memory ko point karte hain. Bade payloads ke liye ye difference
+    memory aur CPU dono mein bahut matter karta hai.
+
+Q2: mmap normal file read()/write() se better kab hota hai?
+A:  Jab file RAM se BADI ho (poori file load nahi kar sakte), ya jab
+    random-access chahiye (bar-bar seek+read karna ho) — OS khud
+    zaruri pages memory mein laata hai on-demand, poori file kabhi
+    ek saath load nahi hoti.
+
+Q3: ACCESS_COPY mode mmap mein kyun use karte hain?
+A:  Jab file ko read karke temporarily modify karna ho lekin disk pe
+    ASLI file ko touch NAHI karna ho — changes sirf process ki apni
+    memory mein rehte hain (copy-on-write), actual file safe rehti hai.
+
+Q4: Buffer protocol kya hai, aur numpy/struct ise kyun use karte hain?
+A:  Buffer protocol ek C-level contract hai jisse koi bhi object
+    (bytes, bytearray, mmap, numpy array) apni RAW memory expose kar
+    sakta hai bina copy kiye. numpy/struct/array.array isi protocol
+    ka use karke ek dusre ki memory DIRECTLY padh/likh sakte hain —
+    isi wajah se numpy operations itni fast hoti hain.
+"""
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PART L: IMMORTAL OBJECTS, gc.freeze() & FORK/COPY-ON-WRITE MEMORY SHARING
+# ══════════════════════════════════════════════════════════════════════════════
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This section connects THREE senior-level ideas that only matter together
+when a Python process forks (e.g. a Gunicorn/uWSGI server pre-loading the
+app, then forking multiple worker processes):
+
+  1. REFCOUNTING BREAKS Copy-on-Write (CoW):
+     fork() is supposed to be CHEAP — the OS shares the SAME physical
+     memory pages between parent and child, only copying a page when
+     ONE side actually writes to it ("copy-on-write"). BUT every time
+     Python touches an object, it modifies that object's refcount
+     (increments/decrements an integer INSIDE the object's memory) —
+     even a read-only `for x in some_shared_list` WRITES to memory
+     (bumping refcounts), which forces the OS to copy pages that should
+     have stayed shared. Long-lived server processes with big pre-loaded
+     data structures end up wasting huge amounts of memory this way.
+
+  2. gc.freeze() (Python 3.7+):
+     Tells the cyclic garbage collector "everything alive RIGHT NOW,
+     stop tracking it for cycle-detection." Frozen objects are excluded
+     from future gc.collect() scans — cheaper GC AND (critically) fewer
+     writes to those objects' GC-tracking headers, which reduces
+     unnecessary Copy-on-Write page copying after a fork.
+
+  3. IMMORTAL OBJECTS (PEP 683, Python 3.12+):
+     CPython gives certain objects (None, True, False, small ints,
+     interned strings) a special refcount value that means "never
+     changes, never gets garbage collected." Reading/using an immortal
+     object does NOT bump its refcount — solving the CoW-breaking
+     problem AT THE SOURCE for these objects, no workaround needed.
+
+WHY:
+  ► Production Python servers pre-load large read-only data (ML models,
+    config, caches) BEFORE forking workers, specifically to SHARE that
+    memory across all workers instead of duplicating it per-worker.
+  ► Without freeze/immortality, refcount writes silently defeat that
+    sharing — memory usage scales with worker COUNT instead of staying
+    flat, and nobody notices until the server runs out of RAM.
+
+HOW — the classic Gunicorn "preload_app" pattern:
+  1. Load big shared data BEFORE forking (in the master process)
+  2. gc.disable()                    → stop the cyclic collector from
+                                        touching object headers
+  3. <warm up caches, imports, etc>
+  4. gc.collect()                    → one last cleanup of garbage
+  5. gc.freeze()                     → mark everything alive as
+                                        "permanent", excluded from GC
+  6. fork() workers                  → CoW-shared pages stay shared,
+                                        since frozen/immortal objects
+                                        are no longer being mutated
+  7. gc.enable() in each worker (optional) → resume normal GC for
+                                        NEW objects created after fork
+
+REAL LIFE ANALOGY:
+  Refcount write breaking CoW = a library where EVERY reader has to
+    stamp a card inside a shared book just to read it — the "shared"
+    book ends up getting reprinted (copied) per-reader anyway, because
+    stamping counts as writing on it.
+  gc.freeze()  = declaring a section of the library "archival, do not
+    stamp" — readers can browse freely, no stamping, no copies made.
+  Immortal objects = a handful of books (None, True, False...) that are
+    PERMANENTLY marked "never stamp this one" — no workaround needed,
+    built into how the book itself works.
+
+PRODUCTION EXAMPLE:
+  # Gunicorn-style preload pattern (simplified)
+  import gc
+
+  def load_shared_model():
+      return {"weights": list(range(1_000_000))}   # big, read-only after this
+
+  MODEL = load_shared_model()   # loaded ONCE, before forking
+
+  gc.disable()
+  gc.collect()
+  gc.freeze()                    # MODEL's objects excluded from future GC scans
+  # fork() workers here — each worker's `MODEL` reference shares the
+  # SAME physical memory pages as the master, instead of being copied
+"""
+
+# Immortal objects — refcount stays constant no matter how many references exist
+none_before = sys.getrefcount(None)
+refs = [None] * 10_000            # create 10,000 new references to None
+none_after = sys.getrefcount(None)
+print(f"\nrefcount(None) before: {none_before}, after 10k new refs: {none_after}")
+print("(In 3.12+, immortal objects report a fixed huge refcount and don't")
+print(" actually get bumped by real reference creation the way normal objects do.)")
+
+# gc.freeze() — exclude currently-alive objects from cycle collection
+gc.collect()
+before_freeze = len(gc.get_objects())
+gc.freeze()
+print(f"\nObjects tracked before freeze: {before_freeze}")
+print(f"gc.get_stats() after freeze (permanent generation created):")
+for i, stat in enumerate(gc.get_stats()):
+    print(f"  gen{i}: {stat}")
+
+# Leak-hunting workflow: find what's REFERRING TO a suspect object
+suspect = {"leaked": True}
+holder = [suspect]                # something is keeping `suspect` alive
+referrers = gc.get_referrers(suspect)
+print(f"\ngc.get_referrers(suspect) found {len(referrers)} referrer(s)")
+print(f"One of them is `holder`: {holder in referrers}")
+
+gc.unfreeze()   # undo the freeze so the rest of this file's GC demos behave normally
+
+
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q&A:
+
+Q1: fork() ke baad memory sharing kyun TOOT jaati hai, jabki OS CoW
+    (copy-on-write) supposedly memory share karta hai?
+A:  CoW sirf tab kaam karta hai jab pages truly READ-ONLY rahein. Python
+    ka refcounting mechanism har object-access pe uske refcount ko
+    INCREMENT/DECREMENT karta hai — ye ek WRITE hai, chahe aap sirf
+    padh (read) hi rahe ho. Ye write us memory page ko "dirty" kar deta
+    hai, OS use copy kar deta hai — CoW ka fayda khatam ho jaata hai.
+
+Q2: gc.freeze() actually kya karta hai, aur gc.disable() se alag kaise hai?
+A:  gc.disable() sirf naye collect() cycles chalna BAND kar deta hai —
+    objects abhi bhi tracked rehte hain. gc.freeze() EXISTING tracked
+    objects ko ek "permanent generation" mein move kar deta hai jise
+    future collect() scan hi nahi karta — isse un objects ke GC headers
+    touch nahi hote, jo fork() ke baad CoW-sharing preserve karta hai.
+
+Q3: Immortal objects (PEP 683) kis problem ko root se fix karte hain?
+A:  None/True/False/small-ints jaise bahut common objects ka refcount
+    HAR access pe change hota rehta — isi wajah se ye sabse zyada
+    CoW-breaking cause karte the. Immortal marking unka refcount FIXED
+    kar deta hai (kabhi increment/decrement nahi hota), isliye inhe use
+    karna ab CoW-safe hai, koi freeze/workaround zaruri nahi.
+
+Q4: gc.get_referrers() debugging mein kaise use hota hai memory leak
+    dhoondne ke liye?
+A:  Jab koi object garbage collect nahi ho raha (memory leak suspect),
+    gc.get_referrers(obj) batata hai ki KAUN SA object abhi bhi usko
+    point kar raha hai. Isse "kisne ise alive rakha hai" ka trace mil
+    jaata hai — often ek forgotten cache, closure, ya global list.
+"""
+
 
 print("\n✅ 07_Memory_Performance_Theory.py complete — all sections covered.")
