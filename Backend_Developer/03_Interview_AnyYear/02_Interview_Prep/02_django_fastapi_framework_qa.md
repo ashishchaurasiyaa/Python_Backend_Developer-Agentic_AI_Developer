@@ -15,7 +15,7 @@ Request → WSGI/ASGI server → Middleware (top-down)
         → Response
 ```
 
-Each middleware's `__call__` wraps the next — it can act before calling `get_response(request)` (request-side: auth, CORS, rate-limit) and after (response-side: add headers, log). Deep dive: [`03_django_channels_middleware.md`](../../00_Year0-2_Junior/07_Django_DRF/03_django_channels_middleware.md).
+Each middleware's `__call__` wraps the next — it can act before calling `get_response(request)` (request-side: auth, CORS, rate-limit) and after (response-side: add headers, log). Deep dive: [`03_django_channels_middleware.md`](../../00_Year0-2_Junior/07_Django_DRF/Django/03_django_channels_middleware.md).
 
 **Follow-up:** *"Where would you add a request-ID for tracing?"* → Custom middleware, early in the stack (before logging middleware), generating a UUID and attaching it to `request` + response headers + log context.
 
@@ -38,7 +38,7 @@ orders = Order.objects.select_related("customer").all()
 orders = Order.objects.prefetch_related("line_items").all()
 ```
 
-**How to catch it before prod:** `django-debug-toolbar` in dev, `nplusone` package, or just eyeball the query count in tests with `self.assertNumQueries(N)`. Full detection guide: [`15_n_plus_one_detection.md`](../../00_Year0-2_Junior/07_Django_DRF/15_n_plus_one_detection.md).
+**How to catch it before prod:** `django-debug-toolbar` in dev, `nplusone` package, or just eyeball the query count in tests with `self.assertNumQueries(N)`. Full detection guide: [`15_n_plus_one_detection.md`](../../00_Year0-2_Junior/07_Django_DRF/Django/15_n_plus_one_detection.md).
 
 ---
 
@@ -70,7 +70,7 @@ qs = qs.filter(age__gte=18)                # still no query — chains just buil
 users = list(qs)                            # NOW it hits the DB, once, with combined WHERE clauses
 ```
 
-**Gotcha:** re-evaluating a QuerySet (e.g., using it in two separate `for` loops) re-runs the query each time unless you cache it (`list(qs)` once, or `qs = list(qs)`). Internals: [`33_queryset_internals.md`](../../00_Year0-2_Junior/07_Django_DRF/33_queryset_internals.md).
+**Gotcha:** re-evaluating a QuerySet (e.g., using it in two separate `for` loops) re-runs the query each time unless you cache it (`list(qs)` once, or `qs = list(qs)`). Internals: [`33_queryset_internals.md`](../../00_Year0-2_Junior/07_Django_DRF/Django/33_queryset_internals.md).
 
 ---
 
@@ -123,7 +123,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         return super().get_queryset().filter(user=self.request.user)   # scope to owner
 ```
 
-`ModelViewSet` + `router.register()` gives you list/create/retrieve/update/delete for free — trade flexibility for speed. Deep dive: [`07_genericapiview_mixins.md`](../../00_Year0-2_Junior/07_Django_DRF/07_genericapiview_mixins.md).
+`ModelViewSet` + `router.register()` gives you list/create/retrieve/update/delete for free — trade flexibility for speed. Deep dive: [`07_genericapiview_mixins.md`](../../00_Year0-2_Junior/07_Django_DRF/DRF/07_genericapiview_mixins.md).
 
 ---
 
@@ -168,7 +168,7 @@ def send_confirmation_email(sender, instance, created, **kwargs):
         send_email.delay(instance.id)   # dispatch a Celery task
 ```
 
-**Why be wary:** signals create **implicit, hard-to-trace control flow** — reading `Order.objects.create(...)` gives no hint an email gets sent. In production this causes surprise side effects (double-sends on bulk `.save()` in a loop, signals firing during data migrations, hidden N+1 from signal handlers doing their own queries). Many senior teams prefer explicit service-layer calls over signals for anything with real side effects, reserving signals for logging/cache-invalidation-style concerns. Detail: [`08_internals_signals_async.md`](../../00_Year0-2_Junior/07_Django_DRF/08_internals_signals_async.md).
+**Why be wary:** signals create **implicit, hard-to-trace control flow** — reading `Order.objects.create(...)` gives no hint an email gets sent. In production this causes surprise side effects (double-sends on bulk `.save()` in a loop, signals firing during data migrations, hidden N+1 from signal handlers doing their own queries). Many senior teams prefer explicit service-layer calls over signals for anything with real side effects, reserving signals for logging/cache-invalidation-style concerns. Detail: [`08_internals_signals_async.md`](../../00_Year0-2_Junior/07_Django_DRF/Django/08_internals_signals_async.md).
 
 ---
 
@@ -184,7 +184,7 @@ Migrations are versioned, ordered Python files describing schema changes, genera
 3. Deploy app code that writes the new column.
 4. Once all rows are backfilled and all app instances updated, add the `NOT NULL` constraint in a follow-up migration.
 
-Full pattern: [`25_zero_downtime_migrations.md`](../../00_Year0-2_Junior/07_Django_DRF/25_zero_downtime_migrations.md), [`26_expand_contract_migrations.md`](../../00_Year0-2_Junior/04_Database_SQL/26_expand_contract_migrations.md).
+Full pattern: [`25_zero_downtime_migrations.md`](../../00_Year0-2_Junior/07_Django_DRF/Django/25_zero_downtime_migrations.md), [`26_expand_contract_migrations.md`](../../00_Year0-2_Junior/04_Database_SQL/26_expand_contract_migrations.md).
 
 ---
 
@@ -220,7 +220,7 @@ with transaction.atomic():
         account.save()
 ```
 
-`F()` avoids the read-modify-write round trip entirely for simple arithmetic. `select_for_update()` is needed when the logic branches on the current value — it blocks other transactions from reading (for update) that row until this one commits. Full pattern: [`36_f_expressions_atomic_updates.md`](../../00_Year0-2_Junior/07_Django_DRF/36_f_expressions_atomic_updates.md).
+`F()` avoids the read-modify-write round trip entirely for simple arithmetic. `select_for_update()` is needed when the logic branches on the current value — it blocks other transactions from reading (for update) that row until this one commits. Full pattern: [`36_f_expressions_atomic_updates.md`](../../00_Year0-2_Junior/07_Django_DRF/Django/36_f_expressions_atomic_updates.md).
 
 ---
 

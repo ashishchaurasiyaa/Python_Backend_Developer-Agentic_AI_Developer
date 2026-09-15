@@ -473,4 +473,4 @@ Table bloat from dead row versions — PostgreSQL's MVCC model writes a new row 
 ## Related
 
 - [02_nosql_mongodb_redis.md](02_nosql_mongodb_redis.md) — MongoDB and Redis ops
-- [../../Backend_Developer/00_Year0-2_Junior/07_Django_DRF/01_orm_deep_dive.md](../../Backend_Developer/00_Year0-2_Junior/07_Django_DRF/01_orm_deep_dive.md) — app-level ORM/query patterns
+- [../../Backend_Developer/00_Year0-2_Junior/07_Django_DRF/Django/01_orm_deep_dive.md](../../Backend_Developer/00_Year0-2_Junior/07_Django_DRF/Django/01_orm_deep_dive.md) — app-level ORM/query patterns

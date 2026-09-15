@@ -70,4 +70,30 @@
 
 ---
 
+## 2026-09-11 — Under the weather
+
+**Meaning:** Feeling sick.
+**Hindi:** अस्वस्थ महसूस करना।
+
+**Sentence:**
+- I am feeling under the weather today.
+- आज मुझे ठीक महसूस नहीं हो रहा है।
+
+🗣️ **Apna example**: _____ (khud likho aur zor se bolo)
+
+---
+
+## 2026-09-14 — Give it your best shot
+
+**Meaning:** Try your best.
+**Hindi:** पूरी कोशिश करना।
+
+**Sentence:**
+- Give it your best shot in the competition.
+- प्रतियोगिता में अपनी पूरी कोशिश करो।
+
+🗣️ **Apna example**: _____ (khud likho aur zor se bolo)
+
+---
+
 ← [README](../README.md) · [Idioms reference](../02_Intermediate/04_idioms.md)

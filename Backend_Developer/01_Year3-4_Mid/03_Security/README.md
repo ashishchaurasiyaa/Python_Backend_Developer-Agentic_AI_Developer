@@ -73,4 +73,4 @@
 
 > 4 practicals 21 topics cover karte hain — grouped hain, 1:1 nahi. Baaki topics config/process wale hain.
 
-**Related:** [02_API_Design](../02_API_Design/README.md) · [DevOps Security](../../../DevOps/14_Security/) · [Django security](../../00_Year0-2_Junior/07_Django_DRF/16_security_hardening.md) · [Agentic AI security](../../../Agentic_AI/Modern_Topics/09_ai_security_threats.md)
+**Related:** [02_API_Design](../02_API_Design/README.md) · [DevOps Security](../../../DevOps/14_Security/) · [Django security](../../00_Year0-2_Junior/07_Django_DRF/Django/16_security_hardening.md) · [Agentic AI security](../../../Agentic_AI/Modern_Topics/09_ai_security_threats.md)

@@ -1,6 +1,6 @@
 # 🐍 Python Advanced
 
-> **34 theory + 16 practical + 30-file hands-on drill set.** Yeh mid-track ka sabse bada module hai (~47k lines).
+> **34 theory + 16 practical + 35-file hands-on drill set.** Yeh mid-track ka sabse bada module hai (~47k lines).
 > "Python aata hai" aur "Python **internals** aate hain" ka farq yahin banta hai — senior interview isi pe judge karta hai.
 
 ---
@@ -58,7 +58,7 @@
 
 ## 🧪 Hands-on — [`Interview_Handson_Practice/`](Interview_Handson_Practice/)
 
-30 files ka drill set with a menu runner. **Yahi asli practice hai** — theory padhne se GIL samajh nahi aata, code chala ke aata hai.
+35 files ka drill set with a menu runner. **Yahi asli practice hai** — theory padhne se GIL samajh nahi aata, code chala ke aata hai.
 
 ```bash
 cd Interview_Handson_Practice && python 00_INDEX.py

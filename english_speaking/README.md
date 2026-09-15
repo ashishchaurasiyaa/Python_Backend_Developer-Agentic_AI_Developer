@@ -100,6 +100,7 @@ Awal Sir ki class ke slides se banaye gaye notes — jo un lessons mein padhaya 
 | [lesson_05_06_describing_state_is_are.md](Awal_Course_Notes/lesson_05_06_describing_state_is_are.md) | Commas, "not", "and" se describe karna; is/are + contractions (isn't, aren't, I'm not, won't) |
 | [lesson_07_08_pronouns_wh_questions.md](Awal_Course_Notes/lesson_07_08_pronouns_wh_questions.md) | Personal + demonstrative pronouns; 6 WH questions (What/Where/When/Who/How/Why) |
 | [lesson_11_12_possessives_comparatives.md](Awal_Course_Notes/lesson_11_12_possessives_comparatives.md) | Possessive pronouns/adjectives (my/mine, who's/whose, hers/his, yours/theirs, ours); comparative & superlative adjective rules |
+| [lesson_13_14_prepositions_quantifiers.md](Awal_Course_Notes/lesson_13_14_prepositions_quantifiers.md) | Prepositions in/on/at (time & place); quantifiers (some, a lot of, many, much, few, little, enough, is/are there?) — 5 exercises solved |
 | [lesson_09_10_tag_questions_negatives.md](Awal_Course_Notes/lesson_09_10_tag_questions_negatives.md) | Yes/No, information & WH questions revision; tag questions (don't you?/isn't she?); use of 'the'; negative sentences (not/no/never/none/neither...nor) |
 
 ---

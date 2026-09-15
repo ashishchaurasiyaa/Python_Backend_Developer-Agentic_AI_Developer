@@ -508,7 +508,7 @@ def test_my_func(x):
 - `contract_testing_pact.md` — complementary external-contract tests
 - `load_testing_locust_k6.md` — performance side
 - `00_Year0-2_Junior/06_FastAPI/04_testing_sqlalchemy.md` — fixtures + DB testing
-- `00_Year0-2_Junior/02_Python_Daily/Day41_Testing/` — pytest basics
+- `00_Year0-2_Junior/02_Python_Daily/Day35_Testing/` — pytest basics
 
 ## External References
 - Hypothesis docs: https://hypothesis.readthedocs.io

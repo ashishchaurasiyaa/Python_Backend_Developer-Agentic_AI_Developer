@@ -304,3 +304,53 @@ Q: What does type hinting do at runtime?
 A: Nothing — type hints are purely informational at runtime.
    They are used by mypy, IDEs, and Pydantic for static analysis.
 """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+student_name = "Ashish"
+roll_number = input("Enter roll number: ")
+marks = 40.05
+is_passed = marks >= 40
+
+print(student_name)
+print(roll_number)
+print(marks)
+print(is_passed)
+
+print(type(student_name))
+print(type(roll_number))
+print(type(marks))
+print(type(is_passed))
+
+print(student_name)
+print(roll_number)
+print(marks)
+print(is_pass)
+
+print(type(student_name))
+print(type(roll_number))
+print(type(marks))
+print(type(is_pass))

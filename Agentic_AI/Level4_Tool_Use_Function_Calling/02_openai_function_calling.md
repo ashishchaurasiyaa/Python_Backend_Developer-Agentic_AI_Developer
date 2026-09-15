@@ -48,7 +48,7 @@ response = client.chat.completions.create(
 - `string` — text
 - `integer`, `number` — numbers
 - `boolean` — true/false
-- `array` — list (with `items`)
+- `array_qu.py` — list (with `items`)
 - `object` — nested object
 
 > NOTE: `enum` aur `null` alag "type" NAHI hain. `enum` ek **constraint** hai jo kisi typed field pe lagti

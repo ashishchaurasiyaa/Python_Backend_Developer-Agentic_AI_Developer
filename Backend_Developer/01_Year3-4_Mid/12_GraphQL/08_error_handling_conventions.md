@@ -192,5 +192,5 @@ nullable unless a field's absence is truly unacceptable to the client.
 ---
 
 Related: `03_n_plus_one_dataloader.md` (DataLoader failures also flow through
-this same per-field error mechanism), [28_drf_exception_handler.md](../../00_Year0-2_Junior/07_Django_DRF/28_drf_exception_handler.md)
+this same per-field error mechanism), [28_drf_exception_handler.md](../../00_Year0-2_Junior/07_Django_DRF/DRF/28_drf_exception_handler.md)
 (same "don't leak internal errors to clients" principle, REST equivalent).

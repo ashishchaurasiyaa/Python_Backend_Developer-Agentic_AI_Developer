@@ -107,7 +107,7 @@ Pause here, don't abandon the sequence. Use the interview-week formula from Part
   - [ ] Days 08–16 — OOP (classes, inheritance, dunder, encapsulation), decorators/generators, algorithms/complexity, exceptions, threading/multiprocessing, async, file I/O, functools/itertools/dataclasses
   - [ ] Days 17–19, 29–42 — asyncio advanced, ABC, typing deep dive, logging/pathlib/dotenv, context managers, dataclasses advanced, metaclasses/descriptors, profiling/memory, regex, testing basics
   - [ ] Days 20–28 — arrays/two-pointer/sliding-window through heap/greedy (DSA-pattern intro — lighter pass; full depth comes later in `03_Interview_AnyYear/01_DSA/`)
-  - [ ] Days 43–52 — CLI tools, FastAPI, SQLAlchemy/Alembic, Celery/Redis, Pydantic v2, gRPC/Protobuf, **Docker (Day49 — dockerize something)**, contextvars, senior concurrency, inspect module
+  - [ ] Days 43–52 — CLI tools, FastAPI, SQLAlchemy/Alembic, Celery/Redis, Pydantic v2, gRPC/Protobuf, **Docker (Day43 — dockerize something)**, contextvars, senior concurrency, inspect module
   - [ ] Days 53–55 — gap-fill (core, advanced, concurrency/memory)
 - [ ] **03_Python_Tooling** — poetry/uv, ruff/mypy/pre-commit, pyproject.toml packaging
 - [ ] **04_Database_SQL** — PostgreSQL-focused, 37 topics: joins/subqueries/CTEs → indexing → transactions/locking → partitioning/sharding → pgvector → replication/HA → migrations
@@ -414,10 +414,10 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 
 - [ ] `04_Database_SQL/00_postgresql_start_here.md` — PostgreSQL not MySQL
 - [ ] `06_FastAPI/practical/` — routes, request/response, path/query params
-- [ ] `02_Python_Daily/Day44_FastAPI/` + `Day45_SQLAlchemy_Alembic/` + `Day47_Pydantic_v2/`
+- [ ] `02_Python_Daily/Day38_FastAPI/` + `Day39_SQLAlchemy_Alembic/` + `Day41_Pydantic_v2/`
 - [ ] `06_FastAPI/labs/` — build a full CRUD API
 - [ ] `07_Django_DRF/practical/` — models, views, serializers, auth
-- [ ] `02_Python_Daily/Day43_ArgParse_Typer/` — CLI tools
+- [ ] `02_Python_Daily/Day37_ArgParse_Typer/` — CLI tools
 
 **Done when:** You have a working REST API with CRUD operations and user authentication.
 
@@ -426,7 +426,7 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 
 - [ ] `DevOps/02_Bash_Scripting/01_bash_fundamentals.md` + `02_automation_cron_scripting.md` + `practical/01_bash_lab.md`
 - [ ] `DevOps/05_Docker/01_docker_basics.md` → `02_dockerfile.md` → `03_docker_compose.md` → `04_storage_networking_registry.md` → `practical/01_docker_lab.md`
-- [ ] `Backend_Developer/00_Year0-2_Junior/02_Python_Daily/Day49_Docker/` — Dockerize your FastAPI app
+- [ ] `Backend_Developer/00_Year0-2_Junior/02_Python_Daily/Day43_Docker/` — Dockerize your FastAPI app
 
 **Done when:** Your app runs inside Docker with a docker-compose.yml that starts app + database together.
 
@@ -434,18 +434,18 @@ After Week 8+, drop into Part B below for anything not covered by the sprint —
 > Location: `Backend_Developer/00_Year0-2_Junior/`
 
 - [ ] `08_Redis/theory/` + `08_Redis/practical/` + `08_Redis/labs/`
-- [ ] `02_Python_Daily/Day46_Celery_Redis/`
+- [ ] `02_Python_Daily/Day40_Celery_Redis/`
 - [ ] `09_Caching/theory/` + `09_Caching/practical/`
-- [ ] `10_Testing/theory/` + `10_Testing/practical/` + `02_Python_Daily/Day41_Testing/`
+- [ ] `10_Testing/theory/` + `10_Testing/practical/` + `02_Python_Daily/Day35_Testing/`
 
 **Done when:** Your API has a Redis caching layer and a test suite that passes.
 
 ## PHASE 7 — Python Advanced (Deep Mastery)
 > Location: `Backend_Developer/00_Year0-2_Junior/02_Python_Daily/`
 
-- [ ] `Day17_Asyncio_Advanced_ABC/` through `Day42_Enum_Datetime_OS/` (Day17–42, minus days already covered) — MRO, DSA-pattern intro (Day20-25), Collections/Functools/Itertools, Typing deep dive, Logging/Pathlib/dotenv, context managers, dataclasses advanced, metaclasses/descriptors, profiling/memory
-- [ ] `Day48_gRPC_Protobuf/` · `Day49_Docker/` (dockerize something) · `Day50_Contextvars/` · `Day51_Concurrency_Senior/` · `Day52_Inspect_Module/`
-- [ ] `Day53_GapFill_Core_Part1/` + `Part2` · `Day54_GapFill_Advanced/` · `Day55_GapFill_Concurrency_Memory/`
+- [ ] `Day17_Asyncio_Advanced_ABC/` through `Day36_Enum_Datetime_OS/` (Day17–42, minus days already covered) — MRO, DSA-pattern intro (Day20-25), Collections/Functools/Itertools, Typing deep dive, Logging/Pathlib/dotenv, context managers, dataclasses advanced, metaclasses/descriptors, profiling/memory
+- [ ] `Day42_gRPC_Protobuf/` · `Day43_Docker/` (dockerize something) · `Day44_Contextvars/` · `Day45_Concurrency_Senior/` · `Day46_Inspect_Module/`
+- [ ] `Day47_GapFill_Core_Part1/` + `Part2` · `Day48_GapFill_Advanced/` · `Day49_GapFill_Concurrency_Memory/`
 - [ ] `Complete_Practical/Section_03_Advanced/` — 01 typing → 02 design patterns → 03 internals/performance
 - [ ] `Complete_Theory/05_...Theory.py` through `10_Regex_Testing_Enum_StdLib_Theory.py`
 

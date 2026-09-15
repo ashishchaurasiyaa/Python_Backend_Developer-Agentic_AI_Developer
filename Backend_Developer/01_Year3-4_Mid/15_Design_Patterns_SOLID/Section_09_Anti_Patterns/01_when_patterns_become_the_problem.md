@@ -73,7 +73,7 @@ Why signals feel great and age badly:
 Use signals for TRUE decoupling (reacting to a 3rd-party app's models).
 For your own code, an explicit service call is more readable and debuggable.
 ```
-(See the fuller treatment in [`../../../00_Year0-2_Junior/07_Django_DRF/41_django_middleware_signals_testing_gaps.md`](../../../00_Year0-2_Junior/07_Django_DRF/41_django_middleware_signals_testing_gaps.md).)
+(See the fuller treatment in [`../../../00_Year0-2_Junior/07_Django_DRF/Django/41_django_middleware_signals_testing_gaps.md`](../../../00_Year0-2_Junior/07_Django_DRF/Django/41_django_middleware_signals_testing_gaps.md).)
 
 ---
 

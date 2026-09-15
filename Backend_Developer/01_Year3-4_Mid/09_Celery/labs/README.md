@@ -58,4 +58,4 @@ Cleanup: `docker compose down -v`
 
 ---
 
-**Related:** [theory](../theory/) · [reference modules](../practical/) · [Kafka labs](../../07_Kafka/labs/) · [RabbitMQ exercises](../../08_RabbitMQ/exercises/) · [Django+Celery integration](../../../00_Year0-2_Junior/07_Django_DRF/31_celery_django_integration.md)
+**Related:** [theory](../theory/) · [reference modules](../practical/) · [Kafka labs](../../07_Kafka/labs/) · [RabbitMQ exercises](../../08_RabbitMQ/exercises/) · [Django+Celery integration](../../../00_Year0-2_Junior/07_Django_DRF/Django/31_celery_django_integration.md)
