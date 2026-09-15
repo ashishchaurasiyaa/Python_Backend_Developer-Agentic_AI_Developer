@@ -92,10 +92,3 @@ PythonRevision/
 | **Projects** | [agentic](Agentic_AI/Projects/) + [backend](Backend_Developer/03_Interview_AnyYear/03_Projects/) |
 | **DevOps** | [`DevOps/README.md`](DevOps/README.md) |
 | **English speaking** | [`english_speaking/README.md`](english_speaking/README.md) |
-
----
-
-## ⚠️ Ek baat yaad rakho
-
-Content **complete hai**. Repo me kami nahi hai — kami **labs karne** me hai.
-[`MY_PROGRESS.md`](MY_PROGRESS.md) ka "Kiya" column khaali dikhe to samajh jaana: us din progress zero tha.
